@@ -32,8 +32,8 @@
 - [x] Context menu E2E + router unit tests
 
 ## Batch 7: Search
-- [ ] Task 12: Search
-- [ ] Search unit tests + E2E
+- [x] Task 12: Search
+- [x] Search unit tests + E2E
 
 ## Batch 8: Mobile + Polish + Deploy
 - [ ] Task 14: Mobile Responsive

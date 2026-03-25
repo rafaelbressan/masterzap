@@ -7,11 +7,14 @@ import { renderSidebar, setActiveConversation } from './components/Sidebar.js';
 import { renderEmptyState } from './components/EmptyState.js';
 import { renderChatView } from './components/ChatView.js';
 import { attachContextMenu } from './components/ContextMenu.js';
+import { attachSearch } from './components/SearchPanel.js';
 
 /** Currently active scroll loader (cleaned up on conversation switch). */
 let activeLoader = null;
 /** Currently active context menu (cleaned up on conversation switch). */
 let activeContextMenu = null;
+/** Currently active search (cleaned up if conversation changes). */
+let activeSearch = null;
 
 async function init() {
   const app = document.getElementById('app');
@@ -88,6 +91,15 @@ async function init() {
     conversations: store.getConversations(),
     onSelect: (id) => router.navigate('chat', id),
   });
+
+  // Attach search — uses first conversation for now
+  const conversations = store.getConversations();
+  if (conversations.length > 0) {
+    activeSearch = attachSearch(sidebar, conversations[0].id, (messageId, date) => {
+      // Navigate to the conversation and scroll to the message date
+      router.navigate('chat', conversations[0].id);
+    });
+  }
 
   // Set up hash router
   const router = new HashRouter();
