@@ -85,7 +85,7 @@ export const CREDITS = 'Projeto feito por Rafael Bressan com Claude Code. As inf
 export function parseLinks(text) {
   return text.replace(/\{([^}]+)\}\[([^\]]+)\]/g, (_, linkText, url) => {
     if (url.startsWith('action:')) {
-      return `<a href="#" data-action="${url}" class="profile-action-link">${linkText}</a>`;
+      return `<span data-action="${url}" class="profile-action-link">${linkText}</span>`;
     }
     return `<a href="${url}" target="_blank" rel="noopener">${linkText}</a>`;
   });

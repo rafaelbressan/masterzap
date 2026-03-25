@@ -733,13 +733,16 @@
   margin-bottom: 12px;
 }
 
-.profile-section-text a {
+.profile-section-text a,
+.profile-action-link {
   color: var(--WDS-green-700);
   text-decoration: none;
   font-weight: 500;
+  cursor: pointer;
 }
 
-.profile-section-text a:hover {
+.profile-section-text a:hover,
+.profile-action-link:hover {
   text-decoration: underline;
 }
 
