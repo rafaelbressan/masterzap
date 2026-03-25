@@ -25,13 +25,13 @@ export function renderEmptyState(container) {
     />
     <h1 class="empty-state-title">MasterZap Web</h1>
     <p class="empty-state-text">
-      Visualizador de conversas do WhatsApp.<br>
-      Selecione uma conversa ao lado para começar.
+      Visualizador de conversas vazadas do Daniel Vorcaro.<br>
+      Selecione a conversa ao lado para começar.
     </p>
     <div class="empty-state-divider"></div>
     <div class="empty-state-footer">
       ${LOCK_ICON}
-      <span>Suas mensagens são exibidas localmente neste navegador.</span>
+      <span>Suas mensagens são exibidas nacionalmente para todos do Brasil.</span>
     </div>
   `;
 
