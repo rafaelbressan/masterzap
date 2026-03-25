@@ -1,0 +1,3208 @@
+{
+  "dates": [
+    {
+      "date": "2024-02-10",
+      "message_count": 82,
+      "first_message_id": 1,
+      "last_message_id": 82
+    },
+    {
+      "date": "2024-02-11",
+      "message_count": 49,
+      "first_message_id": 83,
+      "last_message_id": 131
+    },
+    {
+      "date": "2024-02-12",
+      "message_count": 52,
+      "first_message_id": 132,
+      "last_message_id": 183
+    },
+    {
+      "date": "2024-02-14",
+      "message_count": 19,
+      "first_message_id": 184,
+      "last_message_id": 202
+    },
+    {
+      "date": "2024-02-15",
+      "message_count": 11,
+      "first_message_id": 203,
+      "last_message_id": 213
+    },
+    {
+      "date": "2024-02-16",
+      "message_count": 21,
+      "first_message_id": 214,
+      "last_message_id": 234
+    },
+    {
+      "date": "2024-02-18",
+      "message_count": 107,
+      "first_message_id": 235,
+      "last_message_id": 341
+    },
+    {
+      "date": "2024-02-21",
+      "message_count": 7,
+      "first_message_id": 342,
+      "last_message_id": 348
+    },
+    {
+      "date": "2024-02-22",
+      "message_count": 22,
+      "first_message_id": 349,
+      "last_message_id": 370
+    },
+    {
+      "date": "2024-02-26",
+      "message_count": 12,
+      "first_message_id": 371,
+      "last_message_id": 382
+    },
+    {
+      "date": "2024-02-27",
+      "message_count": 1,
+      "first_message_id": 383,
+      "last_message_id": 383
+    },
+    {
+      "date": "2024-02-28",
+      "message_count": 22,
+      "first_message_id": 384,
+      "last_message_id": 405
+    },
+    {
+      "date": "2024-02-29",
+      "message_count": 78,
+      "first_message_id": 406,
+      "last_message_id": 483
+    },
+    {
+      "date": "2024-03-01",
+      "message_count": 48,
+      "first_message_id": 484,
+      "last_message_id": 531
+    },
+    {
+      "date": "2024-03-02",
+      "message_count": 23,
+      "first_message_id": 532,
+      "last_message_id": 554
+    },
+    {
+      "date": "2024-03-03",
+      "message_count": 10,
+      "first_message_id": 555,
+      "last_message_id": 564
+    },
+    {
+      "date": "2024-03-04",
+      "message_count": 61,
+      "first_message_id": 565,
+      "last_message_id": 625
+    },
+    {
+      "date": "2024-03-05",
+      "message_count": 28,
+      "first_message_id": 626,
+      "last_message_id": 653
+    },
+    {
+      "date": "2024-03-06",
+      "message_count": 29,
+      "first_message_id": 654,
+      "last_message_id": 682
+    },
+    {
+      "date": "2024-03-07",
+      "message_count": 9,
+      "first_message_id": 683,
+      "last_message_id": 691
+    },
+    {
+      "date": "2024-03-08",
+      "message_count": 32,
+      "first_message_id": 692,
+      "last_message_id": 723
+    },
+    {
+      "date": "2024-03-09",
+      "message_count": 53,
+      "first_message_id": 724,
+      "last_message_id": 776
+    },
+    {
+      "date": "2024-03-10",
+      "message_count": 1,
+      "first_message_id": 777,
+      "last_message_id": 777
+    },
+    {
+      "date": "2024-03-11",
+      "message_count": 23,
+      "first_message_id": 778,
+      "last_message_id": 800
+    },
+    {
+      "date": "2024-03-12",
+      "message_count": 6,
+      "first_message_id": 801,
+      "last_message_id": 806
+    },
+    {
+      "date": "2024-03-13",
+      "message_count": 21,
+      "first_message_id": 807,
+      "last_message_id": 827
+    },
+    {
+      "date": "2024-03-14",
+      "message_count": 3,
+      "first_message_id": 828,
+      "last_message_id": 830
+    },
+    {
+      "date": "2024-03-15",
+      "message_count": 25,
+      "first_message_id": 831,
+      "last_message_id": 855
+    },
+    {
+      "date": "2024-03-18",
+      "message_count": 2,
+      "first_message_id": 856,
+      "last_message_id": 857
+    },
+    {
+      "date": "2024-03-19",
+      "message_count": 96,
+      "first_message_id": 858,
+      "last_message_id": 953
+    },
+    {
+      "date": "2024-03-20",
+      "message_count": 29,
+      "first_message_id": 954,
+      "last_message_id": 982
+    },
+    {
+      "date": "2024-03-21",
+      "message_count": 7,
+      "first_message_id": 983,
+      "last_message_id": 989
+    },
+    {
+      "date": "2024-03-22",
+      "message_count": 3,
+      "first_message_id": 990,
+      "last_message_id": 992
+    },
+    {
+      "date": "2024-03-23",
+      "message_count": 21,
+      "first_message_id": 993,
+      "last_message_id": 1013
+    },
+    {
+      "date": "2024-03-24",
+      "message_count": 50,
+      "first_message_id": 1014,
+      "last_message_id": 1063
+    },
+    {
+      "date": "2024-03-25",
+      "message_count": 1,
+      "first_message_id": 1064,
+      "last_message_id": 1064
+    },
+    {
+      "date": "2024-03-26",
+      "message_count": 32,
+      "first_message_id": 1065,
+      "last_message_id": 1096
+    },
+    {
+      "date": "2024-03-27",
+      "message_count": 66,
+      "first_message_id": 1097,
+      "last_message_id": 1162
+    },
+    {
+      "date": "2024-03-29",
+      "message_count": 47,
+      "first_message_id": 1163,
+      "last_message_id": 1209
+    },
+    {
+      "date": "2024-03-30",
+      "message_count": 14,
+      "first_message_id": 1210,
+      "last_message_id": 1223
+    },
+    {
+      "date": "2024-03-31",
+      "message_count": 23,
+      "first_message_id": 1224,
+      "last_message_id": 1246
+    },
+    {
+      "date": "2024-04-01",
+      "message_count": 3,
+      "first_message_id": 1247,
+      "last_message_id": 1249
+    },
+    {
+      "date": "2024-04-02",
+      "message_count": 14,
+      "first_message_id": 1250,
+      "last_message_id": 1263
+    },
+    {
+      "date": "2024-04-03",
+      "message_count": 16,
+      "first_message_id": 1264,
+      "last_message_id": 1279
+    },
+    {
+      "date": "2024-04-04",
+      "message_count": 44,
+      "first_message_id": 1280,
+      "last_message_id": 1323
+    },
+    {
+      "date": "2024-04-05",
+      "message_count": 131,
+      "first_message_id": 1324,
+      "last_message_id": 1454
+    },
+    {
+      "date": "2024-04-06",
+      "message_count": 97,
+      "first_message_id": 1455,
+      "last_message_id": 1551
+    },
+    {
+      "date": "2024-04-07",
+      "message_count": 17,
+      "first_message_id": 1552,
+      "last_message_id": 1568
+    },
+    {
+      "date": "2024-04-08",
+      "message_count": 43,
+      "first_message_id": 1569,
+      "last_message_id": 1611
+    },
+    {
+      "date": "2024-04-09",
+      "message_count": 42,
+      "first_message_id": 1612,
+      "last_message_id": 1653
+    },
+    {
+      "date": "2024-04-10",
+      "message_count": 3,
+      "first_message_id": 1654,
+      "last_message_id": 1656
+    },
+    {
+      "date": "2024-04-11",
+      "message_count": 50,
+      "first_message_id": 1657,
+      "last_message_id": 1706
+    },
+    {
+      "date": "2024-04-12",
+      "message_count": 6,
+      "first_message_id": 1707,
+      "last_message_id": 1712
+    },
+    {
+      "date": "2024-04-13",
+      "message_count": 58,
+      "first_message_id": 1713,
+      "last_message_id": 1770
+    },
+    {
+      "date": "2024-04-14",
+      "message_count": 72,
+      "first_message_id": 1771,
+      "last_message_id": 1842
+    },
+    {
+      "date": "2024-04-15",
+      "message_count": 67,
+      "first_message_id": 1843,
+      "last_message_id": 1909
+    },
+    {
+      "date": "2024-04-16",
+      "message_count": 41,
+      "first_message_id": 1910,
+      "last_message_id": 1950
+    },
+    {
+      "date": "2024-04-17",
+      "message_count": 11,
+      "first_message_id": 1951,
+      "last_message_id": 1961
+    },
+    {
+      "date": "2024-04-18",
+      "message_count": 119,
+      "first_message_id": 1962,
+      "last_message_id": 2080
+    },
+    {
+      "date": "2024-04-19",
+      "message_count": 42,
+      "first_message_id": 2081,
+      "last_message_id": 2122
+    },
+    {
+      "date": "2024-04-20",
+      "message_count": 30,
+      "first_message_id": 2123,
+      "last_message_id": 2152
+    },
+    {
+      "date": "2024-04-21",
+      "message_count": 56,
+      "first_message_id": 2153,
+      "last_message_id": 2208
+    },
+    {
+      "date": "2024-04-22",
+      "message_count": 30,
+      "first_message_id": 2209,
+      "last_message_id": 2238
+    },
+    {
+      "date": "2024-04-23",
+      "message_count": 32,
+      "first_message_id": 2239,
+      "last_message_id": 2270
+    },
+    {
+      "date": "2024-04-24",
+      "message_count": 33,
+      "first_message_id": 2271,
+      "last_message_id": 2303
+    },
+    {
+      "date": "2024-04-25",
+      "message_count": 15,
+      "first_message_id": 2304,
+      "last_message_id": 2318
+    },
+    {
+      "date": "2024-04-26",
+      "message_count": 10,
+      "first_message_id": 2319,
+      "last_message_id": 2328
+    },
+    {
+      "date": "2024-04-27",
+      "message_count": 18,
+      "first_message_id": 2329,
+      "last_message_id": 2346
+    },
+    {
+      "date": "2024-04-28",
+      "message_count": 84,
+      "first_message_id": 2347,
+      "last_message_id": 2430
+    },
+    {
+      "date": "2024-04-29",
+      "message_count": 151,
+      "first_message_id": 2431,
+      "last_message_id": 2581
+    },
+    {
+      "date": "2024-04-30",
+      "message_count": 50,
+      "first_message_id": 2582,
+      "last_message_id": 2631
+    },
+    {
+      "date": "2024-05-01",
+      "message_count": 18,
+      "first_message_id": 2632,
+      "last_message_id": 2649
+    },
+    {
+      "date": "2024-05-02",
+      "message_count": 24,
+      "first_message_id": 2650,
+      "last_message_id": 2673
+    },
+    {
+      "date": "2024-05-03",
+      "message_count": 136,
+      "first_message_id": 2674,
+      "last_message_id": 2809
+    },
+    {
+      "date": "2024-05-04",
+      "message_count": 119,
+      "first_message_id": 2810,
+      "last_message_id": 2928
+    },
+    {
+      "date": "2024-05-05",
+      "message_count": 366,
+      "first_message_id": 2929,
+      "last_message_id": 3294
+    },
+    {
+      "date": "2024-05-06",
+      "message_count": 178,
+      "first_message_id": 3295,
+      "last_message_id": 3472
+    },
+    {
+      "date": "2024-05-07",
+      "message_count": 297,
+      "first_message_id": 3473,
+      "last_message_id": 3769
+    },
+    {
+      "date": "2024-05-08",
+      "message_count": 59,
+      "first_message_id": 3770,
+      "last_message_id": 3828
+    },
+    {
+      "date": "2024-05-09",
+      "message_count": 57,
+      "first_message_id": 3829,
+      "last_message_id": 3885
+    },
+    {
+      "date": "2024-05-10",
+      "message_count": 36,
+      "first_message_id": 3886,
+      "last_message_id": 3921
+    },
+    {
+      "date": "2024-05-11",
+      "message_count": 79,
+      "first_message_id": 3922,
+      "last_message_id": 4000
+    },
+    {
+      "date": "2024-05-12",
+      "message_count": 216,
+      "first_message_id": 4001,
+      "last_message_id": 4216
+    },
+    {
+      "date": "2024-05-13",
+      "message_count": 114,
+      "first_message_id": 4217,
+      "last_message_id": 4330
+    },
+    {
+      "date": "2024-05-14",
+      "message_count": 63,
+      "first_message_id": 4331,
+      "last_message_id": 4393
+    },
+    {
+      "date": "2024-05-15",
+      "message_count": 148,
+      "first_message_id": 4394,
+      "last_message_id": 4541
+    },
+    {
+      "date": "2024-05-16",
+      "message_count": 134,
+      "first_message_id": 4542,
+      "last_message_id": 4675
+    },
+    {
+      "date": "2024-05-17",
+      "message_count": 135,
+      "first_message_id": 4676,
+      "last_message_id": 4810
+    },
+    {
+      "date": "2024-05-18",
+      "message_count": 287,
+      "first_message_id": 4811,
+      "last_message_id": 5097
+    },
+    {
+      "date": "2024-05-19",
+      "message_count": 225,
+      "first_message_id": 5098,
+      "last_message_id": 5322
+    },
+    {
+      "date": "2024-05-20",
+      "message_count": 148,
+      "first_message_id": 5323,
+      "last_message_id": 5470
+    },
+    {
+      "date": "2024-05-21",
+      "message_count": 64,
+      "first_message_id": 5471,
+      "last_message_id": 5534
+    },
+    {
+      "date": "2024-05-22",
+      "message_count": 59,
+      "first_message_id": 5535,
+      "last_message_id": 5593
+    },
+    {
+      "date": "2024-05-23",
+      "message_count": 22,
+      "first_message_id": 5594,
+      "last_message_id": 5615
+    },
+    {
+      "date": "2024-05-24",
+      "message_count": 66,
+      "first_message_id": 5616,
+      "last_message_id": 5681
+    },
+    {
+      "date": "2024-05-25",
+      "message_count": 77,
+      "first_message_id": 5682,
+      "last_message_id": 5758
+    },
+    {
+      "date": "2024-05-26",
+      "message_count": 90,
+      "first_message_id": 5759,
+      "last_message_id": 5848
+    },
+    {
+      "date": "2024-05-27",
+      "message_count": 73,
+      "first_message_id": 5849,
+      "last_message_id": 5921
+    },
+    {
+      "date": "2024-05-28",
+      "message_count": 44,
+      "first_message_id": 5922,
+      "last_message_id": 5965
+    },
+    {
+      "date": "2024-05-29",
+      "message_count": 37,
+      "first_message_id": 5966,
+      "last_message_id": 6002
+    },
+    {
+      "date": "2024-05-30",
+      "message_count": 86,
+      "first_message_id": 6003,
+      "last_message_id": 6088
+    },
+    {
+      "date": "2024-05-31",
+      "message_count": 112,
+      "first_message_id": 6089,
+      "last_message_id": 6200
+    },
+    {
+      "date": "2024-06-01",
+      "message_count": 118,
+      "first_message_id": 6201,
+      "last_message_id": 6318
+    },
+    {
+      "date": "2024-06-02",
+      "message_count": 7,
+      "first_message_id": 6319,
+      "last_message_id": 6325
+    },
+    {
+      "date": "2024-06-03",
+      "message_count": 7,
+      "first_message_id": 6326,
+      "last_message_id": 6332
+    },
+    {
+      "date": "2024-06-04",
+      "message_count": 30,
+      "first_message_id": 6333,
+      "last_message_id": 6362
+    },
+    {
+      "date": "2024-06-05",
+      "message_count": 8,
+      "first_message_id": 6363,
+      "last_message_id": 6370
+    },
+    {
+      "date": "2024-06-06",
+      "message_count": 4,
+      "first_message_id": 6371,
+      "last_message_id": 6374
+    },
+    {
+      "date": "2024-06-07",
+      "message_count": 17,
+      "first_message_id": 6375,
+      "last_message_id": 6391
+    },
+    {
+      "date": "2024-06-08",
+      "message_count": 59,
+      "first_message_id": 6392,
+      "last_message_id": 6450
+    },
+    {
+      "date": "2024-06-09",
+      "message_count": 520,
+      "first_message_id": 6451,
+      "last_message_id": 6970
+    },
+    {
+      "date": "2024-06-10",
+      "message_count": 230,
+      "first_message_id": 6971,
+      "last_message_id": 7200
+    },
+    {
+      "date": "2024-06-11",
+      "message_count": 258,
+      "first_message_id": 7201,
+      "last_message_id": 7458
+    },
+    {
+      "date": "2024-06-12",
+      "message_count": 218,
+      "first_message_id": 7459,
+      "last_message_id": 7676
+    },
+    {
+      "date": "2024-06-13",
+      "message_count": 84,
+      "first_message_id": 7677,
+      "last_message_id": 7760
+    },
+    {
+      "date": "2024-06-14",
+      "message_count": 140,
+      "first_message_id": 7761,
+      "last_message_id": 7900
+    },
+    {
+      "date": "2024-06-15",
+      "message_count": 232,
+      "first_message_id": 7901,
+      "last_message_id": 8132
+    },
+    {
+      "date": "2024-06-16",
+      "message_count": 278,
+      "first_message_id": 8133,
+      "last_message_id": 8410
+    },
+    {
+      "date": "2024-06-17",
+      "message_count": 67,
+      "first_message_id": 8411,
+      "last_message_id": 8477
+    },
+    {
+      "date": "2024-06-18",
+      "message_count": 142,
+      "first_message_id": 8478,
+      "last_message_id": 8619
+    },
+    {
+      "date": "2024-06-19",
+      "message_count": 73,
+      "first_message_id": 8620,
+      "last_message_id": 8692
+    },
+    {
+      "date": "2024-06-20",
+      "message_count": 76,
+      "first_message_id": 8693,
+      "last_message_id": 8768
+    },
+    {
+      "date": "2024-06-21",
+      "message_count": 132,
+      "first_message_id": 8769,
+      "last_message_id": 8900
+    },
+    {
+      "date": "2024-06-22",
+      "message_count": 184,
+      "first_message_id": 8901,
+      "last_message_id": 9084
+    },
+    {
+      "date": "2024-06-23",
+      "message_count": 140,
+      "first_message_id": 9085,
+      "last_message_id": 9224
+    },
+    {
+      "date": "2024-06-24",
+      "message_count": 182,
+      "first_message_id": 9225,
+      "last_message_id": 9406
+    },
+    {
+      "date": "2024-06-25",
+      "message_count": 194,
+      "first_message_id": 9407,
+      "last_message_id": 9600
+    },
+    {
+      "date": "2024-06-26",
+      "message_count": 20,
+      "first_message_id": 9601,
+      "last_message_id": 9620
+    },
+    {
+      "date": "2024-06-27",
+      "message_count": 23,
+      "first_message_id": 9621,
+      "last_message_id": 9643
+    },
+    {
+      "date": "2024-06-28",
+      "message_count": 108,
+      "first_message_id": 9644,
+      "last_message_id": 9751
+    },
+    {
+      "date": "2024-06-29",
+      "message_count": 195,
+      "first_message_id": 9752,
+      "last_message_id": 9946
+    },
+    {
+      "date": "2024-06-30",
+      "message_count": 200,
+      "first_message_id": 9947,
+      "last_message_id": 10146
+    },
+    {
+      "date": "2024-07-01",
+      "message_count": 199,
+      "first_message_id": 10147,
+      "last_message_id": 10345
+    },
+    {
+      "date": "2024-07-02",
+      "message_count": 168,
+      "first_message_id": 10346,
+      "last_message_id": 10513
+    },
+    {
+      "date": "2024-07-03",
+      "message_count": 215,
+      "first_message_id": 10514,
+      "last_message_id": 10728
+    },
+    {
+      "date": "2024-07-04",
+      "message_count": 239,
+      "first_message_id": 10729,
+      "last_message_id": 10967
+    },
+    {
+      "date": "2024-07-05",
+      "message_count": 110,
+      "first_message_id": 10968,
+      "last_message_id": 11077
+    },
+    {
+      "date": "2024-07-06",
+      "message_count": 6,
+      "first_message_id": 11078,
+      "last_message_id": 11083
+    },
+    {
+      "date": "2024-07-07",
+      "message_count": 19,
+      "first_message_id": 11084,
+      "last_message_id": 11102
+    },
+    {
+      "date": "2024-07-08",
+      "message_count": 142,
+      "first_message_id": 11103,
+      "last_message_id": 11244
+    },
+    {
+      "date": "2024-07-09",
+      "message_count": 201,
+      "first_message_id": 11245,
+      "last_message_id": 11445
+    },
+    {
+      "date": "2024-07-10",
+      "message_count": 420,
+      "first_message_id": 11446,
+      "last_message_id": 11865
+    },
+    {
+      "date": "2024-07-11",
+      "message_count": 279,
+      "first_message_id": 11866,
+      "last_message_id": 12144
+    },
+    {
+      "date": "2024-07-12",
+      "message_count": 106,
+      "first_message_id": 12145,
+      "last_message_id": 12250
+    },
+    {
+      "date": "2024-07-13",
+      "message_count": 299,
+      "first_message_id": 12251,
+      "last_message_id": 12549
+    },
+    {
+      "date": "2024-07-14",
+      "message_count": 210,
+      "first_message_id": 12550,
+      "last_message_id": 12759
+    },
+    {
+      "date": "2024-07-15",
+      "message_count": 83,
+      "first_message_id": 12760,
+      "last_message_id": 12842
+    },
+    {
+      "date": "2024-07-16",
+      "message_count": 116,
+      "first_message_id": 12843,
+      "last_message_id": 12958
+    },
+    {
+      "date": "2024-07-17",
+      "message_count": 134,
+      "first_message_id": 12959,
+      "last_message_id": 13092
+    },
+    {
+      "date": "2024-07-18",
+      "message_count": 74,
+      "first_message_id": 13093,
+      "last_message_id": 13166
+    },
+    {
+      "date": "2024-07-19",
+      "message_count": 5,
+      "first_message_id": 13167,
+      "last_message_id": 13171
+    },
+    {
+      "date": "2024-07-20",
+      "message_count": 34,
+      "first_message_id": 13172,
+      "last_message_id": 13205
+    },
+    {
+      "date": "2024-07-21",
+      "message_count": 6,
+      "first_message_id": 13206,
+      "last_message_id": 13211
+    },
+    {
+      "date": "2024-07-22",
+      "message_count": 100,
+      "first_message_id": 13212,
+      "last_message_id": 13311
+    },
+    {
+      "date": "2024-07-23",
+      "message_count": 96,
+      "first_message_id": 13312,
+      "last_message_id": 13407
+    },
+    {
+      "date": "2024-07-24",
+      "message_count": 16,
+      "first_message_id": 13408,
+      "last_message_id": 13423
+    },
+    {
+      "date": "2024-07-25",
+      "message_count": 54,
+      "first_message_id": 13424,
+      "last_message_id": 13477
+    },
+    {
+      "date": "2024-07-26",
+      "message_count": 97,
+      "first_message_id": 13478,
+      "last_message_id": 13574
+    },
+    {
+      "date": "2024-07-27",
+      "message_count": 226,
+      "first_message_id": 13575,
+      "last_message_id": 13800
+    },
+    {
+      "date": "2024-07-28",
+      "message_count": 366,
+      "first_message_id": 13801,
+      "last_message_id": 14166
+    },
+    {
+      "date": "2024-07-29",
+      "message_count": 576,
+      "first_message_id": 14167,
+      "last_message_id": 14742
+    },
+    {
+      "date": "2024-07-30",
+      "message_count": 276,
+      "first_message_id": 14743,
+      "last_message_id": 15018
+    },
+    {
+      "date": "2024-07-31",
+      "message_count": 92,
+      "first_message_id": 15019,
+      "last_message_id": 15110
+    },
+    {
+      "date": "2024-08-01",
+      "message_count": 97,
+      "first_message_id": 15111,
+      "last_message_id": 15207
+    },
+    {
+      "date": "2024-08-02",
+      "message_count": 198,
+      "first_message_id": 15208,
+      "last_message_id": 15405
+    },
+    {
+      "date": "2024-08-03",
+      "message_count": 211,
+      "first_message_id": 15406,
+      "last_message_id": 15616
+    },
+    {
+      "date": "2024-08-04",
+      "message_count": 375,
+      "first_message_id": 15617,
+      "last_message_id": 15991
+    },
+    {
+      "date": "2024-08-05",
+      "message_count": 163,
+      "first_message_id": 15992,
+      "last_message_id": 16154
+    },
+    {
+      "date": "2024-08-06",
+      "message_count": 85,
+      "first_message_id": 16155,
+      "last_message_id": 16239
+    },
+    {
+      "date": "2024-08-07",
+      "message_count": 81,
+      "first_message_id": 16240,
+      "last_message_id": 16320
+    },
+    {
+      "date": "2024-08-08",
+      "message_count": 140,
+      "first_message_id": 16321,
+      "last_message_id": 16460
+    },
+    {
+      "date": "2024-08-10",
+      "message_count": 5,
+      "first_message_id": 16461,
+      "last_message_id": 16465
+    },
+    {
+      "date": "2024-08-11",
+      "message_count": 376,
+      "first_message_id": 16466,
+      "last_message_id": 16841
+    },
+    {
+      "date": "2024-08-12",
+      "message_count": 107,
+      "first_message_id": 16842,
+      "last_message_id": 16948
+    },
+    {
+      "date": "2024-08-13",
+      "message_count": 130,
+      "first_message_id": 16949,
+      "last_message_id": 17078
+    },
+    {
+      "date": "2024-08-14",
+      "message_count": 114,
+      "first_message_id": 17079,
+      "last_message_id": 17192
+    },
+    {
+      "date": "2024-08-15",
+      "message_count": 108,
+      "first_message_id": 17193,
+      "last_message_id": 17300
+    },
+    {
+      "date": "2024-08-16",
+      "message_count": 171,
+      "first_message_id": 17301,
+      "last_message_id": 17471
+    },
+    {
+      "date": "2024-08-17",
+      "message_count": 127,
+      "first_message_id": 17472,
+      "last_message_id": 17598
+    },
+    {
+      "date": "2024-08-18",
+      "message_count": 146,
+      "first_message_id": 17599,
+      "last_message_id": 17744
+    },
+    {
+      "date": "2024-08-19",
+      "message_count": 352,
+      "first_message_id": 17745,
+      "last_message_id": 18096
+    },
+    {
+      "date": "2024-08-20",
+      "message_count": 52,
+      "first_message_id": 18097,
+      "last_message_id": 18148
+    },
+    {
+      "date": "2024-08-21",
+      "message_count": 1,
+      "first_message_id": 18149,
+      "last_message_id": 18149
+    },
+    {
+      "date": "2024-08-22",
+      "message_count": 25,
+      "first_message_id": 18150,
+      "last_message_id": 18174
+    },
+    {
+      "date": "2024-08-23",
+      "message_count": 12,
+      "first_message_id": 18175,
+      "last_message_id": 18186
+    },
+    {
+      "date": "2024-08-24",
+      "message_count": 22,
+      "first_message_id": 18187,
+      "last_message_id": 18208
+    },
+    {
+      "date": "2024-08-25",
+      "message_count": 16,
+      "first_message_id": 18209,
+      "last_message_id": 18224
+    },
+    {
+      "date": "2024-08-26",
+      "message_count": 43,
+      "first_message_id": 18225,
+      "last_message_id": 18267
+    },
+    {
+      "date": "2024-08-27",
+      "message_count": 231,
+      "first_message_id": 18268,
+      "last_message_id": 18498
+    },
+    {
+      "date": "2024-08-28",
+      "message_count": 655,
+      "first_message_id": 18499,
+      "last_message_id": 19153
+    },
+    {
+      "date": "2024-08-29",
+      "message_count": 310,
+      "first_message_id": 19154,
+      "last_message_id": 19463
+    },
+    {
+      "date": "2024-08-30",
+      "message_count": 356,
+      "first_message_id": 19464,
+      "last_message_id": 19819
+    },
+    {
+      "date": "2024-08-31",
+      "message_count": 294,
+      "first_message_id": 19820,
+      "last_message_id": 20113
+    },
+    {
+      "date": "2024-09-01",
+      "message_count": 240,
+      "first_message_id": 20114,
+      "last_message_id": 20353
+    },
+    {
+      "date": "2024-09-02",
+      "message_count": 261,
+      "first_message_id": 20354,
+      "last_message_id": 20614
+    },
+    {
+      "date": "2024-09-03",
+      "message_count": 285,
+      "first_message_id": 20615,
+      "last_message_id": 20899
+    },
+    {
+      "date": "2024-09-04",
+      "message_count": 221,
+      "first_message_id": 20900,
+      "last_message_id": 21120
+    },
+    {
+      "date": "2024-09-05",
+      "message_count": 369,
+      "first_message_id": 21121,
+      "last_message_id": 21489
+    },
+    {
+      "date": "2024-09-06",
+      "message_count": 5,
+      "first_message_id": 21490,
+      "last_message_id": 21494
+    },
+    {
+      "date": "2024-09-07",
+      "message_count": 43,
+      "first_message_id": 21495,
+      "last_message_id": 21537
+    },
+    {
+      "date": "2024-09-08",
+      "message_count": 145,
+      "first_message_id": 21538,
+      "last_message_id": 21682
+    },
+    {
+      "date": "2024-09-09",
+      "message_count": 150,
+      "first_message_id": 21683,
+      "last_message_id": 21832
+    },
+    {
+      "date": "2024-09-10",
+      "message_count": 90,
+      "first_message_id": 21833,
+      "last_message_id": 21922
+    },
+    {
+      "date": "2024-09-11",
+      "message_count": 172,
+      "first_message_id": 21923,
+      "last_message_id": 22094
+    },
+    {
+      "date": "2024-09-12",
+      "message_count": 180,
+      "first_message_id": 22095,
+      "last_message_id": 22274
+    },
+    {
+      "date": "2024-09-13",
+      "message_count": 68,
+      "first_message_id": 22275,
+      "last_message_id": 22342
+    },
+    {
+      "date": "2024-09-14",
+      "message_count": 167,
+      "first_message_id": 22343,
+      "last_message_id": 22509
+    },
+    {
+      "date": "2024-09-15",
+      "message_count": 82,
+      "first_message_id": 22510,
+      "last_message_id": 22591
+    },
+    {
+      "date": "2024-09-16",
+      "message_count": 69,
+      "first_message_id": 22592,
+      "last_message_id": 22660
+    },
+    {
+      "date": "2024-09-17",
+      "message_count": 164,
+      "first_message_id": 22661,
+      "last_message_id": 22824
+    },
+    {
+      "date": "2024-09-18",
+      "message_count": 134,
+      "first_message_id": 22825,
+      "last_message_id": 22958
+    },
+    {
+      "date": "2024-09-19",
+      "message_count": 117,
+      "first_message_id": 22959,
+      "last_message_id": 23075
+    },
+    {
+      "date": "2024-09-20",
+      "message_count": 5,
+      "first_message_id": 23076,
+      "last_message_id": 23080
+    },
+    {
+      "date": "2024-09-21",
+      "message_count": 1,
+      "first_message_id": 23081,
+      "last_message_id": 23081
+    },
+    {
+      "date": "2024-09-22",
+      "message_count": 423,
+      "first_message_id": 23082,
+      "last_message_id": 23504
+    },
+    {
+      "date": "2024-09-23",
+      "message_count": 332,
+      "first_message_id": 23505,
+      "last_message_id": 23836
+    },
+    {
+      "date": "2024-09-24",
+      "message_count": 314,
+      "first_message_id": 23837,
+      "last_message_id": 24150
+    },
+    {
+      "date": "2024-09-25",
+      "message_count": 315,
+      "first_message_id": 24151,
+      "last_message_id": 24465
+    },
+    {
+      "date": "2024-09-26",
+      "message_count": 318,
+      "first_message_id": 24466,
+      "last_message_id": 24783
+    },
+    {
+      "date": "2024-09-27",
+      "message_count": 429,
+      "first_message_id": 24784,
+      "last_message_id": 25212
+    },
+    {
+      "date": "2024-09-28",
+      "message_count": 338,
+      "first_message_id": 25213,
+      "last_message_id": 25550
+    },
+    {
+      "date": "2024-09-29",
+      "message_count": 358,
+      "first_message_id": 25551,
+      "last_message_id": 25908
+    },
+    {
+      "date": "2024-09-30",
+      "message_count": 174,
+      "first_message_id": 25909,
+      "last_message_id": 26082
+    },
+    {
+      "date": "2024-10-01",
+      "message_count": 203,
+      "first_message_id": 26083,
+      "last_message_id": 26285
+    },
+    {
+      "date": "2024-10-02",
+      "message_count": 52,
+      "first_message_id": 26286,
+      "last_message_id": 26337
+    },
+    {
+      "date": "2024-10-03",
+      "message_count": 1,
+      "first_message_id": 26338,
+      "last_message_id": 26338
+    },
+    {
+      "date": "2024-10-04",
+      "message_count": 1,
+      "first_message_id": 26339,
+      "last_message_id": 26339
+    },
+    {
+      "date": "2024-10-06",
+      "message_count": 628,
+      "first_message_id": 26340,
+      "last_message_id": 26967
+    },
+    {
+      "date": "2024-10-07",
+      "message_count": 201,
+      "first_message_id": 26968,
+      "last_message_id": 27168
+    },
+    {
+      "date": "2024-10-08",
+      "message_count": 172,
+      "first_message_id": 27169,
+      "last_message_id": 27340
+    },
+    {
+      "date": "2024-10-09",
+      "message_count": 361,
+      "first_message_id": 27341,
+      "last_message_id": 27701
+    },
+    {
+      "date": "2024-10-10",
+      "message_count": 409,
+      "first_message_id": 27702,
+      "last_message_id": 28110
+    },
+    {
+      "date": "2024-10-11",
+      "message_count": 122,
+      "first_message_id": 28111,
+      "last_message_id": 28232
+    },
+    {
+      "date": "2024-10-12",
+      "message_count": 386,
+      "first_message_id": 28233,
+      "last_message_id": 28618
+    },
+    {
+      "date": "2024-10-13",
+      "message_count": 184,
+      "first_message_id": 28619,
+      "last_message_id": 28802
+    },
+    {
+      "date": "2024-10-14",
+      "message_count": 167,
+      "first_message_id": 28803,
+      "last_message_id": 28969
+    },
+    {
+      "date": "2024-10-15",
+      "message_count": 89,
+      "first_message_id": 28970,
+      "last_message_id": 29058
+    },
+    {
+      "date": "2024-10-16",
+      "message_count": 220,
+      "first_message_id": 29059,
+      "last_message_id": 29278
+    },
+    {
+      "date": "2024-10-17",
+      "message_count": 121,
+      "first_message_id": 29279,
+      "last_message_id": 29399
+    },
+    {
+      "date": "2024-10-18",
+      "message_count": 27,
+      "first_message_id": 29400,
+      "last_message_id": 29426
+    },
+    {
+      "date": "2024-10-20",
+      "message_count": 2,
+      "first_message_id": 29427,
+      "last_message_id": 29428
+    },
+    {
+      "date": "2024-10-21",
+      "message_count": 217,
+      "first_message_id": 29429,
+      "last_message_id": 29645
+    },
+    {
+      "date": "2024-10-22",
+      "message_count": 199,
+      "first_message_id": 29646,
+      "last_message_id": 29844
+    },
+    {
+      "date": "2024-10-23",
+      "message_count": 166,
+      "first_message_id": 29845,
+      "last_message_id": 30010
+    },
+    {
+      "date": "2024-10-24",
+      "message_count": 262,
+      "first_message_id": 30011,
+      "last_message_id": 30272
+    },
+    {
+      "date": "2024-10-25",
+      "message_count": 274,
+      "first_message_id": 30273,
+      "last_message_id": 30546
+    },
+    {
+      "date": "2024-10-26",
+      "message_count": 284,
+      "first_message_id": 30547,
+      "last_message_id": 30830
+    },
+    {
+      "date": "2024-10-27",
+      "message_count": 201,
+      "first_message_id": 30831,
+      "last_message_id": 31031
+    },
+    {
+      "date": "2024-10-28",
+      "message_count": 208,
+      "first_message_id": 31032,
+      "last_message_id": 31239
+    },
+    {
+      "date": "2024-10-29",
+      "message_count": 190,
+      "first_message_id": 31240,
+      "last_message_id": 31429
+    },
+    {
+      "date": "2024-10-30",
+      "message_count": 88,
+      "first_message_id": 31430,
+      "last_message_id": 31517
+    },
+    {
+      "date": "2024-10-31",
+      "message_count": 90,
+      "first_message_id": 31518,
+      "last_message_id": 31607
+    },
+    {
+      "date": "2024-11-01",
+      "message_count": 6,
+      "first_message_id": 31608,
+      "last_message_id": 31613
+    },
+    {
+      "date": "2024-11-02",
+      "message_count": 284,
+      "first_message_id": 31614,
+      "last_message_id": 31897
+    },
+    {
+      "date": "2024-11-03",
+      "message_count": 222,
+      "first_message_id": 31898,
+      "last_message_id": 32119
+    },
+    {
+      "date": "2024-11-04",
+      "message_count": 273,
+      "first_message_id": 32120,
+      "last_message_id": 32392
+    },
+    {
+      "date": "2024-11-05",
+      "message_count": 188,
+      "first_message_id": 32393,
+      "last_message_id": 32580
+    },
+    {
+      "date": "2024-11-06",
+      "message_count": 190,
+      "first_message_id": 32581,
+      "last_message_id": 32770
+    },
+    {
+      "date": "2024-11-07",
+      "message_count": 70,
+      "first_message_id": 32771,
+      "last_message_id": 32840
+    },
+    {
+      "date": "2024-11-08",
+      "message_count": 8,
+      "first_message_id": 32841,
+      "last_message_id": 32848
+    },
+    {
+      "date": "2024-11-10",
+      "message_count": 1,
+      "first_message_id": 32849,
+      "last_message_id": 32849
+    },
+    {
+      "date": "2024-11-11",
+      "message_count": 94,
+      "first_message_id": 32850,
+      "last_message_id": 32943
+    },
+    {
+      "date": "2024-11-12",
+      "message_count": 101,
+      "first_message_id": 32944,
+      "last_message_id": 33044
+    },
+    {
+      "date": "2024-11-13",
+      "message_count": 92,
+      "first_message_id": 33045,
+      "last_message_id": 33136
+    },
+    {
+      "date": "2024-11-14",
+      "message_count": 112,
+      "first_message_id": 33137,
+      "last_message_id": 33248
+    },
+    {
+      "date": "2024-11-15",
+      "message_count": 258,
+      "first_message_id": 33249,
+      "last_message_id": 33506
+    },
+    {
+      "date": "2024-11-16",
+      "message_count": 166,
+      "first_message_id": 33507,
+      "last_message_id": 33672
+    },
+    {
+      "date": "2024-11-17",
+      "message_count": 162,
+      "first_message_id": 33673,
+      "last_message_id": 33834
+    },
+    {
+      "date": "2024-11-18",
+      "message_count": 175,
+      "first_message_id": 33835,
+      "last_message_id": 34009
+    },
+    {
+      "date": "2024-11-19",
+      "message_count": 117,
+      "first_message_id": 34010,
+      "last_message_id": 34126
+    },
+    {
+      "date": "2024-11-20",
+      "message_count": 175,
+      "first_message_id": 34127,
+      "last_message_id": 34301
+    },
+    {
+      "date": "2024-11-21",
+      "message_count": 214,
+      "first_message_id": 34302,
+      "last_message_id": 34515
+    },
+    {
+      "date": "2024-11-22",
+      "message_count": 190,
+      "first_message_id": 34516,
+      "last_message_id": 34705
+    },
+    {
+      "date": "2024-11-23",
+      "message_count": 33,
+      "first_message_id": 34706,
+      "last_message_id": 34738
+    },
+    {
+      "date": "2024-11-24",
+      "message_count": 45,
+      "first_message_id": 34739,
+      "last_message_id": 34783
+    },
+    {
+      "date": "2024-11-25",
+      "message_count": 5,
+      "first_message_id": 34784,
+      "last_message_id": 34788
+    },
+    {
+      "date": "2024-11-26",
+      "message_count": 45,
+      "first_message_id": 34789,
+      "last_message_id": 34833
+    },
+    {
+      "date": "2024-11-27",
+      "message_count": 47,
+      "first_message_id": 34834,
+      "last_message_id": 34880
+    },
+    {
+      "date": "2024-11-28",
+      "message_count": 8,
+      "first_message_id": 34881,
+      "last_message_id": 34888
+    },
+    {
+      "date": "2024-11-29",
+      "message_count": 10,
+      "first_message_id": 34889,
+      "last_message_id": 34898
+    },
+    {
+      "date": "2024-11-30",
+      "message_count": 229,
+      "first_message_id": 34899,
+      "last_message_id": 35127
+    },
+    {
+      "date": "2024-12-01",
+      "message_count": 205,
+      "first_message_id": 35128,
+      "last_message_id": 35332
+    },
+    {
+      "date": "2024-12-02",
+      "message_count": 140,
+      "first_message_id": 35333,
+      "last_message_id": 35472
+    },
+    {
+      "date": "2024-12-03",
+      "message_count": 190,
+      "first_message_id": 35473,
+      "last_message_id": 35662
+    },
+    {
+      "date": "2024-12-04",
+      "message_count": 152,
+      "first_message_id": 35663,
+      "last_message_id": 35814
+    },
+    {
+      "date": "2024-12-05",
+      "message_count": 80,
+      "first_message_id": 35815,
+      "last_message_id": 35894
+    },
+    {
+      "date": "2024-12-06",
+      "message_count": 88,
+      "first_message_id": 35895,
+      "last_message_id": 35982
+    },
+    {
+      "date": "2024-12-07",
+      "message_count": 105,
+      "first_message_id": 35983,
+      "last_message_id": 36087
+    },
+    {
+      "date": "2024-12-08",
+      "message_count": 182,
+      "first_message_id": 36088,
+      "last_message_id": 36269
+    },
+    {
+      "date": "2024-12-09",
+      "message_count": 125,
+      "first_message_id": 36270,
+      "last_message_id": 36394
+    },
+    {
+      "date": "2024-12-10",
+      "message_count": 139,
+      "first_message_id": 36395,
+      "last_message_id": 36533
+    },
+    {
+      "date": "2024-12-11",
+      "message_count": 71,
+      "first_message_id": 36534,
+      "last_message_id": 36604
+    },
+    {
+      "date": "2024-12-12",
+      "message_count": 81,
+      "first_message_id": 36605,
+      "last_message_id": 36685
+    },
+    {
+      "date": "2024-12-13",
+      "message_count": 50,
+      "first_message_id": 36686,
+      "last_message_id": 36735
+    },
+    {
+      "date": "2024-12-15",
+      "message_count": 12,
+      "first_message_id": 36736,
+      "last_message_id": 36747
+    },
+    {
+      "date": "2024-12-16",
+      "message_count": 257,
+      "first_message_id": 36748,
+      "last_message_id": 37004
+    },
+    {
+      "date": "2024-12-17",
+      "message_count": 120,
+      "first_message_id": 37005,
+      "last_message_id": 37124
+    },
+    {
+      "date": "2024-12-18",
+      "message_count": 78,
+      "first_message_id": 37125,
+      "last_message_id": 37202
+    },
+    {
+      "date": "2024-12-19",
+      "message_count": 109,
+      "first_message_id": 37203,
+      "last_message_id": 37311
+    },
+    {
+      "date": "2024-12-20",
+      "message_count": 182,
+      "first_message_id": 37312,
+      "last_message_id": 37493
+    },
+    {
+      "date": "2024-12-21",
+      "message_count": 117,
+      "first_message_id": 37494,
+      "last_message_id": 37610
+    },
+    {
+      "date": "2024-12-22",
+      "message_count": 215,
+      "first_message_id": 37611,
+      "last_message_id": 37825
+    },
+    {
+      "date": "2024-12-23",
+      "message_count": 97,
+      "first_message_id": 37826,
+      "last_message_id": 37922
+    },
+    {
+      "date": "2024-12-24",
+      "message_count": 151,
+      "first_message_id": 37923,
+      "last_message_id": 38073
+    },
+    {
+      "date": "2024-12-25",
+      "message_count": 234,
+      "first_message_id": 38074,
+      "last_message_id": 38307
+    },
+    {
+      "date": "2024-12-26",
+      "message_count": 309,
+      "first_message_id": 38308,
+      "last_message_id": 38616
+    },
+    {
+      "date": "2024-12-27",
+      "message_count": 228,
+      "first_message_id": 38617,
+      "last_message_id": 38844
+    },
+    {
+      "date": "2024-12-28",
+      "message_count": 261,
+      "first_message_id": 38845,
+      "last_message_id": 39105
+    },
+    {
+      "date": "2024-12-29",
+      "message_count": 225,
+      "first_message_id": 39106,
+      "last_message_id": 39330
+    },
+    {
+      "date": "2024-12-30",
+      "message_count": 58,
+      "first_message_id": 39331,
+      "last_message_id": 39388
+    },
+    {
+      "date": "2024-12-31",
+      "message_count": 28,
+      "first_message_id": 39389,
+      "last_message_id": 39416
+    },
+    {
+      "date": "2025-01-01",
+      "message_count": 24,
+      "first_message_id": 39417,
+      "last_message_id": 39440
+    },
+    {
+      "date": "2025-01-02",
+      "message_count": 8,
+      "first_message_id": 39441,
+      "last_message_id": 39448
+    },
+    {
+      "date": "2025-01-03",
+      "message_count": 39,
+      "first_message_id": 39449,
+      "last_message_id": 39487
+    },
+    {
+      "date": "2025-01-04",
+      "message_count": 149,
+      "first_message_id": 39488,
+      "last_message_id": 39636
+    },
+    {
+      "date": "2025-01-05",
+      "message_count": 101,
+      "first_message_id": 39637,
+      "last_message_id": 39737
+    },
+    {
+      "date": "2025-01-06",
+      "message_count": 241,
+      "first_message_id": 39738,
+      "last_message_id": 39978
+    },
+    {
+      "date": "2025-01-07",
+      "message_count": 207,
+      "first_message_id": 39979,
+      "last_message_id": 40185
+    },
+    {
+      "date": "2025-01-08",
+      "message_count": 187,
+      "first_message_id": 40186,
+      "last_message_id": 40372
+    },
+    {
+      "date": "2025-01-09",
+      "message_count": 140,
+      "first_message_id": 40373,
+      "last_message_id": 40512
+    },
+    {
+      "date": "2025-01-10",
+      "message_count": 108,
+      "first_message_id": 40513,
+      "last_message_id": 40620
+    },
+    {
+      "date": "2025-01-11",
+      "message_count": 157,
+      "first_message_id": 40621,
+      "last_message_id": 40777
+    },
+    {
+      "date": "2025-01-12",
+      "message_count": 198,
+      "first_message_id": 40778,
+      "last_message_id": 40975
+    },
+    {
+      "date": "2025-01-13",
+      "message_count": 144,
+      "first_message_id": 40976,
+      "last_message_id": 41119
+    },
+    {
+      "date": "2025-01-14",
+      "message_count": 167,
+      "first_message_id": 41120,
+      "last_message_id": 41286
+    },
+    {
+      "date": "2025-01-15",
+      "message_count": 217,
+      "first_message_id": 41287,
+      "last_message_id": 41503
+    },
+    {
+      "date": "2025-01-16",
+      "message_count": 46,
+      "first_message_id": 41504,
+      "last_message_id": 41549
+    },
+    {
+      "date": "2025-01-17",
+      "message_count": 4,
+      "first_message_id": 41550,
+      "last_message_id": 41553
+    },
+    {
+      "date": "2025-01-18",
+      "message_count": 10,
+      "first_message_id": 41554,
+      "last_message_id": 41563
+    },
+    {
+      "date": "2025-01-19",
+      "message_count": 9,
+      "first_message_id": 41564,
+      "last_message_id": 41572
+    },
+    {
+      "date": "2025-01-20",
+      "message_count": 21,
+      "first_message_id": 41573,
+      "last_message_id": 41593
+    },
+    {
+      "date": "2025-01-21",
+      "message_count": 1,
+      "first_message_id": 41594,
+      "last_message_id": 41594
+    },
+    {
+      "date": "2025-01-23",
+      "message_count": 119,
+      "first_message_id": 41595,
+      "last_message_id": 41713
+    },
+    {
+      "date": "2025-01-24",
+      "message_count": 257,
+      "first_message_id": 41714,
+      "last_message_id": 41970
+    },
+    {
+      "date": "2025-01-25",
+      "message_count": 252,
+      "first_message_id": 41971,
+      "last_message_id": 42222
+    },
+    {
+      "date": "2025-01-26",
+      "message_count": 159,
+      "first_message_id": 42223,
+      "last_message_id": 42381
+    },
+    {
+      "date": "2025-01-27",
+      "message_count": 284,
+      "first_message_id": 42382,
+      "last_message_id": 42665
+    },
+    {
+      "date": "2025-01-28",
+      "message_count": 313,
+      "first_message_id": 42666,
+      "last_message_id": 42978
+    },
+    {
+      "date": "2025-01-29",
+      "message_count": 268,
+      "first_message_id": 42979,
+      "last_message_id": 43246
+    },
+    {
+      "date": "2025-01-30",
+      "message_count": 32,
+      "first_message_id": 43247,
+      "last_message_id": 43278
+    },
+    {
+      "date": "2025-01-31",
+      "message_count": 37,
+      "first_message_id": 43279,
+      "last_message_id": 43315
+    },
+    {
+      "date": "2025-02-01",
+      "message_count": 230,
+      "first_message_id": 43316,
+      "last_message_id": 43545
+    },
+    {
+      "date": "2025-02-02",
+      "message_count": 226,
+      "first_message_id": 43546,
+      "last_message_id": 43771
+    },
+    {
+      "date": "2025-02-03",
+      "message_count": 145,
+      "first_message_id": 43772,
+      "last_message_id": 43916
+    },
+    {
+      "date": "2025-02-04",
+      "message_count": 117,
+      "first_message_id": 43917,
+      "last_message_id": 44033
+    },
+    {
+      "date": "2025-02-05",
+      "message_count": 190,
+      "first_message_id": 44034,
+      "last_message_id": 44223
+    },
+    {
+      "date": "2025-02-06",
+      "message_count": 118,
+      "first_message_id": 44224,
+      "last_message_id": 44341
+    },
+    {
+      "date": "2025-02-07",
+      "message_count": 25,
+      "first_message_id": 44342,
+      "last_message_id": 44366
+    },
+    {
+      "date": "2025-02-08",
+      "message_count": 2,
+      "first_message_id": 44367,
+      "last_message_id": 44368
+    },
+    {
+      "date": "2025-02-09",
+      "message_count": 3,
+      "first_message_id": 44369,
+      "last_message_id": 44371
+    },
+    {
+      "date": "2025-02-10",
+      "message_count": 7,
+      "first_message_id": 44372,
+      "last_message_id": 44378
+    },
+    {
+      "date": "2025-02-11",
+      "message_count": 53,
+      "first_message_id": 44379,
+      "last_message_id": 44431
+    },
+    {
+      "date": "2025-02-12",
+      "message_count": 149,
+      "first_message_id": 44432,
+      "last_message_id": 44580
+    },
+    {
+      "date": "2025-02-13",
+      "message_count": 29,
+      "first_message_id": 44581,
+      "last_message_id": 44609
+    },
+    {
+      "date": "2025-02-14",
+      "message_count": 39,
+      "first_message_id": 44610,
+      "last_message_id": 44648
+    },
+    {
+      "date": "2025-02-15",
+      "message_count": 210,
+      "first_message_id": 44649,
+      "last_message_id": 44858
+    },
+    {
+      "date": "2025-02-16",
+      "message_count": 192,
+      "first_message_id": 44859,
+      "last_message_id": 45050
+    },
+    {
+      "date": "2025-02-17",
+      "message_count": 244,
+      "first_message_id": 45051,
+      "last_message_id": 45294
+    },
+    {
+      "date": "2025-02-18",
+      "message_count": 155,
+      "first_message_id": 45295,
+      "last_message_id": 45449
+    },
+    {
+      "date": "2025-02-19",
+      "message_count": 98,
+      "first_message_id": 45450,
+      "last_message_id": 45547
+    },
+    {
+      "date": "2025-02-20",
+      "message_count": 153,
+      "first_message_id": 45548,
+      "last_message_id": 45700
+    },
+    {
+      "date": "2025-02-21",
+      "message_count": 177,
+      "first_message_id": 45701,
+      "last_message_id": 45877
+    },
+    {
+      "date": "2025-02-22",
+      "message_count": 136,
+      "first_message_id": 45878,
+      "last_message_id": 46013
+    },
+    {
+      "date": "2025-02-23",
+      "message_count": 149,
+      "first_message_id": 46014,
+      "last_message_id": 46162
+    },
+    {
+      "date": "2025-02-24",
+      "message_count": 90,
+      "first_message_id": 46163,
+      "last_message_id": 46252
+    },
+    {
+      "date": "2025-02-25",
+      "message_count": 113,
+      "first_message_id": 46253,
+      "last_message_id": 46365
+    },
+    {
+      "date": "2025-02-26",
+      "message_count": 101,
+      "first_message_id": 46366,
+      "last_message_id": 46466
+    },
+    {
+      "date": "2025-02-27",
+      "message_count": 311,
+      "first_message_id": 46467,
+      "last_message_id": 46777
+    },
+    {
+      "date": "2025-02-28",
+      "message_count": 91,
+      "first_message_id": 46778,
+      "last_message_id": 46868
+    },
+    {
+      "date": "2025-03-01",
+      "message_count": 181,
+      "first_message_id": 46869,
+      "last_message_id": 47049
+    },
+    {
+      "date": "2025-03-02",
+      "message_count": 74,
+      "first_message_id": 47050,
+      "last_message_id": 47123
+    },
+    {
+      "date": "2025-03-03",
+      "message_count": 12,
+      "first_message_id": 47124,
+      "last_message_id": 47135
+    },
+    {
+      "date": "2025-03-04",
+      "message_count": 45,
+      "first_message_id": 47136,
+      "last_message_id": 47180
+    },
+    {
+      "date": "2025-03-05",
+      "message_count": 7,
+      "first_message_id": 47181,
+      "last_message_id": 47187
+    },
+    {
+      "date": "2025-03-06",
+      "message_count": 9,
+      "first_message_id": 47188,
+      "last_message_id": 47196
+    },
+    {
+      "date": "2025-03-07",
+      "message_count": 60,
+      "first_message_id": 47197,
+      "last_message_id": 47256
+    },
+    {
+      "date": "2025-03-08",
+      "message_count": 42,
+      "first_message_id": 47257,
+      "last_message_id": 47298
+    },
+    {
+      "date": "2025-03-09",
+      "message_count": 32,
+      "first_message_id": 47299,
+      "last_message_id": 47330
+    },
+    {
+      "date": "2025-03-10",
+      "message_count": 138,
+      "first_message_id": 47331,
+      "last_message_id": 47468
+    },
+    {
+      "date": "2025-03-11",
+      "message_count": 340,
+      "first_message_id": 47469,
+      "last_message_id": 47808
+    },
+    {
+      "date": "2025-03-12",
+      "message_count": 49,
+      "first_message_id": 47809,
+      "last_message_id": 47857
+    },
+    {
+      "date": "2025-03-13",
+      "message_count": 239,
+      "first_message_id": 47858,
+      "last_message_id": 48096
+    },
+    {
+      "date": "2025-03-14",
+      "message_count": 138,
+      "first_message_id": 48097,
+      "last_message_id": 48234
+    },
+    {
+      "date": "2025-03-15",
+      "message_count": 125,
+      "first_message_id": 48235,
+      "last_message_id": 48359
+    },
+    {
+      "date": "2025-03-16",
+      "message_count": 202,
+      "first_message_id": 48360,
+      "last_message_id": 48561
+    },
+    {
+      "date": "2025-03-17",
+      "message_count": 86,
+      "first_message_id": 48562,
+      "last_message_id": 48647
+    },
+    {
+      "date": "2025-03-18",
+      "message_count": 181,
+      "first_message_id": 48648,
+      "last_message_id": 48828
+    },
+    {
+      "date": "2025-03-19",
+      "message_count": 84,
+      "first_message_id": 48829,
+      "last_message_id": 48912
+    },
+    {
+      "date": "2025-03-20",
+      "message_count": 391,
+      "first_message_id": 48913,
+      "last_message_id": 49303
+    },
+    {
+      "date": "2025-03-21",
+      "message_count": 130,
+      "first_message_id": 49304,
+      "last_message_id": 49433
+    },
+    {
+      "date": "2025-03-22",
+      "message_count": 22,
+      "first_message_id": 49434,
+      "last_message_id": 49455
+    },
+    {
+      "date": "2025-03-23",
+      "message_count": 31,
+      "first_message_id": 49456,
+      "last_message_id": 49486
+    },
+    {
+      "date": "2025-03-24",
+      "message_count": 18,
+      "first_message_id": 49487,
+      "last_message_id": 49504
+    },
+    {
+      "date": "2025-03-25",
+      "message_count": 43,
+      "first_message_id": 49505,
+      "last_message_id": 49547
+    },
+    {
+      "date": "2025-03-26",
+      "message_count": 34,
+      "first_message_id": 49548,
+      "last_message_id": 49581
+    },
+    {
+      "date": "2025-03-27",
+      "message_count": 7,
+      "first_message_id": 49582,
+      "last_message_id": 49588
+    },
+    {
+      "date": "2025-03-28",
+      "message_count": 171,
+      "first_message_id": 49589,
+      "last_message_id": 49759
+    },
+    {
+      "date": "2025-03-29",
+      "message_count": 134,
+      "first_message_id": 49760,
+      "last_message_id": 49893
+    },
+    {
+      "date": "2025-03-30",
+      "message_count": 228,
+      "first_message_id": 49894,
+      "last_message_id": 50121
+    },
+    {
+      "date": "2025-03-31",
+      "message_count": 228,
+      "first_message_id": 50122,
+      "last_message_id": 50349
+    },
+    {
+      "date": "2025-04-01",
+      "message_count": 149,
+      "first_message_id": 50350,
+      "last_message_id": 50498
+    },
+    {
+      "date": "2025-04-02",
+      "message_count": 83,
+      "first_message_id": 50499,
+      "last_message_id": 50581
+    },
+    {
+      "date": "2025-04-03",
+      "message_count": 91,
+      "first_message_id": 50582,
+      "last_message_id": 50672
+    },
+    {
+      "date": "2025-04-04",
+      "message_count": 198,
+      "first_message_id": 50673,
+      "last_message_id": 50870
+    },
+    {
+      "date": "2025-04-05",
+      "message_count": 168,
+      "first_message_id": 50871,
+      "last_message_id": 51038
+    },
+    {
+      "date": "2025-04-06",
+      "message_count": 71,
+      "first_message_id": 51039,
+      "last_message_id": 51109
+    },
+    {
+      "date": "2025-04-07",
+      "message_count": 174,
+      "first_message_id": 51110,
+      "last_message_id": 51283
+    },
+    {
+      "date": "2025-04-08",
+      "message_count": 201,
+      "first_message_id": 51284,
+      "last_message_id": 51484
+    },
+    {
+      "date": "2025-04-09",
+      "message_count": 97,
+      "first_message_id": 51485,
+      "last_message_id": 51581
+    },
+    {
+      "date": "2025-04-10",
+      "message_count": 119,
+      "first_message_id": 51582,
+      "last_message_id": 51700
+    },
+    {
+      "date": "2025-04-11",
+      "message_count": 191,
+      "first_message_id": 51701,
+      "last_message_id": 51891
+    },
+    {
+      "date": "2025-04-12",
+      "message_count": 25,
+      "first_message_id": 51892,
+      "last_message_id": 51916
+    },
+    {
+      "date": "2025-04-13",
+      "message_count": 228,
+      "first_message_id": 51917,
+      "last_message_id": 52144
+    },
+    {
+      "date": "2025-04-14",
+      "message_count": 199,
+      "first_message_id": 52145,
+      "last_message_id": 52343
+    },
+    {
+      "date": "2025-04-15",
+      "message_count": 64,
+      "first_message_id": 52344,
+      "last_message_id": 52407
+    },
+    {
+      "date": "2025-04-16",
+      "message_count": 122,
+      "first_message_id": 52408,
+      "last_message_id": 52529
+    },
+    {
+      "date": "2025-04-17",
+      "message_count": 80,
+      "first_message_id": 52530,
+      "last_message_id": 52609
+    },
+    {
+      "date": "2025-04-18",
+      "message_count": 114,
+      "first_message_id": 52610,
+      "last_message_id": 52723
+    },
+    {
+      "date": "2025-04-19",
+      "message_count": 136,
+      "first_message_id": 52724,
+      "last_message_id": 52859
+    },
+    {
+      "date": "2025-04-20",
+      "message_count": 217,
+      "first_message_id": 52860,
+      "last_message_id": 53076
+    },
+    {
+      "date": "2025-04-21",
+      "message_count": 244,
+      "first_message_id": 53077,
+      "last_message_id": 53320
+    },
+    {
+      "date": "2025-04-22",
+      "message_count": 208,
+      "first_message_id": 53321,
+      "last_message_id": 53528
+    },
+    {
+      "date": "2025-04-23",
+      "message_count": 215,
+      "first_message_id": 53529,
+      "last_message_id": 53743
+    },
+    {
+      "date": "2025-04-24",
+      "message_count": 145,
+      "first_message_id": 53744,
+      "last_message_id": 53888
+    },
+    {
+      "date": "2025-04-25",
+      "message_count": 110,
+      "first_message_id": 53889,
+      "last_message_id": 53998
+    },
+    {
+      "date": "2025-04-26",
+      "message_count": 4,
+      "first_message_id": 53999,
+      "last_message_id": 54002
+    },
+    {
+      "date": "2025-04-27",
+      "message_count": 34,
+      "first_message_id": 54003,
+      "last_message_id": 54036
+    },
+    {
+      "date": "2025-04-28",
+      "message_count": 159,
+      "first_message_id": 54037,
+      "last_message_id": 54195
+    },
+    {
+      "date": "2025-04-29",
+      "message_count": 146,
+      "first_message_id": 54196,
+      "last_message_id": 54341
+    },
+    {
+      "date": "2025-04-30",
+      "message_count": 138,
+      "first_message_id": 54342,
+      "last_message_id": 54479
+    },
+    {
+      "date": "2025-05-01",
+      "message_count": 126,
+      "first_message_id": 54480,
+      "last_message_id": 54605
+    },
+    {
+      "date": "2025-05-02",
+      "message_count": 5,
+      "first_message_id": 54606,
+      "last_message_id": 54610
+    },
+    {
+      "date": "2025-05-03",
+      "message_count": 17,
+      "first_message_id": 54611,
+      "last_message_id": 54627
+    },
+    {
+      "date": "2025-05-04",
+      "message_count": 43,
+      "first_message_id": 54628,
+      "last_message_id": 54670
+    },
+    {
+      "date": "2025-05-05",
+      "message_count": 166,
+      "first_message_id": 54671,
+      "last_message_id": 54836
+    },
+    {
+      "date": "2025-05-06",
+      "message_count": 100,
+      "first_message_id": 54837,
+      "last_message_id": 54936
+    },
+    {
+      "date": "2025-05-07",
+      "message_count": 257,
+      "first_message_id": 54937,
+      "last_message_id": 55193
+    },
+    {
+      "date": "2025-05-08",
+      "message_count": 337,
+      "first_message_id": 55194,
+      "last_message_id": 55530
+    },
+    {
+      "date": "2025-05-09",
+      "message_count": 196,
+      "first_message_id": 55531,
+      "last_message_id": 55726
+    },
+    {
+      "date": "2025-05-10",
+      "message_count": 227,
+      "first_message_id": 55727,
+      "last_message_id": 55953
+    },
+    {
+      "date": "2025-05-11",
+      "message_count": 339,
+      "first_message_id": 55954,
+      "last_message_id": 56292
+    },
+    {
+      "date": "2025-05-12",
+      "message_count": 237,
+      "first_message_id": 56293,
+      "last_message_id": 56529
+    },
+    {
+      "date": "2025-05-13",
+      "message_count": 164,
+      "first_message_id": 56530,
+      "last_message_id": 56693
+    },
+    {
+      "date": "2025-05-14",
+      "message_count": 103,
+      "first_message_id": 56694,
+      "last_message_id": 56796
+    },
+    {
+      "date": "2025-05-15",
+      "message_count": 92,
+      "first_message_id": 56797,
+      "last_message_id": 56888
+    },
+    {
+      "date": "2025-05-16",
+      "message_count": 3,
+      "first_message_id": 56889,
+      "last_message_id": 56891
+    },
+    {
+      "date": "2025-05-17",
+      "message_count": 13,
+      "first_message_id": 56892,
+      "last_message_id": 56904
+    },
+    {
+      "date": "2025-05-18",
+      "message_count": 63,
+      "first_message_id": 56905,
+      "last_message_id": 56967
+    },
+    {
+      "date": "2025-05-19",
+      "message_count": 186,
+      "first_message_id": 56968,
+      "last_message_id": 57153
+    },
+    {
+      "date": "2025-05-20",
+      "message_count": 274,
+      "first_message_id": 57154,
+      "last_message_id": 57427
+    },
+    {
+      "date": "2025-05-21",
+      "message_count": 138,
+      "first_message_id": 57428,
+      "last_message_id": 57565
+    },
+    {
+      "date": "2025-05-22",
+      "message_count": 170,
+      "first_message_id": 57566,
+      "last_message_id": 57735
+    },
+    {
+      "date": "2025-05-23",
+      "message_count": 202,
+      "first_message_id": 57736,
+      "last_message_id": 57937
+    },
+    {
+      "date": "2025-05-24",
+      "message_count": 233,
+      "first_message_id": 57938,
+      "last_message_id": 58170
+    },
+    {
+      "date": "2025-05-25",
+      "message_count": 203,
+      "first_message_id": 58171,
+      "last_message_id": 58373
+    },
+    {
+      "date": "2025-05-26",
+      "message_count": 219,
+      "first_message_id": 58374,
+      "last_message_id": 58592
+    },
+    {
+      "date": "2025-05-27",
+      "message_count": 42,
+      "first_message_id": 58593,
+      "last_message_id": 58634
+    },
+    {
+      "date": "2025-05-28",
+      "message_count": 87,
+      "first_message_id": 58635,
+      "last_message_id": 58721
+    },
+    {
+      "date": "2025-05-29",
+      "message_count": 4,
+      "first_message_id": 58722,
+      "last_message_id": 58725
+    },
+    {
+      "date": "2025-05-30",
+      "message_count": 3,
+      "first_message_id": 58726,
+      "last_message_id": 58728
+    },
+    {
+      "date": "2025-05-31",
+      "message_count": 10,
+      "first_message_id": 58729,
+      "last_message_id": 58738
+    },
+    {
+      "date": "2025-06-01",
+      "message_count": 16,
+      "first_message_id": 58739,
+      "last_message_id": 58754
+    },
+    {
+      "date": "2025-06-02",
+      "message_count": 143,
+      "first_message_id": 58755,
+      "last_message_id": 58897
+    },
+    {
+      "date": "2025-06-03",
+      "message_count": 73,
+      "first_message_id": 58898,
+      "last_message_id": 58970
+    },
+    {
+      "date": "2025-06-04",
+      "message_count": 108,
+      "first_message_id": 58971,
+      "last_message_id": 59078
+    },
+    {
+      "date": "2025-06-05",
+      "message_count": 141,
+      "first_message_id": 59079,
+      "last_message_id": 59219
+    },
+    {
+      "date": "2025-06-06",
+      "message_count": 78,
+      "first_message_id": 59220,
+      "last_message_id": 59297
+    },
+    {
+      "date": "2025-06-07",
+      "message_count": 6,
+      "first_message_id": 59298,
+      "last_message_id": 59303
+    },
+    {
+      "date": "2025-06-08",
+      "message_count": 35,
+      "first_message_id": 59304,
+      "last_message_id": 59338
+    },
+    {
+      "date": "2025-06-09",
+      "message_count": 32,
+      "first_message_id": 59339,
+      "last_message_id": 59370
+    },
+    {
+      "date": "2025-06-10",
+      "message_count": 109,
+      "first_message_id": 59371,
+      "last_message_id": 59479
+    },
+    {
+      "date": "2025-06-11",
+      "message_count": 64,
+      "first_message_id": 59480,
+      "last_message_id": 59543
+    },
+    {
+      "date": "2025-06-12",
+      "message_count": 10,
+      "first_message_id": 59544,
+      "last_message_id": 59553
+    },
+    {
+      "date": "2025-06-13",
+      "message_count": 3,
+      "first_message_id": 59554,
+      "last_message_id": 59556
+    },
+    {
+      "date": "2025-06-14",
+      "message_count": 3,
+      "first_message_id": 59557,
+      "last_message_id": 59559
+    },
+    {
+      "date": "2025-06-15",
+      "message_count": 15,
+      "first_message_id": 59560,
+      "last_message_id": 59574
+    },
+    {
+      "date": "2025-06-16",
+      "message_count": 125,
+      "first_message_id": 59575,
+      "last_message_id": 59699
+    },
+    {
+      "date": "2025-06-17",
+      "message_count": 89,
+      "first_message_id": 59700,
+      "last_message_id": 59788
+    },
+    {
+      "date": "2025-06-18",
+      "message_count": 184,
+      "first_message_id": 59789,
+      "last_message_id": 59972
+    },
+    {
+      "date": "2025-06-19",
+      "message_count": 30,
+      "first_message_id": 59973,
+      "last_message_id": 60002
+    },
+    {
+      "date": "2025-06-20",
+      "message_count": 25,
+      "first_message_id": 60003,
+      "last_message_id": 60027
+    },
+    {
+      "date": "2025-06-21",
+      "message_count": 73,
+      "first_message_id": 60028,
+      "last_message_id": 60100
+    },
+    {
+      "date": "2025-06-22",
+      "message_count": 2,
+      "first_message_id": 60101,
+      "last_message_id": 60102
+    },
+    {
+      "date": "2025-06-23",
+      "message_count": 1,
+      "first_message_id": 60103,
+      "last_message_id": 60103
+    },
+    {
+      "date": "2025-06-24",
+      "message_count": 9,
+      "first_message_id": 60104,
+      "last_message_id": 60112
+    },
+    {
+      "date": "2025-06-25",
+      "message_count": 88,
+      "first_message_id": 60113,
+      "last_message_id": 60200
+    },
+    {
+      "date": "2025-06-26",
+      "message_count": 29,
+      "first_message_id": 60201,
+      "last_message_id": 60229
+    },
+    {
+      "date": "2025-06-27",
+      "message_count": 8,
+      "first_message_id": 60230,
+      "last_message_id": 60237
+    },
+    {
+      "date": "2025-06-29",
+      "message_count": 23,
+      "first_message_id": 60238,
+      "last_message_id": 60260
+    },
+    {
+      "date": "2025-06-30",
+      "message_count": 128,
+      "first_message_id": 60261,
+      "last_message_id": 60388
+    },
+    {
+      "date": "2025-07-01",
+      "message_count": 106,
+      "first_message_id": 60389,
+      "last_message_id": 60494
+    },
+    {
+      "date": "2025-07-02",
+      "message_count": 162,
+      "first_message_id": 60495,
+      "last_message_id": 60656
+    },
+    {
+      "date": "2025-07-03",
+      "message_count": 42,
+      "first_message_id": 60657,
+      "last_message_id": 60698
+    },
+    {
+      "date": "2025-07-04",
+      "message_count": 15,
+      "first_message_id": 60699,
+      "last_message_id": 60713
+    },
+    {
+      "date": "2025-07-05",
+      "message_count": 35,
+      "first_message_id": 60714,
+      "last_message_id": 60748
+    },
+    {
+      "date": "2025-07-06",
+      "message_count": 13,
+      "first_message_id": 60749,
+      "last_message_id": 60761
+    },
+    {
+      "date": "2025-07-07",
+      "message_count": 5,
+      "first_message_id": 60762,
+      "last_message_id": 60766
+    },
+    {
+      "date": "2025-07-08",
+      "message_count": 12,
+      "first_message_id": 60767,
+      "last_message_id": 60778
+    },
+    {
+      "date": "2025-07-09",
+      "message_count": 18,
+      "first_message_id": 60779,
+      "last_message_id": 60796
+    },
+    {
+      "date": "2025-07-10",
+      "message_count": 21,
+      "first_message_id": 60797,
+      "last_message_id": 60817
+    },
+    {
+      "date": "2025-07-11",
+      "message_count": 7,
+      "first_message_id": 60818,
+      "last_message_id": 60824
+    },
+    {
+      "date": "2025-07-12",
+      "message_count": 107,
+      "first_message_id": 60825,
+      "last_message_id": 60931
+    },
+    {
+      "date": "2025-07-13",
+      "message_count": 171,
+      "first_message_id": 60932,
+      "last_message_id": 61102
+    },
+    {
+      "date": "2025-07-14",
+      "message_count": 112,
+      "first_message_id": 61103,
+      "last_message_id": 61214
+    },
+    {
+      "date": "2025-07-15",
+      "message_count": 74,
+      "first_message_id": 61215,
+      "last_message_id": 61288
+    },
+    {
+      "date": "2025-07-16",
+      "message_count": 118,
+      "first_message_id": 61289,
+      "last_message_id": 61406
+    },
+    {
+      "date": "2025-07-17",
+      "message_count": 93,
+      "first_message_id": 61407,
+      "last_message_id": 61499
+    },
+    {
+      "date": "2025-07-18",
+      "message_count": 94,
+      "first_message_id": 61500,
+      "last_message_id": 61593
+    },
+    {
+      "date": "2025-07-19",
+      "message_count": 109,
+      "first_message_id": 61594,
+      "last_message_id": 61702
+    },
+    {
+      "date": "2025-07-20",
+      "message_count": 142,
+      "first_message_id": 61703,
+      "last_message_id": 61844
+    },
+    {
+      "date": "2025-07-21",
+      "message_count": 197,
+      "first_message_id": 61845,
+      "last_message_id": 62041
+    },
+    {
+      "date": "2025-07-22",
+      "message_count": 256,
+      "first_message_id": 62042,
+      "last_message_id": 62297
+    },
+    {
+      "date": "2025-07-23",
+      "message_count": 217,
+      "first_message_id": 62298,
+      "last_message_id": 62514
+    },
+    {
+      "date": "2025-07-24",
+      "message_count": 114,
+      "first_message_id": 62515,
+      "last_message_id": 62628
+    },
+    {
+      "date": "2025-07-25",
+      "message_count": 183,
+      "first_message_id": 62629,
+      "last_message_id": 62811
+    },
+    {
+      "date": "2025-07-26",
+      "message_count": 211,
+      "first_message_id": 62812,
+      "last_message_id": 63022
+    },
+    {
+      "date": "2025-07-27",
+      "message_count": 230,
+      "first_message_id": 63023,
+      "last_message_id": 63252
+    },
+    {
+      "date": "2025-07-28",
+      "message_count": 128,
+      "first_message_id": 63253,
+      "last_message_id": 63380
+    },
+    {
+      "date": "2025-07-29",
+      "message_count": 149,
+      "first_message_id": 63381,
+      "last_message_id": 63529
+    },
+    {
+      "date": "2025-07-30",
+      "message_count": 44,
+      "first_message_id": 63530,
+      "last_message_id": 63573
+    },
+    {
+      "date": "2025-07-31",
+      "message_count": 64,
+      "first_message_id": 63574,
+      "last_message_id": 63637
+    },
+    {
+      "date": "2025-08-01",
+      "message_count": 126,
+      "first_message_id": 63638,
+      "last_message_id": 63763
+    },
+    {
+      "date": "2025-08-02",
+      "message_count": 187,
+      "first_message_id": 63764,
+      "last_message_id": 63950
+    },
+    {
+      "date": "2025-08-03",
+      "message_count": 326,
+      "first_message_id": 63951,
+      "last_message_id": 64276
+    },
+    {
+      "date": "2025-08-04",
+      "message_count": 210,
+      "first_message_id": 64277,
+      "last_message_id": 64486
+    },
+    {
+      "date": "2025-08-05",
+      "message_count": 110,
+      "first_message_id": 64487,
+      "last_message_id": 64596
+    },
+    {
+      "date": "2025-08-06",
+      "message_count": 92,
+      "first_message_id": 64597,
+      "last_message_id": 64688
+    },
+    {
+      "date": "2025-08-07",
+      "message_count": 125,
+      "first_message_id": 64689,
+      "last_message_id": 64813
+    },
+    {
+      "date": "2025-08-08",
+      "message_count": 158,
+      "first_message_id": 64814,
+      "last_message_id": 64971
+    },
+    {
+      "date": "2025-08-09",
+      "message_count": 201,
+      "first_message_id": 64972,
+      "last_message_id": 65172
+    },
+    {
+      "date": "2025-08-10",
+      "message_count": 248,
+      "first_message_id": 65173,
+      "last_message_id": 65420
+    },
+    {
+      "date": "2025-08-11",
+      "message_count": 121,
+      "first_message_id": 65421,
+      "last_message_id": 65541
+    },
+    {
+      "date": "2025-08-12",
+      "message_count": 159,
+      "first_message_id": 65542,
+      "last_message_id": 65700
+    },
+    {
+      "date": "2025-08-13",
+      "message_count": 72,
+      "first_message_id": 65701,
+      "last_message_id": 65772
+    }
+  ]
+}

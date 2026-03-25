@@ -1,0 +1,4 @@
+/home/rafaelbressan/.claude/plugins/cache/claude-plugins-official/remember/779ab61d8d41/scripts/save-session.sh: line 135: cd: /home/rafaelbressan/.claude/plugins/cache/claude-plugins-official/.claude/remember: No such file or directory
+/home/rafaelbressan/.claude/plugins/cache/claude-plugins-official/remember/779ab61d8d41/scripts/save-session.sh: line 140: [: : integer expression expected
+/home/rafaelbressan/.claude/plugins/cache/claude-plugins-official/remember/779ab61d8d41/scripts/save-session.sh: line 142: [: : integer expression expected
+/home/rafaelbressan/.claude/plugins/cache/claude-plugins-official/remember/779ab61d8d41/scripts/save-session.sh: line 164: cd: /home/rafaelbressan/.claude/plugins/cache/claude-plugins-official/.claude/remember: No such file or directory

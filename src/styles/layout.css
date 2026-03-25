@@ -1,0 +1,301 @@
+/* Layout — WhatsApp Web two-panel structure */
+
+/* Outer wrapper: centers the app on large screens with dark wash behind */
+.app-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: var(--WDS-app-wash);
+}
+
+/* Green header bar across the top (WhatsApp desktop style) */
+.app-header-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 127px;
+  background-color: var(--WDS-accent);
+  z-index: 0;
+}
+
+/* Main container: sidebar + main area */
+.app-container {
+  display: flex;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1600px;
+  height: 100%;
+  max-height: calc(100% - 38px);
+  margin-top: 19px;
+  margin-bottom: 19px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
+  overflow: hidden;
+}
+
+/* ── Sidebar (left panel) ─────────────────────── */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  min-width: 340px;
+  max-width: 500px;
+  background-color: var(--WDS-background-wash-plain);
+  border-right: 1px solid var(--WDS-lines-divider);
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  height: 59px;
+  background-color: var(--WDS-components-surface-nav-bar);
+  flex-shrink: 0;
+}
+
+.sidebar-header-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--WDS-content-default);
+  letter-spacing: -0.2px;
+}
+
+.sidebar-search {
+  padding: 6px 12px;
+  flex-shrink: 0;
+  background-color: var(--WDS-background-wash-plain);
+}
+
+.sidebar-search-input {
+  width: 100%;
+  height: 35px;
+  padding: 0 32px 0 65px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--WDS-surface-emphasized);
+  color: var(--WDS-content-default);
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+}
+
+.sidebar-search-input::placeholder {
+  color: var(--WDS-content-deemphasized);
+}
+
+.sidebar-search-input:focus {
+  box-shadow: inset 0 0 0 1.5px var(--WDS-accent);
+}
+
+.sidebar-search-wrapper {
+  position: relative;
+}
+
+.sidebar-search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  color: var(--WDS-content-deemphasized);
+  pointer-events: none;
+}
+
+/* Conversation list */
+.conversation-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.conversation-item {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 0 16px;
+  height: 72px;
+  cursor: pointer;
+  transition: background-color 120ms;
+}
+
+.conversation-item:hover {
+  background-color: var(--WDS-surface-highlight);
+}
+
+.conversation-item.active {
+  background-color: var(--WDS-components-active-list-row);
+}
+
+.conversation-item-avatar {
+  width: 49px;
+  height: 49px;
+  border-radius: 50%;
+  background-color: var(--WDS-cool-gray-300);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.conversation-item-avatar svg {
+  width: 100%;
+  height: 100%;
+  color: var(--WDS-white);
+}
+
+.conversation-item-content {
+  flex: 1;
+  min-width: 0;
+  border-bottom: 1px solid var(--WDS-lines-divider);
+  padding: 13px 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.conversation-item-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.conversation-item-name {
+  font-size: 16.5px;
+  color: var(--WDS-content-default);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.conversation-item-time {
+  font-size: 12px;
+  color: var(--WDS-content-deemphasized);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.conversation-item-preview {
+  font-size: 13.5px;
+  color: var(--WDS-content-deemphasized);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+}
+
+/* ── Main area (right panel) ──────────────────── */
+.main-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  position: relative;
+  background-color: var(--WDS-systems-chat-background-wallpaper);
+}
+
+/* Chat wallpaper overlay (doodle pattern) */
+.main-area::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/assets/whatsapp-background.webp');
+  background-repeat: repeat;
+  background-size: 412.5px;
+  opacity: 0.4;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Chat header */
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 10px 16px;
+  height: 59px;
+  background-color: var(--WDS-components-surface-nav-bar);
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.chat-header-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--WDS-content-default);
+}
+
+.chat-header-info {
+  font-size: 12.5px;
+  color: var(--WDS-content-deemphasized);
+}
+
+/* Chat message area */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 60px;
+  z-index: 1;
+  position: relative;
+}
+
+/* Empty state */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  z-index: 1;
+  position: relative;
+  text-align: center;
+  padding: 0 40px;
+}
+
+.empty-state-icon {
+  width: 250px;
+  height: auto;
+  margin-bottom: 28px;
+  opacity: 0.75;
+}
+
+.empty-state-title {
+  font-size: 32px;
+  font-weight: 300;
+  color: var(--WDS-content-default);
+  margin-bottom: 16px;
+  letter-spacing: -0.5px;
+}
+
+.empty-state-text {
+  font-size: 14px;
+  color: var(--WDS-content-deemphasized);
+  line-height: 1.6;
+  max-width: 480px;
+}
+
+.empty-state-divider {
+  width: 470px;
+  max-width: 100%;
+  height: 1px;
+  background-color: var(--WDS-lines-divider);
+  margin: 40px 0;
+}
+
+.empty-state-footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--WDS-content-deemphasized);
+}
+
+.empty-state-footer svg {
+  width: 16px;
+  height: 16px;
+}

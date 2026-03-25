@@ -1,0 +1,234 @@
+/* WDS (WhatsApp Design System) Tokens — extracted from ref/style/style.css */
+:root {
+  /* Accent */
+  --WDS-accent: #1DAA61;
+  --WDS-accent-RGB: 29, 170, 97;
+  --WDS-accent-deemphasized: #D9FDD3;
+  --WDS-accent-deemphasized-RGB: 217, 253, 211;
+  --WDS-accent-emphasized: #15603E;
+  --WDS-accent-emphasized-RGB: 21, 96, 62;
+
+  /* App */
+  --WDS-app-wash: #DBD8D4;
+  --WDS-app-wash-RGB: 219, 216, 212;
+
+  /* Background */
+  --WDS-background-dimmer: rgb(0, 0, 0, .32);
+  --WDS-background-elevated-wash-inset: #F7F5F3;
+  --WDS-background-elevated-wash-inset-RGB: 247, 245, 243;
+  --WDS-background-elevated-wash-plain: #FFFFFF;
+  --WDS-background-elevated-wash-plain-RGB: 255, 255, 255;
+  --WDS-background-wash-inset: #F7F5F3;
+  --WDS-background-wash-inset-RGB: 247, 245, 243;
+  --WDS-background-wash-plain: #FFFFFF;
+  --WDS-background-wash-plain-RGB: 255, 255, 255;
+
+  /* Black + alpha */
+  --WDS-black: #000000;
+  --WDS-black-alpha-05: rgba(0, 0, 0, .05);
+  --WDS-black-alpha-10: rgba(0, 0, 0, .1);
+  --WDS-black-alpha-20: rgba(0, 0, 0, .2);
+  --WDS-black-alpha-30: rgba(0, 0, 0, .3);
+  --WDS-black-alpha-40: rgba(0, 0, 0, .4);
+  --WDS-black-alpha-50: rgba(0, 0, 0, .5);
+  --WDS-black-alpha-60: rgba(0, 0, 0, .6);
+  --WDS-black-alpha-70: rgba(0, 0, 0, .7);
+  --WDS-black-alpha-80: rgba(0, 0, 0, .8);
+  --WDS-black-alpha-90: rgba(0, 0, 0, .9);
+
+  /* Cobalt */
+  --WDS-cobalt-50: #F2F8FF;
+  --WDS-cobalt-75: #E1F0FF;
+  --WDS-cobalt-100: #D2E8FE;
+  --WDS-cobalt-200: #99CAFE;
+  --WDS-cobalt-300: #53A6FD;
+  --WDS-cobalt-400: #007BFC;
+  --WDS-cobalt-500: #0063CB;
+  --WDS-cobalt-600: #0451A3;
+  --WDS-cobalt-700: #073D76;
+  --WDS-cobalt-800: #092642;
+
+  /* Components */
+  --WDS-components-active-list-row: rgba(194, 189, 184, .15);
+  --WDS-components-filter-surface-selected: #D9FDD3;
+  --WDS-components-outline-profile-photo: rgba(0, 0, 0, .1);
+  --WDS-components-surface-nav-bar: #F7F5F3;
+
+  /* Content */
+  --WDS-content-action-default: #0A0A0A;
+  --WDS-content-action-emphasized: #1B8755;
+  --WDS-content-deemphasized: rgba(0, 0, 0, .6);
+  --WDS-content-default: #0A0A0A;
+  --WDS-content-disabled: #BDBDBD;
+  --WDS-content-external-link: #1B8755;
+  --WDS-content-inverse: #FFFFFF;
+  --WDS-content-on-accent: #FFFFFF;
+  --WDS-content-read: #007BFC;
+
+  /* Cream */
+  --WDS-cream-50: #FAF8F5;
+  --WDS-cream-75: #F5F1EB;
+  --WDS-cream-100: #EFE9E0;
+  --WDS-cream-200: #E5DBCD;
+  --WDS-cream-300: #D4C3AB;
+  --WDS-cream-400: #C1A886;
+  --WDS-cream-500: #9F8465;
+  --WDS-cream-600: #7B654C;
+  --WDS-cream-700: #504334;
+  --WDS-cream-800: #2C2720;
+
+  /* Emerald */
+  --WDS-emerald-50: #F0FFF9;
+  --WDS-emerald-75: #E1FEF2;
+  --WDS-emerald-100: #D5FDED;
+  --WDS-emerald-200: #B2F5DA;
+  --WDS-emerald-300: #7AE3C3;
+  --WDS-emerald-400: #06CF9C;
+  --WDS-emerald-500: #00A884;
+  --WDS-emerald-600: #008069;
+  --WDS-emerald-700: #125C4E;
+  --WDS-emerald-800: #0A332C;
+
+  /* Green */
+  --WDS-green-50: #F2FDF0;
+  --WDS-green-75: #E7FCE3;
+  --WDS-green-100: #D9FDD3;
+  --WDS-green-200: #ACFCAC;
+  --WDS-green-300: #71EB85;
+  --WDS-green-400: #25D366;
+  --WDS-green-450: #21C063;
+  --WDS-green-500: #1DAA61;
+  --WDS-green-500-alpha-30: rgba(29, 170, 97, .3);
+  --WDS-green-500-alpha-60: rgba(29, 170, 97, .6);
+  --WDS-green-600: #1B8755;
+  --WDS-green-700: #15603E;
+  --WDS-green-750: #144D37;
+  --WDS-green-800: #103529;
+
+  /* Lines */
+  --WDS-lines-divider: rgba(0, 0, 0, .1);
+  --WDS-lines-outline-deemphasized: rgba(0, 0, 0, .2);
+  --WDS-lines-outline-default: #959393;
+
+  /* Neutral Gray */
+  --WDS-neutral-gray-200: #D8D8D8;
+  --WDS-neutral-gray-300: #BDBDBD;
+  --WDS-neutral-gray-400: #959393;
+  --WDS-neutral-gray-500: #757778;
+  --WDS-neutral-gray-600: #606263;
+  --WDS-neutral-gray-700: #424445;
+  --WDS-neutral-gray-800: #242626;
+  --WDS-neutral-gray-850: #1D1F1F;
+  --WDS-neutral-gray-900: #161717;
+  --WDS-neutral-gray-1000: #0A0A0A;
+
+  /* Warm Gray */
+  --WDS-warm-gray-50: #FBFAF9;
+  --WDS-warm-gray-75: #F7F5F3;
+  --WDS-warm-gray-100: #F1EEEB;
+  --WDS-warm-gray-200: #DBD8D4;
+  --WDS-warm-gray-300: #C2BDB8;
+  --WDS-warm-gray-300-alpha-15: rgba(194, 189, 184, .15);
+  --WDS-warm-gray-400: #9F9891;
+  --WDS-warm-gray-500: #7C7771;
+  --WDS-warm-gray-600: #66625D;
+  --WDS-warm-gray-700: #474440;
+  --WDS-warm-gray-800: #262524;
+  --WDS-warm-gray-900: #171616;
+  --WDS-warm-gray-1000: #0B0A0A;
+
+  /* Cool Gray */
+  --WDS-cool-gray-50: #F7F8FA;
+  --WDS-cool-gray-75: #F1F2F4;
+  --WDS-cool-gray-100: #EAEDEE;
+  --WDS-cool-gray-200: #D4D6D8;
+  --WDS-cool-gray-300: #B3B9BD;
+  --WDS-cool-gray-400: #8D9599;
+  --WDS-cool-gray-500: #6C757A;
+  --WDS-cool-gray-600: #5B6368;
+  --WDS-cool-gray-700: #3E474D;
+  --WDS-cool-gray-800: #20272B;
+  --WDS-cool-gray-900: #12181C;
+  --WDS-cool-gray-1000: #0A1014;
+
+  /* Persistent */
+  --WDS-persistent-activity-indicator: #25D366;
+  --WDS-persistent-always-black: #0A0A0A;
+  --WDS-persistent-always-branded: #1DAA61;
+  --WDS-persistent-always-white: #FFFFFF;
+
+  /* Red */
+  --WDS-red-50: #FEEFF2;
+  --WDS-red-75: #FDE8EB;
+  --WDS-red-100: #FBD8DC;
+  --WDS-red-200: #FA99A4;
+  --WDS-red-300: #FB5061;
+  --WDS-red-400: #EA0038;
+  --WDS-red-400-alpha-30: rgba(234, 0, 56, .3);
+  --WDS-red-500: #B80531;
+  --WDS-red-600: #911435;
+  --WDS-red-700: #61182E;
+  --WDS-red-800: #321622;
+
+  /* Secondary */
+  --WDS-secondary-negative: #EA0038;
+  --WDS-secondary-negative-deemphasized: #FDE8EB;
+  --WDS-secondary-negative-emphasized: #B80531;
+  --WDS-secondary-positive: #1DAA61;
+  --WDS-secondary-positive-deemphasized: #E7FCE3;
+  --WDS-secondary-warning: #FFB938;
+  --WDS-secondary-warning-deemphasized: #FFF7E5;
+
+  /* Surface */
+  --WDS-surface-default: #FFFFFF;
+  --WDS-surface-elevated-default: #FFFFFF;
+  --WDS-surface-elevated-emphasized: #F7F5F3;
+  --WDS-surface-emphasized: #F7F5F3;
+  --WDS-surface-highlight: rgba(194, 189, 184, .15);
+  --WDS-surface-inverse: #242626;
+  --WDS-surface-pressed: rgba(0, 0, 0, .2);
+
+  /* Systems — Bubbles */
+  --WDS-systems-bubble-content-deemphasized: rgba(0, 0, 0, .6);
+  --WDS-systems-bubble-content-e2e: rgba(0, 0, 0, .6);
+  --WDS-systems-bubble-surface-e2e: #FFF0D4;
+  --WDS-systems-bubble-surface-incoming: #FFFFFF;
+  --WDS-systems-bubble-surface-outgoing: #D9FDD3;
+  --WDS-systems-bubble-surface-overlay: rgba(194, 189, 184, .15);
+  --WDS-systems-bubble-surface-system: rgba(255, 255, 255, .9);
+
+  /* Systems — Chat */
+  --WDS-systems-chat-background-wallpaper: #F5F1EB;
+  --WDS-systems-chat-foreground-wallpaper: #EAE0D3;
+  --WDS-systems-chat-surface-composer: #FFFFFF;
+  --WDS-systems-chat-surface-tray: #F7F5F3;
+  --WDS-systems-status-seen: #C2BDB8;
+
+  /* Transparent */
+  --WDS-transparent: transparent;
+
+  /* White + alpha */
+  --WDS-white: #FFFFFF;
+  --WDS-white-alpha-05: rgba(255, 255, 255, .05);
+  --WDS-white-alpha-10: rgba(255, 255, 255, .1);
+  --WDS-white-alpha-20: rgba(255, 255, 255, .2);
+  --WDS-white-alpha-30: rgba(255, 255, 255, .3);
+  --WDS-white-alpha-40: rgba(255, 255, 255, .4);
+  --WDS-white-alpha-50: rgba(255, 255, 255, .5);
+  --WDS-white-alpha-60: rgba(255, 255, 255, .6);
+  --WDS-white-alpha-70: rgba(255, 255, 255, .7);
+  --WDS-white-alpha-80: rgba(255, 255, 255, .8);
+  --WDS-white-alpha-90: rgba(255, 255, 255, .9);
+
+  /* Yellow */
+  --WDS-yellow-50: #FFFCF5;
+  --WDS-yellow-75: #FFF7E5;
+  --WDS-yellow-100: #FFF0D4;
+  --WDS-yellow-200: #FFE4AF;
+  --WDS-yellow-300: #FFD279;
+  --WDS-yellow-400: #FFB938;
+  --WDS-yellow-500: #C58730;
+  --WDS-yellow-600: #9D6C2C;
+  --WDS-yellow-700: #6D4E26;
+  --WDS-yellow-800: #362C1F;
+}
