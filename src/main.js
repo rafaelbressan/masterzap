@@ -339,4 +339,11 @@ async function init() {
   router.start();
 }
 
-init();
+init().catch(err => {
+  console.error('MasterZap init failed:', err);
+  // Ensure app is revealed even on error
+  const loading = document.getElementById('loading-screen');
+  if (loading) loading.remove();
+  const app = document.getElementById('app');
+  if (app) app.style.display = '';
+});
