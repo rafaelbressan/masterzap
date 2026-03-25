@@ -1,0 +1,14 @@
+{
+  "name": "MasterWhats",
+  "short_name": "MasterWhats",
+  "description": "Visualizador interativo das 65 mil mensagens vazadas entre Daniel Vorcaro e Martha Graeff",
+  "icons": [
+    { "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#1DAA61",
+  "background_color": "#FFFFFF",
+  "display": "standalone",
+  "start_url": "/",
+  "lang": "pt-BR"
+}

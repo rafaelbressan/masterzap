@@ -710,6 +710,31 @@
   color: var(--WDS-content-default);
 }
 
+/* ── Settings Drawer Logo ────────────────────── */
+.settings-logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 24px 20px;
+}
+
+.settings-logo-img {
+  border-radius: 16px;
+  margin-bottom: 12px;
+}
+
+.settings-logo-name {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--WDS-accent);
+  margin-bottom: 4px;
+}
+
+.settings-logo-sub {
+  font-size: 13px;
+  color: var(--WDS-content-deemphasized);
+}
+
 /* ── Profile Sections (shared) ───────────────── */
 .profile-sections {
   padding: 16px 24px 32px;
