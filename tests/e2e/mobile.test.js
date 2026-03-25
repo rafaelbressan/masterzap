@@ -1,7 +1,10 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Mobile Responsive — Batch 8', () => {
-  // Uses 'mobile' project viewport (Pixel 5: 393x851) from playwright.config.js
+  // These tests only make sense on narrow viewports (mobile project)
+  test.beforeEach(({ page }, testInfo) => {
+    test.skip(page.viewportSize().width > 600, 'Mobile-only tests');
+  });
 
   test('sidebar takes full width on mobile', async ({ page }) => {
     await page.goto('/');

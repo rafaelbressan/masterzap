@@ -23,11 +23,11 @@ test.describe('Context Menu — Batch 6', () => {
     await expect(copyItem).toBeVisible();
   });
 
-  test('context menu has "Copiar info" option', async ({ page }) => {
+  test('context menu has "Info da mensagem" option', async ({ page }) => {
     const bubble = page.locator('.chat-msg-bubble').first();
     await bubble.click({ button: 'right' });
 
-    const infoItem = page.locator('.context-menu-item', { hasText: 'Copiar info' });
+    const infoItem = page.locator('.context-menu-item', { hasText: 'Info da mensagem' });
     await expect(infoItem).toBeVisible();
   });
 
@@ -71,6 +71,7 @@ test.describe('Hash Router — Batch 6', () => {
   });
 
   test('navigating to #/ shows empty state', async ({ page }) => {
+    test.skip(page.viewportSize().width <= 600, 'Empty state hidden on mobile');
     await page.goto('/#/');
     const emptyState = page.locator('.empty-state');
     await expect(emptyState).toBeVisible();
@@ -86,18 +87,19 @@ test.describe('Hash Router — Batch 6', () => {
   });
 
   test('sidebar item is active when navigating via URL', async ({ page }) => {
+    test.skip(page.viewportSize().width <= 600, 'Sidebar hidden when chat open on mobile');
     await page.goto('/#/chat/martha-graeff');
     const item = page.locator('.conversation-item.active');
     await expect(item).toBeVisible({ timeout: 10000 });
   });
 
   test('back button navigates to empty state', async ({ page }) => {
+    test.skip(page.viewportSize().width <= 600, 'Empty state hidden on mobile');
     await page.goto('/#/chat/martha-graeff');
     await page.locator('.chat-msg-bubble').first().waitFor({ timeout: 10000 });
 
-    // Click back button (if visible — hidden on desktop, but we can still use it)
+    // Click back button (hidden on desktop, force display)
     const backBtn = page.locator('.chat-header-back');
-    // Force click even if hidden (desktop hides it)
     await backBtn.evaluate(el => el.style.display = 'block');
     await backBtn.click();
 

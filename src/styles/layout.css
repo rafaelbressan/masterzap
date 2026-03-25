@@ -1,37 +1,22 @@
 /* Layout — WhatsApp Web two-panel structure */
 
-/* Outer wrapper: centers the app on large screens with dark wash behind */
+/* Outer wrapper: fullscreen like WhatsApp Web */
 .app-wrapper {
   display: flex;
-  align-items: center;
-  justify-content: center;
   height: 100%;
-  background-color: var(--WDS-app-wash);
 }
 
-/* Green header bar across the top (WhatsApp desktop style) */
+/* Green header bar — hidden (fullscreen mode) */
 .app-header-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 127px;
-  background-color: var(--WDS-accent);
-  z-index: 0;
+  display: none;
 }
 
-/* Main container: sidebar + main area */
+/* Main container: sidebar + main area, full viewport */
 .app-container {
   display: flex;
   position: relative;
-  z-index: 1;
   width: 100%;
-  max-width: 1600px;
   height: 100%;
-  max-height: calc(100% - 38px);
-  margin-top: 19px;
-  margin-bottom: 19px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
   overflow: hidden;
 }
 
@@ -145,6 +130,13 @@
   width: 100%;
   height: 100%;
   color: var(--WDS-white);
+}
+
+.conversation-item-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .conversation-item-content {

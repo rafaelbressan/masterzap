@@ -6,6 +6,7 @@ test.describe('Layout — Batch 2', () => {
   });
 
   test('renders the two-panel layout', async ({ page }) => {
+    test.skip(page.viewportSize().width <= 600, 'Two-panel only on desktop');
     const sidebar = page.locator('.sidebar');
     const mainArea = page.locator('.main-area');
 

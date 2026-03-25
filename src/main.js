@@ -36,10 +36,24 @@ async function init() {
   mainArea.className = 'main-area';
   mainArea.setAttribute('role', 'main');
 
+  // Avatar mapping — conversation id → image path
+  const AVATARS = {
+    'martha-graeff': '/assets/avatar-martha-graeff.jpeg',
+  };
+
+  // Sender display names — map short names to full names
+  const SENDER_NAMES = {
+    'DV': 'Daniel Vocaro',
+  };
+
   // Initialize data store
   const store = getDataStore();
   try {
     await store.init();
+    // Inject avatar paths into conversation objects
+    for (const conv of store.getConversations()) {
+      if (AVATARS[conv.id]) conv.avatar = AVATARS[conv.id];
+    }
   } catch (err) {
     console.error('Failed to load conversations:', err);
   }
@@ -74,7 +88,11 @@ async function init() {
     // Attach context menu to the messages area
     const messagesArea = mainArea.querySelector('.chat-messages');
     if (messagesArea) {
-      activeContextMenu = attachContextMenu(messagesArea);
+      const incomingSender = conversation.participants.find(p => p !== 'DV') || '';
+      activeContextMenu = attachContextMenu(messagesArea, {
+        senderNames: SENDER_NAMES,
+        incomingSender,
+      });
     }
   }
 

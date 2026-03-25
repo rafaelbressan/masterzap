@@ -30,9 +30,12 @@ test.describe('Chat List — Batch 3', () => {
   test('conversation item has avatar', async ({ page }) => {
     const avatar = page.locator('.conversation-item-avatar').first();
     await expect(avatar).toBeVisible();
-    // Contains SVG default avatar
+    // Contains either an img (real avatar) or svg (default)
+    const img = avatar.locator('img');
     const svg = avatar.locator('svg');
-    await expect(svg).toBeAttached();
+    const hasImg = await img.count() > 0;
+    const hasSvg = await svg.count() > 0;
+    expect(hasImg || hasSvg).toBe(true);
   });
 
   test('data loads from conversations.json', async ({ page }) => {

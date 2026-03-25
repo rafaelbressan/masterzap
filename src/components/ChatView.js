@@ -302,8 +302,16 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
 
   const avatarEl = document.createElement('div');
   avatarEl.className = 'chat-header-avatar';
-  // Static SVG icon — safe innerHTML
-  avatarEl.innerHTML = DEFAULT_AVATAR_SM;
+  if (conversation.avatar) {
+    const img = document.createElement('img');
+    img.src = conversation.avatar;
+    img.alt = displayName;
+    img.className = 'chat-header-avatar-img';
+    avatarEl.appendChild(img);
+  } else {
+    // Static SVG icon — safe innerHTML
+    avatarEl.innerHTML = DEFAULT_AVATAR_SM;
+  }
   header.appendChild(avatarEl);
 
   const infoEl = document.createElement('div');

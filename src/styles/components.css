@@ -80,6 +80,111 @@
   background-color: var(--WDS-surface-pressed);
 }
 
+/* ── Message Info Drawer ─────────────────────── */
+.msg-info-drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 340px;
+  height: 100%;
+  background-color: var(--WDS-background-wash-plain);
+  border-left: 1px solid var(--WDS-lines-divider);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 200ms ease-out;
+}
+
+.msg-info-drawer.open {
+  transform: translateX(0);
+}
+
+.msg-info-drawer-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  height: 59px;
+  background-color: var(--WDS-components-surface-nav-bar);
+  flex-shrink: 0;
+}
+
+.msg-info-drawer-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--WDS-content-deemphasized);
+  padding: 4px;
+  line-height: 1;
+}
+
+.msg-info-drawer-close:hover {
+  color: var(--WDS-content-default);
+}
+
+.msg-info-drawer-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--WDS-content-default);
+}
+
+.msg-info-preview {
+  margin: 20px;
+  padding: 8px 10px;
+  background-color: var(--WDS-systems-bubble-surface-outgoing);
+  border-radius: 8px;
+  box-shadow: 0 1px 0.5px rgba(0, 0, 0, .1);
+}
+
+.msg-info-preview-content {
+  font-size: 14px;
+  color: var(--WDS-content-default);
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.msg-info-preview-meta {
+  display: block;
+  text-align: right;
+  font-size: 11px;
+  color: var(--WDS-systems-bubble-content-deemphasized);
+  margin-top: 4px;
+}
+
+.msg-info-fields {
+  padding: 0 20px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.msg-info-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--WDS-lines-divider);
+}
+
+.msg-info-field-label {
+  font-size: 14px;
+  color: var(--WDS-content-deemphasized);
+}
+
+.msg-info-field-value {
+  font-size: 14px;
+  color: var(--WDS-content-default);
+  font-weight: 500;
+  text-align: right;
+}
+
+@media (max-width: 600px) {
+  .msg-info-drawer {
+    width: 100%;
+  }
+}
+
 /* ── Search Results ──────────────────────────── */
 .search-results {
   flex: 1;

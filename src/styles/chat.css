@@ -44,6 +44,12 @@
   flex-shrink: 0;
 }
 
+.chat-header-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .chat-header-info-wrapper {
   flex: 1;
   min-width: 0;

@@ -61,9 +61,14 @@ export function renderSidebar(container, { conversations, onSelect }) {
     );
     const msgCount = conv.total_messages ? formatNumber(conv.total_messages) : '';
 
+    // Use real avatar if available, otherwise default SVG
+    const avatarHtml = conv.avatar
+      ? `<img src="${conv.avatar}" alt="${displayName}" class="conversation-item-avatar-img" />`
+      : DEFAULT_AVATAR;
+
     // Escaped user-facing data inserted via innerHTML
     item.innerHTML = `
-      <div class="conversation-item-avatar">${DEFAULT_AVATAR}</div>
+      <div class="conversation-item-avatar">${avatarHtml}</div>
       <div class="conversation-item-content">
         <div class="conversation-item-top">
           <span class="conversation-item-name">${displayName}</span>
