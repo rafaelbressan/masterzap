@@ -189,12 +189,17 @@
   min-width: 0;
 }
 
-.conversation-item-badge {
+.conversation-item-unread {
   font-size: 11px;
   color: var(--WDS-content-on-accent);
-  background-color: var(--WDS-accent);
+  background-color: var(--WDS-persistent-activity-indicator);
   border-radius: 10px;
-  padding: 1px 7px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   white-space: nowrap;
   flex-shrink: 0;
   font-weight: 500;

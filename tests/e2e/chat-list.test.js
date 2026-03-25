@@ -5,11 +5,9 @@ test.describe('Chat List — Batch 3', () => {
     await page.goto('/');
   });
 
-  test('conversation item displays message count badge', async ({ page }) => {
-    const badge = page.locator('.conversation-item-badge').first();
+  test('conversation item displays unread badge', async ({ page }) => {
+    const badge = page.locator('.conversation-item-unread').first();
     await expect(badge).toBeVisible();
-    // 65,772 messages formatted as pt-BR
-    await expect(badge).toContainText('65');
   });
 
   test('conversation item shows relative date', async ({ page }) => {

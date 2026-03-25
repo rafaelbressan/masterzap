@@ -278,7 +278,9 @@ function renderMessage(msg) {
  * @param {function} [options.onBack] - back button callback
  * @returns {{ element: HTMLElement, loader: ScrollLoader }}
  */
-export function renderChatView(container, { conversation, dateIndex, loadMessages, onBack, onContactClick }) {
+const ICON_DOTS = `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>`;
+
+export function renderChatView(container, { conversation, dateIndex, loadMessages, onBack, onContactClick, onSearch, onCloseChat }) {
   // Clear container
   while (container.firstChild) container.removeChild(container.firstChild);
 
@@ -336,6 +338,70 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
   infoEl.appendChild(subtitleEl);
 
   header.appendChild(infoEl);
+
+  // 3-dot menu button
+  const menuBtn = document.createElement('button');
+  menuBtn.className = 'chat-header-menu-btn';
+  menuBtn.setAttribute('aria-label', 'Menu');
+  // Static SVG — safe innerHTML
+  menuBtn.innerHTML = ICON_DOTS;
+  header.appendChild(menuBtn);
+
+  // Dropdown menu (hidden by default)
+  let menuOpen = false;
+  let menuEl = null;
+
+  function toggleMenu() {
+    if (menuOpen) { closeMenu(); return; }
+    menuEl = document.createElement('div');
+    menuEl.className = 'chat-dropdown-menu';
+
+    const items = [
+      { label: 'Info do contato', action: onContactClick, enabled: !!onContactClick },
+      { label: 'Pesquisar', action: onSearch, enabled: !!onSearch },
+      { label: 'Selecionar mensagens', action: null, enabled: false },
+      { label: 'Modo silencioso', action: null, enabled: false },
+      { label: 'Mensagens temporárias', action: null, enabled: false },
+      { label: 'Fechar conversa', action: onCloseChat || onBack, enabled: !!(onCloseChat || onBack) },
+    ];
+
+    for (const item of items) {
+      const btn = document.createElement('button');
+      btn.className = 'chat-dropdown-item';
+      if (!item.enabled) btn.classList.add('disabled');
+      btn.textContent = item.label;
+      if (item.enabled && item.action) {
+        btn.addEventListener('click', () => { closeMenu(); item.action(); });
+      }
+      menuEl.appendChild(btn);
+    }
+
+    header.appendChild(menuEl);
+    menuOpen = true;
+
+    // Close on outside click (delayed to avoid immediate close)
+    setTimeout(() => {
+      document.addEventListener('click', onOutsideClick, true);
+    }, 0);
+  }
+
+  function closeMenu() {
+    if (menuEl) { menuEl.remove(); menuEl = null; }
+    menuOpen = false;
+    document.removeEventListener('click', onOutsideClick, true);
+  }
+
+  function onOutsideClick(e) {
+    if (menuEl && !menuEl.contains(e.target) && e.target !== menuBtn) {
+      closeMenu();
+    }
+  }
+
+  menuBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleMenu();
+  });
+
   el.appendChild(header);
 
   // Messages area

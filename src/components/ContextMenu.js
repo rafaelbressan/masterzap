@@ -67,10 +67,8 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
 
   function hideDrawer() {
     if (drawerEl) {
-      drawerEl.classList.remove('open');
-      setTimeout(() => {
-        if (drawerEl) { drawerEl.remove(); drawerEl = null; }
-      }, 200);
+      drawerEl.remove();
+      drawerEl = null;
     }
   }
 

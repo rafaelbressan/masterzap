@@ -69,6 +69,60 @@
   color: var(--WDS-content-deemphasized);
 }
 
+/* ── Chat header menu button ──────────────────── */
+.chat-header-menu-btn {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  color: var(--WDS-content-deemphasized);
+  border-radius: 50%;
+  transition: background-color 120ms;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.chat-header-menu-btn:hover {
+  background-color: var(--WDS-surface-highlight);
+}
+
+/* ── Chat dropdown menu ───────────────────────── */
+.chat-dropdown-menu {
+  position: absolute;
+  top: 48px;
+  right: 16px;
+  min-width: 220px;
+  padding: 8px 0;
+  background-color: var(--WDS-surface-elevated-default);
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, .18), 0 0 1px rgba(0, 0, 0, .1);
+  z-index: 60;
+  animation: contextMenuIn 120ms ease-out;
+}
+
+.chat-dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 10px 24px;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 14.5px;
+  color: var(--WDS-content-default);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 80ms;
+}
+
+.chat-dropdown-item:hover:not(.disabled) {
+  background-color: var(--WDS-surface-highlight);
+}
+
+.chat-dropdown-item.disabled {
+  color: var(--WDS-content-disabled);
+  cursor: default;
+}
+
 /* ── Messages area ────────────────────────────── */
 .chat-messages {
   flex: 1;

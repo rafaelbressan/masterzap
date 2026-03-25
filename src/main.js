@@ -20,7 +20,9 @@ let activeSearch = null;
 let activeContactInfo = null;
 
 async function init() {
+  const loadingScreen = document.getElementById('loading-screen');
   const app = document.getElementById('app');
+  const loadStart = Date.now();
 
   // Clear any existing content safely
   while (app.firstChild) app.removeChild(app.firstChild);
@@ -87,6 +89,7 @@ async function init() {
       dateIndex,
       loadMessages: (date) => store.getMessages(id, date),
       onBack: () => router.navigate('home'),
+      onCloseChat: () => router.navigate('home'),
       onContactClick: () => {
         if (activeContactInfo) {
           activeContactInfo.destroy();
@@ -152,6 +155,17 @@ async function init() {
   app.appendChild(headerBar);
   wrapper.appendChild(container);
   app.appendChild(wrapper);
+
+  // Wait for loading screen to finish (min 2.5s from page load)
+  const elapsed = Date.now() - loadStart;
+  const minLoading = 2500;
+  if (elapsed < minLoading) {
+    await new Promise(r => setTimeout(r, minLoading - elapsed));
+  }
+
+  // Hide loading, show app
+  if (loadingScreen) loadingScreen.remove();
+  app.style.display = '';
 
   // Start router — handles current hash
   router.start();

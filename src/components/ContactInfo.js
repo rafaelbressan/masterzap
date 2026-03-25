@@ -137,9 +137,8 @@ export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onCl
   requestAnimationFrame(() => drawer.classList.add('open'));
 
   function destroy() {
-    drawer.classList.remove('open');
+    drawer.remove();
     document.removeEventListener('keydown', onKeyDown);
-    setTimeout(() => drawer.remove(), 200);
   }
 
   function onKeyDown(e) {

@@ -76,7 +76,7 @@ export function renderSidebar(container, { conversations, onSelect }) {
         </div>
         <div class="conversation-item-bottom">
           <span class="conversation-item-preview">${lastPreview}</span>
-          ${msgCount ? `<span class="conversation-item-badge" title="${msgCount} mensagens">${msgCount}</span>` : ''}
+          <span class="conversation-item-unread" data-conv-id="${conv.id}">1</span>
         </div>
       </div>
     `;
@@ -103,6 +103,13 @@ export function renderSidebar(container, { conversations, onSelect }) {
  */
 export function setActiveConversation(sidebar, activeId) {
   sidebar.querySelectorAll('.conversation-item').forEach(item => {
-    item.classList.toggle('active', item.dataset.id === activeId);
+    const isActive = item.dataset.id === activeId;
+    item.classList.toggle('active', isActive);
+
+    // Clear unread badge when conversation is opened
+    if (isActive) {
+      const badge = item.querySelector('.conversation-item-unread');
+      if (badge) badge.style.display = 'none';
+    }
   });
 }
