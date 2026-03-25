@@ -16,6 +16,7 @@
 @media (max-width: 600px) {
   .app-wrapper {
     align-items: stretch;
+    min-width: 320px;
   }
 
   .app-header-bar {
@@ -26,6 +27,7 @@
     flex-direction: column;
     max-height: 100%;
     margin: 0;
+    min-width: 320px;
   }
 
   /* Full-width sidebar by default */
@@ -72,10 +74,10 @@
     max-width: 85%;
   }
 
-  /* Full-width media placeholders */
+  /* Media placeholders at 240px on mobile */
   .chat-media-placeholder {
-    width: 100%;
-    max-width: 280px;
+    width: 240px;
+    height: 180px;
   }
 
   /* Smaller empty state */
