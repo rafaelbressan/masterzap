@@ -10,6 +10,7 @@ import { attachContextMenu } from './components/ContextMenu.js';
 import { attachSearch } from './components/SearchPanel.js';
 import { showContactInfo } from './components/ContactInfo.js';
 import { showChatSearchDrawer } from './components/ChatSearchDrawer.js';
+import { showMobileSearchBar } from './components/MobileSearchBar.js';
 
 /** Currently active scroll loader (cleaned up on conversation switch). */
 let activeLoader = null;
@@ -101,16 +102,29 @@ async function init() {
           activeChatSearch.destroy();
           activeChatSearch = null;
         } else {
-          activeChatSearch = showChatSearchDrawer(mainArea, id, {
-            dateIndex,
-            onResultClick: (messageId, date) => {
-              activeLoader.scrollToMessage(messageId, date);
-            },
-            onDateSelect: (date) => {
-              activeLoader.scrollToDate(date);
-            },
-            onClose: () => { activeChatSearch = null; },
-          });
+          const isMobile = window.innerWidth <= 600;
+          if (isMobile) {
+            const chatViewEl = mainArea.querySelector('.chat-view');
+            if (chatViewEl) {
+              activeChatSearch = showMobileSearchBar(chatViewEl, id, {
+                onNavigate: (messageId, date) => {
+                  activeLoader.scrollToMessage(messageId, date);
+                },
+                onClose: () => { activeChatSearch = null; },
+              });
+            }
+          } else {
+            activeChatSearch = showChatSearchDrawer(mainArea, id, {
+              dateIndex,
+              onResultClick: (messageId, date) => {
+                activeLoader.scrollToMessage(messageId, date);
+              },
+              onDateSelect: (date) => {
+                activeLoader.scrollToDate(date);
+              },
+              onClose: () => { activeChatSearch = null; },
+            });
+          }
         }
       },
       onContactClick: () => {
