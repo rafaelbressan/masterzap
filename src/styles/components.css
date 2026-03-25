@@ -608,6 +608,7 @@
   gap: 12px;
   z-index: 1;
   position: relative;
+  background-color: var(--WDS-surface-emphasized);
 }
 
 .profile-placeholder svg {
