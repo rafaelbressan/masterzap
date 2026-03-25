@@ -193,8 +193,17 @@ export function showChatSearchDrawer(mainArea, conversationId, { dateIndex, onRe
 
 function buildCalendar(dateIndex, onSelect) {
   const availableDates = new Set(dateIndex.map(d => d.date));
-  let year = new Date().getFullYear();
-  let month = new Date().getMonth();
+  const sortedDates = dateIndex.map(d => d.date).sort();
+  const firstChatDate = sortedDates[0]; // e.g. "2024-02-10"
+  const lastChatDate = sortedDates[sortedDates.length - 1]; // e.g. "2025-08-13"
+
+  // Parse boundaries
+  const [firstY, firstM] = firstChatDate.split('-').map(Number);
+  const [lastY, lastM] = lastChatDate.split('-').map(Number);
+
+  // Start calendar at the last month of the chat
+  let year = lastY;
+  let month = lastM - 1; // 0-indexed
 
   const el = document.createElement('div');
   el.className = 'chat-calendar';
@@ -202,18 +211,37 @@ function buildCalendar(dateIndex, onSelect) {
   function render() {
     while (el.firstChild) el.removeChild(el.firstChild);
 
+    // Clamp to chat range
+    const atMinMonth = (year === firstY && month === firstM - 1);
+    const atMaxMonth = (year === lastY && month === lastM - 1);
+    const beforeMin = (year < firstY || (year === firstY && month < firstM - 1));
+    const afterMax = (year > lastY || (year === lastY && month > lastM - 1));
+
+    if (beforeMin) { year = firstY; month = firstM - 1; }
+    if (afterMax) { year = lastY; month = lastM - 1; }
+
     const nav = document.createElement('div');
     nav.className = 'chat-calendar-nav';
 
     const prevBtn = document.createElement('button');
     prevBtn.textContent = '‹';
     prevBtn.className = 'chat-calendar-nav-btn';
-    prevBtn.addEventListener('click', (e) => { e.stopPropagation(); month--; if (month < 0) { month = 11; year--; } render(); });
+    if (atMinMonth) {
+      prevBtn.classList.add('disabled');
+      prevBtn.disabled = true;
+    } else {
+      prevBtn.addEventListener('click', (e) => { e.stopPropagation(); month--; if (month < 0) { month = 11; year--; } render(); });
+    }
 
     const nextBtn = document.createElement('button');
     nextBtn.textContent = '›';
     nextBtn.className = 'chat-calendar-nav-btn';
-    nextBtn.addEventListener('click', (e) => { e.stopPropagation(); month++; if (month > 11) { month = 0; year++; } render(); });
+    if (atMaxMonth) {
+      nextBtn.classList.add('disabled');
+      nextBtn.disabled = true;
+    } else {
+      nextBtn.addEventListener('click', (e) => { e.stopPropagation(); month++; if (month > 11) { month = 0; year++; } render(); });
+    }
 
     const monthNames = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
       'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
@@ -250,16 +278,11 @@ function buildCalendar(dateIndex, onSelect) {
       grid.appendChild(empty);
     }
 
-    const today = new Date();
     for (let d = 1; d <= daysInMonth; d++) {
       const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
       const cell = document.createElement('button');
       cell.className = 'chat-calendar-day';
       cell.textContent = d;
-
-      if (today.getFullYear() === year && today.getMonth() === month && today.getDate() === d) {
-        cell.classList.add('today');
-      }
 
       if (availableDates.has(dateStr)) {
         cell.classList.add('has-messages');
