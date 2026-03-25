@@ -596,6 +596,30 @@
 
 /* Mobile handled in shared drawer media query above */
 
+/* ── Profile Placeholder (main area when profile is open) ── */
+.profile-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  color: var(--WDS-content-deemphasized);
+  gap: 12px;
+  z-index: 1;
+  position: relative;
+}
+
+.profile-placeholder svg {
+  opacity: 0.5;
+}
+
+.profile-placeholder-text {
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--WDS-content-deemphasized);
+}
+
 /* ── Profile Drawer (DV profile, replaces sidebar) ── */
 .profile-drawer {
   display: flex;

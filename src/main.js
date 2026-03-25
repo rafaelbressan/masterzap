@@ -190,17 +190,48 @@ async function init() {
 
   // Click avatar on nav rail → open DV profile
   const navAvatar = navRail.querySelector('.nav-rail-avatar');
-  if (navAvatar) {
-    navAvatar.addEventListener('click', () => {
-      if (activeProfileDrawer) {
-        activeProfileDrawer.destroy();
-        activeProfileDrawer = null;
-      } else {
-        activeProfileDrawer = showProfileDrawer(container, {
-          onClose: () => { activeProfileDrawer = null; },
-        });
-      }
+  let mainAreaSavedContent = null;
+
+  function openProfile() {
+    if (activeProfileDrawer) { closeProfile(); return; }
+
+    // Close any active drawers
+    if (activeChatSearch) { activeChatSearch.destroy(); activeChatSearch = null; }
+    if (activeContactInfo) { activeContactInfo.destroy(); activeContactInfo = null; }
+
+    // Save main area content and replace with profile placeholder
+    mainAreaSavedContent = Array.from(mainArea.children);
+    mainAreaSavedContent.forEach(child => child.style.display = 'none');
+
+    const placeholder = document.createElement('div');
+    placeholder.className = 'profile-placeholder';
+    placeholder.innerHTML = `
+      <svg viewBox="0 0 212 212" width="80" height="80"><path fill="#DFE5E7" d="M106.251.5C164.653.5 212 47.846 212 106.25S164.653 212 106.251 212C47.846 212 .5 164.654.5 106.25S47.846.5 106.251.5z"/><path fill="#FFF" d="M106.002 125.5c2.645 0 5.212-.253 7.68-.737a38.272 38.272 0 003.624-.896 37.124 37.124 0 005.12-2.023 36.413 36.413 0 006.15-4.02 37.172 37.172 0 005.088-5.088 36.483 36.483 0 004.02-6.15 37.318 37.318 0 002.023-5.12 38.689 38.689 0 00.896-3.624 39.321 39.321 0 00.737-7.68c0-20.933-17.006-37.939-37.938-37.939S68.064 69.63 68.064 90.562s17.006 37.938 37.938 37.938z"/></svg>
+      <div class="profile-placeholder-text">Perfil</div>
+    `;
+    mainArea.appendChild(placeholder);
+
+    activeProfileDrawer = showProfileDrawer(container, {
+      onClose: closeProfile,
     });
+  }
+
+  function closeProfile() {
+    if (activeProfileDrawer) {
+      activeProfileDrawer.destroy();
+      activeProfileDrawer = null;
+    }
+    // Remove placeholder and restore main area content
+    const placeholder = mainArea.querySelector('.profile-placeholder');
+    if (placeholder) placeholder.remove();
+    if (mainAreaSavedContent) {
+      mainAreaSavedContent.forEach(child => child.style.display = '');
+      mainAreaSavedContent = null;
+    }
+  }
+
+  if (navAvatar) {
+    navAvatar.addEventListener('click', openProfile);
   }
 
   // Render sidebar with conversation data
