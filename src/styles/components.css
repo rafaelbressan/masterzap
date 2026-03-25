@@ -81,28 +81,26 @@
 }
 
 /* ── Shared drawer base ──────────────────────── */
+/* Drawers are flex children of .main-area — they push the chat view aside */
 .msg-info-drawer,
 .contact-info-drawer {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 40%;
-  max-width: 100%;
+  width: 0;
+  min-width: 0;
   height: 100%;
   background-color: var(--WDS-background-wash-plain);
   border-left: 1px solid var(--WDS-lines-divider);
-  z-index: 50;
+  z-index: 2;
   display: flex;
   flex-direction: column;
-  transform: translateX(100%);
-  /* No transition by default = instant close */
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .msg-info-drawer.open,
 .contact-info-drawer.open {
-  transform: translateX(0);
-  /* Smooth open animation */
-  transition: transform 250ms ease-out;
+  width: 40%;
+  min-width: 300px;
+  transition: width 250ms ease-out, min-width 250ms ease-out;
 }
 
 /* ── Message Info Drawer ─────────────────────── */
@@ -186,9 +184,14 @@
 }
 
 @media (max-width: 600px) {
-  .msg-info-drawer,
-  .contact-info-drawer {
+  .msg-info-drawer.open,
+  .contact-info-drawer.open,
+  .chat-search-drawer.open {
+    position: absolute;
+    top: 0;
+    right: 0;
     width: 100%;
+    min-width: 0;
   }
 }
 
@@ -358,23 +361,23 @@
 
 /* ── Chat Search Drawer ──────────────────────── */
 .chat-search-drawer {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 40%;
-  max-width: 100%;
+  width: 0;
+  min-width: 0;
   height: 100%;
   background-color: var(--WDS-background-wash-plain);
   border-left: 1px solid var(--WDS-lines-divider);
-  z-index: 50;
+  z-index: 2;
   display: flex;
   flex-direction: column;
-  transform: translateX(100%);
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
 }
 
 .chat-search-drawer.open {
-  transform: translateX(0);
-  transition: transform 250ms ease-out;
+  width: 40%;
+  min-width: 300px;
+  transition: width 250ms ease-out, min-width 250ms ease-out;
 }
 
 .chat-search-drawer-header {
@@ -586,11 +589,7 @@
   visibility: hidden;
 }
 
-@media (max-width: 600px) {
-  .chat-search-drawer {
-    width: 100%;
-  }
-}
+/* Mobile handled in shared drawer media query above */
 
 /* ── Search Results (sidebar) ────────────────── */
 .search-results {

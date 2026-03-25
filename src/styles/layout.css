@@ -209,7 +209,7 @@
 .main-area {
   flex: 1;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   min-width: 0;
   position: relative;
   background-color: var(--WDS-systems-chat-background-wallpaper);
@@ -266,6 +266,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  flex: 1;
   height: 100%;
   z-index: 1;
   position: relative;
