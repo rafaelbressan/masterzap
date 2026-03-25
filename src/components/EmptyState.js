@@ -19,7 +19,7 @@ export function renderEmptyState(container) {
   el.innerHTML = `
     <img
       class="empty-state-icon"
-      src="/assets/whatsapp-logo.svg"
+      src="/assets/masterzap-logo.png"
       alt=""
       aria-hidden="true"
     />
