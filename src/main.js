@@ -1,8 +1,17 @@
 // MasterZap — WhatsApp-like web viewer
 // Entry point — initializes the app layout
 
+import { getDataStore } from './lib/data-store.js';
+import { HashRouter } from './lib/router.js';
 import { renderSidebar, setActiveConversation } from './components/Sidebar.js';
 import { renderEmptyState } from './components/EmptyState.js';
+import { renderChatView } from './components/ChatView.js';
+import { attachContextMenu } from './components/ContextMenu.js';
+
+/** Currently active scroll loader (cleaned up on conversation switch). */
+let activeLoader = null;
+/** Currently active context menu (cleaned up on conversation switch). */
+let activeContextMenu = null;
 
 async function init() {
   const app = document.getElementById('app');
@@ -24,33 +33,77 @@ async function init() {
   mainArea.className = 'main-area';
   mainArea.setAttribute('role', 'main');
 
-  // Fetch conversation list
-  let conversations = [];
+  // Initialize data store
+  const store = getDataStore();
   try {
-    const res = await fetch('/data/conversations.json');
-    const data = await res.json();
-    conversations = data.conversations || [];
+    await store.init();
   } catch (err) {
     console.error('Failed to load conversations:', err);
   }
 
-  // Render sidebar
+  /** Open a conversation in the main area. */
+  async function openConversation(id) {
+    // Clean up previous state
+    if (activeLoader) { activeLoader.destroy(); activeLoader = null; }
+    if (activeContextMenu) { activeContextMenu.destroy(); activeContextMenu = null; }
+
+    setActiveConversation(sidebar, id);
+
+    const conversation = store.getConversation(id);
+    if (!conversation) {
+      showEmptyState();
+      return;
+    }
+
+    const dateIndex = await store.getConversationIndex(id);
+
+    const { loader } = renderChatView(mainArea, {
+      conversation,
+      dateIndex,
+      loadMessages: (date) => store.getMessages(id, date),
+      onBack: () => router.navigate('home'),
+    });
+
+    activeLoader = loader;
+    await loader.init();
+
+    // Attach context menu to the messages area
+    const messagesArea = mainArea.querySelector('.chat-messages');
+    if (messagesArea) {
+      activeContextMenu = attachContextMenu(messagesArea);
+    }
+  }
+
+  /** Show the empty state (no conversation selected). */
+  function showEmptyState() {
+    if (activeLoader) { activeLoader.destroy(); activeLoader = null; }
+    if (activeContextMenu) { activeContextMenu.destroy(); activeContextMenu = null; }
+    setActiveConversation(sidebar, null);
+    while (mainArea.firstChild) mainArea.removeChild(mainArea.firstChild);
+    renderEmptyState(mainArea);
+  }
+
+  // Render sidebar with conversation data
   const sidebar = renderSidebar(container, {
-    conversations,
-    onSelect: (id) => {
-      setActiveConversation(sidebar, id);
-      // Chat view will be implemented in Batch 4
-      console.log('Selected conversation:', id);
-    },
+    conversations: store.getConversations(),
+    onSelect: (id) => router.navigate('chat', id),
   });
 
-  // Render empty state in main area
+  // Set up hash router
+  const router = new HashRouter();
+  router.on('home', () => showEmptyState());
+  router.on('chat', (id) => openConversation(id));
+
+  // Show empty state initially (before router fires)
   renderEmptyState(mainArea);
 
   container.appendChild(mainArea);
   app.appendChild(headerBar);
   wrapper.appendChild(container);
   app.appendChild(wrapper);
+
+  // Start router — handles current hash
+  router.start();
 }
 
 init();

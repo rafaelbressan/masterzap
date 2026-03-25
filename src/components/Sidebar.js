@@ -4,7 +4,7 @@
  * Security note: innerHTML is used with static SVGs and data from our own
  * bundled JSON files (not user input), so XSS risk does not apply here.
  */
-import { formatTime, escapeHtml } from '../lib/utils.js';
+import { formatTime, escapeHtml, formatNumber, formatRelativeDate } from '../lib/utils.js';
 
 const SEARCH_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`;
 
@@ -50,14 +50,16 @@ export function renderSidebar(container, { conversations, onSelect }) {
     item.setAttribute('tabindex', '0');
     item.dataset.id = conv.id;
 
-    const lastTime = conv.last_message?.timestamp
-      ? formatTime(conv.last_message.timestamp.split('T')[1])
+    const lastDate = conv.last_message?.timestamp
+      ? conv.last_message.timestamp.split('T')[0]
       : '';
+    const lastTimeLabel = lastDate ? formatRelativeDate(lastDate) : '';
 
     const lastPreview = escapeHtml(conv.last_message?.content || '');
     const displayName = escapeHtml(
       conv.participants.find(p => p !== 'DV') || conv.participants[0]
     );
+    const msgCount = conv.total_messages ? formatNumber(conv.total_messages) : '';
 
     // Escaped user-facing data inserted via innerHTML
     item.innerHTML = `
@@ -65,9 +67,12 @@ export function renderSidebar(container, { conversations, onSelect }) {
       <div class="conversation-item-content">
         <div class="conversation-item-top">
           <span class="conversation-item-name">${displayName}</span>
-          <span class="conversation-item-time">${lastTime}</span>
+          <span class="conversation-item-time">${lastTimeLabel}</span>
         </div>
-        <div class="conversation-item-preview">${lastPreview}</div>
+        <div class="conversation-item-bottom">
+          <span class="conversation-item-preview">${lastPreview}</span>
+          ${msgCount ? `<span class="conversation-item-badge" title="${msgCount} mensagens">${msgCount}</span>` : ''}
+        </div>
       </div>
     `;
 

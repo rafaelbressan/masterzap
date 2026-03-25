@@ -12,24 +12,24 @@
 - [x] E2E layout tests
 
 ## Batch 3: Data Store + Chat List
-- [ ] Task 3: Data Store
-- [ ] Task 6: Chat List
-- [ ] Data-store integration tests + chat-list E2E
+- [x] Task 3: Data Store
+- [x] Task 6: Chat List
+- [x] Data-store integration tests + chat-list E2E
 
 ## Batch 4: Virtual Scroll + Chat View
-- [ ] Task 4: Virtual Scroll Engine
-- [ ] Task 8: Chat View
-- [ ] Virtual scroll unit tests + chat-view E2E
+- [x] Task 4: Virtual Scroll Engine
+- [x] Task 8: Chat View
+- [x] Virtual scroll unit tests + chat-view E2E
 
 ## Batch 5: Message Bubbles + Date Badges
-- [ ] Task 9: Message Bubble Renderer
-- [ ] Task 10: Date Separator Badges
-- [ ] Message type rendering E2E
+- [x] Task 9: Message Bubble Renderer
+- [x] Task 10: Date Separator Badges
+- [x] Message type rendering E2E
 
 ## Batch 6: Context Menu + Router
-- [ ] Task 11: Context Menu
-- [ ] Task 13: Hash Router
-- [ ] Context menu E2E + router unit tests
+- [x] Task 11: Context Menu
+- [x] Task 13: Hash Router
+- [x] Context menu E2E + router unit tests
 
 ## Batch 7: Search
 - [ ] Task 12: Search

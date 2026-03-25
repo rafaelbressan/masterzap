@@ -180,13 +180,32 @@
   flex-shrink: 0;
 }
 
+.conversation-item-bottom {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+
 .conversation-item-preview {
   font-size: 13.5px;
   color: var(--WDS-content-deemphasized);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-top: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.conversation-item-badge {
+  font-size: 11px;
+  color: var(--WDS-content-on-accent);
+  background-color: var(--WDS-accent);
+  border-radius: 10px;
+  padding: 1px 7px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-weight: 500;
 }
 
 /* ── Main area (right panel) ──────────────────── */

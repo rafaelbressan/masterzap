@@ -1,1 +1,81 @@
-/* Component styles — placeholder for Batch 5 */
+/* Component styles — shared UI elements */
+
+/* ── Date separator badge (enhanced for Batch 5) ─ */
+/* Additional date badge styles live in chat.css (.chat-date-badge) */
+
+/* ── Bubble tail visibility — only show on first message of a group ── */
+.chat-msg-row + .chat-msg-row.incoming > .chat-msg-bubble.incoming {
+  border-top-left-radius: 8px;
+}
+
+.chat-msg-row + .chat-msg-row.incoming > .chat-msg-bubble.incoming .chat-msg-tail {
+  display: none;
+}
+
+.chat-msg-row + .chat-msg-row.outgoing > .chat-msg-bubble.outgoing {
+  border-top-right-radius: 8px;
+}
+
+.chat-msg-row + .chat-msg-row.outgoing > .chat-msg-bubble.outgoing .chat-msg-tail {
+  display: none;
+}
+
+/* ── Consecutive same-direction spacing ──────── */
+.chat-msg-row.incoming + .chat-msg-row.incoming,
+.chat-msg-row.outgoing + .chat-msg-row.outgoing {
+  margin-top: 1px;
+}
+
+/* Extra gap between direction changes */
+.chat-msg-row.incoming + .chat-msg-row.outgoing,
+.chat-msg-row.outgoing + .chat-msg-row.incoming {
+  margin-top: 6px;
+}
+
+/* ── Context Menu ────────────────────────────── */
+.context-menu {
+  position: fixed;
+  z-index: 100;
+  min-width: 160px;
+  padding: 6px 0;
+  background-color: var(--WDS-surface-elevated-default);
+  border-radius: 10px;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, .15),
+    0 0 1px rgba(0, 0, 0, .1);
+  overflow: hidden;
+  animation: contextMenuIn 120ms ease-out;
+}
+
+@keyframes contextMenuIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.context-menu-item {
+  display: block;
+  width: 100%;
+  padding: 9px 20px;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--WDS-content-default);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 80ms;
+}
+
+.context-menu-item:hover {
+  background-color: var(--WDS-surface-highlight);
+}
+
+.context-menu-item:active {
+  background-color: var(--WDS-surface-pressed);
+}

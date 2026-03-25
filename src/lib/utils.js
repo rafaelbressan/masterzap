@@ -82,3 +82,31 @@ export function truncate(str, maxLen = 80) {
   if (!str || str.length <= maxLen) return str || '';
   return str.slice(0, maxLen) + '…';
 }
+
+/**
+ * Format a number with locale separators (pt-BR).
+ * e.g. 65772 → "65.772"
+ * @param {number} n
+ * @returns {string}
+ */
+export function formatNumber(n) {
+  return n.toLocaleString('pt-BR');
+}
+
+/**
+ * Format a relative date label for chat list timestamps.
+ * Returns "Hoje", "Ontem", or the formatted short date.
+ * @param {string} dateStr - ISO date (YYYY-MM-DD)
+ * @returns {string}
+ */
+export function formatRelativeDate(dateStr) {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  const date = new Date(year, month - 1, day);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const diff = Math.floor((today - date) / 86400000);
+
+  if (diff === 0) return 'Hoje';
+  if (diff === 1) return 'Ontem';
+  return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+}
