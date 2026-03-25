@@ -164,10 +164,10 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
 
     drawerEl.appendChild(fields);
 
-    // Mount to the app container (next to main area)
-    const appContainer = chatContainer.closest('.app-container');
-    if (appContainer) {
-      appContainer.appendChild(drawerEl);
+    // Mount inside the main area so width % is relative to the chat panel
+    const mainArea = chatContainer.closest('.main-area');
+    if (mainArea) {
+      mainArea.appendChild(drawerEl);
     } else {
       document.body.appendChild(drawerEl);
     }
