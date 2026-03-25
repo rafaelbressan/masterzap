@@ -8,6 +8,7 @@ import { renderEmptyState } from './components/EmptyState.js';
 import { renderChatView } from './components/ChatView.js';
 import { attachContextMenu } from './components/ContextMenu.js';
 import { attachSearch } from './components/SearchPanel.js';
+import { showContactInfo } from './components/ContactInfo.js';
 
 /** Currently active scroll loader (cleaned up on conversation switch). */
 let activeLoader = null;
@@ -15,6 +16,8 @@ let activeLoader = null;
 let activeContextMenu = null;
 /** Currently active search (cleaned up if conversation changes). */
 let activeSearch = null;
+/** Currently active contact info drawer. */
+let activeContactInfo = null;
 
 async function init() {
   const app = document.getElementById('app');
@@ -63,6 +66,7 @@ async function init() {
     // Clean up previous state
     if (activeLoader) { activeLoader.destroy(); activeLoader = null; }
     if (activeContextMenu) { activeContextMenu.destroy(); activeContextMenu = null; }
+    if (activeContactInfo) { activeContactInfo.destroy(); activeContactInfo = null; }
 
     setActiveConversation(sidebar, id);
     container.classList.add('chat-open');
@@ -75,11 +79,25 @@ async function init() {
 
     const dateIndex = await store.getConversationIndex(id);
 
+    // Media counts for contact info
+    const mediaCounts = { images: 3930, videos: 430, documents: 55 };
+
     const { loader } = renderChatView(mainArea, {
       conversation,
       dateIndex,
       loadMessages: (date) => store.getMessages(id, date),
       onBack: () => router.navigate('home'),
+      onContactClick: () => {
+        if (activeContactInfo) {
+          activeContactInfo.destroy();
+          activeContactInfo = null;
+        } else {
+          activeContactInfo = showContactInfo(mainArea, conversation, {
+            mediaCounts,
+            onClose: () => { activeContactInfo = null; },
+          });
+        }
+      },
     });
 
     activeLoader = loader;
@@ -100,6 +118,7 @@ async function init() {
   function showEmptyState() {
     if (activeLoader) { activeLoader.destroy(); activeLoader = null; }
     if (activeContextMenu) { activeContextMenu.destroy(); activeContextMenu = null; }
+    if (activeContactInfo) { activeContactInfo.destroy(); activeContactInfo = null; }
     setActiveConversation(sidebar, null);
     container.classList.remove('chat-open');
     while (mainArea.firstChild) mainArea.removeChild(mainArea.firstChild);

@@ -278,7 +278,7 @@ function renderMessage(msg) {
  * @param {function} [options.onBack] - back button callback
  * @returns {{ element: HTMLElement, loader: ScrollLoader }}
  */
-export function renderChatView(container, { conversation, dateIndex, loadMessages, onBack }) {
+export function renderChatView(container, { conversation, dateIndex, loadMessages, onBack, onContactClick }) {
   // Clear container
   while (container.firstChild) container.removeChild(container.firstChild);
 
@@ -312,10 +312,18 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
     // Static SVG icon — safe innerHTML
     avatarEl.innerHTML = DEFAULT_AVATAR_SM;
   }
+  if (onContactClick) {
+    avatarEl.style.cursor = 'pointer';
+    avatarEl.addEventListener('click', onContactClick);
+  }
   header.appendChild(avatarEl);
 
   const infoEl = document.createElement('div');
   infoEl.className = 'chat-header-info-wrapper';
+  if (onContactClick) {
+    infoEl.style.cursor = 'pointer';
+    infoEl.addEventListener('click', onContactClick);
+  }
 
   const nameEl = document.createElement('div');
   nameEl.className = 'chat-header-name';

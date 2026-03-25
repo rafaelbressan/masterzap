@@ -80,13 +80,14 @@
   background-color: var(--WDS-surface-pressed);
 }
 
-/* ── Message Info Drawer ─────────────────────── */
-.msg-info-drawer {
+/* ── Shared drawer base ──────────────────────── */
+.msg-info-drawer,
+.contact-info-drawer {
   position: absolute;
   top: 0;
   right: 0;
-  width: 50%;
-  min-width: 340px;
+  width: 40%;
+  max-width: 100%;
   height: 100%;
   background-color: var(--WDS-background-wash-plain);
   border-left: 1px solid var(--WDS-lines-divider);
@@ -97,17 +98,20 @@
   transition: transform 200ms ease-out;
 }
 
-.msg-info-drawer.open {
+.msg-info-drawer.open,
+.contact-info-drawer.open {
   transform: translateX(0);
 }
 
+/* ── Message Info Drawer ─────────────────────── */
 .msg-info-drawer-header {
   display: flex;
   align-items: center;
   gap: 20px;
   padding: 16px 24px;
   height: 59px;
-  background-color: var(--WDS-components-surface-nav-bar);
+  background-color: var(--WDS-background-wash-plain);
+  border-bottom: 1px solid var(--WDS-lines-divider);
   flex-shrink: 0;
 }
 
@@ -180,10 +184,174 @@
 }
 
 @media (max-width: 600px) {
-  .msg-info-drawer {
+  .msg-info-drawer,
+  .contact-info-drawer {
     width: 100%;
-    min-width: 0;
   }
+}
+
+/* ── Contact Info Drawer ─────────────────────── */
+.contact-info-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 24px;
+  height: 59px;
+  background-color: var(--WDS-background-wash-plain);
+  border-bottom: 1px solid var(--WDS-lines-divider);
+  flex-shrink: 0;
+}
+
+.contact-info-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--WDS-content-deemphasized);
+  padding: 4px;
+  line-height: 1;
+}
+
+.contact-info-close:hover {
+  color: var(--WDS-content-default);
+}
+
+.contact-info-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--WDS-content-default);
+}
+
+.contact-info-body {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.contact-info-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 24px 20px;
+}
+
+.contact-info-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.contact-info-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.contact-info-name {
+  font-size: 21px;
+  font-weight: 500;
+  color: var(--WDS-content-default);
+  margin-bottom: 4px;
+}
+
+.contact-info-phone {
+  font-size: 14px;
+  color: var(--WDS-content-deemphasized);
+  margin-bottom: 16px;
+}
+
+.contact-info-search-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: 1px solid var(--WDS-lines-outline-deemphasized);
+  border-radius: 20px;
+  color: var(--WDS-accent);
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 80ms;
+}
+
+.contact-info-search-btn:hover {
+  background-color: var(--WDS-surface-highlight);
+}
+
+.contact-info-divider {
+  height: 8px;
+  background-color: var(--WDS-surface-emphasized);
+}
+
+.contact-info-section {
+  padding: 16px 24px;
+}
+
+.contact-info-section-label {
+  font-size: 13px;
+  color: var(--WDS-content-deemphasized);
+  margin-bottom: 4px;
+}
+
+.contact-info-section-value {
+  font-size: 16px;
+  color: var(--WDS-content-default);
+}
+
+.contact-info-actions {
+  padding: 4px 0;
+}
+
+.contact-info-action-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 24px;
+  cursor: default;
+}
+
+.contact-info-action-icon {
+  flex-shrink: 0;
+  color: var(--WDS-content-deemphasized);
+}
+
+.contact-info-action-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.contact-info-action-label {
+  font-size: 15px;
+  color: var(--WDS-content-default);
+}
+
+.contact-info-action-detail {
+  font-size: 13px;
+  color: var(--WDS-content-deemphasized);
+  margin-top: 2px;
+}
+
+.contact-info-toggle {
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: var(--WDS-neutral-gray-300);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.contact-info-toggle::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--WDS-white);
+  transition: transform 120ms;
 }
 
 /* ── Search Results ──────────────────────────── */
