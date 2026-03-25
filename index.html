@@ -8,6 +8,8 @@
   <meta property="og:description" content="Visualizador de conversas WhatsApp">
   <meta property="og:type" content="website">
   <title>MasterZap</title>
+  <meta name="theme-color" content="#1DAA61">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -19,7 +21,14 @@
   <link rel="stylesheet" href="/src/styles/mobile.css">
 </head>
 <body>
-  <div id="app"></div>
+  <div id="app">
+    <div style="display:flex;align-items:center;justify-content:center;height:100%;background:#DBD8D4;">
+      <div style="text-align:center;color:#1DAA61;">
+        <div style="font-size:48px;margin-bottom:12px;">💬</div>
+        <div style="font-size:14px;color:#666;">Carregando...</div>
+      </div>
+    </div>
+  </div>
   <script type="module" src="/src/main.js"></script>
 </body>
 </html>

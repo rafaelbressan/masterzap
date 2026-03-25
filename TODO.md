@@ -36,6 +36,6 @@
 - [x] Search unit tests + E2E
 
 ## Batch 8: Mobile + Polish + Deploy
-- [ ] Task 14: Mobile Responsive
-- [ ] Task 15: Polish + Deploy
-- [ ] Mobile E2E + full regression suite
+- [x] Task 14: Mobile Responsive
+- [x] Task 15: Polish + Deploy
+- [x] Mobile E2E + full regression suite

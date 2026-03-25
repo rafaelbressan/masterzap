@@ -37,7 +37,11 @@ test.describe('Layout — Batch 2', () => {
     await expect(time).not.toBeEmpty();
   });
 
-  test('empty state is visible when no conversation is selected', async ({ page }) => {
+  test('empty state is visible when no conversation is selected (desktop)', async ({ page }) => {
+    // On mobile, main area is hidden when no chat is open — skip if viewport is narrow
+    const vw = page.viewportSize().width;
+    test.skip(vw <= 600, 'Empty state is inside hidden main area on mobile');
+
     const emptyState = page.locator('.empty-state');
     await expect(emptyState).toBeVisible();
 

@@ -1,1 +1,140 @@
-/* Mobile responsive — placeholder for Batch 8 */
+/* Mobile responsive — WhatsApp mobile layout */
+
+/* ── Tablet breakpoint (≤ 900px) ─────────────── */
+@media (max-width: 900px) {
+  .app-header-bar {
+    height: 0;
+  }
+
+  .app-container {
+    max-height: 100%;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .sidebar {
+    width: 35%;
+    min-width: 280px;
+  }
+
+  .chat-messages {
+    padding: 8px 16px;
+  }
+}
+
+/* ── Mobile breakpoint (≤ 600px) ─────────────── */
+@media (max-width: 600px) {
+  .app-wrapper {
+    align-items: stretch;
+  }
+
+  .app-header-bar {
+    display: none;
+  }
+
+  .app-container {
+    flex-direction: column;
+    max-height: 100%;
+    margin: 0;
+  }
+
+  /* Full-width sidebar by default */
+  .sidebar {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    border-right: none;
+    flex-shrink: 0;
+  }
+
+  /* Main area hidden when no conversation is active */
+  .main-area {
+    display: none;
+  }
+
+  /* When a conversation is open, hide sidebar and show main area */
+  .app-container.chat-open .sidebar {
+    display: none;
+  }
+
+  .app-container.chat-open .main-area {
+    display: flex;
+    flex: 1;
+  }
+
+  /* Show back button on mobile */
+  .chat-header-back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Tighter message padding on mobile */
+  .chat-messages {
+    padding: 6px 12px;
+  }
+
+  /* Wider bubbles on mobile */
+  .chat-msg-bubble {
+    max-width: 85%;
+  }
+
+  /* Full-width media placeholders */
+  .chat-media-placeholder {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  /* Smaller empty state */
+  .empty-state-title {
+    font-size: 24px;
+  }
+
+  .empty-state-icon {
+    width: 180px;
+  }
+
+  .empty-state-divider {
+    width: 90%;
+  }
+
+  /* Search results full width */
+  .search-results {
+    width: 100%;
+  }
+}
+
+/* ── Very small screens (≤ 380px) ────────────── */
+@media (max-width: 380px) {
+  .sidebar-header {
+    padding: 8px 12px;
+  }
+
+  .sidebar-search {
+    padding: 4px 8px;
+  }
+
+  .conversation-item {
+    padding: 0 12px;
+    gap: 10px;
+  }
+
+  .conversation-item-avatar {
+    width: 42px;
+    height: 42px;
+  }
+
+  .conversation-item-name {
+    font-size: 15px;
+  }
+
+  .chat-messages {
+    padding: 4px 8px;
+  }
+
+  .chat-msg-bubble {
+    max-width: 90%;
+    font-size: 13.5px;
+  }
+}

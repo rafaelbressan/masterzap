@@ -51,6 +51,7 @@ async function init() {
     if (activeContextMenu) { activeContextMenu.destroy(); activeContextMenu = null; }
 
     setActiveConversation(sidebar, id);
+    container.classList.add('chat-open');
 
     const conversation = store.getConversation(id);
     if (!conversation) {
@@ -82,6 +83,7 @@ async function init() {
     if (activeLoader) { activeLoader.destroy(); activeLoader = null; }
     if (activeContextMenu) { activeContextMenu.destroy(); activeContextMenu = null; }
     setActiveConversation(sidebar, null);
+    container.classList.remove('chat-open');
     while (mainArea.firstChild) mainArea.removeChild(mainArea.firstChild);
     renderEmptyState(mainArea);
   }
