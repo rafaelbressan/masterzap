@@ -173,6 +173,9 @@ export class ScrollLoader {
     if (msgEl) {
       msgEl.scrollIntoView({ block: 'center' });
       if (highlight) {
+        // Remove + reflow + re-add to restart animation on repeated clicks
+        msgEl.classList.remove('msg-highlight');
+        void msgEl.offsetHeight;
         msgEl.classList.add('msg-highlight');
         setTimeout(() => msgEl.classList.remove('msg-highlight'), 1500);
       }
@@ -190,6 +193,8 @@ export class ScrollLoader {
       const firstMsg = dayEl.querySelector('.chat-msg-row');
       if (firstMsg) {
         firstMsg.scrollIntoView({ block: 'center' });
+        firstMsg.classList.remove('msg-highlight');
+        void firstMsg.offsetHeight;
         firstMsg.classList.add('msg-highlight');
         setTimeout(() => firstMsg.classList.remove('msg-highlight'), 1500);
       } else {
