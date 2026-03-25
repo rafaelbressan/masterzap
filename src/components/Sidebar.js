@@ -76,7 +76,7 @@ export function renderSidebar(container, { conversations, onSelect }) {
         </div>
         <div class="conversation-item-bottom">
           <span class="conversation-item-preview">${lastPreview}</span>
-          <span class="conversation-item-unread" data-conv-id="${conv.id}">1</span>
+          <span class="conversation-item-unread" data-conv-id="${conv.id}">${msgCount}</span>
         </div>
       </div>
     `;
