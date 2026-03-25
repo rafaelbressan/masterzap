@@ -29,6 +29,7 @@
   min-width: 64px;
   height: 100%;
   background-color: var(--WDS-surface-emphasized);
+  border-right: 1px solid var(--WDS-lines-divider);
   padding: 12px 0;
   flex-shrink: 0;
 }
