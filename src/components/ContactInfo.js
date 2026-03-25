@@ -124,17 +124,17 @@ export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onCl
   body.appendChild(createDivider());
 
   // Action items
-  const actions = document.createElement('div');
-  actions.className = 'contact-info-actions';
+  const actionsEl = document.createElement('div');
+  actionsEl.className = 'contact-info-actions';
 
-  actions.appendChild(createActionItem(ICON_MEDIA, 'Mídias, links e documentos', totalMedia.toLocaleString('pt-BR'), false, true));
-  actions.appendChild(createActionItem(ICON_STAR, 'Mensagens importantes', '', false, true));
-  actions.appendChild(createActionItem(ICON_BELL, 'Modo silencioso', '', true, true));
-  actions.appendChild(createActionItem(ICON_CLOCK, 'Mensagens temporárias', 'Não', false, true));
-  actions.appendChild(createActionItem(ICON_LOCK, 'Privacidade avançada da conversa', 'Desativada', false, true));
-  actions.appendChild(createActionItem(ICON_SHIELD, 'Criptografia', 'As mensagens são protegidas com criptografia de ponta a ponta.', false, true));
+  actionsEl.appendChild(createActionItem(ICON_MEDIA, 'Mídias, links e documentos', totalMedia.toLocaleString('pt-BR'), false, true));
+  actionsEl.appendChild(createActionItem(ICON_STAR, 'Mensagens importantes', '', false, true));
+  actionsEl.appendChild(createActionItem(ICON_BELL, 'Modo silencioso', '', true, true));
+  actionsEl.appendChild(createActionItem(ICON_CLOCK, 'Mensagens temporárias', 'Não', false, true));
+  actionsEl.appendChild(createActionItem(ICON_LOCK, 'Privacidade avançada da conversa', 'Desativada', false, true));
+  actionsEl.appendChild(createActionItem(ICON_SHIELD, 'Criptografia', 'As mensagens são protegidas com criptografia de ponta a ponta.', false, true));
 
-  body.appendChild(actions);
+  body.appendChild(actionsEl);
   body.appendChild(createDivider());
 
   // Investigation section for Martha
