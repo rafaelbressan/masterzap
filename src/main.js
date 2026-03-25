@@ -97,6 +97,8 @@ async function init() {
 
     // Shared search toggle function
     function toggleSearch() {
+      // Close contact info if open
+      if (activeContactInfo) { activeContactInfo.destroy(); activeContactInfo = null; }
       if (activeChatSearch) {
         activeChatSearch.destroy();
         activeChatSearch = null;
@@ -135,6 +137,8 @@ async function init() {
       onCloseChat: () => router.navigate('home'),
       onSearch: toggleSearch,
       onContactClick: () => {
+        // Close search if open
+        if (activeChatSearch) { activeChatSearch.destroy(); activeChatSearch = null; }
         if (activeContactInfo) {
           activeContactInfo.destroy();
           activeContactInfo = null;
