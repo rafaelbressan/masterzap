@@ -1,4 +1,4 @@
-// MasterZap — WhatsApp-like web viewer
+// MasterWhats — WhatsApp-like web viewer
 // Entry point — initializes the app layout
 
 import { getDataStore } from './lib/data-store.js';
@@ -346,7 +346,7 @@ async function init() {
 }
 
 init().catch(err => {
-  console.error('MasterZap init failed:', err);
+  console.error('MasterWhats init failed:', err);
   // Ensure app is revealed even on error
   const loading = document.getElementById('loading-screen');
   if (loading) loading.remove();

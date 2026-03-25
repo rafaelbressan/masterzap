@@ -1,4 +1,4 @@
-# MasterZap — Phase 2 Task Tracker
+# MasterWhats — Phase 2 Task Tracker
 
 ## Batch 1: Data Prep + Scaffolding
 - [x] Task 0: Data Chunking Script (`scripts/split_data.py`)

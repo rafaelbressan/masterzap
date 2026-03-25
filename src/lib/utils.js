@@ -1,5 +1,5 @@
 /**
- * Utility functions for MasterZap.
+ * Utility functions for MasterWhats.
  */
 
 /**

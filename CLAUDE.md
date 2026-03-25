@@ -1,4 +1,4 @@
-# MasterZap
+# MasterWhats
 
 WhatsApp-like web viewer for browsing WhatsApp messages. Built with vanilla JS + Vite.
 

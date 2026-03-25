@@ -25,7 +25,7 @@ export function renderSidebar(container, { conversations, onSelect }) {
   // Static sidebar chrome — safe innerHTML (no user input)
   el.innerHTML = `
     <div class="sidebar-header">
-      <span class="sidebar-header-title">MasterZap</span>
+      <span class="sidebar-header-title">MasterWhats</span>
     </div>
     <div class="sidebar-search">
       <div class="sidebar-search-wrapper">
