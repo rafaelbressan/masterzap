@@ -12,6 +12,7 @@ import { showContactInfo } from './components/ContactInfo.js';
 import { showChatSearchDrawer } from './components/ChatSearchDrawer.js';
 import { showMobileSearchBar } from './components/MobileSearchBar.js';
 import { renderNavRail } from './components/NavRail.js';
+import { showProfileDrawer } from './components/ProfileDrawer.js';
 
 /** Currently active scroll loader (cleaned up on conversation switch). */
 let activeLoader = null;
@@ -25,6 +26,8 @@ let activeContactInfo = null;
 let activeChatSearch = null;
 /** Pending scroll target after conversation loads. */
 let pendingScrollTarget = null;
+/** Currently active profile drawer. */
+let activeProfileDrawer = null;
 
 async function init() {
   const loadingScreen = document.getElementById('loading-screen');
@@ -92,42 +95,45 @@ async function init() {
     // Media counts for contact info
     const mediaCounts = { images: 3930, videos: 430, documents: 55 };
 
+    // Shared search toggle function
+    function toggleSearch() {
+      if (activeChatSearch) {
+        activeChatSearch.destroy();
+        activeChatSearch = null;
+      } else {
+        const isMobile = window.innerWidth <= 600;
+        if (isMobile) {
+          const chatViewEl = mainArea.querySelector('.chat-view');
+          if (chatViewEl) {
+            activeChatSearch = showMobileSearchBar(chatViewEl, id, {
+              onNavigate: (messageId, date) => {
+                activeLoader.scrollToMessage(messageId, date);
+              },
+              onClose: () => { activeChatSearch = null; },
+            });
+          }
+        } else {
+          activeChatSearch = showChatSearchDrawer(mainArea, id, {
+            dateIndex,
+            onResultClick: (messageId, date) => {
+              activeLoader.scrollToMessage(messageId, date);
+            },
+            onDateSelect: (date) => {
+              activeLoader.scrollToDate(date);
+            },
+            onClose: () => { activeChatSearch = null; },
+          });
+        }
+      }
+    }
+
     const { loader } = renderChatView(mainArea, {
       conversation,
       dateIndex,
       loadMessages: (date) => store.getMessages(id, date),
       onBack: () => router.navigate('home'),
       onCloseChat: () => router.navigate('home'),
-      onSearch: () => {
-        if (activeChatSearch) {
-          activeChatSearch.destroy();
-          activeChatSearch = null;
-        } else {
-          const isMobile = window.innerWidth <= 600;
-          if (isMobile) {
-            const chatViewEl = mainArea.querySelector('.chat-view');
-            if (chatViewEl) {
-              activeChatSearch = showMobileSearchBar(chatViewEl, id, {
-                onNavigate: (messageId, date) => {
-                  activeLoader.scrollToMessage(messageId, date);
-                },
-                onClose: () => { activeChatSearch = null; },
-              });
-            }
-          } else {
-            activeChatSearch = showChatSearchDrawer(mainArea, id, {
-              dateIndex,
-              onResultClick: (messageId, date) => {
-                activeLoader.scrollToMessage(messageId, date);
-              },
-              onDateSelect: (date) => {
-                activeLoader.scrollToDate(date);
-              },
-              onClose: () => { activeChatSearch = null; },
-            });
-          }
-        }
-      },
+      onSearch: toggleSearch,
       onContactClick: () => {
         if (activeContactInfo) {
           activeContactInfo.destroy();
@@ -136,6 +142,7 @@ async function init() {
           activeContactInfo = showContactInfo(mainArea, conversation, {
             mediaCounts,
             onClose: () => { activeContactInfo = null; },
+            onSearch: toggleSearch,
           });
         }
       },
@@ -175,7 +182,22 @@ async function init() {
   }
 
   // Render nav rail (far-left icon bar)
-  renderNavRail(container, { avatarSrc: '/assets/avatar-dv.webp' });
+  const navRail = renderNavRail(container, { avatarSrc: '/assets/avatar-dv.webp' });
+
+  // Click avatar on nav rail → open DV profile
+  const navAvatar = navRail.querySelector('.nav-rail-avatar');
+  if (navAvatar) {
+    navAvatar.addEventListener('click', () => {
+      if (activeProfileDrawer) {
+        activeProfileDrawer.destroy();
+        activeProfileDrawer = null;
+      } else {
+        activeProfileDrawer = showProfileDrawer(container, {
+          onClose: () => { activeProfileDrawer = null; },
+        });
+      }
+    });
+  }
 
   // Render sidebar with conversation data
   const sidebar = renderSidebar(container, {

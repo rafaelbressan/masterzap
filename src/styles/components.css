@@ -347,6 +347,11 @@
   position: relative;
 }
 
+.contact-info-action-item.disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
 .contact-info-toggle::after {
   content: '';
   position: absolute;
@@ -590,6 +595,166 @@
 }
 
 /* Mobile handled in shared drawer media query above */
+
+/* ── Profile Drawer (DV profile, replaces sidebar) ── */
+.profile-drawer {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  min-width: 340px;
+  max-width: 500px;
+  height: 100%;
+  background-color: var(--WDS-background-wash-plain);
+  border-right: 1px solid var(--WDS-lines-divider);
+  overflow: hidden;
+}
+
+.profile-drawer.open {
+  transition: none;
+}
+
+.profile-drawer-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 24px;
+  height: 59px;
+  background-color: var(--WDS-background-wash-plain);
+  border-bottom: 1px solid var(--WDS-lines-divider);
+  flex-shrink: 0;
+}
+
+.profile-drawer-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--WDS-content-deemphasized);
+  padding: 4px;
+  line-height: 1;
+}
+
+.profile-drawer-close:hover {
+  color: var(--WDS-content-default);
+}
+
+.profile-drawer-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--WDS-content-default);
+}
+
+.profile-drawer-body {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.profile-drawer-avatar-section {
+  display: flex;
+  justify-content: center;
+  padding: 28px 0 16px;
+}
+
+.profile-drawer-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profile-drawer-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-drawer-field {
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--WDS-lines-divider);
+}
+
+.profile-drawer-field-label {
+  font-size: 13px;
+  color: var(--WDS-content-deemphasized);
+  margin-bottom: 4px;
+}
+
+.profile-drawer-field-value {
+  font-size: 16px;
+  color: var(--WDS-content-default);
+}
+
+/* ── Profile Sections (shared) ───────────────── */
+.profile-sections {
+  padding: 16px 24px 32px;
+}
+
+.profile-section {
+  margin-bottom: 20px;
+}
+
+.profile-section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--WDS-content-default);
+  margin-bottom: 10px;
+}
+
+.profile-section-text {
+  font-size: 14px;
+  color: var(--WDS-content-default);
+  line-height: 1.65;
+  margin-bottom: 12px;
+}
+
+.profile-section-text a {
+  color: var(--WDS-accent);
+  text-decoration: none;
+}
+
+.profile-section-text a:hover {
+  text-decoration: underline;
+}
+
+.profile-sources {
+  margin-top: 24px;
+  font-size: 13px;
+}
+
+.profile-sources summary {
+  cursor: pointer;
+  color: var(--WDS-content-deemphasized);
+  font-weight: 500;
+  padding: 8px 0;
+}
+
+.profile-sources ul {
+  list-style: none;
+  padding: 8px 0;
+}
+
+.profile-sources li {
+  padding: 4px 0;
+}
+
+.profile-sources a {
+  color: var(--WDS-accent);
+  text-decoration: none;
+  font-size: 12.5px;
+}
+
+.profile-sources a:hover {
+  text-decoration: underline;
+}
+
+.profile-credits {
+  margin-top: 24px;
+  padding: 16px 0;
+  border-top: 1px solid var(--WDS-lines-divider);
+  font-size: 12px;
+  color: var(--WDS-content-deemphasized);
+  line-height: 1.5;
+}
 
 /* ── Search Results (sidebar) ────────────────── */
 .search-results {

@@ -8,6 +8,9 @@
  * All dynamic text uses textContent.
  */
 
+import { MARTHA_PROFILE, SOURCES, CREDITS } from '../lib/profile-content.js';
+import { renderProfileSections } from './ProfileSections.js';
+
 const ICON_MEDIA = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`;
 const ICON_STAR = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
 const ICON_BELL = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>`;
@@ -27,7 +30,7 @@ const DEFAULT_AVATAR_LG = `<svg viewBox="0 0 212 212" width="120" height="120"><
  * @param {function} [options.onClose]
  * @returns {{ element: HTMLElement, destroy: function }}
  */
-export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onClose } = {}) {
+export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onClose, onSearch } = {}) {
   // Remove existing drawer if any
   const existing = mainArea.querySelector('.contact-info-drawer');
   if (existing) existing.remove();
@@ -94,8 +97,10 @@ export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onCl
   // Search button
   const searchBtn = document.createElement('div');
   searchBtn.className = 'contact-info-search-btn';
+  searchBtn.style.cursor = 'pointer';
   // Static SVG icon — safe innerHTML
   searchBtn.innerHTML = `${ICON_SEARCH} <span>Pesquisar</span>`;
+  if (onSearch) searchBtn.addEventListener('click', onSearch);
   profile.appendChild(searchBtn);
 
   body.appendChild(profile);
@@ -122,14 +127,19 @@ export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onCl
   const actions = document.createElement('div');
   actions.className = 'contact-info-actions';
 
-  actions.appendChild(createActionItem(ICON_MEDIA, 'Mídias, links e documentos', totalMedia.toLocaleString('pt-BR')));
-  actions.appendChild(createActionItem(ICON_STAR, 'Mensagens importantes', ''));
-  actions.appendChild(createActionItem(ICON_BELL, 'Modo silencioso', '', true));
-  actions.appendChild(createActionItem(ICON_CLOCK, 'Mensagens temporárias', 'Não'));
-  actions.appendChild(createActionItem(ICON_LOCK, 'Privacidade avançada da conversa', 'Desativada'));
-  actions.appendChild(createActionItem(ICON_SHIELD, 'Criptografia', 'As mensagens são protegidas com criptografia de ponta a ponta.'));
+  actions.appendChild(createActionItem(ICON_MEDIA, 'Mídias, links e documentos', totalMedia.toLocaleString('pt-BR'), false, true));
+  actions.appendChild(createActionItem(ICON_STAR, 'Mensagens importantes', '', false, true));
+  actions.appendChild(createActionItem(ICON_BELL, 'Modo silencioso', '', true, true));
+  actions.appendChild(createActionItem(ICON_CLOCK, 'Mensagens temporárias', 'Não', false, true));
+  actions.appendChild(createActionItem(ICON_LOCK, 'Privacidade avançada da conversa', 'Desativada', false, true));
+  actions.appendChild(createActionItem(ICON_SHIELD, 'Criptografia', 'As mensagens são protegidas com criptografia de ponta a ponta.', false, true));
 
   body.appendChild(actions);
+  body.appendChild(createDivider());
+
+  // Investigation section for Martha
+  renderProfileSections(body, MARTHA_PROFILE.sections, SOURCES, CREDITS);
+
   drawer.appendChild(body);
   mainArea.appendChild(drawer);
 
@@ -158,9 +168,10 @@ function createDivider() {
   return div;
 }
 
-function createActionItem(iconSvg, label, detail, hasToggle = false) {
+function createActionItem(iconSvg, label, detail, hasToggle = false, disabled = false) {
   const item = document.createElement('div');
   item.className = 'contact-info-action-item';
+  if (disabled) item.classList.add('disabled');
 
   const icon = document.createElement('span');
   icon.className = 'contact-info-action-icon';
