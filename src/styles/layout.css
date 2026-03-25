@@ -34,25 +34,6 @@
 }
 
 .nav-rail-top {
-  padding-bottom: 16px;
-}
-
-.nav-rail-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  overflow: hidden;
-  background-color: var(--WDS-cool-gray-300);
-  cursor: pointer;
-}
-
-.nav-rail-avatar-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.nav-rail-mid {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -83,11 +64,34 @@
   background-color: var(--WDS-green-50);
 }
 
+.nav-rail-btn.disabled {
+  color: var(--WDS-content-disabled);
+  cursor: default;
+}
+
+.nav-rail-btn.disabled:hover {
+  background: none;
+}
+
 .nav-rail-bottom {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
+}
+
+.nav-rail-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--WDS-cool-gray-300);
+}
+
+.nav-rail-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* ── Sidebar (left panel) ─────────────────────── */

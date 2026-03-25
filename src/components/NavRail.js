@@ -22,9 +22,39 @@ export function renderNavRail(container, { avatarSrc } = {}) {
   rail.className = 'nav-rail';
   rail.setAttribute('aria-label', 'Navegação');
 
-  // Top section: avatar
+  // Top section: nav icons
   const topSection = document.createElement('div');
   topSection.className = 'nav-rail-top';
+
+  const navItems = [
+    { icon: ICON_CHAT, label: 'Conversas', active: true, enabled: true },
+    { icon: ICON_STATUS, label: 'Status', active: false, enabled: false },
+    { icon: ICON_CHANNELS, label: 'Comunidades', active: false, enabled: false },
+  ];
+
+  for (const item of navItems) {
+    const btn = document.createElement('button');
+    btn.className = 'nav-rail-btn';
+    if (item.active) btn.classList.add('active');
+    if (!item.enabled) btn.classList.add('disabled');
+    btn.setAttribute('aria-label', item.label);
+    btn.setAttribute('title', item.label);
+    btn.innerHTML = item.icon; // Static SVG
+    topSection.appendChild(btn);
+  }
+
+  rail.appendChild(topSection);
+
+  // Bottom section: settings + avatar
+  const bottomSection = document.createElement('div');
+  bottomSection.className = 'nav-rail-bottom';
+
+  const settingsBtn = document.createElement('button');
+  settingsBtn.className = 'nav-rail-btn disabled';
+  settingsBtn.setAttribute('aria-label', 'Configurações');
+  settingsBtn.setAttribute('title', 'Configurações');
+  settingsBtn.innerHTML = ICON_SETTINGS; // Static SVG
+  bottomSection.appendChild(settingsBtn);
 
   const avatar = document.createElement('div');
   avatar.className = 'nav-rail-avatar';
@@ -35,41 +65,7 @@ export function renderNavRail(container, { avatarSrc } = {}) {
     img.className = 'nav-rail-avatar-img';
     avatar.appendChild(img);
   }
-  topSection.appendChild(avatar);
-  rail.appendChild(topSection);
-
-  // Middle section: nav icons
-  const midSection = document.createElement('div');
-  midSection.className = 'nav-rail-mid';
-
-  const navItems = [
-    { icon: ICON_CHAT, label: 'Conversas', active: true },
-    { icon: ICON_STATUS, label: 'Status', active: false },
-    { icon: ICON_CHANNELS, label: 'Comunidades', active: false },
-  ];
-
-  for (const item of navItems) {
-    const btn = document.createElement('button');
-    btn.className = 'nav-rail-btn';
-    if (item.active) btn.classList.add('active');
-    btn.setAttribute('aria-label', item.label);
-    btn.setAttribute('title', item.label);
-    btn.innerHTML = item.icon; // Static SVG
-    midSection.appendChild(btn);
-  }
-
-  rail.appendChild(midSection);
-
-  // Bottom section: settings
-  const bottomSection = document.createElement('div');
-  bottomSection.className = 'nav-rail-bottom';
-
-  const settingsBtn = document.createElement('button');
-  settingsBtn.className = 'nav-rail-btn';
-  settingsBtn.setAttribute('aria-label', 'Configurações');
-  settingsBtn.setAttribute('title', 'Configurações');
-  settingsBtn.innerHTML = ICON_SETTINGS; // Static SVG
-  bottomSection.appendChild(settingsBtn);
+  bottomSection.appendChild(avatar);
 
   rail.appendChild(bottomSection);
 
