@@ -279,8 +279,9 @@ async function init() {
 
   function closeProfile() {
     if (activeProfileDrawer) {
-      activeProfileDrawer.destroy();
-      activeProfileDrawer = null;
+      const drawer = activeProfileDrawer;
+      activeProfileDrawer = null; // Nullify first to prevent recursion
+      drawer.destroy();
     }
     // Remove placeholder and restore main area content
     const placeholder = mainArea.querySelector('.profile-placeholder');

@@ -81,16 +81,12 @@ export function renderProfileSections(container, sections, sources, credits, act
     e.preventDefault();
     e.stopPropagation();
     const action = actionLink.dataset.action;
-    console.log('[ProfileSections] action click:', action, 'available actions:', Object.keys(actions));
     if (action.startsWith('action:search:')) {
       const term = action.replace('action:search:', '');
-      console.log('[ProfileSections] onSearch:', term, 'handler exists:', !!actions.onSearch);
       if (actions.onSearch) actions.onSearch(term);
     } else if (action === 'action:contact-martha') {
-      console.log('[ProfileSections] onContactMartha handler exists:', !!actions.onContactMartha);
       if (actions.onContactMartha) actions.onContactMartha();
     } else if (action === 'action:profile-dv') {
-      console.log('[ProfileSections] onProfileDV handler exists:', !!actions.onProfileDV);
       if (actions.onProfileDV) actions.onProfileDV();
     }
   });
