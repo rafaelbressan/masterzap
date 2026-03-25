@@ -611,13 +611,13 @@
 }
 
 .profile-placeholder svg {
-  opacity: 0.4;
+  color: var(--WDS-warm-gray-300);
 }
 
 .profile-placeholder-text {
   font-size: 32px;
   font-weight: 700;
-  color: var(--WDS-content-deemphasized);
+  color: var(--WDS-content-default);
   letter-spacing: -0.014em;
 }
 
