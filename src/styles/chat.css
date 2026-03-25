@@ -451,11 +451,34 @@
 /* ── Message highlight flash ──────────────────── */
 .msg-highlight {
   animation: msgFlash 1.5s ease-out;
+  /* Extend highlight to full width, canceling parent padding */
+  margin-left: -63px;
+  margin-right: -48px;
+  padding-left: 63px;
+  padding-right: 48px;
 }
 
 @keyframes msgFlash {
   0% { background-color: rgba(29, 170, 97, 0.25); }
   100% { background-color: transparent; }
+}
+
+@media (max-width: 900px) {
+  .msg-highlight {
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .msg-highlight {
+    margin-left: -12px;
+    margin-right: -12px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
 }
 
 /* ── Loading indicator ────────────────────────── */
