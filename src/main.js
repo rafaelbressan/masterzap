@@ -28,6 +28,10 @@ let activeChatSearch = null;
 let pendingScrollTarget = null;
 /** Currently active profile drawer. */
 let activeProfileDrawer = null;
+/** Current search toggle function (set per conversation). */
+let toggleSearchFn = null;
+/** Martha action handlers (set per conversation). */
+let marthaActions = {};
 
 async function init() {
   const loadingScreen = document.getElementById('loading-screen');
@@ -95,7 +99,7 @@ async function init() {
     // Media counts for contact info
     const mediaCounts = { images: 3930, videos: 430, documents: 55 };
 
-    // Shared search toggle function
+    // Shared search toggle function (also stored as module-level ref)
     function toggleSearch() {
       // Close contact info if open
       if (activeContactInfo) { activeContactInfo.destroy(); activeContactInfo = null; }
@@ -129,6 +133,25 @@ async function init() {
       }
     }
 
+    // Store refs for profile drawer actions
+    toggleSearchFn = toggleSearch;
+    marthaActions = {
+      onProfileDV: () => {
+        // Close contact info, open profile
+        if (activeContactInfo) { activeContactInfo.destroy(); activeContactInfo = null; }
+        openProfile();
+      },
+      onSearch: (term) => {
+        // Close contact info, fill sidebar search
+        if (activeContactInfo) { activeContactInfo.destroy(); activeContactInfo = null; }
+        const searchInput = sidebar.querySelector('.sidebar-search-input');
+        if (searchInput) {
+          searchInput.value = term;
+          searchInput.dispatchEvent(new Event('input'));
+        }
+      },
+    };
+
     const { loader } = renderChatView(mainArea, {
       conversation,
       dateIndex,
@@ -147,6 +170,7 @@ async function init() {
             mediaCounts,
             onClose: () => { activeContactInfo = null; },
             onSearch: toggleSearch,
+            actions: marthaActions,
           });
         }
       },
@@ -213,6 +237,38 @@ async function init() {
 
     activeProfileDrawer = showProfileDrawer(container, {
       onClose: closeProfile,
+      actions: {
+        onContactMartha: () => {
+          // Close profile, open conversation, then open contact info
+          closeProfile();
+          router.navigate('chat', 'martha-graeff');
+          // Wait for conversation to load, then open contact info
+          setTimeout(() => {
+            const conv = store.getConversation('martha-graeff');
+            if (conv && activeLoader) {
+              if (activeContactInfo) { activeContactInfo.destroy(); activeContactInfo = null; }
+              activeContactInfo = showContactInfo(mainArea, conv, {
+                mediaCounts: { images: 3930, videos: 430, documents: 55 },
+                onClose: () => { activeContactInfo = null; },
+                onSearch: toggleSearchFn,
+                actions: marthaActions,
+              });
+            }
+          }, 500);
+        },
+        onSearch: (term) => {
+          // Close profile, open conversation, fill sidebar search
+          closeProfile();
+          router.navigate('chat', 'martha-graeff');
+          setTimeout(() => {
+            const searchInput = sidebar.querySelector('.sidebar-search-input');
+            if (searchInput) {
+              searchInput.value = term;
+              searchInput.dispatchEvent(new Event('input'));
+            }
+          }, 500);
+        },
+      },
     });
   }
 

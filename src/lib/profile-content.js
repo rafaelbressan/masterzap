@@ -1,6 +1,10 @@
 /**
  * Profile content for Daniel Vorcaro and Martha Graeff.
  * Investigation sections with links to public reporting.
+ *
+ * Link format: {text}[url]
+ * - External: {text}[https://...]
+ * - Internal actions: {text}[action:contact-martha], {text}[action:profile-dv], {text}[action:search:term]
  */
 
 export const VORCARO_PROFILE = {
@@ -26,8 +30,8 @@ export const VORCARO_PROFILE = {
     {
       title: 'As Conversas Vazadas',
       paragraphs: [
-        { text: 'Em março de 2026, após a perícia nos celulares apreendidos de Vorcaro, {mensagens de WhatsApp trocadas com sua então namorada Martha Graeff foram vazadas para a imprensa}[https://www.cnnbrasil.com.br/politica/veja-todas-as-conversas-de-vorcaro-que-vazaram-hoje-para-a-imprensa/]. Nas conversas, Vorcaro recebia informações confidenciais sobre investigações em andamento, comemorava reuniões com o presidente Lula e três ministros, e se vangloriava de sua proximidade com a alta cúpula do poder.' },
-        { text: 'As mensagens também revelam que Vorcaro chamou o ex-presidente Bolsonaro de "idiota" após uma postagem sobre o Banco Master, e descreveu André Esteves, do BTG Pactual, com termos como "ardiloso" e "cínico". Os diálogos íntimos do casal viralizaram por conta da linguagem afetiva com apelidos como {\"momolada\" e \"peleleca\"}[https://ndmais.com.br/justica/vorcaro-momolada-peleleca-conversas-martha-graeff/], que dominaram as redes sociais.' },
+        { text: 'Em março de 2026, após a perícia nos celulares apreendidos de Vorcaro, {mensagens de WhatsApp trocadas com sua então namorada}[https://www.cnnbrasil.com.br/politica/veja-todas-as-conversas-de-vorcaro-que-vazaram-hoje-para-a-imprensa/] {Martha Graeff}[action:contact-martha] foram vazadas para a imprensa. Nas conversas, Vorcaro recebia informações confidenciais sobre investigações em andamento, comemorava reuniões com o presidente Lula e três ministros, e se vangloriava de sua proximidade com a alta cúpula do poder.' },
+        { text: 'As mensagens também revelam que Vorcaro chamou o ex-presidente Bolsonaro de "idiota" após uma postagem sobre o Banco Master, e descreveu André Esteves, do BTG Pactual, com termos como "ardiloso" e "cínico". Os diálogos íntimos do casal {viralizaram nas redes sociais}[https://ndmais.com.br/justica/vorcaro-momolada-peleleca-conversas-martha-graeff/] por conta da linguagem afetiva com apelidos como "{momolada}[action:search:momolada]" e "{peleleca}[action:search:peleleca]", que dominaram a internet.' },
       ],
     },
     {
@@ -51,7 +55,7 @@ export const MARTHA_PROFILE = {
     {
       title: 'Relação com Vorcaro e as Conversas Vazadas',
       paragraphs: [
-        { text: 'Martha e Daniel Vorcaro {ficaram noivos em 2024 durante um evento na Itália}[https://timesbrasil.com.br/empresas-e-negocios/martha-graeff-quem-e-a-influenciadora-ligada-a-daniel-vorcaro/]. As conversas de WhatsApp, {extraídas do celular apreendido de Vorcaro}[https://www.gazetadopovo.com.br/ideias/vazamento-mensagens-vorcaro-processo/], tornaram-se o centro de enorme repercussão pública.' },
+        { text: 'Martha e {Daniel Vorcaro}[action:profile-dv] {ficaram noivos em 2024 durante um evento na Itália}[https://timesbrasil.com.br/empresas-e-negocios/martha-graeff-quem-e-a-influenciadora-ligada-a-daniel-vorcaro/]. As conversas de WhatsApp, {extraídas do celular apreendido de Vorcaro}[https://www.gazetadopovo.com.br/ideias/vazamento-mensagens-vorcaro-processo/], tornaram-se o centro de enorme repercussão pública.' },
         { text: 'Em conversas mais tensas, {Martha admitiu ter sido amante de Vorcaro por seis meses}[https://ndmais.com.br/justica/fui-amante-pra-nada-martha-graeff-admite-em-mensagens-que-foi-amante-de-daniel-vorcaro/] antes de assumirem publicamente a relação. Martha {classificou a exposição como "grave violência"}[https://ndmais.com.br/justica/martha-graeff-quebra-o-silencio-sobre-mensagens-vazadas/]. Foi convocada para depor na {CPMI do INSS e na CPI do Crime Organizado}[https://istoe.com.br/martha-graeff-cpi-vorcaro], mas até o momento não foi localizada.' },
       ],
     },
@@ -75,11 +79,14 @@ export const CREDITS = 'Projeto feito por Rafael Bressan com Claude Code. As inf
 
 /**
  * Parse inline links in text. Format: {link text}[url]
- * Returns HTML string with <a> tags. Text segments are NOT escaped here
- * because the content is from our own static data file, not user input.
+ * - External URLs → <a href="url" target="_blank">
+ * - action: URLs → <a href="#" data-action="...">
  */
 export function parseLinks(text) {
-  return text.replace(/\{([^}]+)\}\[([^\]]+)\]/g,
-    '<a href="$2" target="_blank" rel="noopener">$1</a>'
-  );
+  return text.replace(/\{([^}]+)\}\[([^\]]+)\]/g, (_, linkText, url) => {
+    if (url.startsWith('action:')) {
+      return `<a href="#" data-action="${url}" class="profile-action-link">${linkText}</a>`;
+    }
+    return `<a href="${url}" target="_blank" rel="noopener">${linkText}</a>`;
+  });
 }

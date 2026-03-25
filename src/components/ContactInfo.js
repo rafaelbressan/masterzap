@@ -30,7 +30,7 @@ const DEFAULT_AVATAR_LG = `<svg viewBox="0 0 212 212" width="120" height="120"><
  * @param {function} [options.onClose]
  * @returns {{ element: HTMLElement, destroy: function }}
  */
-export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onClose, onSearch } = {}) {
+export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onClose, onSearch, actions = {} } = {}) {
   // Remove existing drawer if any
   const existing = mainArea.querySelector('.contact-info-drawer');
   if (existing) existing.remove();
@@ -138,7 +138,7 @@ export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onCl
   body.appendChild(createDivider());
 
   // Investigation section for Martha
-  renderProfileSections(body, MARTHA_PROFILE.sections, SOURCES, CREDITS);
+  renderProfileSections(body, MARTHA_PROFILE.sections, SOURCES, CREDITS, actions);
 
   drawer.appendChild(body);
   mainArea.appendChild(drawer);

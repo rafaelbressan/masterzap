@@ -14,8 +14,9 @@ import { parseLinks } from '../lib/profile-content.js';
  * @param {Array} sections - array of { title, paragraphs: [{ text }] }
  * @param {Array} [sources] - array of { label, url }
  * @param {string} [credits]
+ * @param {Record<string, function>} [actions] - handlers for action: links
  */
-export function renderProfileSections(container, sections, sources, credits) {
+export function renderProfileSections(container, sections, sources, credits, actions = {}) {
   const wrapper = document.createElement('div');
   wrapper.className = 'profile-sections';
 
@@ -72,6 +73,22 @@ export function renderProfileSections(container, sections, sources, credits) {
     footer.textContent = credits;
     wrapper.appendChild(footer);
   }
+
+  // Handle action: link clicks
+  wrapper.addEventListener('click', (e) => {
+    const actionLink = e.target.closest('[data-action]');
+    if (!actionLink) return;
+    e.preventDefault();
+    const action = actionLink.dataset.action;
+    if (action.startsWith('action:search:')) {
+      const term = action.replace('action:search:', '');
+      if (actions.onSearch) actions.onSearch(term);
+    } else if (action === 'action:contact-martha') {
+      if (actions.onContactMartha) actions.onContactMartha();
+    } else if (action === 'action:profile-dv') {
+      if (actions.onProfileDV) actions.onProfileDV();
+    }
+  });
 
   container.appendChild(wrapper);
 }

@@ -14,7 +14,7 @@ import { renderProfileSections } from './ProfileSections.js';
  * @param {function} [options.onClose]
  * @returns {{ destroy: function }}
  */
-export function showProfileDrawer(container, { onClose } = {}) {
+export function showProfileDrawer(container, { onClose, actions = {} } = {}) {
   const existing = container.querySelector('.profile-drawer');
   if (existing) existing.remove();
 
@@ -92,7 +92,7 @@ export function showProfileDrawer(container, { onClose } = {}) {
   body.appendChild(divider);
 
   // Investigation sections
-  renderProfileSections(body, VORCARO_PROFILE.sections, SOURCES, CREDITS);
+  renderProfileSections(body, VORCARO_PROFILE.sections, SOURCES, CREDITS, actions);
 
   drawer.appendChild(body);
 
