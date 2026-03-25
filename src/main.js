@@ -257,16 +257,21 @@ async function init() {
           }, 500);
         },
         onSearch: (term) => {
-          // Close profile, open conversation, fill sidebar search
+          // Close profile, fill sidebar search
           closeProfile();
-          router.navigate('chat', 'martha-graeff');
+          // If conversation not open, navigate first
+          if (!activeLoader) {
+            router.navigate('chat', 'martha-graeff');
+          }
+          // Fill search after a tick (sidebar is restored by closeProfile)
           setTimeout(() => {
             const searchInput = sidebar.querySelector('.sidebar-search-input');
             if (searchInput) {
               searchInput.value = term;
               searchInput.dispatchEvent(new Event('input'));
+              searchInput.focus();
             }
-          }, 500);
+          }, 100);
         },
       },
     });
