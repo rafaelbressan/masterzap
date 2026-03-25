@@ -99,7 +99,7 @@ function renderAudioPlaceholder(msg) {
   // Waveform bars
   const waveform = document.createElement('div');
   waveform.className = 'chat-audio-waveform';
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 40; i++) {
     const bar = document.createElement('span');
     bar.className = 'chat-audio-bar';
     bar.style.height = `${4 + Math.floor(Math.random() * 16)}px`;
