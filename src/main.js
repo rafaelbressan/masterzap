@@ -9,6 +9,7 @@ import { renderChatView } from './components/ChatView.js';
 import { attachContextMenu } from './components/ContextMenu.js';
 import { attachSearch } from './components/SearchPanel.js';
 import { showContactInfo } from './components/ContactInfo.js';
+import { showChatSearchDrawer } from './components/ChatSearchDrawer.js';
 
 /** Currently active scroll loader (cleaned up on conversation switch). */
 let activeLoader = null;
@@ -18,6 +19,10 @@ let activeContextMenu = null;
 let activeSearch = null;
 /** Currently active contact info drawer. */
 let activeContactInfo = null;
+/** Currently active chat search drawer. */
+let activeChatSearch = null;
+/** Pending scroll target after conversation loads. */
+let pendingScrollTarget = null;
 
 async function init() {
   const loadingScreen = document.getElementById('loading-screen');
@@ -69,6 +74,7 @@ async function init() {
     if (activeLoader) { activeLoader.destroy(); activeLoader = null; }
     if (activeContextMenu) { activeContextMenu.destroy(); activeContextMenu = null; }
     if (activeContactInfo) { activeContactInfo.destroy(); activeContactInfo = null; }
+    if (activeChatSearch) { activeChatSearch.destroy(); activeChatSearch = null; }
 
     setActiveConversation(sidebar, id);
     container.classList.add('chat-open');
@@ -90,6 +96,23 @@ async function init() {
       loadMessages: (date) => store.getMessages(id, date),
       onBack: () => router.navigate('home'),
       onCloseChat: () => router.navigate('home'),
+      onSearch: () => {
+        if (activeChatSearch) {
+          activeChatSearch.destroy();
+          activeChatSearch = null;
+        } else {
+          activeChatSearch = showChatSearchDrawer(mainArea, id, {
+            dateIndex,
+            onResultClick: (messageId, date) => {
+              activeLoader.scrollToMessage(messageId, date);
+            },
+            onDateSelect: (date) => {
+              activeLoader.scrollToDate(date);
+            },
+            onClose: () => { activeChatSearch = null; },
+          });
+        }
+      },
       onContactClick: () => {
         if (activeContactInfo) {
           activeContactInfo.destroy();
@@ -105,6 +128,13 @@ async function init() {
 
     activeLoader = loader;
     await loader.init();
+
+    // Execute pending scroll target (from sidebar search)
+    if (pendingScrollTarget) {
+      const { messageId, date } = pendingScrollTarget;
+      pendingScrollTarget = null;
+      await loader.scrollToMessage(messageId, date);
+    }
 
     // Attach context menu to the messages area
     const messagesArea = mainArea.querySelector('.chat-messages');
@@ -122,6 +152,7 @@ async function init() {
     if (activeLoader) { activeLoader.destroy(); activeLoader = null; }
     if (activeContextMenu) { activeContextMenu.destroy(); activeContextMenu = null; }
     if (activeContactInfo) { activeContactInfo.destroy(); activeContactInfo = null; }
+    if (activeChatSearch) { activeChatSearch.destroy(); activeChatSearch = null; }
     setActiveConversation(sidebar, null);
     container.classList.remove('chat-open');
     while (mainArea.firstChild) mainArea.removeChild(mainArea.firstChild);
@@ -138,7 +169,8 @@ async function init() {
   const conversations = store.getConversations();
   if (conversations.length > 0) {
     activeSearch = attachSearch(sidebar, conversations[0].id, (messageId, date) => {
-      // Navigate to the conversation and scroll to the message date
+      // Set pending scroll target, then navigate (openConversation will execute it)
+      pendingScrollTarget = { messageId, date };
       router.navigate('chat', conversations[0].id);
     });
   }

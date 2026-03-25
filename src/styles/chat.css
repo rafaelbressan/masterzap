@@ -444,6 +444,16 @@
   text-align: center;
 }
 
+/* ── Message highlight flash ──────────────────── */
+.msg-highlight {
+  animation: msgFlash 1.5s ease-out;
+}
+
+@keyframes msgFlash {
+  0% { background-color: rgba(29, 170, 97, 0.25); }
+  100% { background-color: transparent; }
+}
+
 /* ── Loading indicator ────────────────────────── */
 .chat-loading {
   text-align: center;

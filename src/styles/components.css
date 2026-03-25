@@ -356,7 +356,243 @@
   transition: transform 120ms;
 }
 
-/* ── Search Results ──────────────────────────── */
+/* ── Chat Search Drawer ──────────────────────── */
+.chat-search-drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40%;
+  max-width: 100%;
+  height: 100%;
+  background-color: var(--WDS-background-wash-plain);
+  border-left: 1px solid var(--WDS-lines-divider);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+}
+
+.chat-search-drawer.open {
+  transform: translateX(0);
+  transition: transform 250ms ease-out;
+}
+
+.chat-search-drawer-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 24px;
+  height: 59px;
+  background-color: var(--WDS-background-wash-plain);
+  border-bottom: 1px solid var(--WDS-lines-divider);
+  flex-shrink: 0;
+}
+
+.chat-search-drawer-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--WDS-content-deemphasized);
+  padding: 4px;
+  line-height: 1;
+}
+
+.chat-search-drawer-close:hover {
+  color: var(--WDS-content-default);
+}
+
+.chat-search-drawer-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--WDS-content-default);
+}
+
+.chat-search-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--WDS-lines-divider);
+}
+
+.chat-search-input-icon {
+  flex-shrink: 0;
+  color: var(--WDS-content-deemphasized);
+}
+
+.chat-search-input {
+  flex: 1;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--WDS-content-default);
+  outline: none;
+  padding: 6px 0;
+}
+
+.chat-search-input::placeholder {
+  color: var(--WDS-content-deemphasized);
+}
+
+.chat-search-clear-btn,
+.chat-search-calendar-btn {
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  color: var(--WDS-content-deemphasized);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.chat-search-clear-btn:hover,
+.chat-search-calendar-btn:hover {
+  background-color: var(--WDS-surface-highlight);
+  color: var(--WDS-content-default);
+}
+
+.chat-search-results {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.chat-search-empty {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--WDS-content-deemphasized);
+  font-size: 14px;
+}
+
+.chat-search-result-item {
+  padding: 10px 20px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--WDS-lines-divider);
+  transition: background-color 80ms;
+}
+
+.chat-search-result-item:hover {
+  background-color: var(--WDS-surface-highlight);
+}
+
+.chat-search-result-meta {
+  font-size: 12px;
+  color: var(--WDS-content-deemphasized);
+  margin-bottom: 3px;
+}
+
+.chat-search-result-content {
+  font-size: 14px;
+  color: var(--WDS-content-default);
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Calendar Picker ─────────────────────────── */
+.chat-calendar {
+  position: absolute;
+  top: 118px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  padding: 16px;
+  background-color: var(--WDS-surface-elevated-default);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .18);
+  z-index: 70;
+}
+
+.chat-calendar-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.chat-calendar-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--WDS-content-default);
+  text-transform: capitalize;
+}
+
+.chat-calendar-nav-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--WDS-content-deemphasized);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.chat-calendar-nav-btn:hover {
+  background-color: var(--WDS-surface-highlight);
+}
+
+.chat-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  text-align: center;
+}
+
+.chat-calendar-header {
+  font-size: 11px;
+  color: var(--WDS-content-deemphasized);
+  padding: 4px 0;
+  font-weight: 500;
+}
+
+.chat-calendar-day {
+  font-size: 13px;
+  padding: 6px 0;
+  border: none;
+  background: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  font-family: inherit;
+  color: var(--WDS-content-default);
+}
+
+.chat-calendar-day.has-messages {
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.chat-calendar-day.has-messages:hover {
+  background-color: var(--WDS-surface-highlight);
+}
+
+.chat-calendar-day.today {
+  color: var(--WDS-accent);
+  font-weight: 700;
+}
+
+.chat-calendar-day.disabled {
+  color: var(--WDS-content-disabled);
+  cursor: default;
+}
+
+.chat-calendar-day.empty {
+  visibility: hidden;
+}
+
+@media (max-width: 600px) {
+  .chat-search-drawer {
+    width: 100%;
+  }
+}
+
+/* ── Search Results (sidebar) ────────────────── */
 .search-results {
   flex: 1;
   overflow-y: auto;

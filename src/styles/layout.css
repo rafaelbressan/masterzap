@@ -222,8 +222,8 @@
   inset: 0;
   background-image: url('/assets/whatsapp-background.webp');
   background-repeat: repeat;
-  background-size: 700px;
-  opacity: 0.15;
+  background-size: 550px;
+  opacity: 0.12;
   z-index: 0;
   pointer-events: none;
 }

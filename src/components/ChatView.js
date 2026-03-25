@@ -339,6 +339,14 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
 
   header.appendChild(infoEl);
 
+  // Search button in header
+  const searchBtn = document.createElement('button');
+  searchBtn.className = 'chat-header-menu-btn';
+  searchBtn.setAttribute('aria-label', 'Pesquisar');
+  searchBtn.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`;
+  if (onSearch) searchBtn.addEventListener('click', onSearch);
+  header.appendChild(searchBtn);
+
   // 3-dot menu button
   const menuBtn = document.createElement('button');
   menuBtn.className = 'chat-header-menu-btn';

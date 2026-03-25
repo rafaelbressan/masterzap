@@ -124,6 +124,80 @@ export class ScrollLoader {
     return this._loadedDates.size;
   }
 
+  /**
+   * Load a specific date (if not already loaded) and return the day element.
+   * @param {string} date - ISO date string
+   * @returns {Promise<HTMLElement|null>}
+   */
+  async loadDate(date) {
+    if (this._loadedDates.has(date)) {
+      return this._container.querySelector(`[data-date="${date}"]`);
+    }
+
+    try {
+      const messages = await this._loadMessages(date);
+      const dayEl = this._renderDay(date, messages);
+
+      // Insert in chronological order among existing day sections
+      const existingSections = Array.from(this._container.querySelectorAll('.chat-day'));
+      let inserted = false;
+      for (const section of existingSections) {
+        if (section.dataset.date > date) {
+          this._container.insertBefore(dayEl, section);
+          inserted = true;
+          break;
+        }
+      }
+      if (!inserted) {
+        this._container.appendChild(dayEl);
+      }
+
+      this._loadedDates.add(date);
+      return dayEl;
+    } catch (err) {
+      console.error(`Failed to load day ${date}:`, err);
+      return null;
+    }
+  }
+
+  /**
+   * Scroll to a specific message by ID, loading its date if needed.
+   * @param {string|number} messageId
+   * @param {string} date - the date the message belongs to
+   * @param {boolean} [highlight=true] - flash-highlight the message
+   */
+  async scrollToMessage(messageId, date, highlight = true) {
+    await this.loadDate(date);
+
+    const msgEl = this._container.querySelector(`[data-id="${messageId}"]`);
+    if (msgEl) {
+      msgEl.scrollIntoView({ block: 'center' });
+      if (highlight) {
+        msgEl.classList.add('msg-highlight');
+        setTimeout(() => msgEl.classList.remove('msg-highlight'), 1500);
+      }
+    }
+  }
+
+  /**
+   * Scroll to the first message of a specific date.
+   * @param {string} date - ISO date string
+   */
+  async scrollToDate(date) {
+    const dayEl = await this.loadDate(date);
+    if (dayEl) {
+      // Find first message row in this day section
+      const firstMsg = dayEl.querySelector('.chat-msg-row');
+      if (firstMsg) {
+        firstMsg.scrollIntoView({ block: 'center' });
+        firstMsg.classList.add('msg-highlight');
+        setTimeout(() => firstMsg.classList.remove('msg-highlight'), 1500);
+      } else {
+        dayEl.scrollIntoView({ block: 'center' });
+      }
+    }
+  }
+
   /** Clean up observer. */
   destroy() {
     this._observer?.disconnect();
