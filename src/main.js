@@ -169,9 +169,14 @@ async function init() {
   const conversations = store.getConversations();
   if (conversations.length > 0) {
     activeSearch = attachSearch(sidebar, conversations[0].id, (messageId, date) => {
-      // Set pending scroll target, then navigate (openConversation will execute it)
-      pendingScrollTarget = { messageId, date };
-      router.navigate('chat', conversations[0].id);
+      if (activeLoader) {
+        // Conversation already open — scroll directly
+        activeLoader.scrollToMessage(messageId, date);
+      } else {
+        // Set pending scroll target, then navigate
+        pendingScrollTarget = { messageId, date };
+        router.navigate('chat', conversations[0].id);
+      }
     });
   }
 
