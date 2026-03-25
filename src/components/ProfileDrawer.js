@@ -105,7 +105,10 @@ export function showProfileDrawer(container, { onClose } = {}) {
     container.appendChild(drawer);
   }
 
-  requestAnimationFrame(() => drawer.classList.add('open'));
+  requestAnimationFrame(() => {
+    drawer.classList.add('open');
+    body.scrollTop = 0;
+  });
 
   function destroy() {
     drawer.remove();

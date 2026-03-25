@@ -143,8 +143,11 @@ export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onCl
   drawer.appendChild(body);
   mainArea.appendChild(drawer);
 
-  // Trigger open animation
-  requestAnimationFrame(() => drawer.classList.add('open'));
+  // Trigger open animation and reset scroll
+  requestAnimationFrame(() => {
+    drawer.classList.add('open');
+    body.scrollTop = 0;
+  });
 
   function destroy() {
     drawer.remove();
