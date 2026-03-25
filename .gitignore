@@ -6,6 +6,9 @@ dist/
 # Generated data (rebuild with npm run split-data)
 public/data/
 
+# Reference files (personal images, design refs)
+ref/
+
 # OS files
 .DS_Store
 Thumbs.db
