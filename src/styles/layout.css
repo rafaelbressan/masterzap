@@ -20,6 +20,76 @@
   overflow: hidden;
 }
 
+/* ── Nav Rail (far-left icon bar) ─────────────── */
+.nav-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 56px;
+  min-width: 56px;
+  height: 100%;
+  background-color: var(--WDS-surface-emphasized);
+  padding: 12px 0;
+  flex-shrink: 0;
+}
+
+.nav-rail-top {
+  padding-bottom: 16px;
+}
+
+.nav-rail-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--WDS-cool-gray-300);
+  cursor: pointer;
+}
+
+.nav-rail-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nav-rail-mid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+
+.nav-rail-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: none;
+  background: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--WDS-content-deemphasized);
+  transition: background-color 120ms;
+}
+
+.nav-rail-btn:hover {
+  background-color: var(--WDS-surface-highlight);
+}
+
+.nav-rail-btn.active {
+  color: var(--WDS-accent);
+  background-color: var(--WDS-green-50);
+}
+
+.nav-rail-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
 /* ── Sidebar (left panel) ─────────────────────── */
 .sidebar {
   display: flex;
@@ -37,7 +107,7 @@
   justify-content: space-between;
   padding: 10px 16px;
   height: 59px;
-  background-color: var(--WDS-components-surface-nav-bar);
+  background-color: var(--WDS-background-wash-plain);
   flex-shrink: 0;
 }
 

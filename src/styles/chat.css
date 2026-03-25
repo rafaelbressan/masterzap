@@ -19,7 +19,8 @@
   gap: 10px;
   padding: 10px 16px;
   height: 59px;
-  background-color: var(--WDS-components-surface-nav-bar);
+  background-color: var(--WDS-background-wash-plain);
+  border-bottom: 1px solid var(--WDS-lines-divider);
   flex-shrink: 0;
   z-index: 2;
 }

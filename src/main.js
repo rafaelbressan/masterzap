@@ -11,6 +11,7 @@ import { attachSearch } from './components/SearchPanel.js';
 import { showContactInfo } from './components/ContactInfo.js';
 import { showChatSearchDrawer } from './components/ChatSearchDrawer.js';
 import { showMobileSearchBar } from './components/MobileSearchBar.js';
+import { renderNavRail } from './components/NavRail.js';
 
 /** Currently active scroll loader (cleaned up on conversation switch). */
 let activeLoader = null;
@@ -172,6 +173,9 @@ async function init() {
     while (mainArea.firstChild) mainArea.removeChild(mainArea.firstChild);
     renderEmptyState(mainArea);
   }
+
+  // Render nav rail (far-left icon bar)
+  renderNavRail(container, { avatarSrc: '/assets/avatar-dv.webp' });
 
   // Render sidebar with conversation data
   const sidebar = renderSidebar(container, {
