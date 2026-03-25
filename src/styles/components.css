@@ -611,13 +611,14 @@
 }
 
 .profile-placeholder svg {
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 .profile-placeholder-text {
-  font-size: 18px;
-  font-weight: 300;
+  font-size: 32px;
+  font-weight: 700;
   color: var(--WDS-content-deemphasized);
+  letter-spacing: -0.014em;
 }
 
 /* ── Profile Drawer (DV profile, replaces sidebar) ── */
