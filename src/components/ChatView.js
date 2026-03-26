@@ -366,10 +366,9 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
   let menuOpen = false;
   let menuEl = null;
 
-  function toggleMenu() {
-    if (menuOpen) { closeMenu(); return; }
-    menuEl = document.createElement('div');
-    menuEl.className = 'chat-dropdown-menu';
+  function buildMenuEl() {
+    const m = document.createElement('div');
+    m.className = 'chat-dropdown-menu';
 
     const items = [
       { label: 'Info do contato', action: onContactClick, enabled: !!onContactClick },
@@ -388,13 +387,37 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
       if (item.enabled && item.action) {
         btn.addEventListener('click', () => { closeMenu(); item.action(); });
       }
-      menuEl.appendChild(btn);
+      m.appendChild(btn);
     }
+    return m;
+  }
 
+  function toggleMenu() {
+    if (menuOpen) { closeMenu(); return; }
+    menuEl = buildMenuEl();
     header.appendChild(menuEl);
     menuOpen = true;
+    setTimeout(() => {
+      document.addEventListener('click', onOutsideClick, true);
+    }, 0);
+  }
 
-    // Close on outside click (delayed to avoid immediate close)
+  function showMenuAt(x, y) {
+    closeMenu();
+    menuEl = buildMenuEl();
+    menuEl.style.position = 'fixed';
+    menuEl.style.top = `${y}px`;
+    menuEl.style.left = `${x}px`;
+    menuEl.style.right = 'auto';
+
+    document.body.appendChild(menuEl);
+
+    // Adjust if overflowing viewport
+    const rect = menuEl.getBoundingClientRect();
+    if (rect.right > window.innerWidth) menuEl.style.left = `${window.innerWidth - rect.width - 8}px`;
+    if (rect.bottom > window.innerHeight) menuEl.style.top = `${window.innerHeight - rect.height - 8}px`;
+
+    menuOpen = true;
     setTimeout(() => {
       document.addEventListener('click', onOutsideClick, true);
     }, 0);
@@ -404,6 +427,7 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
     if (menuEl) { menuEl.remove(); menuEl = null; }
     menuOpen = false;
     document.removeEventListener('click', onOutsideClick, true);
+    document.removeEventListener('contextmenu', onOutsideClick, true);
   }
 
   function onOutsideClick(e) {
@@ -427,12 +451,12 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
   messagesArea.setAttribute('aria-label', `Mensagens com ${displayName}`);
   el.appendChild(messagesArea);
 
-  // Right-click on chat background (not on bubbles) opens the header dropdown
+  // Right-click on chat background (not on bubbles) opens dropdown at mouse position
   messagesArea.addEventListener('contextmenu', (e) => {
     const bubble = e.target.closest('.chat-msg-bubble, .chat-msg-system, .context-menu');
     if (bubble) return;
     e.preventDefault();
-    toggleMenu();
+    showMenuAt(e.clientX, e.clientY);
   });
 
   container.appendChild(el);
