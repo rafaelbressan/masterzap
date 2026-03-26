@@ -8,8 +8,8 @@ export const SETTINGS_CONTENT = {
     {
       title: 'Sobre o Projeto',
       paragraphs: [
-        { text: 'MasterWhats é um visualizador interativo das 65.772 mensagens de WhatsApp vazadas entre Daniel Vorcaro, ex-dono do Banco Master, e Martha Graeff. O projeto replica a interface do WhatsApp Web, permitindo navegar, buscar e explorar as conversas que abalaram a república.' },
-        { text: 'Funcionalidades: busca com suporte a acentos, navegação por data com calendário, perfis com contexto investigativo, links internos que levam diretamente aos trechos citados pela imprensa, detalhes de mensagens individuais e interface responsiva.' },
+        { text: 'MasterWhats é um visualizador interativo das 65.772 mensagens de WhatsApp vazadas entre Daniel Vorcaro, ex-dono do Banco Master, e Martha Graeff. Navegue, busque e compartilhe as conversas que abalaram a república — direto no estilo WhatsApp Web.' },
+        { text: 'Busca inteligente com suporte a acentos e resultados em tempo real. Calendário para navegar por data. Compartilhe trechos específicos via link direto — quem clicar cai na mensagem exata. Perfis com contexto investigativo e links para as reportagens. Menu de contexto em cada mensagem. Responsivo no desktop e no celular.' },
       ],
     },
     {

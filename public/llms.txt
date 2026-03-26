@@ -7,12 +7,13 @@ MasterWhats é um projeto web que replica a interface do WhatsApp Web para permi
 
 ## Funcionalidades
 - Navegação por 65.772 mensagens de fevereiro de 2024 a agosto de 2025
-- Busca com suporte a acentos (pesquisa "voce" encontra "você")
+- Busca inteligente com suporte a acentos (pesquisa "voce" encontra "você")
 - Navegação por data com calendário
+- Compartilhamento de trechos via link direto — quem clica cai na mensagem exata
 - Perfis de Daniel Vorcaro e Martha Graeff com contexto investigativo
 - Links internos que levam diretamente aos trechos citados pela imprensa
-- Detalhes de mensagens individuais (remetente, data, hora)
-- Interface responsiva (desktop e mobile)
+- Menu de contexto em cada mensagem (copiar, compartilhar, detalhes)
+- Interface responsiva (desktop e mobile) com share nativo no celular
 
 ## Contexto
 Daniel Vorcaro, dono do Banco Master, foi preso pela Polícia Federal em novembro de 2025 após o maior escândalo bancário da história do Brasil. As mensagens trocadas com sua então namorada Martha Graeff foram vazadas em março de 2026, revelando conexões com autoridades dos Três Poderes, detalhes de operações financeiras e uma linguagem afetiva que viralizou nas redes sociais.
