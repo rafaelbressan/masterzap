@@ -8,7 +8,7 @@
  * (before, match, after) before wrapping the match in a <mark> tag.
  * The <mark> tag itself is a static string literal, not derived from user input.
  */
-import { escapeHtml } from '../lib/utils.js';
+import { escapeHtml, formatDateShort } from '../lib/utils.js';
 import { search, loadSearchIndex, isIndexLoaded } from '../lib/search.js';
 
 const DEBOUNCE_MS = 200;
@@ -54,7 +54,7 @@ export function attachSearch(sidebar, conversationId, onResultClick) {
 
         const dateEl = document.createElement('span');
         dateEl.className = 'search-result-date';
-        dateEl.textContent = result.date;
+        dateEl.textContent = formatDateShort(result.date);
 
         const topRow = document.createElement('div');
         topRow.className = 'search-result-top';

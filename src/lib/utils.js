@@ -34,6 +34,17 @@ export function formatDateLong(dateStr) {
 }
 
 /**
+ * Format a date string as DD/MM/YYYY (Brazilian format).
+ * e.g. "2024-02-10" → "10/02/2024"
+ * @param {string} dateStr - ISO date string (YYYY-MM-DD)
+ * @returns {string}
+ */
+export function formatDateShort(dateStr) {
+  const [year, month, day] = dateStr.split('-');
+  return `${day}/${month}/${year}`;
+}
+
+/**
  * Format time from HH:MM:SS or timestamp to HH:MM.
  * @param {string} time - Time string (HH:MM:SS or HH:MM)
  * @returns {string}
