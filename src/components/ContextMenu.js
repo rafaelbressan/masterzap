@@ -7,6 +7,7 @@
 
 import { escapeHtml, formatDateLong, formatTime } from '../lib/utils.js';
 import { showToast } from './Toast.js';
+import { ICON_COPY, ICON_SEND, ICON_INFO } from '../lib/icons.js';
 
 /**
  * Create and manage a context menu for the chat area.
@@ -32,7 +33,12 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
       const btn = document.createElement('button');
       btn.className = 'context-menu-item';
       btn.setAttribute('role', 'menuitem');
-      btn.textContent = item.label;
+      // Static SVG icons from icons.js + static labels — safe innerHTML
+      if (item.icon) {
+        btn.innerHTML = `<span class="context-menu-icon">${item.icon}</span><span>${item.label}</span>`;
+      } else {
+        btn.textContent = item.label;
+      }
       btn.addEventListener('click', () => {
         item.action();
         hideMenu();
@@ -80,6 +86,7 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
     if (msg.content) {
       items.push({
         label: 'Copiar texto',
+        icon: ICON_COPY,
         action: () => {
           navigator.clipboard.writeText(msg.content).catch(() => {
             fallbackCopy(msg.content);
@@ -92,6 +99,7 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
     if (msg.id && conversationId) {
       items.push({
         label: 'Compartilhar texto',
+        icon: ICON_SEND,
         action: () => {
           const baseUrl = window.location.origin;
           const shareUrl = `${baseUrl}/#/chat/${conversationId}/msg/${msg.id}`;
@@ -117,6 +125,7 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
     // Message info drawer
     items.push({
       label: 'Info da mensagem',
+      icon: ICON_INFO,
       action: () => showDrawer(msg),
     });
 

@@ -105,8 +105,18 @@
   animation: contextMenuIn 120ms ease-out;
 }
 
+.chat-dropdown-icon {
+  display: inline-flex;
+  align-items: center;
+  width: 20px;
+  flex-shrink: 0;
+  color: var(--WDS-content-deemphasized);
+}
+
 .chat-dropdown-item {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 14px;
   width: 100%;
   padding: 10px 24px;
   border: none;

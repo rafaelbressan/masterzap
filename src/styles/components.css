@@ -58,8 +58,18 @@
   }
 }
 
+.context-menu-icon {
+  display: inline-flex;
+  align-items: center;
+  width: 20px;
+  flex-shrink: 0;
+  color: var(--WDS-content-deemphasized);
+}
+
 .context-menu-item {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   width: 100%;
   padding: 9px 20px;
   border: none;

@@ -10,6 +10,7 @@
  */
 import { escapeHtml, formatTime, formatDateLong, linkify } from '../lib/utils.js';
 import { ScrollLoader } from '../lib/scroll-loader.js';
+import { ICON_INFO, ICON_SEARCH, ICON_CHECKEMPTY, ICON_BELL, ICON_TIMER, ICON_CLOSE_CIRCULAR, ICON_MASTERZAP_LOGO, ICON_MEETBALL } from '../lib/icons.js';
 
 const BACK_ICON = `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>`;
 
@@ -285,7 +286,7 @@ function renderMessage(msg) {
  * @param {function} [options.onBack] - back button callback
  * @returns {{ element: HTMLElement, loader: ScrollLoader }}
  */
-const ICON_DOTS = `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>`;
+// Use the design system meetball icon for 3-dot menu
 
 export function renderChatView(container, { conversation, dateIndex, loadMessages, onBack, onContactClick, onSearch, onCloseChat, onAbout }) {
   // Clear container
@@ -350,7 +351,7 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
   const searchBtn = document.createElement('button');
   searchBtn.className = 'chat-header-menu-btn';
   searchBtn.setAttribute('aria-label', 'Pesquisar');
-  searchBtn.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`;
+  searchBtn.innerHTML = ICON_SEARCH;
   if (onSearch) searchBtn.addEventListener('click', onSearch);
   header.appendChild(searchBtn);
 
@@ -359,7 +360,7 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
   menuBtn.className = 'chat-header-menu-btn';
   menuBtn.setAttribute('aria-label', 'Menu');
   // Static SVG — safe innerHTML
-  menuBtn.innerHTML = ICON_DOTS;
+  menuBtn.innerHTML = ICON_MEETBALL;
   header.appendChild(menuBtn);
 
   // Dropdown menu (hidden by default)
@@ -371,20 +372,25 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
     m.className = 'chat-dropdown-menu';
 
     const items = [
-      { label: 'Info do contato', action: onContactClick, enabled: !!onContactClick },
-      { label: 'Pesquisar', action: onSearch, enabled: !!onSearch },
-      { label: 'Selecionar mensagens', action: null, enabled: false },
-      { label: 'Modo silencioso', action: null, enabled: false },
-      { label: 'Mensagens temporárias', action: null, enabled: false },
-      { label: 'Fechar conversa', action: onCloseChat || onBack, enabled: !!(onCloseChat || onBack) },
-      { label: 'Sobre o MasterWhats', action: onAbout, enabled: !!onAbout },
+      { label: 'Info do contato', icon: ICON_INFO, action: onContactClick, enabled: !!onContactClick },
+      { label: 'Pesquisar', icon: ICON_SEARCH, action: onSearch, enabled: !!onSearch },
+      { label: 'Selecionar mensagens', icon: ICON_CHECKEMPTY, action: null, enabled: false },
+      { label: 'Modo silencioso', icon: ICON_BELL, action: null, enabled: false },
+      { label: 'Mensagens temporárias', icon: ICON_TIMER, action: null, enabled: false },
+      { label: 'Fechar conversa', icon: ICON_CLOSE_CIRCULAR, action: onCloseChat || onBack, enabled: !!(onCloseChat || onBack) },
+      { label: 'Sobre o MasterWhats', icon: ICON_MASTERZAP_LOGO, action: onAbout, enabled: !!onAbout },
     ];
 
     for (const item of items) {
       const btn = document.createElement('button');
       btn.className = 'chat-dropdown-item';
       if (!item.enabled) btn.classList.add('disabled');
-      btn.textContent = item.label;
+      // Static SVG icons from icons.js + static labels — safe innerHTML
+      if (item.icon) {
+        btn.innerHTML = `<span class="chat-dropdown-icon">${item.icon}</span><span>${item.label}</span>`;
+      } else {
+        btn.textContent = item.label;
+      }
       if (item.enabled && item.action) {
         btn.addEventListener('click', () => { closeMenu(); item.action(); });
       }
