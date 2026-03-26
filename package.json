@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "python3 scripts/split_data.py && vite build",
     "preview": "vite preview",
     "split-data": "python3 scripts/split_data.py",
     "test": "vitest run",

@@ -327,7 +327,7 @@ async function init() {
   // ── Wire nav rail ──────────────────────────────────
 
   const navRail = renderNavRail(container, {
-    avatarSrc: '/assets/avatar-dv.webp',
+    avatarSrc: '/assets/avatar-dv.jpg',
     onSettings: openSettings,
     onChat: () => {
       closeProfile();

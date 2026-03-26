@@ -23,7 +23,7 @@ export function renderEmptyState(container) {
       alt=""
       aria-hidden="true"
     />
-    <h1 class="empty-state-title">MasterWhats Web</h1>
+    <h1 class="empty-state-title">MasterWhats</h1>
     <p class="empty-state-text">
       Visualizador de conversas vazadas do Daniel Vorcaro.<br>
       Selecione a conversa ao lado para começar.

@@ -9,7 +9,7 @@
 
 export const VORCARO_PROFILE = {
   name: 'Daniel Vorcaro',
-  avatar: '/assets/avatar-dv.webp',
+  avatar: '/assets/avatar-dv.jpg',
   phone: '+55 31 9XXXX-XXXX',
   sections: [
     {
