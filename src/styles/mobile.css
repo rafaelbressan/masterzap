@@ -112,6 +112,24 @@
   .sidebar-bottom-nav {
     display: flex;
   }
+
+  /* Drawer close: arrow on mobile, hide X */
+  .drawer-close-x {
+    display: none;
+  }
+
+  .drawer-close-arrow {
+    display: flex;
+    align-items: center;
+  }
+
+  /* Profile/Settings drawers fullscreen on mobile */
+  .profile-drawer {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    border-right: none !important;
+  }
 }
 
 /* ── Very small screens (≤ 380px) ────────────── */

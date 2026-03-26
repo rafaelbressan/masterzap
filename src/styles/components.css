@@ -668,10 +668,21 @@
   color: var(--WDS-content-deemphasized);
   padding: 4px;
   line-height: 1;
+  display: flex;
+  align-items: center;
 }
 
 .profile-drawer-close:hover {
   color: var(--WDS-content-default);
+}
+
+/* Desktop: show X, hide arrow */
+.drawer-close-arrow {
+  display: none;
+}
+
+.drawer-close-x {
+  display: inline;
 }
 
 .profile-drawer-title {

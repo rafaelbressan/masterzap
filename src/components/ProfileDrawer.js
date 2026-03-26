@@ -29,8 +29,9 @@ export function showProfileDrawer(container, { onClose, actions = {} } = {}) {
 
   const closeBtn = document.createElement('button');
   closeBtn.className = 'profile-drawer-close';
-  closeBtn.setAttribute('aria-label', 'Fechar');
-  closeBtn.textContent = '✕';
+  closeBtn.setAttribute('aria-label', 'Voltar');
+  // Static SVG arrow + X text — safe innerHTML
+  closeBtn.innerHTML = `<span class="drawer-close-x">\u2715</span><span class="drawer-close-arrow"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></span>`;
   closeBtn.addEventListener('click', destroy);
   header.appendChild(closeBtn);
 
