@@ -264,6 +264,13 @@ function renderMessage(msg) {
   tail.className = 'chat-msg-tail';
   bubble.appendChild(tail);
 
+  // Chevron dropdown trigger (visible on hover)
+  const chevron = document.createElement('button');
+  chevron.className = 'chat-msg-chevron';
+  chevron.setAttribute('aria-label', 'Menu da mensagem');
+  chevron.innerHTML = `<svg viewBox="0 0 18 18" width="14" height="14" fill="currentColor"><path d="M9 11.5L4.5 7h9L9 11.5z"/></svg>`;
+  bubble.appendChild(chevron);
+
   row.appendChild(bubble);
   return row;
 }
@@ -410,13 +417,6 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
     toggleMenu();
   });
 
-  // Click on header background also opens the dropdown
-  header.addEventListener('click', (e) => {
-    // Don't trigger if clicking on interactive elements or existing dropdown
-    const interactive = e.target.closest('button, .chat-header-avatar, .chat-header-info-wrapper, .chat-dropdown-menu');
-    if (interactive) return;
-    toggleMenu();
-  });
 
   el.appendChild(header);
 
@@ -426,6 +426,14 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
   messagesArea.setAttribute('role', 'log');
   messagesArea.setAttribute('aria-label', `Mensagens com ${displayName}`);
   el.appendChild(messagesArea);
+
+  // Right-click on chat background (not on bubbles) opens the header dropdown
+  messagesArea.addEventListener('contextmenu', (e) => {
+    const bubble = e.target.closest('.chat-msg-bubble, .chat-msg-system, .context-menu');
+    if (bubble) return;
+    e.preventDefault();
+    toggleMenu();
+  });
 
   container.appendChild(el);
 

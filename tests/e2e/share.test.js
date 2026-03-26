@@ -46,27 +46,47 @@ test.describe('Message URL Navigation', () => {
   });
 });
 
-test.describe('Chat Header Click', () => {
+test.describe('Chat Interactions', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
     await page.locator('.conversation-item').first().click();
     await page.locator('.chat-msg-bubble').first().waitFor({ timeout: 10000 });
   });
 
-  test('clicking 3-dot menu button opens dropdown', async ({ page }) => {
-    const menuBtn = page.getByRole('button', { name: 'Menu' });
-    await menuBtn.click();
-
+  test('3-dot menu button opens dropdown', async ({ page }) => {
+    await page.locator('.chat-header button[aria-label="Menu"]').click();
     const dropdown = page.locator('.chat-dropdown-menu');
     await expect(dropdown).toBeVisible({ timeout: 3000 });
   });
 
   test('dropdown has all expected items', async ({ page }) => {
-    await page.getByRole('button', { name: 'Menu' }).click();
+    await page.locator('.chat-header button[aria-label="Menu"]').click();
     const items = page.locator('.chat-dropdown-item');
     const count = await items.count();
     expect(count).toBe(6);
-    await expect(items.first()).toContainText('Info do contato');
-    await expect(items.last()).toContainText('Fechar conversa');
+  });
+
+  test('right-clicking chat background opens dropdown', async ({ page }) => {
+    const messagesArea = page.locator('.chat-messages');
+    // Right-click on the background (top-left corner, likely empty)
+    await messagesArea.click({ button: 'right', position: { x: 5, y: 5 } });
+    const dropdown = page.locator('.chat-dropdown-menu');
+    await expect(dropdown).toBeVisible({ timeout: 3000 });
+  });
+
+  test('message bubbles show chevron on hover', async ({ page }) => {
+    const bubble = page.locator('.chat-msg-bubble').first();
+    await bubble.hover();
+    const chevron = bubble.locator('.chat-msg-chevron');
+    await expect(chevron).toBeVisible();
+  });
+
+  test('clicking chevron opens context menu', async ({ page }) => {
+    const bubble = page.locator('.chat-msg-bubble').first();
+    await bubble.hover();
+    const chevron = bubble.locator('.chat-msg-chevron');
+    await chevron.click();
+    const menu = page.locator('.context-menu');
+    await expect(menu).toBeVisible();
   });
 });

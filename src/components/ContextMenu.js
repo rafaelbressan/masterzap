@@ -291,8 +291,23 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
     }
   }
 
+  // Chevron button click → open context menu at chevron position
+  function onChevronClick(e) {
+    const chevron = e.target.closest('.chat-msg-chevron');
+    if (!chevron) return;
+    e.stopPropagation();
+    const bubble = chevron.closest('.chat-msg-bubble');
+    if (!bubble) return;
+    const msg = getMessageFromElement(bubble);
+    if (msg) {
+      const rect = chevron.getBoundingClientRect();
+      show(rect.left, rect.bottom + 4, msg);
+    }
+  }
+
   // Attach listeners
   chatContainer.addEventListener('contextmenu', onContextMenu);
+  chatContainer.addEventListener('click', onChevronClick);
   document.addEventListener('click', onClickOutside, true);
   document.addEventListener('keydown', onKeyDown);
 
@@ -301,6 +316,7 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
       hideMenu();
       hideDrawer();
       chatContainer.removeEventListener('contextmenu', onContextMenu);
+      chatContainer.removeEventListener('click', onChevronClick);
       document.removeEventListener('click', onClickOutside, true);
       document.removeEventListener('keydown', onKeyDown);
     },

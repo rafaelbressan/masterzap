@@ -420,6 +420,48 @@
   opacity: 0.5;
 }
 
+/* ── Message chevron (hover dropdown trigger) ──── */
+.chat-msg-chevron {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, transparent 0%, rgba(0,0,0,.04) 100%);
+  color: var(--WDS-content-deemphasized);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 120ms;
+  padding: 0;
+  z-index: 2;
+}
+
+.chat-msg-bubble:hover .chat-msg-chevron {
+  opacity: 1;
+}
+
+.chat-msg-chevron:hover {
+  background: rgba(0,0,0,.08);
+  color: var(--WDS-content-default);
+}
+
+.chat-msg-bubble.outgoing .chat-msg-chevron {
+  background: linear-gradient(135deg, transparent 0%, rgba(0,0,0,.03) 100%);
+}
+
+.chat-msg-bubble.outgoing:hover .chat-msg-chevron {
+  opacity: 1;
+}
+
+.chat-msg-bubble.outgoing .chat-msg-chevron:hover {
+  background: rgba(0,0,0,.06);
+}
+
 /* ── Message metadata (time + edited) ─────────── */
 .chat-msg-meta {
   display: flex;
