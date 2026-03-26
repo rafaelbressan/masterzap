@@ -192,7 +192,7 @@
   position: relative;
   max-width: 65%;
   min-width: 80px;
-  padding: 6px 7px 8px 9px;
+  padding: 6px 12px 8px 9px;
   border-radius: 8px;
   font-size: 14.2px;
   line-height: 1.35;
@@ -423,13 +423,13 @@
 /* ── Message chevron (hover dropdown trigger) ──── */
 .chat-msg-chevron {
   position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 22px;
-  height: 22px;
+  top: 0;
+  right: 0;
+  width: 28px;
+  height: 26px;
   border: none;
-  border-radius: 50%;
-  background: linear-gradient(135deg, transparent 0%, rgba(0,0,0,.04) 100%);
+  border-radius: 0 8px 0 8px;
+  background: radial-gradient(ellipse at top right, var(--WDS-systems-bubble-surface-incoming) 50%, transparent 100%);
   color: var(--WDS-content-deemphasized);
   cursor: pointer;
   display: flex;
@@ -446,20 +446,11 @@
 }
 
 .chat-msg-chevron:hover {
-  background: rgba(0,0,0,.08);
   color: var(--WDS-content-default);
 }
 
 .chat-msg-bubble.outgoing .chat-msg-chevron {
-  background: linear-gradient(135deg, transparent 0%, rgba(0,0,0,.03) 100%);
-}
-
-.chat-msg-bubble.outgoing:hover .chat-msg-chevron {
-  opacity: 1;
-}
-
-.chat-msg-bubble.outgoing .chat-msg-chevron:hover {
-  background: rgba(0,0,0,.06);
+  background: radial-gradient(ellipse at top right, var(--WDS-systems-bubble-surface-outgoing) 50%, transparent 100%);
 }
 
 /* ── Message metadata (time + edited) ─────────── */
@@ -468,7 +459,7 @@
   align-items: center;
   gap: 4px;
   float: right;
-  margin: 2px 0 -4px 12px;
+  margin: 2px 2px -4px 12px;
   font-size: 11px;
   color: var(--WDS-systems-bubble-content-deemphasized);
   white-space: nowrap;
