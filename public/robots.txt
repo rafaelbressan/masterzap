@@ -14,4 +14,4 @@ Allow: /
 User-agent: Googlebot
 Allow: /
 
-Sitemap: https://masterwhats.com/sitemap.xml
+Sitemap: https://www.masterwhats.com.br/sitemap.xml
