@@ -138,6 +138,10 @@
   cursor: default;
 }
 
+.chat-dropdown-item.disabled .chat-dropdown-icon {
+  color: var(--WDS-content-disabled);
+}
+
 /* ── Messages area ────────────────────────────── */
 .chat-messages {
   flex: 1;
