@@ -142,6 +142,11 @@
   color: var(--WDS-content-disabled);
 }
 
+.chat-dropdown-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
 /* ── Messages area ────────────────────────────── */
 .chat-messages {
   flex: 1;

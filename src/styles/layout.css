@@ -232,7 +232,8 @@
   align-items: center;
   justify-content: center;
   gap: 5px;
-  padding: 10px 12px;
+  padding: 14px 12px;
+  margin-top: 6px;
   font-size: 12px;
   color: var(--WDS-content-deemphasized);
   border-top: 1px solid var(--WDS-lines-divider);
