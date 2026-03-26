@@ -216,12 +216,12 @@
   border-top: 1px solid var(--WDS-lines-divider);
 }
 
-.sidebar-lock-message a {
+.sidebar-lock-link {
   color: var(--WDS-accent);
-  text-decoration: none;
+  cursor: pointer;
 }
 
-.sidebar-lock-message a:hover {
+.sidebar-lock-link:hover {
   text-decoration: underline;
 }
 

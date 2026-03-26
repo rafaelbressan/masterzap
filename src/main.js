@@ -344,6 +344,10 @@ async function init() {
     },
   });
 
+  // Lock message link → open DV profile
+  const lockLink = sidebar.querySelector('.sidebar-lock-link');
+  if (lockLink) lockLink.addEventListener('click', openProfile);
+
   // Sidebar search
   const conversations = store.getConversations();
   if (conversations.length > 0) {

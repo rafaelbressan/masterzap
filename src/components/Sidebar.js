@@ -104,7 +104,7 @@ export function renderSidebar(container, { conversations, onSelect }) {
   // Static content — safe innerHTML
   lockMsg.innerHTML = `
     <svg viewBox="0 0 10 12" width="10" height="12"><path fill="currentColor" d="M5.175 0A2.318 2.318 0 0 0 2.86 2.318v.884H1.5a1 1 0 0 0-1 1V11a1 1 0 0 0 1 1h7.35a1 1 0 0 0 1-1V4.202a1 1 0 0 0-1-1H7.491v-.884A2.317 2.317 0 0 0 5.175 0Zm0 1.05c.7 0 1.267.567 1.267 1.268v.884H3.909v-.884c0-.7.567-1.268 1.266-1.268Z"/></svg>
-    <span>Suas mensagens são exibidas <a href="https://pt.wikipedia.org/wiki/Esc%C3%A2ndalo_do_Banco_Master" target="_blank" rel="noopener"><strong>nacionalmente para todos do Brasil</strong></a>.</span>
+    <span>Suas mensagens são exibidas <span class="sidebar-lock-link" data-action="profile-dv"><strong>nacionalmente para todos do Brasil</strong></span>.</span>
   `;
   list.appendChild(lockMsg);
 
