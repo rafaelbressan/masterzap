@@ -132,7 +132,7 @@
 
 .sidebar-search-input {
   width: 100%;
-  height: 35px;
+  height: 40px;
   padding: 0 32px 0 40px;
   border: none;
   border-radius: 50px;
@@ -179,9 +179,9 @@
   align-items: center;
   gap: 4px;
   padding: 5px 12px;
-  border: none;
+  border: 1px solid var(--WDS-lines-outline-deemphasized);
   border-radius: 50px;
-  background-color: var(--WDS-surface-emphasized);
+  background-color: transparent;
   color: var(--WDS-content-default);
   font-family: inherit;
   font-size: 13px;
@@ -192,6 +192,7 @@
 .sidebar-tag.active {
   background-color: var(--WDS-green-50);
   color: var(--WDS-accent);
+  border-color: var(--WDS-accent);
   font-weight: 500;
 }
 
@@ -203,20 +204,26 @@
   font-size: 11px;
 }
 
-/* Lock message above conversation list */
-.sidebar-lock-footer-top {
+/* Lock message below conversation list */
+.sidebar-lock-footer {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 5px;
-  padding: 8px 12px;
+  padding: 10px 12px;
   font-size: 12px;
   color: var(--WDS-content-deemphasized);
   flex-shrink: 0;
+  border-top: 1px solid var(--WDS-lines-divider);
 }
 
-.sidebar-lock-footer-top strong {
+.sidebar-lock-footer a {
   color: var(--WDS-accent);
+  text-decoration: none;
+}
+
+.sidebar-lock-footer a:hover {
+  text-decoration: underline;
 }
 
 /* Conversation list */
