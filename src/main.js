@@ -133,14 +133,40 @@ async function init() {
   // ── Shared search action for sidebar ───────────────
 
   function fillSidebarSearch(term) {
-    setTimeout(() => {
-      const searchInput = sidebar.querySelector('.sidebar-search-input');
-      if (searchInput) {
-        searchInput.value = term;
-        searchInput.dispatchEvent(new Event('input'));
-        searchInput.focus();
+    const isMobile = window.innerWidth <= 600;
+
+    if (isMobile) {
+      // On mobile, open conversation first then trigger mobile search with pre-filled term
+      if (!activeLoader) {
+        router.navigate('chat', 'martha-graeff');
       }
-    }, 100);
+      setTimeout(() => {
+        const chatViewEl = mainArea.querySelector('.chat-view');
+        if (chatViewEl && !activeChatSearch) {
+          activeChatSearch = showMobileSearchBar(chatViewEl, 'martha-graeff', {
+            onNavigate: (messageId, date) => activeLoader?.scrollToMessage(messageId, date),
+            onDateSelect: (date) => activeLoader?.scrollToDate(date),
+            onClose: () => { activeChatSearch = null; },
+          });
+          // Pre-fill the search input and trigger search
+          const mobileInput = chatViewEl.querySelector('.mobile-search-input');
+          if (mobileInput) {
+            mobileInput.value = term;
+            mobileInput.dispatchEvent(new Event('input'));
+          }
+        }
+      }, 300);
+    } else {
+      // On desktop, fill sidebar search as before
+      setTimeout(() => {
+        const searchInput = sidebar.querySelector('.sidebar-search-input');
+        if (searchInput) {
+          searchInput.value = term;
+          searchInput.dispatchEvent(new Event('input'));
+          searchInput.focus();
+        }
+      }, 100);
+    }
   }
 
   // ── Chat search toggle ─────────────────────────────
