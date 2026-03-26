@@ -36,6 +36,9 @@ export function renderSidebar(container, { conversations, onSelect }) {
           placeholder="Pesquisar nas favoritas"
           aria-label="Pesquisar conversas"
         />
+        <button class="sidebar-search-clear" aria-label="Limpar pesquisa" style="display:none;">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
     </div>
     <div class="sidebar-tags">
@@ -48,6 +51,21 @@ export function renderSidebar(container, { conversations, onSelect }) {
   `;
 
   const list = el.querySelector('.conversation-list');
+  const searchInput = el.querySelector('.sidebar-search-input');
+  const searchClear = el.querySelector('.sidebar-search-clear');
+
+  // Show/hide clear button based on input content
+  searchInput.addEventListener('input', () => {
+    searchClear.style.display = searchInput.value.length > 0 ? '' : 'none';
+  });
+
+  // Clear button: clear text, hide results, restore chat list
+  searchClear.addEventListener('click', () => {
+    searchInput.value = '';
+    searchInput.dispatchEvent(new Event('input'));
+    searchClear.style.display = 'none';
+    searchInput.blur();
+  });
 
   for (const conv of conversations) {
     const item = document.createElement('div');
