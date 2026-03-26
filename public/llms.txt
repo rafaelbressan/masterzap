@@ -33,4 +33,4 @@ Daniel Vorcaro, dono do Banco Master, foi preso pela Polícia Federal em novembr
 - CNN Brasil, ND Mais, Gazeta do Povo, InfoMoney, O Tempo, Agência Brasil
 
 ## Créditos
-Projeto feito por Rafael Bressan com Claude Code.
+Projeto feito por Rafael Bressan (https://linkedin.com/in/rafaelbressan) com Claude Code.

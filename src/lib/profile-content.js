@@ -75,7 +75,7 @@ export const SOURCES = [
   { label: 'O Tempo — Segunda prisão de Vorcaro', url: 'https://www.otempo.com.br/economia/2026/3/4/entenda-o-caso-do-banco-master-que-levou-daniel-vorcaro-a-prisao-pela-segunda-vez' },
 ];
 
-export const CREDITS = 'Projeto feito por Rafael Bressan com Claude Code. As informações aqui compiladas são de domínio público, extraídas de reportagens jornalísticas e fontes abertas. Este projeto não tem vinculação com nenhuma das partes envolvidas.';
+export const CREDITS = 'Projeto feito por {Rafael Bressan}[https://linkedin.com/in/rafaelbressan] com Claude Code. As informações aqui compiladas são de domínio público, extraídas de reportagens jornalísticas e fontes abertas. Este projeto não tem vinculação com nenhuma das partes envolvidas.';
 
 /**
  * Parse inline links in text. Format: {link text}[url]

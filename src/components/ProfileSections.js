@@ -66,11 +66,11 @@ export function renderProfileSections(container, sections, sources, credits, act
     wrapper.appendChild(sourcesEl);
   }
 
-  // Credits
+  // Credits (supports {text}[url] link format from static content)
   if (credits) {
     const footer = document.createElement('div');
     footer.className = 'profile-credits';
-    footer.textContent = credits;
+    footer.innerHTML = parseLinks(credits);
     wrapper.appendChild(footer);
   }
 

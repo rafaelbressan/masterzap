@@ -287,7 +287,7 @@ function renderMessage(msg) {
  */
 const ICON_DOTS = `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>`;
 
-export function renderChatView(container, { conversation, dateIndex, loadMessages, onBack, onContactClick, onSearch, onCloseChat }) {
+export function renderChatView(container, { conversation, dateIndex, loadMessages, onBack, onContactClick, onSearch, onCloseChat, onAbout }) {
   // Clear container
   while (container.firstChild) container.removeChild(container.firstChild);
 
@@ -377,6 +377,7 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
       { label: 'Modo silencioso', action: null, enabled: false },
       { label: 'Mensagens temporárias', action: null, enabled: false },
       { label: 'Fechar conversa', action: onCloseChat || onBack, enabled: !!(onCloseChat || onBack) },
+      { label: 'Sobre o MasterWhats', action: onAbout, enabled: !!onAbout },
     ];
 
     for (const item of items) {

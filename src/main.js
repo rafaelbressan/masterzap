@@ -209,6 +209,7 @@ async function init() {
       loadMessages: (date) => store.getMessages(id, date),
       onBack: () => router.navigate('home'),
       onCloseChat: () => router.navigate('home'),
+      onAbout: openSettings,
       onSearch: toggleSearch,
       onContactClick: () => {
         // Only one right drawer at a time

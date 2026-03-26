@@ -68,4 +68,4 @@ export const SETTINGS_CONTENT = {
   ],
 };
 
-export const SETTINGS_CREDITS = 'Projeto feito por Rafael Bressan com Claude Code. As informações aqui compiladas são de domínio público, extraídas de reportagens jornalísticas e fontes abertas.';
+export const SETTINGS_CREDITS = 'Projeto feito por {Rafael Bressan}[https://linkedin.com/in/rafaelbressan] com Claude Code. As informações aqui compiladas são de domínio público, extraídas de reportagens jornalísticas e fontes abertas.';
