@@ -17,7 +17,7 @@ const ICON_SETTINGS = `<svg viewBox="0 0 24 24" width="24" height="24" fill="cur
  * @param {string} [options.avatarSrc] - user avatar image URL
  * @returns {HTMLElement}
  */
-export function renderNavRail(container, { avatarSrc, onSettings } = {}) {
+export function renderNavRail(container, { avatarSrc, onSettings, onChat } = {}) {
   const rail = document.createElement('nav');
   rail.className = 'nav-rail';
   rail.setAttribute('aria-label', 'Navegação');
@@ -40,6 +40,7 @@ export function renderNavRail(container, { avatarSrc, onSettings } = {}) {
     btn.setAttribute('aria-label', item.label);
     btn.setAttribute('title', item.label);
     btn.innerHTML = item.icon; // Static SVG
+    if (item.active && onChat) btn.addEventListener('click', onChat);
     topSection.appendChild(btn);
   }
 

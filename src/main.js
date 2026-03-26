@@ -327,6 +327,10 @@ async function init() {
   const navRail = renderNavRail(container, {
     avatarSrc: '/assets/avatar-dv.webp',
     onSettings: openSettings,
+    onChat: () => {
+      closeProfile();
+      closeSettings();
+    },
   });
 
   const navAvatar = navRail.querySelector('.nav-rail-avatar');
