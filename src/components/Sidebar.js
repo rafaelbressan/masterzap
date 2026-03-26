@@ -6,7 +6,7 @@
  */
 import { formatTime, escapeHtml, formatNumber, formatRelativeDate } from '../lib/utils.js';
 
-import { ICON_SEARCH as SEARCH_ICON } from '../lib/icons.js';
+import { ICON_SEARCH as SEARCH_ICON, ICON_MEETBALL } from '../lib/icons.js';
 
 const DEFAULT_AVATAR = `<svg viewBox="0 0 212 212"><path fill="#DFE5E7" d="M106.251.5C164.653.5 212 47.846 212 106.25S164.653 212 106.251 212C47.846 212 .5 164.654.5 106.25S47.846.5 106.251.5z"/><path fill="#FFF" d="M173.561 171.615a62.767 62.767 0 00-2.065-2.955 67.7 67.7 0 00-2.608-3.299 70.112 70.112 0 00-3.184-3.527 71.097 71.097 0 00-5.924-5.47 72.458 72.458 0 00-10.204-7.026 75.2 75.2 0 00-5.98-3.055c-.218-.095-.436-.19-.656-.28a78.436 78.436 0 00-10.457-3.467c-1.08-.282-2.163-.545-3.25-.783a79.975 79.975 0 00-4.083-.816 82.3 82.3 0 00-7.034-.856 87.82 87.82 0 00-11.373-.36 85.075 85.075 0 00-7.19.488 82.473 82.473 0 00-3.626.542c-1.388.239-2.771.508-4.148.815-1.084.238-2.165.501-3.241.783a78.41 78.41 0 00-10.467 3.467c-.219.09-.437.185-.654.28a75.37 75.37 0 00-5.986 3.055 72.56 72.56 0 00-10.198 7.027 71.168 71.168 0 00-5.924 5.47 69.933 69.933 0 00-3.187 3.527c-.906 1.076-1.776 2.176-2.608 3.299a63.105 63.105 0 00-2.065 2.955 56.961 56.961 0 00-1.86 3.211 28.89 28.89 0 0117.373-9.752 36.505 36.505 0 011.404-.387c3.7-.915 7.533-1.373 11.444-1.373h.312c9.647.109 18.857 2.604 27.089 6.94.022.011.045.02.067.032a54.543 54.543 0 016.404 4.11c.327.244.65.494.971.748l.004.002a60.49 60.49 0 012.21 1.904l.002.003.142.13.166.149c.09.08.178.164.268.245a41.078 41.078 0 002.242-1.906l.004-.004c.321-.254.644-.503.971-.747a54.616 54.616 0 016.404-4.11c.021-.011.043-.021.065-.031 8.233-4.337 17.443-6.832 27.09-6.941h.312c3.91 0 7.744.459 11.444 1.373.474.117.941.248 1.404.387a28.88 28.88 0 0117.373 9.752 56.68 56.68 0 00-1.86-3.211z"/><path fill="#FFF" d="M106.002 125.5c2.645 0 5.212-.253 7.68-.737a38.272 38.272 0 003.624-.896 37.124 37.124 0 005.12-2.023 36.413 36.413 0 006.15-4.02 37.172 37.172 0 005.088-5.088 36.483 36.483 0 004.02-6.15 37.318 37.318 0 002.023-5.12 38.689 38.689 0 00.896-3.624 39.321 39.321 0 00.737-7.68c0-20.933-17.006-37.939-37.938-37.939S68.064 69.63 68.064 90.562s17.006 37.938 37.938 37.938z"/></svg>`;
 
@@ -16,7 +16,7 @@ const DEFAULT_AVATAR = `<svg viewBox="0 0 212 212"><path fill="#DFE5E7" d="M106.
  * @param {Array} options.conversations
  * @param {function} options.onSelect - called with conversation id
  */
-export function renderSidebar(container, { conversations, onSelect }) {
+export function renderSidebar(container, { conversations, onSelect, onProfile, onAbout }) {
   const el = document.createElement('aside');
   el.className = 'sidebar';
   el.setAttribute('role', 'navigation');
@@ -26,6 +26,7 @@ export function renderSidebar(container, { conversations, onSelect }) {
   el.innerHTML = `
     <div class="sidebar-header">
       <span class="sidebar-header-title">MasterWhats</span>
+      <button class="sidebar-menu-btn" aria-label="Menu">${ICON_MEETBALL}</button>
     </div>
     <div class="sidebar-search">
       <div class="sidebar-search-wrapper">
@@ -125,6 +126,75 @@ export function renderSidebar(container, { conversations, onSelect }) {
     <span>Suas mensagens são exibidas <span class="sidebar-lock-link" data-action="profile-dv"><strong>nacionalmente para todos do Brasil</strong></span>.</span>
   `;
   list.appendChild(lockMsg);
+
+  // Mobile bottom navbar (hidden on desktop via CSS)
+  const bottomNav = document.createElement('nav');
+  bottomNav.className = 'sidebar-bottom-nav';
+  bottomNav.innerHTML = `
+    <div class="sidebar-bottom-tab active">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      <span>Conversas</span>
+    </div>
+    <div class="sidebar-bottom-tab disabled">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      <span>Comunidades</span>
+    </div>
+    <div class="sidebar-bottom-tab disabled">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      <span>Chamadas</span>
+    </div>
+  `;
+  el.appendChild(bottomNav);
+
+  // Sidebar 3-dot menu (mobile only, hidden on desktop via CSS)
+  const menuBtn = el.querySelector('.sidebar-menu-btn');
+  let sidebarMenuEl = null;
+
+  function toggleSidebarMenu() {
+    if (sidebarMenuEl) { closeSidebarMenu(); return; }
+    sidebarMenuEl = document.createElement('div');
+    sidebarMenuEl.className = 'sidebar-dropdown-menu';
+
+    const items = [
+      { label: 'Perfil', action: onProfile, enabled: !!onProfile },
+      { label: 'Sobre o MasterWhats', action: onAbout, enabled: !!onAbout },
+    ];
+
+    for (const item of items) {
+      const btn = document.createElement('button');
+      btn.className = 'sidebar-dropdown-item';
+      if (!item.enabled) btn.classList.add('disabled');
+      btn.textContent = item.label;
+      if (item.enabled && item.action) {
+        btn.addEventListener('click', () => { closeSidebarMenu(); item.action(); });
+      }
+      sidebarMenuEl.appendChild(btn);
+    }
+
+    el.querySelector('.sidebar-header').appendChild(sidebarMenuEl);
+
+    setTimeout(() => {
+      document.addEventListener('click', closeSidebarMenuOnOutside, true);
+    }, 0);
+  }
+
+  function closeSidebarMenu() {
+    if (sidebarMenuEl) { sidebarMenuEl.remove(); sidebarMenuEl = null; }
+    document.removeEventListener('click', closeSidebarMenuOnOutside, true);
+  }
+
+  function closeSidebarMenuOnOutside(e) {
+    if (sidebarMenuEl && !sidebarMenuEl.contains(e.target) && e.target !== menuBtn) {
+      closeSidebarMenu();
+    }
+  }
+
+  if (menuBtn) {
+    menuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleSidebarMenu();
+    });
+  }
 
   container.appendChild(el);
   return el;

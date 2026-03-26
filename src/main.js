@@ -161,6 +161,7 @@ async function init() {
       if (chatViewEl) {
         activeChatSearch = showMobileSearchBar(chatViewEl, conversationId, {
           onNavigate: (messageId, date) => activeLoader?.scrollToMessage(messageId, date),
+          onDateSelect: (date) => activeLoader?.scrollToDate(date),
           onClose: () => { activeChatSearch = null; },
         });
       }
@@ -342,6 +343,8 @@ async function init() {
 
   const sidebar = renderSidebar(container, {
     conversations: store.getConversations(),
+    onProfile: openProfile,
+    onAbout: openSettings,
     onSelect: (id) => {
       // Close profile/settings if open before navigating
       closeProfile();

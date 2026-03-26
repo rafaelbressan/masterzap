@@ -22,7 +22,7 @@ const TOAST_LOGO = `<svg viewBox="0 0 39 39" width="28" height="28"><path fill="
  * @param {function} options.onClose
  * @returns {{ destroy: function }}
  */
-export function showMobileSearchBar(chatView, conversationId, { onNavigate, onClose }) {
+export function showMobileSearchBar(chatView, conversationId, { onNavigate, onDateSelect, onClose }) {
   const header = chatView.querySelector('.chat-header');
   if (!header) return { destroy() {} };
 
@@ -46,6 +46,22 @@ export function showMobileSearchBar(chatView, conversationId, { onNavigate, onCl
   input.placeholder = 'Pesquisar...';
   input.setAttribute('aria-label', 'Pesquisar mensagens');
   bar.appendChild(input);
+
+  // Calendar button (visible when no results, hidden when nav arrows show)
+  const calendarBtn = document.createElement('button');
+  calendarBtn.className = 'mobile-search-nav-btn';
+  calendarBtn.setAttribute('aria-label', 'Pesquisar por data');
+  calendarBtn.innerHTML = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`;
+  if (onDateSelect) {
+    calendarBtn.addEventListener('click', () => {
+      // Simple date prompt for mobile
+      const dateStr = prompt('Data (YYYY-MM-DD):');
+      if (dateStr && /^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+        onDateSelect(dateStr);
+      }
+    });
+  }
+  bar.appendChild(calendarBtn);
 
   const upBtn = document.createElement('button');
   upBtn.className = 'mobile-search-nav-btn';
@@ -75,6 +91,7 @@ export function showMobileSearchBar(chatView, conversationId, { onNavigate, onCl
       currentIndex = -1;
       upBtn.style.display = 'none';
       downBtn.style.display = 'none';
+      calendarBtn.style.display = '';
       return;
     }
 
@@ -88,12 +105,14 @@ export function showMobileSearchBar(chatView, conversationId, { onNavigate, onCl
       showToast();
       upBtn.style.display = 'none';
       downBtn.style.display = 'none';
+      calendarBtn.style.display = '';
       currentIndex = -1;
       return;
     }
 
     upBtn.style.display = '';
     downBtn.style.display = '';
+    calendarBtn.style.display = 'none';
     currentIndex = 0;
     navigateTo(0);
   }
@@ -133,6 +152,14 @@ export function showMobileSearchBar(chatView, conversationId, { onNavigate, onCl
     }
   });
 
+  // Android back button: push state so popstate closes search
+  history.pushState({ mobileSearch: true }, '');
+  function onPopState(e) {
+    if (e.state && e.state.mobileSearch) return;
+    destroy();
+  }
+  window.addEventListener('popstate', onPopState);
+
   requestAnimationFrame(() => input.focus());
 
   function showToast() {
@@ -161,6 +188,11 @@ export function showMobileSearchBar(chatView, conversationId, { onNavigate, onCl
 
   function destroy() {
     clearTimeout(debounceTimer);
+    window.removeEventListener('popstate', onPopState);
+    // Pop the search state if it's still on top
+    if (history.state && history.state.mobileSearch) {
+      history.back();
+    }
     bar.remove();
     header.style.display = '';
     const toast = chatView.querySelector('.search-toast');

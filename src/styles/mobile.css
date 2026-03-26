@@ -40,7 +40,8 @@
     min-width: 0;
     max-width: none;
     border-right: none;
-    flex-shrink: 0;
+    flex: 1;
+    background-color: var(--WDS-background-wash-plain);
   }
 
   /* Main area hidden when no conversation is active */
@@ -100,6 +101,16 @@
   /* Search results full width */
   .search-results {
     width: 100%;
+  }
+
+  /* Show sidebar menu button on mobile */
+  .sidebar-menu-btn {
+    display: flex;
+  }
+
+  /* Show bottom nav on mobile */
+  .sidebar-bottom-nav {
+    display: flex;
   }
 }
 
