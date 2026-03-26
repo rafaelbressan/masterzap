@@ -204,8 +204,8 @@
   font-size: 11px;
 }
 
-/* Lock message below conversation list */
-.sidebar-lock-footer {
+/* Lock message between tags and conversation list */
+.sidebar-lock-message {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -214,15 +214,15 @@
   font-size: 12px;
   color: var(--WDS-content-deemphasized);
   flex-shrink: 0;
-  border-top: 1px solid var(--WDS-lines-divider);
+  border-bottom: 1px solid var(--WDS-lines-divider);
 }
 
-.sidebar-lock-footer a {
+.sidebar-lock-message a {
   color: var(--WDS-accent);
   text-decoration: none;
 }
 
-.sidebar-lock-footer a:hover {
+.sidebar-lock-message a:hover {
   text-decoration: underline;
 }
 
