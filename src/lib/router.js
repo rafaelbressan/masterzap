@@ -2,15 +2,9 @@
  * Hash Router — simple hash-based routing for conversation navigation.
  *
  * Routes:
- *   #/                     → empty state (no conversation)
- *   #/chat/:conversationId → open conversation
- *
- * Usage:
- *   const router = new HashRouter();
- *   router.on('chat', (id) => openConversation(id));
- *   router.on('home', () => showEmptyState());
- *   router.start();
- *   router.navigate('chat', 'martha-graeff');
+ *   #/                                → empty state (no conversation)
+ *   #/chat/:conversationId            → open conversation
+ *   #/chat/:conversationId/msg/:msgId → open conversation + scroll to message
  */
 
 export class HashRouter {
@@ -22,7 +16,7 @@ export class HashRouter {
   /**
    * Register a route handler.
    * @param {'home'|'chat'} route
-   * @param {function} handler - called with route params
+   * @param {function} handler - called with (param, messageId)
    */
   on(route, handler) {
     this._handlers.set(route, handler);
@@ -44,12 +38,17 @@ export class HashRouter {
    * Navigate to a route by updating the hash.
    * @param {'home'|'chat'} route
    * @param {string} [param]
+   * @param {string|number} [messageId]
    */
-  navigate(route, param) {
+  navigate(route, param, messageId) {
     if (route === 'home') {
       window.location.hash = '#/';
     } else if (route === 'chat' && param) {
-      window.location.hash = `#/chat/${param}`;
+      if (messageId) {
+        window.location.hash = `#/chat/${param}/msg/${messageId}`;
+      } else {
+        window.location.hash = `#/chat/${param}`;
+      }
     }
   }
 
@@ -61,24 +60,29 @@ export class HashRouter {
   /**
    * Parse a hash string into route info.
    * @param {string} hash
-   * @returns {{ route: string, param: string|null }}
+   * @returns {{ route: string, param: string|null, messageId: string|null }}
    */
   static parseHash(hash) {
     const cleaned = hash.replace(/^#\/?/, '');
-    if (!cleaned) return { route: 'home', param: null };
+    if (!cleaned) return { route: 'home', param: null, messageId: null };
 
-    const match = cleaned.match(/^chat\/(.+)$/);
-    if (match) return { route: 'chat', param: match[1] };
+    // Match #/chat/:id/msg/:msgId
+    const msgMatch = cleaned.match(/^chat\/([^/]+)\/msg\/(.+)$/);
+    if (msgMatch) return { route: 'chat', param: msgMatch[1], messageId: msgMatch[2] };
 
-    return { route: 'home', param: null };
+    // Match #/chat/:id
+    const chatMatch = cleaned.match(/^chat\/(.+)$/);
+    if (chatMatch) return { route: 'chat', param: chatMatch[1], messageId: null };
+
+    return { route: 'home', param: null, messageId: null };
   }
 
   /** @private */
   _onHashChange() {
-    const { route, param } = this.getCurrentRoute();
+    const { route, param, messageId } = this.getCurrentRoute();
     const handler = this._handlers.get(route);
     if (handler) {
-      handler(param);
+      handler(param, messageId);
     }
   }
 }

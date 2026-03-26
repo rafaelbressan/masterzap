@@ -220,6 +220,33 @@ describe('DataStore', () => {
     });
   });
 
+  describe('findDateForMessage()', () => {
+    it('finds date for first message', async () => {
+      const date = await store.findDateForMessage('martha-graeff', 1);
+      expect(date).toBe('2024-02-10');
+    });
+
+    it('finds date for last message of first day', async () => {
+      const date = await store.findDateForMessage('martha-graeff', 82);
+      expect(date).toBe('2024-02-10');
+    });
+
+    it('finds date for message in second day', async () => {
+      const date = await store.findDateForMessage('martha-graeff', 83);
+      expect(date).toBe('2024-02-11');
+    });
+
+    it('returns null for message ID out of range', async () => {
+      const date = await store.findDateForMessage('martha-graeff', 999999);
+      expect(date).toBeNull();
+    });
+
+    it('handles string message IDs', async () => {
+      const date = await store.findDateForMessage('martha-graeff', '1');
+      expect(date).toBe('2024-02-10');
+    });
+  });
+
   describe('getDataStore() singleton', () => {
     it('returns the same instance', () => {
       const a = getDataStore({ cacheSize: 5 });

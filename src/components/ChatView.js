@@ -410,6 +410,14 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
     toggleMenu();
   });
 
+  // Click on header background also opens the dropdown
+  header.addEventListener('click', (e) => {
+    // Don't trigger if clicking on interactive elements or existing dropdown
+    const interactive = e.target.closest('button, .chat-header-avatar, .chat-header-info-wrapper, .chat-dropdown-menu');
+    if (interactive) return;
+    toggleMenu();
+  });
+
   el.appendChild(header);
 
   // Messages area

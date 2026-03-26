@@ -242,6 +242,7 @@ async function init() {
       activeContextMenu = attachContextMenu(messagesArea, {
         senderNames: SENDER_NAMES,
         incomingSender,
+        conversationId: id,
       });
     }
   }
@@ -369,7 +370,16 @@ async function init() {
 
   const router = new HashRouter();
   router.on('home', () => showEmptyState());
-  router.on('chat', (id) => openConversation(id));
+  router.on('chat', async (id, messageId) => {
+    if (messageId) {
+      // Look up the date for this message ID
+      const date = await store.findDateForMessage(id, messageId);
+      if (date) {
+        pendingScrollTarget = { messageId, date };
+      }
+    }
+    openConversation(id);
+  });
 
   renderEmptyState(mainArea);
 

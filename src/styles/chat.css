@@ -21,6 +21,7 @@
   height: 59px;
   background-color: var(--WDS-background-wash-plain);
   border-bottom: 1px solid var(--WDS-lines-divider);
+  position: relative;
   flex-shrink: 0;
   z-index: 2;
 }

@@ -6,6 +6,7 @@
  */
 
 import { escapeHtml, formatDateLong, formatTime } from '../lib/utils.js';
+import { showToast } from './Toast.js';
 
 /**
  * Create and manage a context menu for the chat area.
@@ -14,7 +15,7 @@ import { escapeHtml, formatDateLong, formatTime } from '../lib/utils.js';
  * @param {Record<string,string>} [options.senderNames] - map short names to full names
  * @returns {{ destroy: function }}
  */
-export function attachContextMenu(chatContainer, { senderNames = {}, incomingSender = '' } = {}) {
+export function attachContextMenu(chatContainer, { senderNames = {}, incomingSender = '', conversationId = '' } = {}) {
   let menuEl = null;
   let drawerEl = null;
 
@@ -83,6 +84,32 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
           navigator.clipboard.writeText(msg.content).catch(() => {
             fallbackCopy(msg.content);
           });
+        },
+      });
+    }
+
+    // Share link
+    if (msg.id && conversationId) {
+      items.push({
+        label: 'Compartilhar texto',
+        action: () => {
+          const baseUrl = window.location.origin;
+          const shareUrl = `${baseUrl}/#/chat/${conversationId}/msg/${msg.id}`;
+          const senderDisplay = senderNames[msg.sender] || msg.sender || '';
+          const shareText = msg.content ? `"${msg.content}" — ${senderDisplay}` : '';
+
+          if (navigator.share) {
+            navigator.share({
+              title: 'MasterWhats',
+              text: shareText,
+              url: shareUrl,
+            }).catch(() => {
+              // Fallback to clipboard
+              copyAndToast(shareUrl);
+            });
+          } else {
+            copyAndToast(shareUrl);
+          }
         },
       });
     }
@@ -189,6 +216,12 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
     row.appendChild(valueEl);
 
     return row;
+  }
+
+  function copyAndToast(text) {
+    navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+    const toastContainer = chatContainer.closest('.chat-view') || chatContainer;
+    showToast(toastContainer, 'Link copiado para a área de transferência');
   }
 
   function fallbackCopy(text) {
