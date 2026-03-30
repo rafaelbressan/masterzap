@@ -1,4 +1,4 @@
-![MasterWhats — Conversas Vazadas de Daniel Vorcaro](public/assets/og-image.png)
+![MasterWhats — Conversas Vazadas de Daniel Vorcaro](public/assets/og-image.jpg)
 
 # MasterWhats
 
