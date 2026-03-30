@@ -8,6 +8,9 @@
 
 ---
 
+Feito por **[Rafael Bressan](https://linkedin.com/in/rafaelbressan)** com **[Claude Code](https://claude.ai/code)**.
+
+
 ## Sobre o Projeto
 
 Em março de 2026, mensagens de WhatsApp extraídas do celular apreendido de Daniel Vorcaro — ex-dono do Banco Master, preso pela Polícia Federal — foram vazadas para a imprensa. As 65.772 mensagens trocadas com sua então namorada Martha Graeff revelaram conexões com autoridades dos Três Poderes, apelidos carinhosos que viralizaram nas redes e detalhes do maior escândalo bancário da história do Brasil.
