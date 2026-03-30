@@ -105,10 +105,6 @@ A arquitetura já está ~80% preparada para escalar. O `DataStore` é agnóstico
 | Média | Compartilhamento de intervalos de mensagens | Não iniciado |
 | Baixa | Otimização para 100+ conversas (paginação, cache namespacing) | Não iniciado |
 
-## Autor
-
-Feito por **[Rafael Bressan](https://linkedin.com/in/rafaelbressan)** com **[Claude Code](https://claude.ai/code)**.
-
 ## Aviso Legal
 
 As informações compiladas neste projeto são de domínio público, extraídas de reportagens jornalísticas e fontes abertas. Este projeto não tem vinculação com nenhuma das partes envolvidas.
