@@ -19,7 +19,7 @@ O MasterWhats transforma essas conversas em uma experiência de leitura no estil
 
 ### Origem do nome
 
-O nome do repositório — **masterzap** — é uma referência ao projeto original [MasterZap](https://masterz4p.replit.app/), criado por **Lucas Matheus** no Replit com Grok. O MasterWhats foi construído a partir dessa inspiração, reimaginando a experiência com uma nova arquitetura e funcionalidades adicionais.
+O nome do repositório — **masterzap** — é uma referência ao projeto original [MasterZap](https://www.reddit.com/r/brasil/s/xQeqrG27p8), criado por **Lucas Matheus** no Replit com Grok. O MasterWhats foi construído a partir dessa inspiração, reimaginando a experiência com uma nova arquitetura e funcionalidades adicionais.
 
 ## Funcionalidades
 
@@ -29,7 +29,7 @@ O nome do repositório — **masterzap** — é uma referência ao projeto origi
 - **Perfis investigativos** — biografia de Vorcaro e Martha com contexto e links para as reportagens
 - **Menu de contexto** — copie texto, responda ou compartilhe qualquer mensagem
 - **Links internos** — clique nos trechos citados pela imprensa e vá direto para a mensagem original
-- **Totalmente responsivo** — experiência completa no celular e no desktop, um diferencial em relação ao [MasterZap](https://masterz4p.replit.app/) original
+- **Totalmente responsivo** — experiência completa no celular e no desktop, um diferencial em relação ao [MasterZap](https://www.reddit.com/r/brasil/s/xQeqrG27p8) original
 
 ## Tecnologia
 
@@ -115,7 +115,7 @@ As informações compiladas neste projeto são de domínio público, extraídas 
 
 **MasterWhats** is an interactive viewer for 65,772 leaked WhatsApp messages between Daniel Vorcaro (former owner of Banco Master, arrested by Brazil's Federal Police) and Martha Graeff. Built with vanilla JS and Vite, it features smart search with accent support, calendar navigation, direct message link sharing, investigative profiles, and a fully responsive WhatsApp Web-like interface optimized for mobile.
 
-The repo name "masterzap" references the original [MasterZap](https://masterz4p.replit.app/) project by Lucas Matheus (built on Replit with Grok), which inspired this reimagined version.
+The repo name "masterzap" references the original [MasterZap](https://www.reddit.com/r/brasil/s/xQeqrG27p8) project by Lucas Matheus (built on Replit with Grok), which inspired this reimagined version.
 
 **Contributions welcome** — new leaked conversations, media support, sharing improvements, and bug fixes. See the Roadmap section above. Only text messages are currently available; images, audio, and video were not part of the leak.
 
