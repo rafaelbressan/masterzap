@@ -25,6 +25,38 @@
       "destination": "/site.webmanifest"
     },
     {
+      "source": "/api/v1/conversations",
+      "destination": "/data/conversations.json"
+    },
+    {
+      "source": "/api/v1/conversations/:id",
+      "destination": "/data/:id/index.json"
+    },
+    {
+      "source": "/api/v1/conversations/:id/days/:date",
+      "destination": "/data/:id/:date.json"
+    },
+    {
+      "source": "/api/v1/conversations/:id/months/:month",
+      "destination": "/export/masterwhats-:id-:month.json"
+    },
+    {
+      "source": "/api/v1/conversations/:id/full",
+      "destination": "/export/masterwhats-:id.json"
+    },
+    {
+      "source": "/api/v1/conversations/:id/search-index",
+      "destination": "/data/:id/search-index.json"
+    },
+    {
+      "source": "/api/v1/calls",
+      "destination": "/data/calls.json"
+    },
+    {
+      "source": "/api/v1/people",
+      "destination": "/data/people.json"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
@@ -61,6 +93,14 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=31536000, immutable"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, HEAD, OPTIONS"
         }
       ]
     },
@@ -79,6 +119,14 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=3600"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, HEAD, OPTIONS"
         }
       ]
     },
@@ -106,6 +154,40 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=86400"
+        }
+      ]
+    },
+    {
+      "source": "/api/v1/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, HEAD, OPTIONS"
+        }
+      ]
+    },
+    {
+      "source": "/api/mcp",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Accept, Mcp-Session-Id, Mcp-Protocol-Version"
         }
       ]
     }

@@ -65,7 +65,7 @@ test.describe('Settings/About Drawer', () => {
     await page.locator('.nav-rail-btn[title="Sobre"]').click();
     const placeholder = page.locator('.profile-placeholder');
     await expect(placeholder).toBeVisible();
-    await expect(page.locator('.profile-placeholder-text')).toHaveText('Sobre');
+    await expect(page.locator('.profile-placeholder .empty-state-title')).toHaveText('Sobre');
   });
 });
 

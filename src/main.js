@@ -22,6 +22,8 @@ import {
 } from './lib/screenshot.js';
 import { showImagePreview } from './components/ImagePreview.js';
 import { renderCallsPanel } from './components/CallsPanel.js';
+import { showApiDrawer } from './components/ApiDrawer.js';
+import { showLegalDrawer } from './components/LegalDrawer.js';
 import { exportUrl, EXPORT_ALL_URL, downloadFile } from './lib/export.js';
 import { copyText } from './lib/utils.js';
 
@@ -128,6 +130,37 @@ async function init() {
     restoreMainArea();
   }
 
+  let activeApiDrawer = null;
+  let activeLegalDrawer = null;
+
+  /** Close the legal notice and restore sidebar + main area. */
+  function closeLegal() {
+    const wasOpen = !!activeLegalDrawer;
+    if (activeLegalDrawer) {
+      const d = activeLegalDrawer;
+      activeLegalDrawer = null;
+      d.destroy();
+    }
+    restoreMainArea();
+    if (wasOpen && router.getCurrentRoute().route === 'legal') router.replace('home');
+  }
+
+  /** Close the API/MCP page and restore sidebar + main area. */
+  function closeApi() {
+    const wasOpen = !!activeApiDrawer;
+    if (activeApiDrawer) {
+      const d = activeApiDrawer;
+      activeApiDrawer = null;
+      d.destroy();
+    }
+    restoreMainArea();
+    // The page lives at #/api; leaving it by any door leaves the address too,
+    // or the next "open" would navigate to where we already are and do nothing.
+    // Silently: a hashchange here would run the home handler, which closes
+    // every drawer — including the one that may be opening in our place.
+    if (wasOpen && router.getCurrentRoute().route === 'api') router.replace('home');
+  }
+
   /** Close the settings drawer and restore sidebar + main area. */
   function closeSettings() {
     if (activeSettingsDrawer) {
@@ -143,10 +176,8 @@ async function init() {
     mainAreaSavedContent = Array.from(mainArea.children);
     mainAreaSavedContent.forEach(child => child.style.display = 'none');
 
-    const placeholder = document.createElement('div');
-    placeholder.className = 'profile-placeholder';
-    placeholder.innerHTML = `${iconSvg}<div class="profile-placeholder-text">${label}</div>`;
-    mainArea.appendChild(placeholder);
+    // The same card the empty state uses: icon and title, no footer.
+    renderEmptyState(mainArea, { title: label, text: '', iconSvg, footer: null, className: 'profile-placeholder' });
   }
 
   /** Restore main area children from saved state. */
@@ -165,6 +196,8 @@ async function init() {
     closeChat();
     closeProfile();
     closeSettings();
+    closeApi();
+    closeLegal();
   }
 
   // ── Placeholder SVGs ──────────────────────────────
@@ -394,8 +427,10 @@ async function init() {
   function openProfile() {
     if (activeProfileDrawer) { closeProfile(); return; }
 
-    // Close settings if open
+    // One drawer at a time
     closeSettings();
+    closeApi();
+    closeLegal();
     // Close chat drawers
     closeRightDrawers();
 
@@ -449,8 +484,10 @@ async function init() {
   function openSettings() {
     if (activeSettingsDrawer) { closeSettings(); return; }
 
-    // Close profile if open
+    // One drawer at a time
     closeProfile();
+    closeApi();
+    closeLegal();
     // Close chat drawers
     closeRightDrawers();
 
@@ -458,7 +495,44 @@ async function init() {
 
     activeSettingsDrawer = showSettingsDrawer(container, {
       onClose: closeSettings,
+      onApi: () => (router.getCurrentRoute().route === 'api' ? openApi() : router.navigate('api')),
+    onLegal: () => (router.getCurrentRoute().route === 'legal' ? openLegal() : router.navigate('legal')),
       actions: drawerActions(closeSettings),
+    });
+  }
+
+  const SVG_CODE = `<svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`;
+
+  /** The API/MCP page, in the settings drawer's place. Lives at #/api. */
+  const SVG_LEGAL = `<svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.5 8.5 8 9 4.5-.5 8-4 8-9V6l-8-3z"/><path d="m9 12 2 2 4-4"/></svg>`;
+
+  /** The legal notice, in the settings drawer's place. Lives at #/legal. */
+  function openLegal() {
+    if (activeLegalDrawer) return;
+    closeProfile();
+    closeSettings();
+    closeApi();
+    closeRightDrawers();
+    hideMainAreaWithPlaceholder(SVG_LEGAL, 'Aviso legal');
+    activeLegalDrawer = showLegalDrawer(container, { onClose: closeLegal });
+  }
+
+  function openApi(section) {
+    if (activeApiDrawer) {
+      const target = section && document.getElementById(`api-${section}`);
+      if (target) target.scrollIntoView({ block: 'start' });
+      return;
+    }
+    closeProfile();
+    closeSettings();
+    closeLegal();
+    closeRightDrawers();
+    hideMainAreaWithPlaceholder(SVG_CODE, 'API/MCP');
+    activeApiDrawer = showApiDrawer(container, {
+      section,
+      onClose: closeApi,
+      // The drawer covers the main area on a phone; the toast goes where the eyes are.
+      onCopy: (ok) => showToast(activeApiDrawer?.element || mainArea, ok ? 'Copiado' : 'Não foi possível copiar'),
     });
   }
 
@@ -489,6 +563,8 @@ async function init() {
     onExportAll: () => downloadFile(EXPORT_ALL_URL),
     onCalls: () => router.navigate('calls'),
     onChats: () => router.navigate('home'),
+    onApi: () => (router.getCurrentRoute().route === 'api' ? openApi() : router.navigate('api')),
+    onLegal: () => (router.getCurrentRoute().route === 'legal' ? openLegal() : router.navigate('legal')),
     onSelect: (id) => {
       // Close profile/settings if open before navigating
       closeProfile();
@@ -518,12 +594,24 @@ async function init() {
 
   const router = new HashRouter();
   router.on('home', () => { sidebar.showChats?.(); navRail.setActive?.('chats'); showEmptyState(); });
+  router.on('legal', () => {
+    if (activeLegalDrawer) return;
+    sidebar.showChats?.(); navRail.setActive?.('chats'); showEmptyState(); openLegal();
+  });
+  router.on('api', (section) => {
+    if (activeApiDrawer) { openApi(section); return; }
+    sidebar.showChats?.(); navRail.setActive?.('chats'); showEmptyState(); openApi(section);
+  });
 
   // The calls screen takes the list's place; the log is one file, fetched
   // the first time it is asked for.
   let callsPromise = null;
+  const SVG_CALLS = `<svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`;
+
   router.on('calls', async () => {
     showEmptyState();
+    while (mainArea.firstChild) mainArea.removeChild(mainArea.firstChild);
+    renderEmptyState(mainArea, { title: 'Chamadas', text: 'As chamadas registradas no material, mais recentes primeiro. Toque numa chamada para abrir a conversa no ponto em que ela aconteceu.', iconSvg: SVG_CALLS });
     callsPromise ??= fetch('/data/calls.json').then(r => r.json()).then(d => d.calls);
     let calls = [];
     try { calls = await callsPromise; } catch { callsPromise = null; }
@@ -532,6 +620,7 @@ async function init() {
       conversations: store.getConversations(),
       avatarFor: (convId) => AVATARS[convId] || null,
       onOpen: (convId, messageId) => router.navigate('chat', convId, messageId),
+      onMenu: () => sidebar.toggleMenu?.(),
     });
     sidebar.showCalls?.(panel);
     navRail.setActive?.('calls');

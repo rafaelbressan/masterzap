@@ -445,6 +445,8 @@ export const CREDITS = 'Projeto feito por {Rafael Bressan}[https://linkedin.com/
  * - action: URLs → <a href="#" data-action="...">
  */
 export function parseLinks(text) {
+  // `code` — a path, a header name, a status — set apart in monospace.
+  text = text.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
   return text.replace(/\{([^}]+)\}\[([^\]]+)\]/g, (_, linkText, url) => {
     if (url.startsWith('action:')) {
       return `<span data-action="${url}" class="profile-action-link">${linkText}</span>`;

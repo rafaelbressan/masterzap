@@ -244,7 +244,11 @@ export function renderLinks(text, opts = {}) {
     }
     last = m.index + m[0].length;
   }
-  return out + esc(text.slice(last));
+  out += esc(text.slice(last));
+  // `code` spans: monospace in html, gone in plain text, untouched in Markdown.
+  if (mode === 'html') out = out.replace(/`([^`]+)`/g, '<code>$1</code>');
+  if (mode === 'text') out = out.replace(/`([^`]+)`/g, '$1');
+  return out;
 }
 
 /** Thin names for the common cases. */

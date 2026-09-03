@@ -12,12 +12,13 @@
  * saying the same thing — a profile edited in one place is edited in both.
  */
 
-import { writeFileSync, mkdirSync, readdirSync } from 'node:fs';
+import { writeFileSync, mkdirSync, readdirSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import JSZip from 'jszip';
 
 import { getContactProfile, VORCARO_PROFILE, SOURCES } from '../src/lib/profile-content.js';
 import { SETTINGS_CONTENT } from '../src/lib/settings-content.js';
+import { LEGAL_SHORT } from '../src/lib/legal-content.js';
 import {
   ROOT, SITE, REPO, TIMEZONE, UTC_OFFSET,
   loadEntries, loadMessages, sourceOf, contactOf, whoIs, createResolver, createLocator, isPaged,
@@ -25,6 +26,9 @@ import {
 } from './lib/corpus.mjs';
 
 const OUT = join(ROOT, 'public/export');
+// The consolidated files and the zip are published as a GitHub Release —
+// unlimited bandwidth — not served by the site. See scripts/publish-bulk.sh.
+const RELEASE = join(ROOT, 'release');
 const FORMAT_VERSION = 1;
 const generatedAt = new Date().toISOString();
 
@@ -113,7 +117,7 @@ function conversationMarkdown(entry, messages, { standalone = true, month = null
 
   out.push(`${heading} Daniel Vorcaro ↔ ${contact}${month ? ` — ${monthName(month)}` : ''}`, '');
   if (standalone) {
-    out.push(`> Exportado de [MasterWhats](${SITE}/#/chat/${entry.id}) em ${generatedAt.slice(0, 10)}.${month ? ` Só ${monthName(month)} (${messages.length} mensagens); a conversa inteira está em masterwhats-${entry.id}.md.` : ''} Código e dados: ${REPO}.`, '');
+    out.push(`> Exportado de [MasterWhats](${SITE}/#/chat/${entry.id}) em ${generatedAt.slice(0, 10)}.${month ? ` Só ${monthName(month)} (${messages.length} mensagens); a conversa inteira está em masterwhats-${entry.id}.md.` : ''} Código e dados: ${REPO}.`, `> ${linksToMarkdown(LEGAL_SHORT)}`, '');
   }
 
   out.push(`${sub} Proveniência`, '', '| | |', '|---|---|');
@@ -209,8 +213,8 @@ function readme(conversations) {
     '- `[imagem de visualização única — conteúdo não recuperado]`: enviada em visualização única e não recuperada pela perícia.', '',
     aboutMarkdown(),
     '## Fontes gerais', '', ...SOURCES.map(s => `- [${s.label}](${s.url})`), '',
-    `## Aviso`, '',
-    'As informações aqui compiladas são de domínio público, extraídas de reportagens jornalísticas e de documentos cujo sigilo foi levantado judicialmente. Este projeto não tem vinculação com nenhuma das partes envolvidas.', '',
+    `## Aviso legal`, '',
+    linksToMarkdown(LEGAL_SHORT), '',
   ].join('\n');
 }
 
@@ -236,8 +240,9 @@ function allMarkdown(built) {
 // ── run ────────────────────────────────────────────────────────────────────
 
 mkdirSync(OUT, { recursive: true });
+mkdirSync(RELEASE, { recursive: true });
 for (const stale of readdirSync(OUT)) {
-  if (/^masterwhats/.test(stale)) writeFileSync(join(OUT, stale), '');
+  if (/^masterwhats/.test(stale)) rmSync(join(OUT, stale));
 }
 
 const zip = new JSZip();
@@ -279,12 +284,12 @@ const allJson = JSON.stringify({
   export: { generated_at: generatedAt, format_version: FORMAT_VERSION, site: SITE, repository: REPO, timezone: TIMEZONE, utc_offset: UTC_OFFSET },
   conversations: built.map(b => conversationJson(b.entry, b.messages)),
 });
-writeFileSync(join(OUT, 'masterwhats.md'), allMd);
-writeFileSync(join(OUT, 'masterwhats.json'), allJson);
+writeFileSync(join(RELEASE, 'masterwhats.md'), allMd);
+writeFileSync(join(RELEASE, 'masterwhats.json'), allJson);
 zip.file('README.md', readme(entries));
 
 const zipBuf = await zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE', compressionOptions: { level: 9 } });
-writeFileSync(join(OUT, 'masterwhats-export.zip'), zipBuf);
+writeFileSync(join(RELEASE, 'masterwhats-export.zip'), zipBuf);
 
-console.log(`\nDone! ${built.length} conversations → ${OUT}`);
+console.log(`\nDone! ${built.length} conversations → ${OUT}; bulk → ${RELEASE}`);
 console.log(`masterwhats.md ${(allMd.length / 1048576).toFixed(1)} MB, masterwhats.json ${(allJson.length / 1048576).toFixed(1)} MB, zip ${(zipBuf.length / 1048576).toFixed(1)} MB`);

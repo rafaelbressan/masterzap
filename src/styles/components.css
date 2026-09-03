@@ -607,30 +607,7 @@
 /* Mobile handled in shared drawer media query above */
 
 /* ── Profile Placeholder (main area when profile is open) ── */
-.profile-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  height: 100%;
-  color: var(--WDS-content-deemphasized);
-  gap: 12px;
-  z-index: 1;
-  position: relative;
-  background-color: var(--WDS-surface-emphasized);
-}
-
-.profile-placeholder svg {
-  color: var(--WDS-warm-gray-300);
-}
-
-.profile-placeholder-text {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--WDS-content-default);
-  letter-spacing: -0.014em;
-}
+/* Sobre/Perfil placeholders reuse the empty-state card; nothing to add. */
 
 /* ── Profile Drawer (DV profile, replaces sidebar) ── */
 .profile-drawer {
@@ -1119,10 +1096,10 @@
 /* ── Calls screen ──────────────────────────────────────────────────────────
    Takes the chat list's place in the sidebar; the header, search and filter
    tabs are the list's, so they step aside. */
-.sidebar--calls .sidebar-header,
-.sidebar--calls .sidebar-search,
-.sidebar--calls .sidebar-tags,
-.sidebar--calls .conversation-list {
+.sidebar--calls > .sidebar-header,
+.sidebar--calls > .sidebar-search,
+.sidebar--calls > .sidebar-tags,
+.sidebar--calls > .conversation-list {
   display: none;
 }
 
@@ -1131,8 +1108,7 @@
   flex: 1;
   min-height: 0;
   flex-direction: column;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
   background: var(--WDS-white);
 }
 
@@ -1143,8 +1119,8 @@
 .calls-header {
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 14px 8px 8px 16px;
+  gap: 2px;
+  padding: 14px 8px 4px 16px;
 }
 
 .calls-title {
@@ -1163,9 +1139,14 @@
   color: var(--WDS-content-default);
 }
 
+/* Dim the icon, not the button: opacity on the button would open a stacking
+   context and trap the tooltip beneath the search field. */
 .calls-header-btn:disabled {
-  opacity: 0.45;
   cursor: not-allowed;
+}
+
+.calls-header-btn:disabled svg {
+  opacity: 0.45;
 }
 
 .calls-actions {
@@ -1340,4 +1321,308 @@
 @media (min-width: 601px) {
   .contacts-sheet-back .is-back { display: none; }
   .contacts-sheet-back .is-close { display: flex; }
+}
+
+/* ── API/MCP page ──────────────────────────────────────────────────────────── */
+.api-drawer {
+  position: relative;
+}
+
+.api-hero-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--WDS-warm-gray-75);
+  color: var(--WDS-accent);
+}
+
+.api-code {
+  position: relative;
+  margin: 8px 0 12px;
+  border-radius: 8px;
+  background: var(--WDS-warm-gray-75);
+}
+
+.api-code.inset {
+  margin: 8px 16px 12px;
+}
+
+.api-code pre {
+  margin: 0;
+  padding: 14px 14px 12px;
+  font: 13.5px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color: var(--WDS-content-default);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.api-code-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px 8px 14px;
+}
+
+.api-copy {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: var(--WDS-content-deemphasized);
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.api-copy:hover {
+  background: var(--WDS-surface-highlight);
+}
+
+.api-routes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.api-route {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--WDS-warm-gray-75);
+  color: inherit;
+  text-decoration: none;
+}
+
+.api-route:hover {
+  background: var(--WDS-surface-highlight);
+}
+
+.api-route-path {
+  font: 13.5px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color: var(--WDS-cobalt-400);
+  overflow-wrap: anywhere;
+}
+
+.api-route-desc,
+.api-tools,
+.api-steps,
+.api-limits {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--WDS-content-deemphasized);
+}
+
+.api-tools,
+.api-steps {
+  margin: 0 0 12px;
+  padding-left: 20px;
+}
+
+.api-tools code {
+  color: var(--WDS-content-default);
+  font: 13px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.api-limits {
+  margin: 4px 0 0;
+  font-weight: 500;
+  color: var(--WDS-content-default);
+}
+
+.sidebar-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebar-dropdown-icon {
+  display: flex;
+  color: var(--WDS-content-deemphasized);
+}
+
+/* Inline code in content: the same grey and monospace as the MCP URL box. */
+.inline-code,
+.profile-section code {
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: var(--WDS-warm-gray-75);
+  font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color: var(--WDS-content-default);
+  overflow-wrap: anywhere;
+}
+
+.profile-section a {
+  color: var(--WDS-cobalt-400);
+  text-decoration: none;
+}
+
+.profile-section a:hover {
+  text-decoration: underline;
+}
+
+/* Second wrapper on the API page: no double gap against the prose above. */
+.api-sections {
+  padding-top: 0;
+}
+
+.api-example-title {
+  margin: 16px 0 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--WDS-content-default);
+}
+
+/* Two wrappers in a row on the API page: one gap between them, not two. */
+.api-drawer .profile-sections:not(:last-child) {
+  padding-bottom: 0;
+}
+
+/* An action at the right of a drawer title (the API/MCP shortcut on "Sobre"). */
+.profile-drawer-action {
+  margin-left: auto;
+  display: flex;
+  padding: 8px;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: var(--WDS-content-deemphasized);
+  cursor: pointer;
+}
+
+.profile-drawer-action:hover {
+  background: var(--WDS-surface-highlight);
+  color: var(--WDS-accent);
+}
+
+/* Syntax colours for the snippets — muted, on the grey box. */
+.hl-command { color: var(--WDS-green-700); font-weight: 600; }
+.hl-flag { color: var(--WDS-content-deemphasized); }
+.hl-string { color: #a35a00; }
+.hl-url { color: var(--WDS-cobalt-400); }
+.hl-key { color: #5b3fa0; }
+.hl-number { color: #0b6e4f; }
+.hl-keyword { color: #a3145a; font-weight: 500; }
+.hl-comment { color: var(--WDS-content-deemphasized); font-style: italic; }
+
+/* Section titles on the API page carry a link; it shows on hover, always on touch. */
+.profile-section-title.has-anchor {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.api-anchor {
+  display: flex;
+  padding: 4px;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: var(--WDS-content-deemphasized);
+  opacity: 0;
+  cursor: pointer;
+}
+
+.has-anchor:hover .api-anchor,
+.api-anchor:focus-visible {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .api-anchor { opacity: 0.6; }
+}
+
+/* Calls: search and chips under the header, like the list's tags. */
+.calls-header {
+  position: relative;
+}
+
+
+.calls-empty {
+  padding: 16px;
+  color: var(--WDS-content-deemphasized);
+  font-size: 14px;
+}
+
+/* The language of a snippet, in the footer row, left of the copy. */
+.api-code-lang {
+  font: 11px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color: var(--WDS-content-deemphasized);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Room between list items on the API page. */
+.api-tools li,
+.api-steps li {
+  margin-bottom: 8px;
+}
+
+/* The calls panel is a flex column; the rows above the list must not be
+   squeezed when the list is long (the chip row, with overflow-x, could
+   shrink to a sliver on a short desktop viewport). */
+.calls-header,
+.calls-search,
+.calls-panel > .sidebar-tags,
+.calls-actions,
+.calls-recent {
+  flex-shrink: 0;
+}
+
+/* ── Tooltips, the WhatsApp Web way: dark, rounded, under the icon ─────────
+   Any element with data-tip shows it on hover or keyboard focus, after a
+   short pause. The nav rail shows its tips to the right. */
+[data-tip] {
+  position: relative;
+}
+
+[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 9px;
+  border-radius: 6px;
+  background: #111b21;
+  color: #fff;
+  font: 12.5px/1.2 Roboto, "Helvetica Neue", Arial, sans-serif;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 60;
+  transition: opacity 0.12s ease 0s;
+}
+
+[data-tip]:hover::after,
+[data-tip]:focus-visible::after {
+  opacity: 1;
+  transition-delay: 0.35s;
+}
+
+.nav-rail [data-tip]::after {
+  top: 50%;
+  left: calc(100% + 10px);
+  transform: translateY(-50%);
+}
+
+.calls-header [data-tip]::after,
+.sidebar-header [data-tip]::after {
+  left: auto;
+  right: 0;
+  transform: none;
+}
+
+.calls-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }

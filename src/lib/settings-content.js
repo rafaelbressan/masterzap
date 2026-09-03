@@ -108,4 +108,9 @@ export const SETTINGS_CONTENT = {
   ],
 };
 
+import { LEGAL_SHORT } from './legal-content.js';
+
 export const SETTINGS_CREDITS = 'Projeto feito por {Rafael Bressan}[https://linkedin.com/in/rafaelbressan] com Claude Code. {Código-fonte no GitHub}[https://github.com/rafaelbressan/masterzap]. As informações aqui compiladas são de domínio público, extraídas de reportagens jornalísticas e de documentos cujo sigilo foi levantado judicialmente.';
+
+/** The legal notice, short form, as the last section of the About drawer. */
+SETTINGS_CONTENT.sections.push({ title: 'Aviso legal', paragraphs: [{ text: LEGAL_SHORT }] });

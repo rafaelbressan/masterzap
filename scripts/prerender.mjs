@@ -30,6 +30,10 @@ import { join } from 'node:path';
 import { getContactProfile, VORCARO_PROFILE, SOURCES } from '../src/lib/profile-content.js';
 import { SETTINGS_CONTENT } from '../src/lib/settings-content.js';
 import { PEOPLE } from '../src/lib/people-content.js';
+import { API_ROUTES, API_BASE, BULK_RELEASE, MCP_LIMITS, MCP_URL, slugOf } from '../src/lib/api-routes.js';
+import { API_INTRO, API_SECTIONS, MCP_CLIENTS, MCP_TOOLS, API_EXAMPLES, MCP_EXAMPLES, API_CREDITS } from '../src/lib/api-content.js';
+import { LEGAL_INTRO, LEGAL_SECTIONS, LEGAL_SHORT, LEGAL_CREDITS, LEGAL_VERSION } from '../src/lib/legal-content.js';
+
 import {
   ROOT, SITE, REPO, TIMEZONE, UTC_OFFSET,
   loadEntries, loadMessages, sourceOf, contactOf, whoIs, createResolver, mentionsOf, createLocator, isPaged, PREVIEW_MESSAGES,
@@ -330,12 +334,19 @@ ${JSON.stringify(jsonLd, null, 2)}
   .msg .links { font-size: .85rem; }
   a { color: #027eb5; }
   ul.people li { margin: 6px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; vertical-align: top; padding: 8px 6px; border-bottom: 1px solid #d1d7db; }
+  pre { position: relative; background: #fff; padding: 12px 12px 28px; border-radius: 8px; overflow-x: auto; font-size: 13.5px; }
+  pre[data-lang]::after { content: attr(data-lang); position: absolute; bottom: 8px; left: 12px; font: 11px/1 ui-monospace, monospace; color: #667781; text-transform: uppercase; letter-spacing: .04em; }
+  li { margin: 6px 0; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
 </style>
 </head>
 <body>
 <main>
 <header><a href="/">MasterWhats</a> · <a href="/quem">Pessoas citadas</a></header>
 ${body}
+<footer class="how" style="margin-top:40px;padding-top:16px;border-top:1px solid #d1d7db;font-size:13px">${linksToHtml(LEGAL_SHORT)}</footer>
 </main>
 </body>
 </html>
@@ -400,6 +411,67 @@ function peopleIndex(people) {
   return standalone({ title: 'Pessoas citadas — MasterWhats', description: 'Quem aparece nas conversas de Daniel Vorcaro, com toda menção datada e apontando para a mensagem.', path: '/quem', jsonLd, body: body.join('\n') });
 }
 
+// ── /api: the same page, for whoever arrives without the app ──────────────
+
+function apiPage() {
+  const LANG = { shell: 'bash', json: 'JSON', python: 'Python', r: 'R', text: 'txt' };
+  const body = [];
+  body.push(`<h1>${escapeHtml(API_INTRO.title)}</h1>`, `<p class="role">${escapeHtml(API_INTRO.sub)}</p>`);
+  body.push(`<p><b>MCP:</b> <code>${MCP_URL}</code></p>`);
+  for (const s of API_SECTIONS) {
+    body.push(`<h2 id="api-${slugOf(s.title)}">${escapeHtml(s.title)}</h2>`);
+    for (const p of s.paragraphs) body.push(`<p>${linksToHtml(p.text)}</p>`);
+  }
+  body.push('<h2 id="api-a-api-estatica">A API estática</h2>', `<p>Base: <code>${SITE}${API_BASE}</code>. Cada rota é um arquivo na CDN; a resposta é sempre JSON.</p>`, '<table><thead><tr><th>Rota</th><th>O que devolve</th><th>Exemplo</th></tr></thead><tbody>');
+  for (const r of API_ROUTES) {
+    body.push(`<tr><td><code>${escapeHtml(r.route)}</code></td><td>${escapeHtml(r.description)}</td><td><a href="${API_BASE}${escapeHtml(r.example)}">${escapeHtml(r.example)}</a></td></tr>`);
+  }
+  body.push('</tbody></table>');
+  body.push('<h2 id="api-o-mcp">O MCP</h2>', '<ul>', ...MCP_TOOLS.map(([t, w]) => `<li><code>${t}</code> — ${escapeHtml(w)}</li>`), '</ul>');
+  body.push(`<p><b>Limites por cliente:</b> ${MCP_LIMITS.perMinute}/min · ${MCP_LIMITS.perDay}/dia. Teto do site: ${MCP_LIMITS.globalPerDay.toLocaleString('pt-BR')}/dia. Ao passar: 429 com Retry-After.</p>`);
+  for (const c of MCP_CLIENTS) {
+    body.push(`<h3 id="api-${slugOf('Como usar no ' + c.name)}">Como usar no ${escapeHtml(c.name)}</h3>`, '<ol>', ...c.steps.map(s => `<li>${linksToHtml(s)}</li>`), '</ol>', `<pre data-lang="${LANG[c.lang] || 'txt'}"><code>${escapeHtml(c.code)}</code></pre>`);
+  }
+  body.push('<h2 id="api-exemplos-com-a-api">Exemplos com a API</h2>');
+  for (const ex of API_EXAMPLES) body.push(`<p><b>${escapeHtml(ex.title)}</b></p>`, `<pre data-lang="${LANG[ex.lang] || 'txt'}"><code>${escapeHtml(ex.code)}</code></pre>`);
+  body.push('<h2 id="api-exemplos-com-o-mcp">Exemplos com o MCP</h2>', '<p>Depois de conectar, pergunte. O modelo busca, abre a mensagem e cita data, página e figura do laudo.</p>', '<ul>', ...MCP_EXAMPLES.map(q => `<li>${escapeHtml(q)}</li>`), '</ul>');
+  body.push(`<p class="how">${linksToHtml(API_CREDITS)}</p>`);
+  const jsonLd = {
+    '@context': 'https://schema.org', '@type': 'WebAPI', '@id': `${SITE}/api`, url: `${SITE}/api`,
+    name: 'MasterWhats API e MCP', description: API_INTRO.sub, documentation: `${SITE}/api`,
+    provider: { '@type': 'Person', name: 'Rafael Bressan' }, isPartOf: { '@id': `${SITE}/#dataset` }, dateModified: today,
+  };
+  return standalone({ title: 'API/MCP — MasterWhats', description: `${API_INTRO.sub}. ${API_ROUTES.length} rotas estáticas sem limite e um servidor MCP com ${MCP_LIMITS.perDay} chamadas por dia por cliente.`, path: '/api', jsonLd, body: body.join('\n') });
+}
+
+/** The legal notice as a page of its own. */
+function legalPage() {
+  const body = [`<h1>${escapeHtml(LEGAL_INTRO.title)}</h1>`, `<p class="role">${escapeHtml(LEGAL_INTRO.sub)}</p>`];
+  for (const s of LEGAL_SECTIONS) {
+    body.push(`<h2 id="legal-${slugOf(s.title)}">${escapeHtml(s.title)}</h2>`);
+    for (const p of s.paragraphs) body.push(`<p>${linksToHtml(p.text)}</p>`);
+  }
+  body.push(`<p class="how">${linksToHtml(LEGAL_CREDITS)}</p>`);
+  const jsonLd = {
+    '@context': 'https://schema.org', '@type': 'WebPage', '@id': `${SITE}/legal`, url: `${SITE}/legal`,
+    name: 'Aviso legal — MasterWhats', description: linksToText(LEGAL_SHORT).slice(0, 300), inLanguage: 'pt-BR',
+    isPartOf: { '@id': `${SITE}/#dataset` }, dateModified: LEGAL_VERSION,
+  };
+  return standalone({ title: 'Aviso legal — MasterWhats', description: linksToText(LEGAL_SHORT).slice(0, 160), path: '/legal', jsonLd, body: body.join('\n') });
+}
+
+/** The section llms.txt gets at build time, so it lists what the table lists. */
+function llmsApiSection() {
+  return [
+    '', '## API e MCP',
+    `Os mesmos arquivos do site com nome estável, na CDN, sem chave e sem limite. Documentação: ${SITE}/api`,
+    ...API_ROUTES.map(r => `- ${SITE}${API_BASE}${r.route} — ${r.description} Ex.: ${SITE}${API_BASE}${r.example}`),
+    `- MCP (Streamable HTTP, sem auth): ${MCP_URL} — tools ${MCP_TOOLS.map(([t]) => t).join(', ')}; ${MCP_LIMITS.perMinute}/min e ${MCP_LIMITS.perDay}/dia por cliente. Para volume, use as rotas acima.`,
+    '', '## Aviso legal', linksToText(LEGAL_SHORT), `Texto completo: ${SITE}/legal`,
+    '',
+  ].join('\n');
+}
+
 // ── llms-full.txt ──────────────────────────────────────────────────────────
 
 function profileParagraphs(profile, context) {
@@ -456,9 +528,10 @@ function llmsFull(built, people) {
   out.push('## Fontes gerais', '', ...SOURCES.map(s => `- [${s.label}](${s.url})`), '');
   out.push('## Export', '',
     'Comece pelo arquivo de uma conversa (7 a 40 KB, links acima); os consolidados são grandes e raramente necessários.',
-    `- Zip com tudo: ${SITE}/export/masterwhats-export.zip (3 MB)`,
-    `- Tudo em Markdown: ${SITE}/export/masterwhats.md (3 MB)`,
-    `- Tudo em JSON: ${SITE}/export/masterwhats.json (14 MB)`, '');
+    `- Zip com tudo: ${BULK_RELEASE}/masterwhats-export.zip (3 MB)`,
+    `- Tudo em Markdown: ${BULK_RELEASE}/masterwhats.md (3 MB)`,
+    `- Tudo em JSON: ${BULK_RELEASE}/masterwhats.json (14 MB)`, '',
+    `Os consolidados são publicados como release no GitHub, com banda ilimitada; o site serve só os arquivos por conversa.`, '');
   return out.join('\n');
 }
 
@@ -474,6 +547,8 @@ function sitemap(built, people) {
     if (months) for (const ym of months.keys()) rows.push(url(`${SITE}/chat/${entry.id}/${ym}`, '0.6', 'monthly'));
   }
   rows.push(url(`${SITE}/quem`, '0.8'));
+  rows.push(url(`${SITE}/api`, '0.7'));
+  rows.push(url(`${SITE}/legal`, '0.5', 'monthly'));
   for (const { person } of people) rows.push(url(`${SITE}/quem/${person.slug}`, '0.7'));
   rows.push(url(`${SITE}/llms.txt`, '0.7'));
   rows.push(url(`${SITE}/llms-full.txt`, '0.7'));
@@ -520,13 +595,28 @@ for (const person of PEOPLE) {
   console.log(`quem/${person.slug}/ — ${[...mentions.values()].reduce((n, v) => n + v.length, 0)} menções`);
 }
 writeFileSync(join(DIST, 'quem', 'index.html'), peopleIndex(people));
+// The same index as data, for the API and the MCP.
+writeFileSync(join(DIST, 'data', 'people.json'), JSON.stringify({ people: people.map(({ person, mentions }) => ({
+  slug: person.slug, name: person.name, role: person.role, page: `${SITE}/quem/${person.slug}`,
+  total: [...mentions.values()].reduce((n, v) => n + v.length, 0),
+  conversations: [...mentions].map(([id, hits]) => ({
+    id, contact: contactOf(byId.get(id)),
+    mentions: hits.map(({ msg, alias }) => ({ id: msg.id, date: msg.date, time: msg.time, sender: msg.sender, content: msg.content, alias,
+      ...(msg.source_page ? { laudo: { page: msg.source_page, figure: msg.source_figure } } : {}),
+      link: `${SITE}/#/chat/${id}/msg/${msg.id}`, page: `${SITE}${locate(id, msg)}` })),
+  })),
+})) }, null, 1));
 
 // The sizes the index quotes decide whether a crawler downloads a file. They
 // are stamped from the files themselves rather than typed and forgotten.
-const mb = (name) => `${(statSync(join(DIST, 'export', name)).size / 1e6).toFixed(1)} MB`;
+const mb = (name) => `${(statSync(join(ROOT, 'release', name)).size / 1e6).toFixed(1)} MB`;
 const SIZES = { 'masterwhats.md': mb('masterwhats.md'), 'masterwhats.json': mb('masterwhats.json'), 'masterwhats-export.zip': mb('masterwhats-export.zip') };
 const stampSizes = (text) => text.replace(/(masterwhats(?:-export)?\.(?:md|json|zip)) \([\d.,]+ MB\)/g, (m, name) => `${name} (${SIZES[name] || m.slice(name.length + 2, -1)})`);
-writeFileSync(join(DIST, 'llms.txt'), stampSizes(readFileSync(join(DIST, 'llms.txt'), 'utf-8')));
+writeFileSync(join(DIST, 'llms.txt'), stampSizes(readFileSync(join(DIST, 'llms.txt'), 'utf-8')) + llmsApiSection());
+mkdirSync(join(DIST, 'api'), { recursive: true });
+writeFileSync(join(DIST, 'api', 'index.html'), apiPage());
+mkdirSync(join(DIST, 'legal'), { recursive: true });
+writeFileSync(join(DIST, 'legal', 'index.html'), legalPage());
 writeFileSync(join(DIST, 'llms-full.txt'), stampSizes(llmsFull(built, people)));
 writeFileSync(join(DIST, 'sitemap.xml'), sitemap(built, people));
 console.log(`\nDone! ${built.length} conversations, ${people.length} people, llms-full.txt, sitemap.xml → ${DIST}`);

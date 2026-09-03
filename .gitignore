@@ -6,6 +6,7 @@ dist/
 # Generated data (rebuild with npm run split-data / npm run export)
 public/data/
 public/export/
+release/
 
 # Reference files (personal images, design refs)
 ref/

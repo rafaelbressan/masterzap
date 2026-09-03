@@ -61,8 +61,8 @@
 }
 
 .nav-rail-btn.active {
-  color: var(--WDS-accent);
-  background-color: var(--WDS-green-50);
+  color: var(--WDS-content-default);
+  background-color: var(--WDS-surface-highlight);
 }
 
 .nav-rail-btn.disabled {
@@ -532,46 +532,70 @@
   align-items: center;
   justify-content: center;
   flex: 1;
+  width: 100%;
   height: 100%;
-  z-index: 1;
+  box-sizing: border-box;
+  padding: 32px 24px 24px;
+  /* The ground WhatsApp Web uses behind its intro card: warm off-white, no wallpaper. */
+  background: #f7f5f3;
   position: relative;
+}
+
+.empty-state-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  padding: 0 40px;
+  width: 352px;
+  max-width: 100%;
+  padding: 40px 32px 36px;
+  border-radius: 16px;
+  background: var(--WDS-white);
 }
 
 .empty-state-icon {
-  width: 250px;
-  height: auto;
-  margin-bottom: 28px;
-  opacity: 0.75;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 96px;
+  height: 96px;
+  margin-bottom: 22px;
+  color: var(--WDS-warm-gray-300);
+}
+
+.empty-state-icon img {
+  width: 96px;
+  height: 96px;
+}
+
+.empty-state-icon svg {
+  width: 64px;
+  height: 64px;
 }
 
 .empty-state-title {
-  font-size: 32px;
-  font-weight: 300;
+  margin: 0 0 8px;
+  font-size: 22px;
+  font-weight: 500;
   color: var(--WDS-content-default);
-  margin-bottom: 16px;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.2px;
 }
 
 .empty-state-text {
+  margin: 0;
   font-size: 14px;
   color: var(--WDS-content-deemphasized);
   line-height: 1.6;
-  max-width: 480px;
-}
-
-.empty-state-divider {
-  width: 470px;
-  max-width: 100%;
-  height: 1px;
-  background-color: var(--WDS-lines-divider);
-  margin: 40px 0;
 }
 
 .empty-state-footer {
+  position: absolute;
+  bottom: 28px;
+  left: 0;
+  right: 0;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   font-size: 13px;
   color: var(--WDS-content-deemphasized);
@@ -599,4 +623,19 @@ body,
 .chat-msg-content {
   min-width: 0;
   overflow-wrap: anywhere;
+}
+
+/* The rail's icons: outline idle, solid when selected. */
+.nav-rail-btn .icon-outline,
+.nav-rail-btn .icon-solid {
+  display: flex;
+}
+
+.nav-rail-btn .icon-solid,
+.nav-rail-btn.active .icon-outline {
+  display: none;
+}
+
+.nav-rail-btn.active .icon-solid {
+  display: flex;
 }

@@ -66,6 +66,12 @@ describe('rendering', () => {
     expect(linksToHtml('a < b {x}[https://e.x/y?a=1&b=2]')).toBe('a &lt; b <a href="https://e.x/y?a=1&amp;b=2" rel="noopener">x</a>');
   });
 
+  it('sets `code` apart in html, drops the ticks in text, keeps them in Markdown', () => {
+    expect(linksToHtml('mande `X-Client` no header')).toBe('mande <code>X-Client</code> no header');
+    expect(linksToText('mande `X-Client` no header')).toBe('mande X-Client no header');
+    expect(linksToMarkdown('mande `X-Client` no header')).toBe('mande `X-Client` no header');
+  });
+
   it('comes out as plain text when asked', () => {
     expect(linksToText(text)).toBe('"Acha que segunda ja tenho que estar fora?" e Ciro e fonte');
   });

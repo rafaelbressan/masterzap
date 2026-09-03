@@ -45,6 +45,12 @@ npm run dev           # Start dev server
 - **Outgoing messages**: `sender === "DV"` (right-aligned, green bubble)
 - **Conversation ID**: slugified participant name (e.g., `martha-graeff`)
 
+## API and MCP
+
+- `src/lib/api-routes.js` is **the** table: route → file. `vercel.json` rewrites, the `/api` page (`ApiDrawer.js` in-app, `dist/api/` static), the `llms.txt` section and the MCP's URLs all derive from it; `tests/unit/api-routes.test.js` holds `vercel.json` to it and checks every example resolves to a file in `dist/`.
+- `api/mcp.js` is the only Vercel Function: `mcp-handler` (SDK v2, Streamable HTTP, stateless). Tools in `src/lib/mcp/server.js` are adapters that `fetch` the static API; `search`/`fetch` follow OpenAI's connector contract. Limits in `src/lib/mcp/limits.js` (per-minute, per-day per client, global per day; in memory). Tested end-to-end with an in-memory client in `tests/unit/mcp.test.js`.
+- Bulk (`masterwhats.md/.json`, zip) is written to `release/` (gitignored) and published with `scripts/publish-bulk.sh` as a GitHub Release; the site links `releases/latest/download/…`.
+
 ## Commands
 
 ```bash
