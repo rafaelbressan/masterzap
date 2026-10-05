@@ -78,7 +78,6 @@ async function init() {
     'marcos-prime': '/assets/avatar-marcos-prime.jpg',
     'thatiane-prime': '/assets/avatar-thatiane-prime.jpg',
     'leo-serrano': '/assets/avatar-leo-serrano.jpg',
-    'stella-vorcaro': '/assets/avatar-stella-vorcaro.jpg',
     'luiz-renno': '/assets/avatar-luiz-renno.jpg',
     'ana-matos-mkt': '/assets/avatar-ana-matos-mkt.jpg',
     // The chat Vorcaro kept with himself — his own photo, as WhatsApp shows it.
