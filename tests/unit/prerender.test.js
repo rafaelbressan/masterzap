@@ -7,6 +7,8 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync, existsSync, statSync, readdirSync } from 'fs';
 import { join } from 'path';
+import { API_ROUTES, MCP_URL, MCP_LIMITS } from '../../src/lib/api-routes.js';
+import { LEGAL_SECTIONS } from '../../src/lib/legal-content.js';
 
 const ROOT = join(import.meta.dirname, '../..');
 const DIST = join(ROOT, 'dist');
@@ -207,19 +209,66 @@ describe('people', () => {
   });
 });
 
+describe('the API page', () => {
+  it('documents every route of the table, and the MCP, without the app', () => {
+    const html = readFileSync(join(DIST, 'api/index.html'), 'utf-8');
+    for (const r of API_ROUTES) {
+      expect(html, r.route).toContain(`<code>${r.route}</code>`);
+      expect(html, r.example).toContain(`href="/api/v1${r.example}"`);
+    }
+    expect(html).toContain(MCP_URL);
+    expect(html).toContain(`${MCP_LIMITS.perDay}/dia`);
+    expect(html).toContain('claude mcp add --transport http masterwhats');
+    expect(html).toContain('>Exemplos com a API</h2>');
+    expect(html).toContain('curl -s https://www.masterwhats.com.br/api/v1/calls');
+    expect(html).toContain('<link rel="canonical" href="https://www.masterwhats.com.br/api">');
+  });
+
+  it('is announced in llms.txt, route by route', () => {
+    const t = readFileSync(join(DIST, 'llms.txt'), 'utf-8');
+    expect(t).toContain('## API e MCP');
+    for (const r of API_ROUTES) expect(t, r.route).toContain(`${SITE}/api/v1${r.route}`);
+    expect(t).toContain(MCP_URL);
+  });
+
+  it('serves the people as data for the API', () => {
+    const { people } = JSON.parse(readFileSync(join(DIST, 'data/people.json'), 'utf-8'));
+    const gonet = people.find(p => p.slug === 'paulo-gonet');
+    expect(gonet.total).toBe(12);
+    expect(gonet.conversations.find(c => c.id === 'ciro-soares').mentions.find(m => m.id === 34).laudo).toEqual({ page: 207, figure: 219 });
+  });
+});
+
+describe('the legal notice', () => {
+  it('has a page of its own, with every section, and is on the sitemap', () => {
+    const html = readFileSync(join(DIST, 'legal/index.html'), 'utf-8');
+    expect(html).toContain('<link rel="canonical" href="https://www.masterwhats.com.br/legal">');
+    for (const s of LEGAL_SECTIONS) expect(html, s.title).toContain(`>${s.title}</h2>`);
+    expect(html).toContain('não atesta a veracidade');
+    expect(readFileSync(join(DIST, 'sitemap.xml'), 'utf-8')).toContain(`<loc>${SITE}/legal</loc>`);
+  });
+
+  it('travels with everything the site hands out', () => {
+    expect(readFileSync(join(DIST, 'llms.txt'), 'utf-8')).toContain('## Aviso legal');
+    expect(readFileSync(join(DIST, 'api/index.html'), 'utf-8')).toContain('não atesta a veracidade');
+    expect(readFileSync(join(DIST, 'quem/paulo-gonet/index.html'), 'utf-8')).toContain('não atesta a veracidade');
+    expect(readFileSync(join(DIST, 'index.html'), 'utf-8')).toContain('href="/legal"');
+  });
+});
+
 describe('the home page', () => {
   it('describes the corpus as a Dataset with downloads', () => {
     const blocks = ldBlocks(readFileSync(join(DIST, 'index.html'), 'utf-8'));
     const dataset = blocks.find(b => b['@type'] === 'Dataset');
     expect(dataset['@id']).toBe(`${SITE}/#dataset`);
-    expect(dataset.distribution.map(d => d.contentUrl)).toContain(`${SITE}/export/masterwhats-export.zip`);
+    expect(dataset.distribution.map(d => d.contentUrl)).toContain('https://github.com/rafaelbressan/masterzap/releases/latest/download/masterwhats-export.zip');
   });
 });
 
 describe('llms.txt', () => {
   it('quotes the real size of the big files', () => {
     const t = readFileSync(join(DIST, 'llms.txt'), 'utf-8');
-    const real = (statSync(join(DIST, 'export/masterwhats.md')).size / 1e6).toFixed(1);
+    const real = (statSync(join(ROOT, 'release/masterwhats.md')).size / 1e6).toFixed(1);
     expect(t).toContain(`masterwhats.md (${real} MB)`);
   });
 });

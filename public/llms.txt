@@ -53,8 +53,8 @@ Tudo que o site mostra, em texto, sem o site:
 Comece pelo arquivo de uma conversa (7 a 40 KB); os consolidados são grandes e raramente necessários.
 - Uma conversa em Markdown: https://www.masterwhats.com.br/export/masterwhats-alexandre-de-moraes.md (troque o id; os ids estão em https://www.masterwhats.com.br/data/conversations.json)
 - A mesma conversa em JSON: https://www.masterwhats.com.br/export/masterwhats-alexandre-de-moraes.json
-- Todas as conversas num arquivo: https://www.masterwhats.com.br/export/masterwhats.md (3 MB) e https://www.masterwhats.com.br/export/masterwhats.json (14 MB)
-- Zip com tudo: https://www.masterwhats.com.br/export/masterwhats-export.zip (3 MB)
+- Todas as conversas num arquivo (release no GitHub, banda ilimitada): https://github.com/rafaelbressan/masterzap/releases/latest/download/masterwhats.md (3 MB) e https://github.com/rafaelbressan/masterzap/releases/latest/download/masterwhats.json (14 MB)
+- Zip com tudo: https://github.com/rafaelbressan/masterzap/releases/latest/download/masterwhats-export.zip (3 MB)
 Cada .md abre com proveniência (fonte, documento com páginas e sha256, período, fuso UTC-3), o perfil do contato com fontes, e as mensagens dia a dia — cada linha com data, hora ao segundo e "msg n" (basta um grep por "msg n"); as do relatório da PF citam página e figura do laudo.
 
 ## Como citar uma mensagem

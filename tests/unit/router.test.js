@@ -114,4 +114,25 @@ describe('HashRouter', () => {
       expect(handler).toHaveBeenCalledWith(null, null);
     });
   });
+
+  describe('hashFor() and replace()', () => {
+    it('one hash per route, none for an unknown one', () => {
+      expect(HashRouter.hashFor('home')).toBe('#/');
+      expect(HashRouter.hashFor('api')).toBe('#/api');
+      expect(HashRouter.hashFor('api', 'mcp')).toBe('#/api/mcp');
+      expect(HashRouter.hashFor('legal')).toBe('#/legal');
+      expect(HashRouter.hashFor('calls')).toBe('#/calls');
+      expect(HashRouter.hashFor('chat', 'x', 7)).toBe('#/chat/x/msg/7');
+      expect(HashRouter.hashFor('nope')).toBeNull();
+    });
+
+    it('replace() sets the address through replaceState, not a hash assignment', () => {
+      window.location.hash = '#/api';
+      const spy = vi.spyOn(window.history, 'replaceState');
+      new HashRouter().replace('home');
+      expect(spy).toHaveBeenCalledWith(null, '', '#/');
+      expect(window.location.hash).toBe('#/');
+      spy.mockRestore();
+    });
+  });
 });

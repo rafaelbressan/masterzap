@@ -13,6 +13,8 @@ import JSZip from 'jszip';
 const ROOT = join(import.meta.dirname, '../..');
 const DATA_DIR = join(ROOT, 'public/data');
 const EXPORT_DIR = join(ROOT, 'public/export');
+// The consolidated files are published as a GitHub Release, not served by the site.
+const RELEASE_DIR = join(ROOT, 'release');
 
 const conversations = JSON.parse(
   readFileSync(join(DATA_DIR, 'conversations.json'), 'utf-8')
@@ -67,10 +69,11 @@ describe('the JSON', () => {
 });
 
 describe('the Markdown', () => {
-  it('opens with a provenance block', () => {
+  it('opens with a provenance block, and the legal notice', () => {
     for (const conv of conversations) {
       const text = md(conv.id);
       expect(text, conv.id).toMatch(/^# /);
+      expect(text, conv.id).toContain('não atesta a veracidade');
       expect(text, conv.id).toContain('## Proveniência');
       expect(text, conv.id).toContain('| Fonte |');
       expect(text, conv.id).toContain('| Fuso dos horários | America/Sao_Paulo');
@@ -139,7 +142,7 @@ describe('the big conversation, one month at a time', () => {
 
 describe('everything at once', () => {
   it('writes one Markdown with every conversation in it', () => {
-    const text = readFileSync(join(EXPORT_DIR, 'masterwhats.md'), 'utf-8');
+    const text = readFileSync(join(RELEASE_DIR, 'masterwhats.md'), 'utf-8');
     for (const conv of conversations) {
       expect(text, conv.id).toContain(`(#${conv.id})`);
     }
@@ -147,13 +150,19 @@ describe('everything at once', () => {
   });
 
   it('writes one JSON with every conversation in it', () => {
-    const all = JSON.parse(readFileSync(join(EXPORT_DIR, 'masterwhats.json'), 'utf-8'));
+    const all = JSON.parse(readFileSync(join(RELEASE_DIR, 'masterwhats.json'), 'utf-8'));
     expect(all.conversations.map(c => c.conversation.id).sort())
       .toEqual(conversations.map(c => c.id).sort());
   });
 
+  it('keeps the big files out of the site', () => {
+    for (const name of ['masterwhats.md', 'masterwhats.json', 'masterwhats-export.zip']) {
+      expect(existsSync(join(EXPORT_DIR, name)), name).toBe(false);
+    }
+  });
+
   it('zips the pairs, with a README on top', async () => {
-    const path = join(EXPORT_DIR, 'masterwhats-export.zip');
+    const path = join(RELEASE_DIR, 'masterwhats-export.zip');
     expect(statSync(path).size).toBeGreaterThan(100_000);
     const zip = await JSZip.loadAsync(readFileSync(path));
     const names = Object.keys(zip.files);

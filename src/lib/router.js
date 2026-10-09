@@ -41,17 +41,27 @@ export class HashRouter {
    * @param {string|number} [messageId]
    */
   navigate(route, param, messageId) {
-    if (route === 'calls') {
-      window.location.hash = '#/calls';
-    } else if (route === 'home') {
-      window.location.hash = '#/';
-    } else if (route === 'chat' && param) {
-      if (messageId) {
-        window.location.hash = `#/chat/${param}/msg/${messageId}`;
-      } else {
-        window.location.hash = `#/chat/${param}`;
-      }
-    }
+    const hash = HashRouter.hashFor(route, param, messageId);
+    if (hash) window.location.hash = hash;
+  }
+
+  /**
+   * Set the address without a hashchange — for leaving a route whose UI is
+   * already gone (a drawer another drawer closed), so no handler runs.
+   */
+  replace(route, param, messageId) {
+    const hash = HashRouter.hashFor(route, param, messageId);
+    if (hash) window.history.replaceState(null, '', hash);
+  }
+
+  /** The hash for a route, or null for one that has none. */
+  static hashFor(route, param, messageId) {
+    if (route === 'legal') return '#/legal';
+    if (route === 'api') return param ? `#/api/${param}` : '#/api';
+    if (route === 'calls') return '#/calls';
+    if (route === 'home') return '#/';
+    if (route === 'chat' && param) return messageId ? `#/chat/${param}/msg/${messageId}` : `#/chat/${param}`;
+    return null;
   }
 
   /** Get current route info from hash. */
@@ -68,6 +78,10 @@ export class HashRouter {
     const cleaned = hash.replace(/^#\/?/, '');
     if (!cleaned) return { route: 'home', param: null, messageId: null };
     if (cleaned === 'calls') return { route: 'calls', param: null, messageId: null };
+    if (cleaned === 'api') return { route: 'api', param: null, messageId: null };
+    if (cleaned === 'legal') return { route: 'legal', param: null, messageId: null };
+    const apiMatch = cleaned.match(/^api\/([a-z0-9-]+)$/);
+    if (apiMatch) return { route: 'api', param: apiMatch[1], messageId: null };
 
     // Match #/chat/:id/msg/:msgId
     const msgMatch = cleaned.match(/^chat\/([^/]+)\/msg\/(.+)$/);

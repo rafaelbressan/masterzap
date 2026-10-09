@@ -30,7 +30,7 @@ test.describe('Calls screen', () => {
 
   test('the buttons across the top are there and do nothing', async ({ page }) => {
     await openCalls(page);
-    for (const label of ['Ligar', 'Agendar', 'Teclado', 'Favoritos', 'Pesquisar chamadas', 'Menu']) {
+    for (const label of ['Teclado', 'Nova chamada']) {
       await expect(page.locator(`.calls-panel button[aria-label="${label}"]`)).toBeDisabled();
     }
   });
@@ -81,5 +81,35 @@ test.describe('Getting there', () => {
     }
     await expect(page.locator('.conversation-list')).toBeVisible();
     await expect(page.locator('.calls-panel')).toBeHidden();
+  });
+});
+
+test.describe('Finding a call', () => {
+  test('the chips narrow the list; the search, always there, narrows it by name', async ({ page }) => {
+    await openCalls(page);
+    await expect(page.locator('.calls-search .sidebar-search-input')).toBeVisible();
+    const total = await page.locator('.calls-item').count();
+    await page.locator('.calls-panel .sidebar-tag[data-filter="perdida"]').click();
+    const missed = await page.locator('.calls-item').count();
+    expect(missed).toBeGreaterThan(0);
+    expect(missed).toBeLessThan(total);
+    // "Perdidas" holds both a call that came in unanswered (red) and one
+    // Vorcaro made that nobody took ("Não atendida", not red).
+    for (const meta of await page.locator('.calls-item-meta').allTextContents()) expect(meta).toMatch(/Perdida|Não atendida/);
+    await expect(page.locator('.calls-recent')).toContainText('de');
+
+    await page.locator('.calls-search .sidebar-search-input').fill('fabio');
+    await expect(page.locator('.calls-item').first().locator('.calls-item-name')).toContainText('Fábio Faria');
+    await page.locator('.calls-panel .sidebar-tag[data-filter="todas"]').click();
+    expect(await page.locator('.calls-item').count()).toBeGreaterThanOrEqual(3);
+  });
+
+  test('the ⋮ opens the same menu the list has', async ({ page }) => {
+    await openCalls(page);
+    await page.locator('.calls-header-btn[aria-label="Menu"]').click();
+    const menu = page.locator('.sidebar-dropdown-menu');
+    await expect(menu).toBeVisible();
+    await expect(menu.locator('.sidebar-dropdown-item', { hasText: 'Sobre o MasterWhats' })).toBeVisible();
+    await expect(menu.locator('.sidebar-dropdown-item', { hasText: 'API/MCP' })).toBeVisible();
   });
 });

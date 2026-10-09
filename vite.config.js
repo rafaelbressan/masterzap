@@ -1,6 +1,25 @@
 import { defineConfig } from 'vite';
+import { resolve as resolveApi } from './src/lib/api-routes.js';
+
+/**
+ * Vercel serves /api/v1/* by rewrite (vercel.json); the dev and preview
+ * servers do the same from the same table, so a link opened here answers
+ * with the file, not with the app.
+ */
+const apiRewrites = () => ({
+  name: 'masterwhats-api-rewrites',
+  // Braces matter: a function returned from these hooks is run as a post-hook.
+  configureServer: (server) => { server.middlewares.use(rewrite); },
+  configurePreviewServer: (server) => { server.middlewares.use(rewrite); },
+});
+function rewrite(req, _res, next) {
+  const hit = resolveApi((req.url || '').split('?')[0]);
+  if (hit) req.url = hit.file;
+  next();
+}
 
 export default defineConfig({
+  plugins: [apiRewrites()],
   root: '.',
   publicDir: 'public',
   build: {

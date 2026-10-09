@@ -22,7 +22,7 @@ export const FAVORITE_CONVERSATIONS = new Set(['alexandre-de-moraes', 'martha-gr
  * @param {function} options.onSelect - called with conversation id
  * @param {Set<string>} [options.readConversations] - ids already opened
  */
-export function renderSidebar(container, { conversations, onSelect, onProfile, onAbout, onExportAll, onCalls, onChats, readConversations = new Set() }) {
+export function renderSidebar(container, { conversations, onSelect, onProfile, onAbout, onExportAll, onCalls, onChats, onApi, onLegal, readConversations = new Set() }) {
   const el = document.createElement('aside');
   el.className = 'sidebar';
   el.setAttribute('role', 'navigation');
@@ -32,7 +32,7 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
   el.innerHTML = `
     <div class="sidebar-header">
       <span class="sidebar-header-title">MasterWhats</span>
-      <button class="sidebar-menu-btn" aria-label="Menu">${ICON_MEETBALL}</button>
+      <button class="sidebar-menu-btn" aria-label="Menu" data-tip="Menu">${ICON_MEETBALL}</button>
     </div>
     <div class="sidebar-search">
       <div class="sidebar-search-wrapper">
@@ -244,6 +244,8 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
     el.classList.add('sidebar--calls');
     for (const tab of bottomNav.querySelectorAll('.sidebar-bottom-tab')) tab.classList.toggle('active', tab.dataset.tab === 'calls');
   };
+  /** The same menu, from wherever the button is — the list or the calls screen. */
+  el.toggleMenu = () => toggleSidebarMenu();
   el.showChats = () => {
     el.classList.remove('sidebar--calls');
     for (const tab of bottomNav.querySelectorAll('.sidebar-bottom-tab')) tab.classList.toggle('active', tab.dataset.tab === 'chats');
@@ -261,6 +263,8 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
     const items = [
       { label: 'Perfil', action: onProfile, enabled: !!onProfile },
       { label: 'Exportar tudo (.zip)', action: onExportAll, enabled: !!onExportAll },
+      { label: 'API/MCP', action: onApi, enabled: !!onApi },
+      { label: 'Aviso legal', action: onLegal, enabled: !!onLegal },
       { label: 'Sobre o MasterWhats', action: onAbout, enabled: !!onAbout },
     ];
 
@@ -268,14 +272,17 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
       const btn = document.createElement('button');
       btn.className = 'sidebar-dropdown-item';
       if (!item.enabled) btn.classList.add('disabled');
-      btn.textContent = item.label;
+      // Static SVG icon + static label — safe innerHTML
+      btn.innerHTML = item.icon ? `<span class="sidebar-dropdown-icon">${item.icon}</span><span>${item.label}</span>` : `<span>${item.label}</span>`;
       if (item.enabled && item.action) {
         btn.addEventListener('click', () => { closeSidebarMenu(); item.action(); });
       }
       sidebarMenuEl.appendChild(btn);
     }
 
-    el.querySelector('.sidebar-header').appendChild(sidebarMenuEl);
+    // In calls mode the list's header is hidden; the menu hangs off the calls header.
+    (el.querySelector('.sidebar--calls .calls-header, .calls-header') && el.classList.contains('sidebar--calls')
+      ? el.querySelector('.calls-header') : el.querySelector('.sidebar-header')).appendChild(sidebarMenuEl);
 
     setTimeout(() => {
       document.addEventListener('click', closeSidebarMenuOnOutside, true);
@@ -288,7 +295,7 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
   }
 
   function closeSidebarMenuOnOutside(e) {
-    if (sidebarMenuEl && !sidebarMenuEl.contains(e.target) && e.target !== menuBtn) {
+    if (sidebarMenuEl && !sidebarMenuEl.contains(e.target) && e.target !== menuBtn && !e.target.closest?.('.calls-header-btn[aria-label="Menu"]')) {
       closeSidebarMenu();
     }
   }

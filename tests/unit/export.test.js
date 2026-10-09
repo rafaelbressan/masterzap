@@ -12,7 +12,7 @@ describe('exportUrl', () => {
   });
 
   it('has one zip for everything', () => {
-    expect(EXPORT_ALL_URL).toBe('/export/masterwhats-export.zip');
+    expect(EXPORT_ALL_URL).toBe('https://github.com/rafaelbressan/masterzap/releases/latest/download/masterwhats-export.zip');
   });
 });
 
