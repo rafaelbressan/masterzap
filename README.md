@@ -65,6 +65,19 @@ npm run preview       # Preview do build
 npm run test          # Testes unitários (Vitest)
 npm run test:e2e      # Testes E2E (Playwright)
 ```
+## 🐳 Usando com Docker
+
+Se preferir executar o projeto isoladamente utilizando o Docker, você pode compilar e rodar a aplicação através de um container Nginx.
+
+### Pré-requisitos
+- Docker instalado em sua máquina.
+
+### Passos para execução:
+
+1. **Construir a imagem Docker:**
+   No diretório raiz do projeto, execute o comando abaixo (o Dockerfile já inclui o suporte ao Python necessário para processar os scripts de dados):
+   ```bash
+   docker build -t masterzap-app .
 
 ## Estrutura do Projeto
 

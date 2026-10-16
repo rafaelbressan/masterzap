@@ -24,3 +24,10 @@ coverage/
 test-results/
 playwright-report/
 .vercel
+
+
+node_modules
+dist
+build
+.git
+.env
