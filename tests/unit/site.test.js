@@ -36,10 +36,15 @@ describe('the address in the source', () => {
     expect(typed).toEqual([]);
   });
 
+  it.skipIf(!existsSync(join(DIST, 'llms.txt')))('versions the /data/ link in llms.txt, which is cached for a year', () => {
+    expect(readFileSync(join(DIST, 'llms.txt'), 'utf-8')).toMatch(/\/data\/conversations\.json\?v=[\w%-]+\)/);
+  });
+
   it.skipIf(!existsSync(join(DIST, 'index.html')))('leaves no placeholder in the build', () => {
     for (const name of ['index.html', 'llms.txt', 'robots.txt', 'chat/alexandre-de-moraes/index.html']) {
       const text = readFileSync(join(DIST, name), 'utf-8');
       expect(text, name).not.toContain(SITE_URL_PLACEHOLDER);
+      expect(text, name).not.toContain('%DATA_BUILD_ID%');
       expect(text, name).toContain(SITE_URL);
     }
   });

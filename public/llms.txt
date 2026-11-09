@@ -51,7 +51,7 @@ Daniel Vorcaro, dono do Banco Master, foi preso pela Polícia Federal em novembr
 ## Export limpo
 Tudo que o site mostra, em texto, sem o site:
 Comece pelo arquivo de uma conversa (7 a 40 KB); os consolidados são grandes e raramente necessários.
-- Uma conversa em Markdown: %SITE_URL%/export/masterwhats-alexandre-de-moraes.md (troque o id; os ids estão em %SITE_URL%/data/conversations.json)
+- Uma conversa em Markdown: %SITE_URL%/export/masterwhats-alexandre-de-moraes.md (troque o id; os ids estão em %SITE_URL%/data/conversations.json?v=%DATA_BUILD_ID%)
 - A mesma conversa em JSON: %SITE_URL%/export/masterwhats-alexandre-de-moraes.json
 - Todas as conversas num arquivo: %SITE_URL%/export/masterwhats.md (3 MB) e %SITE_URL%/export/masterwhats.json (14 MB)
 - Zip com tudo: %SITE_URL%/export/masterwhats-export.zip (3 MB)
