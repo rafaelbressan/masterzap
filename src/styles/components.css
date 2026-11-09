@@ -1342,7 +1342,12 @@
   .contacts-sheet-back .is-close { display: flex; }
 }
 
-/* "Fonte" row: the source and its seal, then links and the document's hash. */
+/* "Fonte" row: the source and its seal, then links and the document's hash.
+   Six lines or more, so the icon sits by the label instead of mid-row. */
+.contact-info-source {
+  align-items: flex-start;
+}
+
 .contact-info-source .contact-info-action-text {
   gap: 2px;
 }
@@ -1359,8 +1364,19 @@
   text-decoration: none;
 }
 
-.contact-info-source-links a:hover {
-  text-decoration: underline;
+@media (hover: hover) and (pointer: fine) {
+  .contact-info-source-links a:hover {
+    text-decoration: underline;
+  }
+}
+
+/* A 16px-tall link is too small for a finger: grow the hit area to 40px
+   without moving the lines around it. */
+@media (pointer: coarse) {
+  .contact-info-source-links a {
+    padding: 12px 0;
+    margin: -12px 0;
+  }
 }
 
 .contact-info-source-hash {

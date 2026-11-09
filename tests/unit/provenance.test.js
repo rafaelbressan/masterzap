@@ -58,6 +58,17 @@ describe('provenance text', () => {
     expect(conversationSealLine(conv)).toBe('Fonte: IPJ-A nº 1/2026 (Polícia Federal) · Verificado · 4 mensagens marcadas como Imprensa');
     expect(conversationSealLine({ ...conv, verification_counts: { imprensa: 1 } })).toMatch(/1 mensagem marcada como Imprensa$/);
   });
+
+  it('lists three or more exceptions as a sentence, not "e … e …"', () => {
+    const conv = { source_id: 'pf', verification: 'verificado', verification_counts: { imprensa: 1, 'nao-verificado': 2, reconstruido: 1 } };
+    expect(conversationSealLine(conv)).toMatch(/· 1 mensagem marcada como Imprensa, 2 mensagens marcadas como Não verificado e 1 mensagem marcada como Reconstruído$/);
+  });
+
+  it('falls back to the conversation\'s source when the record has no title', () => {
+    setSources({ pf: { orgao_ou_veiculo: 'Polícia Federal' } });
+    const conv = { source_id: 'pf', source: 'Laudo da PF', verification: 'verificado' };
+    expect(conversationSealLine(conv)).toBe('Fonte: Laudo da PF (Polícia Federal) · Verificado');
+  });
 });
 
 describe('conversations.json provenance', () => {

@@ -43,7 +43,9 @@ function renderSealNotice(conversation, onOpen) {
   icon.innerHTML = SEAL_ICONS[conversation.verification] || '';
   notice.appendChild(icon);
   const text = document.createElement('span');
-  text.textContent = onOpen ? `${line}. Toque para ver a fonte.` : `${line}.`;
+  // "Clique" with a mouse, "Toque" on a touchscreen, as WhatsApp words it.
+  const verb = window.matchMedia?.('(pointer: coarse)').matches ? 'Toque' : 'Clique';
+  text.textContent = onOpen ? `${line}. ${verb} para ver a fonte.` : `${line}.`;
   notice.appendChild(text);
   if (onOpen) notice.addEventListener('click', onOpen);
   return notice;
@@ -620,8 +622,20 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
   subtitleEl.className = 'chat-header-info';
   // The seal rides in the header, which stays in view on a deep link and on
   // mobile, where the notice at the top of the chat is out of sight.
+  // On a narrow header the count gives way, never the seal: "Não…" alone
+  // would say the opposite of "Não verificado".
+  const total = conversation.total_messages;
+  const countEl = document.createElement('span');
+  countEl.className = 'chat-header-info-count';
+  countEl.textContent = `${total.toLocaleString('pt-BR')} ${total === 1 ? 'mensagem' : 'mensagens'}`;
+  subtitleEl.appendChild(countEl);
   const seal = SEALS[conversation.verification];
-  subtitleEl.textContent = `${conversation.total_messages.toLocaleString('pt-BR')} mensagens${seal ? ` · ${seal.label}` : ''}`;
+  if (seal) {
+    const sealEl = document.createElement('span');
+    sealEl.className = 'chat-header-info-seal';
+    sealEl.textContent = ` · ${seal.label}`;
+    subtitleEl.appendChild(sealEl);
+  }
   infoEl.appendChild(subtitleEl);
 
   header.appendChild(infoEl);

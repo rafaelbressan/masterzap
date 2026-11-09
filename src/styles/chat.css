@@ -70,8 +70,22 @@
 }
 
 .chat-header-info {
+  display: flex;
   font-size: 12.5px;
   color: var(--WDS-content-deemphasized);
+  white-space: nowrap;
+}
+
+/* One line, like the name above it: the count truncates, the seal stays. */
+.chat-header-info-count {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chat-header-info-seal {
+  flex-shrink: 0;
+  white-space: pre;
 }
 
 /* ── Chat header menu button ──────────────────── */
@@ -929,6 +943,13 @@
   border-radius: 8px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, .06);
   cursor: pointer;
+  /* No browser flash on tap; the press shows through :active instead. */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.chat-seal-notice:active {
+  filter: brightness(0.96);
 }
 
 .chat-seal-notice-icon {
