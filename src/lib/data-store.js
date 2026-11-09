@@ -9,6 +9,8 @@
  *   const messages = await store.getMessages('martha-graeff', '2024-02-10');
  */
 
+import { dataUrl } from './data-url.js';
+
 /**
  * Simple LRU cache backed by a Map (insertion-order iteration).
  */
@@ -60,7 +62,7 @@ export class DataStore {
    */
   constructor({ cacheSize = 30, basePath = '/data', fetcher } = {}) {
     this._basePath = basePath;
-    this._fetcher = fetcher || ((url) => fetch(url).then(r => {
+    this._fetcher = fetcher || ((url) => fetch(dataUrl(url)).then(r => {
       if (!r.ok) throw new Error(`HTTP ${r.status}: ${url}`);
       return r.json();
     }));

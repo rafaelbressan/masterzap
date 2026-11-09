@@ -25,6 +25,7 @@ import { renderCallsPanel } from './components/CallsPanel.js';
 import { exportUrl, EXPORT_ALL_URL, downloadFile } from './lib/export.js';
 import { copyText } from './lib/utils.js';
 import { setSources } from './lib/provenance.js';
+import { dataUrl } from './lib/data-url.js';
 
 // ── Active state (only one thing at a time) ──────
 let activeLoader = null;
@@ -537,7 +538,7 @@ async function init() {
   let callsPromise = null;
   router.on('calls', async () => {
     showEmptyState();
-    callsPromise ??= fetch('/data/calls.json').then(r => r.json()).then(d => d.calls);
+    callsPromise ??= fetch(dataUrl('/data/calls.json')).then(r => r.json()).then(d => d.calls);
     let calls = [];
     try { calls = await callsPromise; } catch { callsPromise = null; }
     const panel = renderCallsPanel({

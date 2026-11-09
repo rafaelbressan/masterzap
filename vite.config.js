@@ -1,6 +1,13 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  define: {
+    // Versions every /data/ URL (src/lib/data-url.js): the commit on Vercel,
+    // the build time anywhere else.
+    __DATA_BUILD_ID__: JSON.stringify(
+      process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 12) || Date.now().toString(36)
+    ),
+  },
   root: '.',
   publicDir: 'public',
   build: {
