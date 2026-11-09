@@ -266,7 +266,8 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
       content,
       sender: isOutgoing ? 'DV' : incomingSender,
       date,
-      time: meta.replace(/editada/i, '').trim(),
+      // "--:--" is how the bubble draws an unknown time; it is not a time.
+      time: (meta.replace(/editada/i, '').trim().match(/\d{2}:\d{2}/) || [null])[0],
       type: 'text',
       isEdited,
     };

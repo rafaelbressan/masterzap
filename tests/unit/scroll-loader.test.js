@@ -155,24 +155,30 @@ describe('ScrollLoader — failures and order', () => {
     return el;
   };
 
-  it('does not skip a day that failed to load; the next scroll retries it', async () => {
+  it('tries a failed day again instead of leaving a hole', async () => {
     const container = createMockContainer();
     document.body.appendChild(container);
     const dateIndex = [{ date: '2024-02-10' }, { date: '2024-02-11' }, { date: '2024-02-12' }];
-    let fail = true;
-    const loadMessages = vi.fn((date) => (date === '2024-02-11' && fail ? Promise.reject(new Error('offline')) : Promise.resolve([])));
+    let failures = 1;
+    const loadMessages = vi.fn((date) => (date === '2024-02-11' && failures-- > 0 ? Promise.reject(new Error('blip')) : Promise.resolve([])));
     const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const loader = new ScrollLoader({ container, dateIndex, loadMessages, renderDay: section });
     await loader.init();
-
-    // The 12th loaded, the 11th failed, and the loader stopped there.
-    expect(loader.loadedCount).toBe(1);
-    expect(loader.isFullyLoaded).toBe(false);
-
-    fail = false;
-    await loader._loadBatch(5);
     expect([...container.querySelectorAll('[data-date]')].map(s => s.dataset.date))
       .toEqual(['2024-02-10', '2024-02-11', '2024-02-12']);
+    spy.mockRestore();
+  });
+
+  it('skips a day that keeps failing, so the history before it still loads', async () => {
+    const container = createMockContainer();
+    document.body.appendChild(container);
+    const dateIndex = [{ date: '2024-02-10' }, { date: '2024-02-11' }, { date: '2024-02-12' }];
+    const loadMessages = vi.fn((date) => (date === '2024-02-11' ? Promise.reject(new Error('404')) : Promise.resolve([])));
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const loader = new ScrollLoader({ container, dateIndex, loadMessages, renderDay: section });
+    await loader.init();
+    expect([...container.querySelectorAll('[data-date]')].map(s => s.dataset.date)).toEqual(['2024-02-10', '2024-02-12']);
+    expect(loadMessages.mock.calls.filter(([d]) => d === '2024-02-11')).toHaveLength(2);
     expect(loader.isFullyLoaded).toBe(true);
     spy.mockRestore();
   });

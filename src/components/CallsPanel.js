@@ -16,6 +16,7 @@
  */
 
 import { defaultAvatarSvg } from '../lib/avatar.js';
+import { formatDateShort } from '../lib/utils.js';
 import { ICON_SEARCH, ICON_MEETBALL } from '../lib/icons.js';
 
 const ICON_PHONE = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`;
@@ -29,7 +30,9 @@ const ICON_IN = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" str
 const dayFmt = new Intl.DateTimeFormat('pt-BR', { day: 'numeric', month: 'short', year: 'numeric' });
 
 /** "12 de jul. de 2024, 15:42" */
-export function formatCallTime(timestamp) {
+export function formatCallTime(timestamp, date) {
+  // A call whose time the source could not read has a date and nothing else.
+  if (!timestamp) return formatDateShort(date);
   const d = new Date(timestamp);
   const time = `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
   return `${dayFmt.format(d)}, ${time}`;
@@ -168,7 +171,7 @@ function renderRow(call, count, name, avatar, onOpen) {
   meta.appendChild(arrow);
   const when = document.createElement('span');
   const detail = describe(call);
-  when.textContent = detail ? `${formatCallTime(call.timestamp)} · ${detail}` : formatCallTime(call.timestamp);
+  when.textContent = detail ? `${formatCallTime(call.timestamp, call.date)} · ${detail}` : formatCallTime(call.timestamp, call.date);
   meta.appendChild(when);
   text.appendChild(meta);
   main.appendChild(text);

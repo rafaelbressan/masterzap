@@ -518,9 +518,14 @@ function renderMessage(msg) {
   const time = document.createElement('span');
   time.textContent = formatTime(msg.time);
   if (!msg.time) {
-    // "--:--" on screen; said in words to a screen reader and on hover.
+    // "--:--" on screen and on hover says what it means; a screen reader
+    // reads the words instead of the dashes.
     time.title = NO_TIME_LABEL;
-    time.setAttribute('aria-label', NO_TIME_LABEL);
+    time.setAttribute('aria-hidden', 'true');
+    const spoken = document.createElement('span');
+    spoken.className = 'sr-only';
+    spoken.textContent = NO_TIME_LABEL;
+    meta.appendChild(spoken);
   }
   meta.appendChild(time);
   if (msg.is_edited) {

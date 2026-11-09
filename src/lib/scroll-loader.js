@@ -9,6 +9,7 @@ import { compareDates } from './utils.js';
 
 const INITIAL_DAYS = 5;
 const LOAD_MORE_DAYS = 5;
+const LOAD_ATTEMPTS = 2;
 
 export class ScrollLoader {
   /**
@@ -88,28 +89,40 @@ export class ScrollLoader {
         continue;
       }
 
-      try {
-        const messages = await this._loadMessages(entry.date);
-        const dayEl = this._renderDay(entry.date, messages);
-        this._insertDayInChronologicalOrder(dayEl);
-
-        this._loadedDates.add(entry.date);
-        // Only move past a day once it is on screen: a day that failed to
-        // load is tried again on the next scroll, not skipped for good.
-        this._nextIndex--;
-        loaded++;
-      } catch (err) {
-        console.error(`Failed to load day ${entry.date}:`, err);
-        failed = true;
-        break;
+      // A day that fails is tried once more before giving up on it: a blip
+      // in the connection should not leave a hole in the conversation. One
+      // that fails twice is skipped — stopping there would wall off all the
+      // history before it, since the observer will not fire again while the
+      // sentinel sits in view.
+      let messages = null;
+      for (let attempt = 1; attempt <= LOAD_ATTEMPTS && messages === null; attempt++) {
+        try {
+          messages = await this._loadMessages(entry.date);
+        } catch (err) {
+          console.error(`Failed to load day ${entry.date} (attempt ${attempt}):`, err);
+        }
       }
+      this._nextIndex--;
+      if (messages === null) {
+        failed = true;
+        continue;
+      }
+      // loadDate() may have put this day on screen while we were waiting.
+      if (this._loadedDates.has(entry.date)) continue;
+
+      this._insertDayInChronologicalOrder(this._renderDay(entry.date, messages));
+      this._loadedDates.add(entry.date);
+      loaded++;
     }
 
     // Preserve scroll position when prepending content
     if (loaded > 0 && scrollTopBefore > 0) {
       if (scrollAnchor?.isConnected) {
-        this._container.scrollTop = scrollTopBefore
-          + scrollAnchor.getBoundingClientRect().top - scrollAnchorTop;
+        // Relative, not from scrollTopBefore: Chrome and Firefox anchor the
+        // scroll themselves (overflow-anchor) and have already moved it, so
+        // the anchor's shift is whatever is left to correct — zero there, the
+        // height of the new days in Safari.
+        this._container.scrollTop += scrollAnchor.getBoundingClientRect().top - scrollAnchorTop;
       } else {
         const scrollHeightAfter = this._container.scrollHeight;
         this._container.scrollTop = scrollTopBefore + (scrollHeightAfter - scrollHeightBefore);
@@ -138,8 +151,8 @@ export class ScrollLoader {
     while (!this._loading && this._nextIndex >= 0) {
       const loadedBefore = this._loadedDates.size;
       const failed = await this._loadBatch(LOAD_MORE_DAYS);
-      if (failed) return;
       if (this._nextIndex < 0) return;
+      if (failed && this._loadedDates.size === loadedBefore) return;
       if (this._container.scrollHeight > this._container.clientHeight + 200) return;
       if (this._loadedDates.size === loadedBefore) return;
     }
@@ -188,6 +201,8 @@ export class ScrollLoader {
 
     try {
       const messages = await this._loadMessages(date);
+      // The scroll may have loaded this day while we were waiting.
+      if (this._loadedDates.has(date)) return this._container.querySelector(`[data-date="${date}"]`);
       const dayEl = this._renderDay(date, messages);
       this._insertDayInChronologicalOrder(dayEl);
 
