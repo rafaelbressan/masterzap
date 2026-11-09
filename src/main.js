@@ -337,8 +337,9 @@ async function init() {
       },
     };
 
-    function openContactInfo() {
+    function openContactInfo(at = null) {
       activeContactInfo = showContactInfo(mainArea, conversation, {
+        at,
         mediaCounts: conversation.media_counts || MEDIA_COUNTS,
         onClose: () => { activeContactInfo = null; },
         onSearch: toggleSearch,
@@ -380,10 +381,9 @@ async function init() {
       // The seal notice: open the drawer (never close it) at the "Fonte" row.
       onSourceClick: () => {
         if (activeChatSearch) { activeChatSearch.destroy(); activeChatSearch = null; }
-        if (!activeContactInfo) openContactInfo();
-        // After the drawer's own first frame, which resets its scroll to the top.
-        const drawer = activeContactInfo.element;
-        requestAnimationFrame(() => drawer.querySelector('.contact-info-source')?.scrollIntoView({ block: 'center' }));
+        // A new drawer scrolls there in its first frame; an open one, now.
+        if (!activeContactInfo) openContactInfo('.contact-info-source');
+        else activeContactInfo.element.querySelector('.contact-info-source')?.scrollIntoView({ block: 'center' });
       },
     });
 

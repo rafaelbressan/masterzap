@@ -29,9 +29,10 @@ import { SEALS, SEAL_ICONS, sourceById } from '../lib/provenance.js';
  * @param {object} [options]
  * @param {Record<string,number>} [options.mediaCounts] - { images, videos, documents }
  * @param {function} [options.onClose]
+ * @param {string} [options.at] - selector of a row to bring into view once open
  * @returns {{ element: HTMLElement, destroy: function }}
  */
-export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onClose, onSearch, actions = {} } = {}) {
+export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onClose, onSearch, actions = {}, at = null } = {}) {
   // Remove existing drawer if any
   const existing = mainArea.querySelector('.contact-info-drawer');
   if (existing) existing.remove();
@@ -156,6 +157,22 @@ export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onCl
     drawer.classList.add('open');
     body.scrollTop = 0;
   });
+
+  // Opened to show one row (the seal notice opens it at "Fonte"). Only once
+  // the drawer has its width: it opens by growing, and while narrow its text
+  // wraps into a column many times taller, so a row found then is somewhere
+  // else by the time the drawer settles.
+  if (at) {
+    let shown = false;
+    const show = () => {
+      if (shown) return;
+      shown = true;
+      body.querySelector(at)?.scrollIntoView({ block: 'center' });
+    };
+    drawer.addEventListener('transitionend', (e) => { if (e.target === drawer && e.propertyName === 'width') show(); });
+    // No transition (reduced motion, a width already set by the layout): go anyway.
+    setTimeout(show, 400);
+  }
 
   function destroy() {
     drawer.remove();
