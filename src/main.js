@@ -26,6 +26,7 @@ import { exportUrl, EXPORT_ALL_URL, downloadFile } from './lib/export.js';
 import { copyText } from './lib/utils.js';
 import { setSources } from './lib/provenance.js';
 import { dataUrl } from './lib/data-url.js';
+import { savePosition, getPosition } from './lib/reading-position.js';
 
 // ── Active state (only one thing at a time) ──────
 let activeLoader = null;
@@ -113,6 +114,8 @@ async function init() {
 
   /** Close the chat (loader, context menu, right drawers). */
   function closeChat() {
+    // Remember where the reader was, before the chat leaves the screen.
+    if (activeLoader && currentConversationId) savePosition(currentConversationId, activeLoader.currentPosition());
     clearPreparedScreenshot();
     if (activeImagePreview) { activeImagePreview.destroy(); activeImagePreview = null; }
     closeRightDrawers();
@@ -374,7 +377,9 @@ async function init() {
     });
 
     activeLoader = loader;
-    await loader.init();
+    // A link to a message goes to that message; otherwise, back where the
+    // reader stopped in this conversation earlier in the session.
+    await loader.init({ position: pendingScrollTarget ? null : getPosition(id) });
 
     if (pendingScrollTarget) {
       const { messageId, date } = pendingScrollTarget;

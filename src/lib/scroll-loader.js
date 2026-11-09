@@ -10,6 +10,8 @@ import { compareDates } from './utils.js';
 const INITIAL_DAYS = 5;
 const LOAD_MORE_DAYS = 5;
 const LOAD_ATTEMPTS = 2;
+// Closer than this to the end counts as "at the end".
+const AT_END_PX = 48;
 
 export class ScrollLoader {
   /**
@@ -31,8 +33,13 @@ export class ScrollLoader {
     this._sentinel = null;
   }
 
-  /** Load initial days and set up scroll observation. */
-  async init() {
+  /**
+   * Load initial days and set up scroll observation.
+   * @param {object} [options]
+   * @param {object} [options.position] - from currentPosition() on an earlier
+   *   visit: open there instead of at the newest message
+   */
+  async init({ position = null } = {}) {
     // Create top sentinel for IntersectionObserver
     this._sentinel = document.createElement('div');
     this._sentinel.className = 'scroll-sentinel';
@@ -42,8 +49,8 @@ export class ScrollLoader {
     // Load initial batch (most recent days)
     await this._loadBatch(INITIAL_DAYS);
 
-    // Scroll to bottom (most recent messages)
-    this._scrollToBottom();
+    // Back where the reader left off, or at the most recent messages.
+    if (!position || !(await this.restorePosition(position))) this._scrollToBottom();
 
     // Observe sentinel to load more when user scrolls up
     this._observer = new IntersectionObserver(
@@ -167,6 +174,56 @@ export class ScrollLoader {
     const existingSections = Array.from(this._container.querySelectorAll('[data-date]'));
     const nextSection = existingSections.find(section => compareDates(section.dataset.date, date) > 0);
     this._container.insertBefore(dayEl, nextSection || null);
+  }
+
+  /**
+   * Where the reader is: the first message in view, its day, and how far its
+   * top sits below the top of the chat. null when the reader is at the end —
+   * the next visit should open at the newest message anyway.
+   * @returns {{date: string, id: string, offset: number, contiguous: boolean}|null}
+   */
+  currentPosition() {
+    const c = this._container;
+    if (c.scrollHeight - c.scrollTop - c.clientHeight < AT_END_PX) return null;
+    const top = c.getBoundingClientRect().top;
+    const row = Array.from(c.querySelectorAll('[data-id]')).find(r => r.getBoundingClientRect().bottom > top);
+    const date = row?.closest('[data-date]')?.dataset.date;
+    if (!row || !date) return null;
+    const index = this._dateIndex.findIndex(d => d.date === date);
+    return {
+      date,
+      id: row.dataset.id,
+      offset: Math.round(row.getBoundingClientRect().top - top),
+      // Reached by scrolling up from the end (every day in between is on
+      // screen), as opposed to a jump — a link, the calendar, a search hit.
+      contiguous: index >= 0 && this._nextIndex < index,
+    };
+  }
+
+  /**
+   * Put the reader back where currentPosition() found them. A place reached
+   * by scrolling comes back with every day between it and the end, so
+   * scrolling down shows them again; a jump loads just its day, as a link
+   * does.
+   * @returns {Promise<boolean>} false when the place no longer exists
+   */
+  async restorePosition({ date, id, offset = 0, contiguous = false }) {
+    const index = this._dateIndex.findIndex(d => d.date === date);
+    if (index < 0) return false;
+    if (contiguous) {
+      while (this._nextIndex >= index) {
+        const before = this._nextIndex;
+        await this._loadBatch(LOAD_MORE_DAYS);
+        if (this._nextIndex === before) break;
+      }
+    } else {
+      await this.loadDate(date);
+    }
+    const row = this._container.querySelector(`[data-date="${date}"] [data-id="${id}"]`);
+    if (!row) return false;
+    this._container.scrollTop += row.getBoundingClientRect().top
+      - this._container.getBoundingClientRect().top - offset;
+    return true;
   }
 
   /** Scroll container to the bottom. */
