@@ -70,8 +70,22 @@
 }
 
 .chat-header-info {
+  display: flex;
   font-size: 12.5px;
   color: var(--WDS-content-deemphasized);
+  white-space: nowrap;
+}
+
+/* One line, like the name above it: the count truncates, the seal stays. */
+.chat-header-info-count {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chat-header-info-seal {
+  flex-shrink: 0;
+  white-space: pre;
 }
 
 /* ── Chat header menu button ──────────────────── */
@@ -895,4 +909,55 @@
   font-size: 11px;
   font-style: italic;
   color: var(--WDS-content-deemphasized);
+}
+
+/* ── Provenance seal ──────────────────────────────
+   Shown only where it tells the reader something: a weak seal, or a message
+   whose source is not the conversation's. Shape tells the seals apart; the
+   colour stays the meta row's, legible on both bubble colours. No motion. */
+.chat-msg-seal {
+  display: inline-flex;
+  align-items: center;
+  color: var(--WDS-systems-bubble-content-deemphasized);
+}
+
+.chat-msg-seal svg {
+  display: block;
+}
+
+/* The conversation's source, where WhatsApp puts the encryption notice. */
+.chat-seal-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 8px auto 12px;
+  max-width: min(560px, 85%);
+  padding: 5px 12px 6px;
+  font: inherit;
+  font-size: 12.5px;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--WDS-systems-bubble-content-e2e);
+  background-color: var(--WDS-systems-bubble-surface-e2e);
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .06);
+  cursor: pointer;
+  /* No browser flash on tap; the press shows through :active instead. */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.chat-seal-notice:active {
+  filter: brightness(0.96);
+}
+
+.chat-seal-notice-icon {
+  flex: none;
+  padding-top: 2px;
+}
+
+.chat-seal-notice:focus-visible {
+  outline: 2px solid var(--WDS-content-action-emphasized, #008069);
+  outline-offset: 2px;
 }

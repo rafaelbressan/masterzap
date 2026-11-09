@@ -24,6 +24,7 @@ import { showImagePreview } from './components/ImagePreview.js';
 import { renderCallsPanel } from './components/CallsPanel.js';
 import { exportUrl, EXPORT_ALL_URL, downloadFile } from './lib/export.js';
 import { copyText } from './lib/utils.js';
+import { setSources } from './lib/provenance.js';
 
 // ── Active state (only one thing at a time) ──────
 let activeLoader = null;
@@ -93,6 +94,7 @@ async function init() {
   const store = getDataStore();
   try {
     await store.init();
+    setSources(store.getSources());
     for (const conv of store.getConversations()) {
       if (AVATARS[conv.id]) conv.avatar = AVATARS[conv.id];
     }
@@ -320,6 +322,15 @@ async function init() {
       },
     };
 
+    function openContactInfo() {
+      activeContactInfo = showContactInfo(mainArea, conversation, {
+        mediaCounts: conversation.media_counts || MEDIA_COUNTS,
+        onClose: () => { activeContactInfo = null; },
+        onSearch: toggleSearch,
+        actions: contactProfileActions,
+      });
+    }
+
     const { loader } = renderChatView(mainArea, {
       conversation,
       dateIndex,
@@ -348,13 +359,16 @@ async function init() {
           activeContactInfo.destroy();
           activeContactInfo = null;
         } else {
-          activeContactInfo = showContactInfo(mainArea, conversation, {
-            mediaCounts: conversation.media_counts || MEDIA_COUNTS,
-            onClose: () => { activeContactInfo = null; },
-            onSearch: toggleSearch,
-            actions: contactProfileActions,
-          });
+          openContactInfo();
         }
+      },
+      // The seal notice: open the drawer (never close it) at the "Fonte" row.
+      onSourceClick: () => {
+        if (activeChatSearch) { activeChatSearch.destroy(); activeChatSearch = null; }
+        if (!activeContactInfo) openContactInfo();
+        // After the drawer's own first frame, which resets its scroll to the top.
+        const drawer = activeContactInfo.element;
+        requestAnimationFrame(() => drawer.querySelector('.contact-info-source')?.scrollIntoView({ block: 'center' }));
       },
     });
 

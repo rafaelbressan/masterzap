@@ -1,6 +1,8 @@
 node_modules/
 dist/
 .vite/
+__pycache__/
+*.pyc
 *.local
 
 # Generated data (rebuild with npm run split-data / npm run export)

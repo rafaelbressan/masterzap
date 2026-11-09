@@ -1,0 +1,36 @@
+{
+  "sources": [
+    {
+      "id": "ipj-a-3298613-2026",
+      "kind": "laudo-pf",
+      "titulo": "IPJ-A nº 3298613/2026 — NADIP/DFIN/CGRC/DICOR/PF",
+      "nome": "IPJ-A nº 3298613/2026 — Polícia Federal",
+      "descricao": "Informação de Polícia Judiciária de Análise sobre o iPhone apreendido de Daniel Vorcaro; sigilo levantado em 1º de setembro de 2026.",
+      "orgao_ou_veiculo": "Polícia Federal",
+      "data": "2026-08-27",
+      "made_public": "2026-09-01",
+      "how": "Transcrição manual das imagens do laudo; cada mensagem cita a página e a figura de origem.",
+      "file": "data/source/IPJ-A-3298613-2026.pdf",
+      "url": "https://github.com/rafaelbressan/masterzap/blob/main/data/source/IPJ-A-3298613-2026.pdf",
+      "download": "https://raw.githubusercontent.com/rafaelbressan/masterzap/main/data/source/IPJ-A-3298613-2026.pdf",
+      "archive_url": null,
+      "sha256": "23cfdfa410c47ab09cbb2b443965e3a3095d9bc3dc5fb266efff76d6f5192b60",
+      "pages": 218
+    },
+    {
+      "id": "vazamento-martha-graeff-2026-03",
+      "kind": "vazamento",
+      "titulo": "Vazamento das conversas com Martha Graeff, março de 2026",
+      "orgao_ou_veiculo": "Imprensa",
+      "data": "2026-03",
+      "made_public": "2026-03",
+      "how": "Export de WhatsApp extraído do celular apreendido, vazado para a imprensa.",
+      "file": null,
+      "url": "https://ndmais.com.br/justica/vorcaro-momolada-peleleca-conversas-martha-graeff/",
+      "download": null,
+      "archive_url": null,
+      "sha256": null,
+      "pages": null
+    }
+  ]
+}

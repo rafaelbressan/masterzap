@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 """Split messages.json into per-date chunks for lazy loading."""
 
-import hashlib
 import json
-import subprocess
 import os
 import re
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
+
+from message_schema import (
+    provenance_of, validate_messages, validate_provenance, validate_sources,
+)
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "data"
@@ -125,35 +127,26 @@ def write_json(path, data):
         json.dump(data, f, ensure_ascii=False, separators=(",", ":"))
 
 
-REPORT_PDF = "data/source/IPJ-A-3298613-2026.pdf"
-REPORT_PAGES_FALLBACK = 218
+def load_sources():
+    """data/sources.json, by id — every document a message can cite."""
+    with open(DATA_DIR / "sources.json", "r", encoding="utf-8") as f:
+        sources = json.load(f)["sources"]
+    return sources, {src["id"]: src for src in sources}
 
 
-def describe_report_document():
-    """The police report as a document: path, hash and page count.
+def document_of(src):
+    """A source that is a file in the repository, in the shape the site reads.
 
-    Computed here, once, so every consumer (site, export, pre-rendered pages)
-    reads the same values from conversations.json instead of recomputing.
+    The path is the repository's; the site does not serve the PDF. Say where it is.
     """
-    path = ROOT / REPORT_PDF
-    if not path.exists():
+    if not src.get("file"):
         return None
-    sha = hashlib.sha256(path.read_bytes()).hexdigest()
-    pages = REPORT_PAGES_FALLBACK
-    try:
-        info = subprocess.run(["pdfinfo", str(path)], capture_output=True, text=True, timeout=30)
-        m = re.search(r"^Pages:\s+(\d+)", info.stdout, re.M)
-        if m:
-            pages = int(m.group(1))
-    except (OSError, subprocess.SubprocessError):
-        pass
-    # The path is the repository's; the site does not serve the PDF. Say where it is.
     return {
-        "file": REPORT_PDF,
-        "url": f"https://github.com/rafaelbressan/masterzap/blob/main/{REPORT_PDF}",
-        "download": f"https://raw.githubusercontent.com/rafaelbressan/masterzap/main/{REPORT_PDF}",
-        "sha256": sha,
-        "pages": pages,
+        "file": src["file"],
+        "url": src.get("url"),
+        "download": src.get("download"),
+        "sha256": src.get("sha256"),
+        "pages": src.get("pages"),
     }
 
 
@@ -217,6 +210,7 @@ def split_conversation(conv_id, data, index):
     """
     metadata = data["metadata"]
     messages = data["messages"]
+    source = SOURCES[metadata["source_id"]]
     conv_dir = OUTPUT_DIR / conv_id
 
     by_date = group_messages_by_date(messages)
@@ -270,25 +264,51 @@ def split_conversation(conv_id, data, index):
             "sender": last_msg["sender"],
         } if last_msg else None,
     }
-    for key in ("phone", "saved_as", "source", "note"):
+    for key in ("phone", "saved_as", "note"):
         if metadata.get(key):
             entry[key] = metadata[key]
-    if str(metadata.get("source", "")).startswith("IPJ-A") and REPORT_DOCUMENT:
-        entry["source_document"] = REPORT_DOCUMENT
+    # Provenance: the conversation's default source and seal. A message that
+    # came from somewhere else carries its own source_id/verification.
+    entry["source"] = source["titulo"]
+    entry["source_id"] = source["id"]
+    entry["verification"] = metadata["verification"]
+    seals = Counter(provenance_of(m, metadata)[1] for m in messages)
+    if len(seals) > 1:
+        entry["verification_counts"] = dict(seals)
+    document = document_of(source)
+    if document:
+        entry["source_document"] = document
     return entry
 
 
-REPORT_DOCUMENT = None
+SOURCES = {}
 CALLS = []
 
 
+def check(problems):
+    """Fail the build on any schema problem, printing the first few."""
+    if not problems:
+        return
+    for problem in problems[:20]:
+        print(f"Error: {problem}")
+    if len(problems) > 20:
+        print(f"... e mais {len(problems) - 20}")
+    sys.exit(1)
+
+
 def main():
-    global REPORT_DOCUMENT
-    REPORT_DOCUMENT = describe_report_document()
+    global SOURCES
+    source_list, SOURCES = load_sources()
+    check(validate_sources(source_list, ROOT))
+
     data, index = load_source_data()
     sources = [(get_conversation_id(data["metadata"]), data, index)]
     sources.extend(load_extra_conversations())
     print()
+
+    for conv_id, payload, _ in sources:
+        check(validate_messages(payload["messages"], conv_id)
+              + validate_provenance(payload["metadata"], payload["messages"], SOURCES, conv_id))
 
     # Two sources sharing an id would overwrite each other's chunks in
     # public/data/<id>/ and produce a duplicate entry in conversations.json.
@@ -304,10 +324,15 @@ def main():
     # Most recent conversation first, the way WhatsApp orders the chat list.
     entries.sort(key=lambda e: e["last_message"]["timestamp"] if e["last_message"] else "",
                  reverse=True)
-    write_json(OUTPUT_DIR / "conversations.json", {"conversations": entries})
+    # The sources the conversations cite, for the seal and the contact drawer.
+    public_sources = {
+        sid: {k: src.get(k) for k in ("kind", "titulo", "orgao_ou_veiculo", "data", "url", "archive_url")}
+        for sid, src in SOURCES.items()
+    }
+    write_json(OUTPUT_DIR / "conversations.json", {"conversations": entries, "sources": public_sources})
 
     # Every call, newest first — the calls screen reads this one file.
-    CALLS.sort(key=lambda c: c["timestamp"], reverse=True)
+    CALLS.sort(key=lambda c: (c["timestamp"] or c["date"]), reverse=True)
     write_json(OUTPUT_DIR / "calls.json", {"calls": CALLS})
     print(f"calls.json: {len(CALLS)} calls")
 

@@ -1341,3 +1341,47 @@
   .contacts-sheet-back .is-back { display: none; }
   .contacts-sheet-back .is-close { display: flex; }
 }
+
+/* "Fonte" row: the source and its seal, then links and the document's hash.
+   Six lines or more, so the icon sits by the label instead of mid-row. */
+.contact-info-source {
+  align-items: flex-start;
+}
+
+.contact-info-source .contact-info-action-text {
+  gap: 2px;
+}
+
+.contact-info-source-links {
+  display: flex;
+  gap: 16px;
+  margin-top: 4px;
+  font-size: 14px;
+}
+
+.contact-info-source-links a {
+  color: var(--WDS-content-action-emphasized, #008069);
+  text-decoration: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .contact-info-source-links a:hover {
+    text-decoration: underline;
+  }
+}
+
+/* A 16px-tall link is too small for a finger: grow the hit area to 40px
+   without moving the lines around it. */
+@media (pointer: coarse) {
+  .contact-info-source-links a {
+    padding: 12px 0;
+    margin: -12px 0;
+  }
+}
+
+.contact-info-source-hash {
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--WDS-content-deemphasized);
+  word-break: break-all;
+}

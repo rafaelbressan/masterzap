@@ -15,6 +15,7 @@ import { ICON_INFO, ICON_SEARCH, ICON_CHECKEMPTY, ICON_BELL, ICON_TIMER, ICON_DO
 import { defaultAvatarSvg } from '../lib/avatar.js';
 import { parseContacts, parseLocation, mapsUrl, parseLink, parseAudio, parseImage, conversationForPhone } from '../lib/media.js';
 import { showContactsSheet, ICON_MESSAGE } from './ContactsSheet.js';
+import { SEALS, SEAL_ICONS, sealToMark, sealDescription, provenanceOf, sourceById, conversationSealLine } from '../lib/provenance.js';
 
 /**
  * What the media renderers need from outside the bubble: who the contacts
@@ -22,6 +23,33 @@ import { showContactsSheet, ICON_MESSAGE } from './ContactsSheet.js';
  * per chat view; there is only ever one on screen.
  */
 let media = { conversations: [], avatarFor: () => null, selfAvatar: null, contactAvatar: null, contactName: '', onOpenChat: () => {}, onCopy: () => {}, container: null };
+
+/** The open conversation, for the seal each bubble may carry. */
+let sealContext = { conversation: null };
+
+/**
+ * The yellow notice at the top of the chat: where the messages came from and
+ * their seal. A button, because it opens the contact drawer at "Fonte".
+ */
+function renderSealNotice(conversation, onOpen) {
+  const line = conversationSealLine(conversation);
+  if (!line) return null;
+  const notice = document.createElement('button');
+  notice.type = 'button';
+  notice.className = 'chat-seal-notice';
+  const icon = document.createElement('span');
+  icon.className = 'chat-seal-notice-icon';
+  // Static SVG literal — safe innerHTML
+  icon.innerHTML = SEAL_ICONS[conversation.verification] || '';
+  notice.appendChild(icon);
+  const text = document.createElement('span');
+  // "Clique" with a mouse, "Toque" on a touchscreen, as WhatsApp words it.
+  const verb = window.matchMedia?.('(pointer: coarse)').matches ? 'Toque' : 'Clique';
+  text.textContent = onOpen ? `${line}. ${verb} para ver a fonte.` : `${line}.`;
+  notice.appendChild(text);
+  if (onOpen) notice.addEventListener('click', onOpen);
+  return notice;
+}
 
 const ICON_PLAY = `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
 const MAP_PLACEHOLDER = '/assets/map-placeholder.jpg';
@@ -36,10 +64,14 @@ const BACK_ICON = `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" s
  * @param {Array} messages
  * @returns {HTMLElement}
  */
-function renderDaySection(date, messages) {
+function renderDaySection(date, messages, { notice = null } = {}) {
   const section = document.createElement('section');
   section.className = 'chat-day';
   section.dataset.date = date;
+
+  // The oldest day opens with the conversation's source, where WhatsApp puts
+  // its end-to-end encryption notice.
+  if (notice) section.appendChild(notice);
 
   // Date badge
   const badge = document.createElement('div');
@@ -480,7 +512,7 @@ function renderMessage(msg) {
 
   bubble.appendChild(content);
 
-  // Metadata row (time + edited flag)
+  // Metadata row (seal + edited flag + time)
   const meta = document.createElement('span');
   meta.className = 'chat-msg-meta';
   meta.textContent = formatTime(msg.time);
@@ -489,6 +521,18 @@ function renderMessage(msg) {
     edited.className = 'chat-msg-edited';
     edited.textContent = 'editada';
     meta.prepend(edited);
+  }
+  const mark = sealToMark(msg, sealContext.conversation);
+  if (mark) {
+    const glyph = document.createElement('span');
+    glyph.className = `chat-msg-seal seal-${mark}`;
+    glyph.setAttribute('role', 'img');
+    const description = sealDescription(mark, sourceById(provenanceOf(msg, sealContext.conversation).sourceId));
+    glyph.setAttribute('aria-label', description);
+    glyph.title = description;
+    // Static SVG literal — safe innerHTML
+    glyph.innerHTML = SEAL_ICONS[mark];
+    meta.prepend(glyph);
   }
   bubble.appendChild(meta);
 
@@ -520,8 +564,9 @@ function renderMessage(msg) {
  */
 // Use the design system meetball icon for 3-dot menu
 
-export function renderChatView(container, { conversation, dateIndex, loadMessages, onBack, onContactClick, onSearch, onCloseChat, onAbout, onScreenshot, onExport, onMenuOpen, media: mediaOptions }) {
+export function renderChatView(container, { conversation, dateIndex, loadMessages, onBack, onContactClick, onSourceClick, onSearch, onCloseChat, onAbout, onScreenshot, onExport, onMenuOpen, media: mediaOptions }) {
   if (mediaOptions) media = { ...media, ...mediaOptions, container };
+  sealContext = { conversation };
   // Clear container
   while (container.firstChild) container.removeChild(container.firstChild);
 
@@ -575,7 +620,22 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
 
   const subtitleEl = document.createElement('div');
   subtitleEl.className = 'chat-header-info';
-  subtitleEl.textContent = `${conversation.total_messages.toLocaleString('pt-BR')} mensagens`;
+  // The seal rides in the header, which stays in view on a deep link and on
+  // mobile, where the notice at the top of the chat is out of sight.
+  // On a narrow header the count gives way, never the seal: "Não…" alone
+  // would say the opposite of "Não verificado".
+  const total = conversation.total_messages;
+  const countEl = document.createElement('span');
+  countEl.className = 'chat-header-info-count';
+  countEl.textContent = `${total.toLocaleString('pt-BR')} ${total === 1 ? 'mensagem' : 'mensagens'}`;
+  subtitleEl.appendChild(countEl);
+  const seal = SEALS[conversation.verification];
+  if (seal) {
+    const sealEl = document.createElement('span');
+    sealEl.className = 'chat-header-info-seal';
+    sealEl.textContent = ` · ${seal.label}`;
+    subtitleEl.appendChild(sealEl);
+  }
   infoEl.appendChild(subtitleEl);
 
   header.appendChild(infoEl);
@@ -713,7 +773,9 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
     container: messagesArea,
     dateIndex,
     loadMessages,
-    renderDay: (date, messages) => renderDaySection(date, messages),
+    renderDay: (date, messages) => renderDaySection(date, messages, {
+      notice: date === dateIndex[0]?.date ? renderSealNotice(conversation, onSourceClick || onContactClick) : null,
+    }),
   });
 
   return { element: el, loader };

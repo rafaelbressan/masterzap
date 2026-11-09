@@ -20,12 +20,14 @@ import { getContactProfile, VORCARO_PROFILE, SOURCES } from '../src/lib/profile-
 import { SETTINGS_CONTENT } from '../src/lib/settings-content.js';
 import {
   ROOT, SITE, REPO, TIMEZONE, UTC_OFFSET,
-  loadEntries, loadMessages, sourceOf, contactOf, whoIs, createResolver, createLocator, isPaged,
-  urlsIn, linksToMarkdown, longDate, phonePretty, MEDIA,
+  loadEntries, loadMessages, sourceOf, provenanceOf, VERIFICATION_LABELS, contactOf, whoIs, createResolver, createLocator, isPaged,
+  urlsIn, linksToMarkdown, longDate, phonePretty, MEDIA, loadSources,
 } from './lib/corpus.mjs';
 
 const OUT = join(ROOT, 'public/export');
-const FORMAT_VERSION = 1;
+// 2: source_detail comes from data/sources.json (kind is its kind), and every
+// message carries its resolved source_id and verification.
+const FORMAT_VERSION = 2;
 const generatedAt = new Date().toISOString();
 
 const entries = loadEntries();
@@ -118,6 +120,7 @@ function conversationMarkdown(entry, messages, { standalone = true, month = null
 
   out.push(`${sub} Proveniência`, '', '| | |', '|---|---|');
   out.push(`| Fonte | ${source.label} |`);
+  out.push(`| Selo | ${VERIFICATION_LABELS[source.verification]} |`);
   if (source.document) out.push(`| Documento | \`${source.document}\`${source.document_pages ? `, ${source.document_pages} páginas` : ''}${source.document_url ? ` — [no repositório](${source.document_url})` : ''} (sha256 \`${source.document_sha256 || 'n/d'}\`) |`);
   out.push(`| Como chegou ao público | ${source.how} |`);
   out.push(`| Período | ${month ? `${messages[0].date} a ${messages.at(-1).date}` : `${entry.date_range.start} a ${entry.date_range.end}`} |`);
@@ -144,6 +147,10 @@ function conversationMarkdown(entry, messages, { standalone = true, month = null
     if (msg.is_edited) tags.push('editada');
     if (msg.view_once) tags.push('visualização única');
     if (msg.source_page) tags.push(`laudo p. ${msg.source_page}${msg.source_figure ? `, fig. ${msg.source_figure}` : ''}`);
+    // A message whose seal is not the conversation's says so where it is read.
+    const { source_id: sourceId, verification: seal } = provenanceOf(msg, entry);
+    if (seal !== entry.verification) tags.push(VERIFICATION_LABELS[seal].toLowerCase());
+    if (sourceId !== entry.source_id) tags.push(`fonte: ${loadSources().get(sourceId)?.titulo || sourceId}`);
     out.push(`**${msg.sender}** · ${tags.join(' · ')}`);
     const body = messageBody(msg);
     if (body) out.push(...body.split('\n').map(escapeLine));
@@ -179,7 +186,7 @@ function conversationJson(entry, messages) {
       note: entry.note || null,
     },
     profile: profileJson(getContactProfile(entry.id), entry.id),
-    messages: messages.map(m => ({ ...m, timestamp: `${m.timestamp}${UTC_OFFSET}` })),
+    messages: messages.map(m => ({ ...m, ...provenanceOf(m, entry), timestamp: `${m.timestamp}${UTC_OFFSET}` })),
   };
 }
 
