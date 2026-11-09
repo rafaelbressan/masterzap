@@ -117,6 +117,7 @@ copiar o campo como veio:
   `system`, `contact`, `link`, `location`, `image_view_once`.
 - **`sender`**: `DV` para as mensagens de Vorcaro; do outro lado, um **nome limpo** — o nome
   do contato sem os sufixos e números que o celular guardou ("Ana Matos", não "Ana Matos
-  Mkt"; "Fabiano Zettel", não "Fabiano Zettel 1"; "Geraldo", não "Geraldo Brazil Journal").
+  Mkt"; "Fabiano Zettel", não "Fabiano Zettel 1"). Quando se sabe quem é, o nome da pessoa:
+  "Geraldo Samor", não "Geraldo Brazil Journal".
   É o que sai assinando o "Compartilhar texto", a info da mensagem e o export. O nome
   salvo fica em `metadata.participants` (e `saved_as`), e o nome real no perfil do contato.
