@@ -115,5 +115,6 @@ copiar o campo como veio:
 - **Hora desconhecida**: `time: null` e `timestamp: null` (não `00:00:00`, não `??`).
 - **`type`**: `text`, `image`, `video`, `audio`, `sticker`, `document`, `deleted`, `call`,
   `system`, `contact`, `link`, `location`, `image_view_once`.
-- **`sender`**: `DV` para as mensagens de Vorcaro; do outro lado, o mesmo nome que está
-  em `metadata.participants`.
+- **`sender`**: `DV` para as mensagens de Vorcaro; do outro lado, o nome do contato.
+  Conversa nova usa o mesmo nome de `metadata.participants`. (Parte das conversas do
+  relatório registra uma forma curta do nome salvo, como a transcrição a leu.)
