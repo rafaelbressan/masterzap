@@ -20,6 +20,10 @@ SRC_DIR = ROOT / "data" / "ipj-3298613"
 OUT_DIR = ROOT / "data" / "conversations"
 
 SOURCE_DOC = "IPJ-A nº 3298613/2026 — NADIP/DFIN/CGRC/DICOR/PF"
+# The report's record in data/sources.json. Every message built here comes from
+# it and cites its page and figure, so the whole conversation is "verificado".
+SOURCE_ID = "ipj-a-3298613-2026"
+VERIFICATION = "verificado"
 
 MORAES_ID = "alexandre-de-moraes"
 MORAES_NAME = "Alexandre de Moraes BRASILIA"
@@ -121,6 +125,8 @@ def build_moraes_conversation():
         "date_range": {"start": messages[0]["date"], "end": messages[-1]["date"]},
         "total_messages": len(messages),
         "source": SOURCE_DOC,
+        "source_id": SOURCE_ID,
+        "verification": VERIFICATION,
         "note": (
             "Mensagens de DANIEL VORCARO enviadas como capturas de tela do "
             "aplicativo Notas em modo de visualização única; o conteúdo foi "
@@ -189,6 +195,8 @@ def build_other_conversations():
                 "date_range": {"start": messages[0]["date"], "end": messages[-1]["date"]},
                 "total_messages": len(messages),
                 "source": SOURCE_DOC,
+                "source_id": SOURCE_ID,
+                "verification": VERIFICATION,
                 "note": (
                     "Trechos citados no relatório policial — a conversa completa "
                     "não consta do documento."

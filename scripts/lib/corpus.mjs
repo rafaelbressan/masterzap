@@ -35,35 +35,59 @@ export function loadMessages(entry) {
   return JSON.parse(readFileSync(join(DATA_DIR, 'messages.json'), 'utf-8')).messages;
 }
 
+/** data/sources.json, by id: every document a message can cite. */
+let sourcesById = null;
+export function loadSources() {
+  sourcesById ??= new Map(JSON.parse(readFileSync(join(DATA_DIR, 'sources.json'), 'utf-8')).sources.map(s => [s.id, s]));
+  return sourcesById;
+}
+
+/** Kinds of source that are official records rather than reporting. */
+export const OFFICIAL_KINDS = new Set(['laudo-pf', 'peticao-stf']);
+
+/** The seal of a message, as the reader sees it (same labels as src/lib/provenance.js). */
+export const VERIFICATION_LABELS = {
+  verificado: 'Verificado',
+  imprensa: 'Imprensa',
+  'nao-verificado': 'Não verificado',
+  reconstruido: 'Reconstruído',
+};
+
 /**
  * Where a conversation's text came from, in the terms the reader will need.
- * The report's file, hash and page count come from conversations.json, where
- * split_data.py computed them once.
+ * The record is the one data/sources.json holds for the conversation's
+ * source_id; split_data.py has already checked it exists and that the file's
+ * hash matches.
  */
 export function sourceOf(entry) {
-  if (entry.source?.startsWith('IPJ-A')) {
-    const doc = entry.source_document || {};
-    return {
-      kind: 'police-report',
-      label: entry.source,
-      document: doc.file || null,
-      document_url: doc.url || null,
-      document_download: doc.download || null,
-      document_sha256: doc.sha256 || null,
-      document_pages: doc.pages || null,
-      made_public: '2026-09-01',
-      how: 'Transcrição manual das imagens do laudo; cada mensagem cita a página e a figura de origem.',
-    };
-  }
+  const src = loadSources().get(entry.source_id);
+  if (!src) throw new Error(`${entry.id}: source_id sem registro em data/sources.json: ${entry.source_id}`);
   return {
-    kind: 'leak',
-    label: 'Vazamento das conversas com Martha Graeff, março de 2026',
-    document: null,
-    document_sha256: null,
-    made_public: '2026-03',
-    how: 'Export de WhatsApp extraído do celular apreendido, vazado para a imprensa.',
+    id: src.id,
+    kind: src.kind,
+    label: src.titulo,
+    // How structured data names the document, when it differs from the label.
+    name: src.nome || null,
+    description: src.descricao || null,
+    outlet: src.orgao_ou_veiculo,
+    date: src.data,
+    verification: entry.verification,
+    document: src.file || null,
+    document_url: src.url || null,
+    document_download: src.download || null,
+    document_sha256: src.sha256 || null,
+    document_pages: src.pages || null,
+    archive_url: src.archive_url || null,
+    made_public: src.made_public || null,
+    how: src.how,
   };
 }
+
+/** A message's own source and seal, falling back to its conversation's. */
+export const provenanceOf = (msg, entry) => ({
+  source_id: msg.source_id || entry.source_id,
+  verification: msg.verification || entry.verification,
+});
 
 export const contactOf = (entry) => entry.participants.find(p => p !== 'DV') || entry.participants[0];
 

@@ -11,7 +11,7 @@
     "export": "node scripts/export.mjs",
     "prerender": "node scripts/prerender.mjs",
     "ids:pin": "node scripts/message-ids.mjs",
-    "test": "vitest run",
+    "test": "python3 -m unittest discover -s tests/python -q && vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test --config tests/e2e/playwright.config.js",
