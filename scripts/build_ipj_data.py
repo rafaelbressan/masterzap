@@ -12,12 +12,16 @@ data/messages.json (metadata + messages), consumable by scripts/split_data.py.
 
 import json
 import re
+import sys
 from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC_DIR = ROOT / "data" / "ipj-3298613"
 OUT_DIR = ROOT / "data" / "conversations"
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from message_schema import normalise_message  # noqa: E402
 
 SOURCE_DOC = "IPJ-A nº 3298613/2026 — NADIP/DFIN/CGRC/DICOR/PF"
 # The report's record in data/sources.json. Every message built here comes from
@@ -66,7 +70,7 @@ def make_message(mid, timestamp, sender, content, mtype, **extra):
                 "view_once", "note_created_utc", "sent_utc", "duration"):
         if extra.get(key) is not None:
             msg[key] = extra[key]
-    return msg
+    return normalise_message(msg)
 
 
 def build_moraes_conversation():

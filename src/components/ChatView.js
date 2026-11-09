@@ -22,6 +22,8 @@ import { SEALS, SEAL_ICONS, sealToMark, sealDescription, provenanceOf, sourceByI
  * are, where the avatars live, how to open a chat or copy a number. Set once
  * per chat view; there is only ever one on screen.
  */
+let media = { conversations: [], avatarFor: () => null, selfAvatar: null, contactAvatar: null, contactName: '', onOpenChat: () => {}, onCopy: () => {}, container: null };
+
 /** The open conversation, for the seal each bubble may carry. */
 let sealContext = { conversation: null };
 
@@ -46,8 +48,6 @@ function renderSealNotice(conversation, onOpen) {
   if (onOpen) notice.addEventListener('click', onOpen);
   return notice;
 }
-
-let media = { conversations: [], avatarFor: () => null, selfAvatar: null, contactAvatar: null, contactName: '', onOpenChat: () => {}, onCopy: () => {}, container: null };
 
 const ICON_PLAY = `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
 const MAP_PLACEHOLDER = '/assets/map-placeholder.jpg';
@@ -562,7 +562,7 @@ function renderMessage(msg) {
  */
 // Use the design system meetball icon for 3-dot menu
 
-export function renderChatView(container, { conversation, dateIndex, loadMessages, onBack, onContactClick, onSearch, onCloseChat, onAbout, onScreenshot, onExport, onMenuOpen, media: mediaOptions }) {
+export function renderChatView(container, { conversation, dateIndex, loadMessages, onBack, onContactClick, onSourceClick, onSearch, onCloseChat, onAbout, onScreenshot, onExport, onMenuOpen, media: mediaOptions }) {
   if (mediaOptions) media = { ...media, ...mediaOptions, container };
   sealContext = { conversation };
   // Clear container
@@ -760,7 +760,7 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
     dateIndex,
     loadMessages,
     renderDay: (date, messages) => renderDaySection(date, messages, {
-      notice: date === dateIndex[0]?.date ? renderSealNotice(conversation, onContactClick) : null,
+      notice: date === dateIndex[0]?.date ? renderSealNotice(conversation, onSourceClick || onContactClick) : null,
     }),
   });
 

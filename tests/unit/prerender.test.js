@@ -241,7 +241,7 @@ describe('llms-full.txt', () => {
     expect(t).toContain('/chat/alexandre-de-moraes#msg-39) ⟨15/11/2025 18:22 · laudo p. 109, fig. 108⟩');
     // The famous quote lives in December 2024, on that month's page.
     expect(t).toContain('/chat/martha-graeff/2024-12#msg-35686) ⟨04/12/2024 00:33⟩');
-    expect(t).toContain('## Documento-fonte do relatório da PF');
+    expect(t).toContain('## Documento-fonte: IPJ-A nº 3298613/2026 — Polícia Federal');
   });
 
   it('carries the profiles with their sources as links, and nothing site-only', () => {

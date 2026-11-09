@@ -71,6 +71,11 @@ class Validate(unittest.TestCase):
         self.assertTrue(validate_message(msg(date="julho"), "t"))
         self.assertTrue(validate_message(msg(type="emoji"), "t"))  # not drawn by ChatView
         self.assertTrue(validate_message(msg(verification="talvez"), "t"))
+        self.assertTrue(validate_message(msg(time=None, timestamp="2024-03-12TNone"), "t"))
+        self.assertTrue(validate_message(msg(date="2024-13-45", timestamp="2024-13-45T10:00:00"), "t"))
+        self.assertTrue(validate_message(msg(time="25:99:99", timestamp="2024-03-12T25:99:99"), "t"))
+        self.assertTrue(validate_message(msg(time=5), "t"))  # a readable error, not a crash
+        self.assertTrue(validate_message(msg(date=20240312), "t"))
 
     def test_duplicate_ids(self):
         problems = validate_messages([msg(), msg()], "t")
@@ -95,11 +100,23 @@ if __name__ == "__main__":
 class Provenance(unittest.TestCase):
     def test_unknown_source_id_is_rejected(self):
         from message_schema import validate_provenance
+        sources = {"a": {"kind": "laudo-pf"}, "j": {"kind": "imprensa"}}
         meta = {"source_id": "a", "verification": "verificado"}
-        self.assertEqual(validate_provenance(meta, [msg()], {"a"}, "t"), [])
-        self.assertTrue(validate_provenance({**meta, "source_id": "x"}, [msg()], {"a"}, "t"))
-        self.assertTrue(validate_provenance({**meta, "verification": "talvez"}, [msg()], {"a"}, "t"))
-        self.assertTrue(validate_provenance(meta, [msg(source_id="x")], {"a"}, "t"))
+        self.assertEqual(validate_provenance(meta, [msg()], sources, "t"), [])
+        self.assertTrue(validate_provenance({**meta, "source_id": "x"}, [msg()], sources, "t"))
+        self.assertTrue(validate_provenance({**meta, "verification": "talvez"}, [msg()], sources, "t"))
+        self.assertTrue(validate_provenance(meta, [msg(source_id="x")], sources, "t"))
+
+    def test_verified_needs_an_official_document(self):
+        from message_schema import validate_provenance
+        sources = {"a": {"kind": "laudo-pf"}, "j": {"kind": "imprensa"}}
+        press = {"source_id": "j", "verification": "verificado"}
+        self.assertTrue(validate_provenance(press, [msg()], sources, "t"))
+        self.assertEqual(validate_provenance({**press, "verification": "imprensa"}, [msg()], sources, "t"), [])
+        # A press message inside a police-report conversation must not stay "verificado".
+        official = {"source_id": "a", "verification": "verificado"}
+        self.assertTrue(validate_provenance(official, [msg(source_id="j")], sources, "t"))
+        self.assertEqual(validate_provenance(official, [msg(source_id="j", verification="imprensa")], sources, "t"), [])
 
     def test_sources_file_hash_must_match(self):
         import tempfile

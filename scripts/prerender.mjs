@@ -68,6 +68,9 @@ const locate = createLocator(entries);
 /** The static page (no fragment) where a message's anchor lives. */
 const pathOf = (conversationId, msg) => locate(conversationId, msg)?.replace(/#.*$/, '') ?? null;
 
+/** JSON-LD inside <script>: names and descriptions now come from data, so no "</script>" may close it early. */
+const jsonForScript = (value) => JSON.stringify(value, null, 2).replace(/</g, '\\u003c');
+
 function reportDoc(source) {
   const doc = {
     '@type': 'DigitalDocument',
@@ -118,7 +121,7 @@ function appPage({ title, description, path, jsonLd, chat, hash, article, extraH
 
   // The home page's structured data does not describe this page.
   html = html.replace(/\s*<script type="application\/ld\+json">[\s\S]*?<\/script>/g, '');
-  swap(/<\/head>/, `<script type="application/ld+json">\n${JSON.stringify(jsonLd, null, 2)}\n</script>\n`
+  swap(/<\/head>/, `<script type="application/ld+json">\n${jsonForScript(jsonLd)}\n</script>\n`
     + extraHead
     // A crawler follows #msg-N to the anchor; a browser gets the app at that message.
     + `<script>(function(){var m=location.hash.match(/^#msg-(\\d+)$/);if(m)location.replace('#/chat/${chat}/msg/'+m[1]);else if(!location.hash)location.replace('${hash}')})()</script>\n</head>`);
@@ -185,8 +188,8 @@ function provenanceHtml(entry) {
   const out = ['<h2>Proveniência</h2><dl>'];
   out.push(`<dt>Fonte</dt><dd>${escapeHtml(source.label)}</dd>`);
   out.push(`<dt>Selo</dt><dd>${escapeHtml(VERIFICATION_LABELS[source.verification])}</dd>`);
-  if (source.document) out.push(`<dt>Documento</dt><dd>${source.document_url ? `<a href="${escapeHtml(source.document_url)}" rel="noopener">${escapeHtml(source.document)}</a>` : escapeHtml(source.document)}${source.document_pages ? `, ${source.document_pages} páginas` : ''} (no repositório; o site não serve o PDF)</dd>`);
-  if (source.document_sha256) out.push(`<dt>sha256 do documento</dt><dd><code>${source.document_sha256}</code></dd>`);
+  if (source.document) out.push(`<dt>Documento</dt><dd>${source.document_url ? `<a href="${escapeHtml(source.document_url)}" rel="noopener">${escapeHtml(source.document)}</a>` : escapeHtml(source.document)}${source.document_pages ? `, ${escapeHtml(source.document_pages)} páginas` : ''} (no repositório; o site não serve o PDF)</dd>`);
+  if (source.document_sha256) out.push(`<dt>sha256 do documento</dt><dd><code>${escapeHtml(source.document_sha256)}</code></dd>`);
   out.push(`<dt>Como chegou ao público</dt><dd>${escapeHtml(source.how)}</dd>`);
   if (entry.saved_as) out.push(`<dt>Contato salvo como</dt><dd>${escapeHtml(entry.saved_as)}</dd>`);
   if (entry.phone) out.push(`<dt>Telefone</dt><dd>${escapeHtml(phonePretty(entry.phone))}</dd>`);
@@ -316,7 +319,7 @@ function standalone({ title, description, path, jsonLd, body }) {
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt">
 <script type="application/ld+json">
-${JSON.stringify(jsonLd, null, 2)}
+${jsonForScript(jsonLd)}
 </script>
 <style>
   body { margin: 0; background: #f0f2f5; color: #111b21; font: 16px/1.5 Roboto, "Helvetica Neue", Arial, sans-serif; }
@@ -448,9 +451,12 @@ function llmsFull(built, people) {
     out.push(`## ${section.title}`, '');
     for (const p of section.paragraphs) out.push(linksToMarkdown(p.text, { resolve, hrefFor: locate }), '');
   }
-  const report = entries.map(e => e.source_document).find(Boolean);
-  if (report) {
-    out.push('## Documento-fonte do relatório da PF', '',
+  // One section per document in the repository (data/sources.json `file`).
+  const documents = new Map();
+  for (const e of entries) if (e.source_document && !documents.has(e.source_id)) documents.set(e.source_id, e);
+  for (const e of documents.values()) {
+    const report = e.source_document;
+    out.push(`## Documento-fonte: ${sourceOf(e).name || sourceOf(e).label}`, '',
       `- Arquivo: ${report.file} — ${report.pages} páginas`,
       `- sha256: ${report.sha256}`,
       `- Onde obter: ${report.url} (página) ou ${report.download} (os bytes) — o site não serve o PDF; o caminho acima é do repositório`, '');

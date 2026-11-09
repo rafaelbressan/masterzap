@@ -43,7 +43,13 @@ def date_precision(date):
     """How much of a date is known: day, month, year or none."""
     if date is None or date == NO_DATE:
         return "none"
+    if not isinstance(date, str):
+        raise ValueError(f"data não é texto: {date!r}")
     if DAY_RE.match(date):
+        try:
+            datetime.strptime(date, "%Y-%m-%d")
+        except ValueError:
+            raise ValueError(f"data inexistente: {date!r}") from None
         return "day"
     if MONTH_RE.match(date):
         return "month"
@@ -138,14 +144,21 @@ def validate_message(msg, where):
         say(f"date_precision {declared!r} não bate com a data {date!r}")
 
     time = msg.get("time")
-    if time is not None and not TIME_RE.match(time):
-        say(f"hora fora do formato: {time!r}")
+    if time is not None:
+        if not isinstance(time, str) or not TIME_RE.match(time):
+            say(f"hora fora do formato: {time!r}")
+            return problems
+        hh, mm, ss = map(int, time.split(":"))
+        if hh > 23 or mm > 59 or ss > 59:
+            say(f"hora inexistente: {time!r}")
 
     stamp = msg.get("timestamp")
     if stamp is not None:
-        if re.search(r"(Z|[+-]\d{2}:\d{2})$", stamp):
+        if not isinstance(stamp, str):
+            say(f"timestamp não é texto: {stamp!r}")
+        elif re.search(r"(Z|[+-]\d{2}:\d{2})$", stamp):
             say(f"timestamp com fuso (deve ser hora local, sem offset): {stamp!r}")
-        elif precision != "day" or stamp != f"{date}T{time}":
+        elif precision != "day" or time is None or stamp != f"{date}T{time}":
             say(f"timestamp {stamp!r} não bate com date/time {date!r} {time!r}")
     elif precision == "day" and time is not None:
         say("timestamp ausente com data e hora exatas")
@@ -228,14 +241,32 @@ def provenance_of(msg, metadata):
     )
 
 
-def validate_provenance(metadata, messages, source_ids, where):
-    """Every message must resolve to a known source and a known seal."""
+# "verificado" promises an official document; only these kinds can keep it.
+OFFICIAL_KINDS = ("laudo-pf", "peticao-stf")
+
+
+def validate_provenance(metadata, messages, sources, where):
+    """Every message must resolve to a known source and a known seal.
+
+    ``sources`` maps id → record (data/sources.json). A message is
+    "verificado" only if its effective source is an official document.
+    """
     problems = []
-    if metadata.get("source_id") not in source_ids:
+    if metadata.get("source_id") not in sources:
         problems.append(f"{where}: source_id da conversa inválido {metadata.get('source_id')!r}")
     if metadata.get("verification") not in VERIFICATIONS:
         problems.append(f"{where}: verification da conversa inválida {metadata.get('verification')!r}")
+    if problems:
+        return problems
+    unofficial = 0
     for msg in messages:
-        if "source_id" in msg and msg["source_id"] not in source_ids:
+        if "source_id" in msg and msg["source_id"] not in sources:
             problems.append(f"{where} msg {msg.get('id')}: source_id inválido {msg['source_id']!r}")
+            continue
+        source_id, seal = provenance_of(msg, metadata)
+        if seal == "verificado" and sources[source_id].get("kind") not in OFFICIAL_KINDS:
+            unofficial += 1
+    if unofficial:
+        problems.append(f"{where}: {unofficial} mensagens 'verificado' sem documento oficial como fonte "
+                        f"(kind precisa ser {' ou '.join(OFFICIAL_KINDS)})")
     return problems

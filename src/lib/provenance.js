@@ -57,14 +57,16 @@ export function provenanceOf(msg, conversation) {
 }
 
 /**
- * Whether a bubble carries the seal glyph: weak seals always, any seal that
- * differs from the conversation's, and nothing else — 65k messages of a
- * conversation whose default is "Imprensa" stay as WhatsApp draws them.
+ * Whether a bubble carries the seal glyph: weak seals always, a message whose
+ * seal or source differs from the conversation's, and nothing else — 65k
+ * messages of a conversation whose default is "Imprensa" stay as WhatsApp
+ * draws them.
  */
 export function sealToMark(msg, conversation) {
-  const { verification } = provenanceOf(msg, conversation);
+  const { sourceId, verification } = provenanceOf(msg, conversation);
   if (!SEALS[verification]) return null;
-  if (WEAK.has(verification) || verification !== conversation?.verification) return verification;
+  if (WEAK.has(verification) || verification !== conversation?.verification
+    || sourceId !== conversation?.source_id) return verification;
   return null;
 }
 
@@ -77,7 +79,7 @@ export function sealDescription(verification, source) {
 }
 
 /**
- * One line for the top-of-chat notice and the screenshot footer:
+ * One line for the notice at the top of the chat:
  * "Fonte: IPJ-A nº 3298613/2026 (Polícia Federal) · Verificado".
  * A conversation with messages under other seals says how many.
  */

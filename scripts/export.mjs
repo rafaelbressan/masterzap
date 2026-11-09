@@ -21,7 +21,7 @@ import { SETTINGS_CONTENT } from '../src/lib/settings-content.js';
 import {
   ROOT, SITE, REPO, TIMEZONE, UTC_OFFSET,
   loadEntries, loadMessages, sourceOf, provenanceOf, VERIFICATION_LABELS, contactOf, whoIs, createResolver, createLocator, isPaged,
-  urlsIn, linksToMarkdown, longDate, phonePretty, MEDIA,
+  urlsIn, linksToMarkdown, longDate, phonePretty, MEDIA, loadSources,
 } from './lib/corpus.mjs';
 
 const OUT = join(ROOT, 'public/export');
@@ -148,8 +148,9 @@ function conversationMarkdown(entry, messages, { standalone = true, month = null
     if (msg.view_once) tags.push('visualização única');
     if (msg.source_page) tags.push(`laudo p. ${msg.source_page}${msg.source_figure ? `, fig. ${msg.source_figure}` : ''}`);
     // A message whose seal is not the conversation's says so where it is read.
-    const seal = provenanceOf(msg, entry).verification;
+    const { source_id: sourceId, verification: seal } = provenanceOf(msg, entry);
     if (seal !== entry.verification) tags.push(VERIFICATION_LABELS[seal].toLowerCase());
+    if (sourceId !== entry.source_id) tags.push(`fonte: ${loadSources().get(sourceId)?.titulo || sourceId}`);
     out.push(`**${msg.sender}** · ${tags.join(' · ')}`);
     const body = messageBody(msg);
     if (body) out.push(...body.split('\n').map(escapeLine));

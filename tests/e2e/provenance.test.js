@@ -19,6 +19,10 @@ test.describe('Provenance seal', () => {
     await notice.click();
     const source = page.locator('.contact-info-source');
     await expect(source).toBeVisible();
+    await expect(source).toBeInViewport();
+    // Tapping the notice again keeps the drawer open: it shows the source, it does not toggle.
+    await notice.click({ force: true });
+    await expect(source).toBeVisible();
     await expect(source).toContainText('Polícia Federal · 27/08/2026 · Verificado');
     await expect(source.locator('a', { hasText: 'Abrir documento' })).toHaveAttribute('href', /IPJ-A-3298613-2026\.pdf$/);
     await expect(source.locator('.contact-info-source-hash')).toContainText('SHA-256 23cfdfa4');

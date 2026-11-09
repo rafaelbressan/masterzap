@@ -4,6 +4,7 @@
  */
 
 import { readFileSync, existsSync } from 'node:fs';
+import { SEALS, provenanceOf as appProvenanceOf } from '../../src/lib/provenance.js';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -45,13 +46,8 @@ export function loadSources() {
 /** Kinds of source that are official records rather than reporting. */
 export const OFFICIAL_KINDS = new Set(['laudo-pf', 'peticao-stf']);
 
-/** The seal of a message, as the reader sees it (same labels as src/lib/provenance.js). */
-export const VERIFICATION_LABELS = {
-  verificado: 'Verificado',
-  imprensa: 'Imprensa',
-  'nao-verificado': 'Não verificado',
-  reconstruido: 'Reconstruído',
-};
+/** The seal of a message, as the reader sees it — the app's labels (src/lib/provenance.js). */
+export const VERIFICATION_LABELS = Object.fromEntries(Object.entries(SEALS).map(([k, v]) => [k, v.label]));
 
 /**
  * Where a conversation's text came from, in the terms the reader will need.
@@ -83,11 +79,11 @@ export function sourceOf(entry) {
   };
 }
 
-/** A message's own source and seal, falling back to its conversation's. */
-export const provenanceOf = (msg, entry) => ({
-  source_id: msg.source_id || entry.source_id,
-  verification: msg.verification || entry.verification,
-});
+/** A message's own source and seal, falling back to its conversation's (src/lib/provenance.js). */
+export const provenanceOf = (msg, entry) => {
+  const { sourceId, verification } = appProvenanceOf(msg, entry);
+  return { source_id: sourceId, verification };
+};
 
 export const contactOf = (entry) => entry.participants.find(p => p !== 'DV') || entry.participants[0];
 
