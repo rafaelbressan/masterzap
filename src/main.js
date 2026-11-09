@@ -24,6 +24,7 @@ import { showImagePreview } from './components/ImagePreview.js';
 import { renderCallsPanel } from './components/CallsPanel.js';
 import { exportUrl, EXPORT_ALL_URL, downloadFile } from './lib/export.js';
 import { copyText } from './lib/utils.js';
+import { setSources } from './lib/provenance.js';
 
 // ── Active state (only one thing at a time) ──────
 let activeLoader = null;
@@ -93,6 +94,7 @@ async function init() {
   const store = getDataStore();
   try {
     await store.init();
+    setSources(store.getSources());
     for (const conv of store.getConversations()) {
       if (AVATARS[conv.id]) conv.avatar = AVATARS[conv.id];
     }

@@ -75,6 +75,13 @@ export class DataStore {
     if (this._conversations) return;
     const data = await this._fetcher(`${this._basePath}/conversations.json`);
     this._conversations = data.conversations || [];
+    // Every source a conversation or a message cites, by id (data/sources.json).
+    this._sources = data.sources || {};
+  }
+
+  /** @returns {Record<string, object>} the sources table, by id */
+  getSources() {
+    return this._sources || {};
   }
 
   /** @returns {Array} list of conversation objects */
