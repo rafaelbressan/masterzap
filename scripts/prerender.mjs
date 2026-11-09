@@ -35,7 +35,7 @@ import {
   loadEntries, loadMessages, sourceOf, contactOf, whoIs, createResolver, mentionsOf, createLocator, isPaged, PREVIEW_MESSAGES,
   urlsIn, linksToMarkdown, linksToText, linksToHtml, escapeHtml,
   longDate, phonePretty, messageText, citationOf, messageUrl,
-  OFFICIAL_KINDS, VERIFICATION_LABELS,
+  OFFICIAL_KINDS, VERIFICATION_LABELS, monthOf, zonedTimestamp,
 } from './lib/corpus.mjs';
 
 const DIST = join(ROOT, 'dist');
@@ -50,14 +50,14 @@ const entries = loadEntries();
 const resolve = createResolver(entries);
 const byId = new Map(entries.map(e => [e.id, e]));
 
-const monthFmt = new Intl.DateTimeFormat('pt-BR', { month: 'long', year: 'numeric' });
-const longMonth = (ym) => monthFmt.format(new Date(`${ym}-15T12:00:00`));
+// "julho de 2024" — and, for messages without a full date, what is known.
+const longMonth = (ym) => longDate(ym);
 
 /** 'YYYY-MM' → messages of that month, in order. */
 function monthsOf(messages) {
   const months = new Map();
   for (const msg of messages) {
-    const ym = msg.date.slice(0, 7);
+    const ym = monthOf(msg.date);
     if (!months.has(ym)) months.set(ym, []);
     months.get(ym).push(msg);
   }
@@ -178,7 +178,8 @@ function messagesHtml(messages) {
       out.push(`<h3>${longDate(day)}</h3>`);
     }
     const cite = msg.source_page ? ` <small>(laudo p. ${msg.source_page}${msg.source_figure ? `, fig. ${msg.source_figure}` : ''})</small>` : '';
-    out.push(`<p id="msg-${msg.id}"><time datetime="${msg.timestamp}${UTC_OFFSET}">${msg.time.slice(0, 5)}</time> <b>${escapeHtml(msg.sender)}</b>: ${escapeHtml(messageText(msg))}${cite}</p>`);
+    const stamp = zonedTimestamp(msg);
+    out.push(`<p id="msg-${msg.id}"><time${stamp ? ` datetime="${stamp}"` : ''}>${msg.time ? msg.time.slice(0, 5) : '--:--'}</time> <b>${escapeHtml(msg.sender)}</b>: ${escapeHtml(messageText(msg))}${cite}</p>`);
   }
   return out;
 }
@@ -350,7 +351,7 @@ ${body}
 function mentionHtml(conversationId, msg, alias, primary) {
   const cite = msg.source_page ? ` <small>(laudo p. ${msg.source_page}${msg.source_figure ? `, fig. ${msg.source_figure}` : ''})</small>` : '';
   return `<div class="msg" id="m-${conversationId}-${msg.id}">`
-    + `<time datetime="${msg.timestamp}${UTC_OFFSET}">${citationOf(msg).split(' · ')[0]}</time> · <b>${escapeHtml(msg.sender)}</b>${cite}${alias !== primary ? ` <small>· por «${escapeHtml(alias)}»</small>` : ''}<br>`
+    + `<time${zonedTimestamp(msg) ? ` datetime="${zonedTimestamp(msg)}"` : ''}>${citationOf(msg).split(' · ')[0]}</time> · <b>${escapeHtml(msg.sender)}</b>${cite}${alias !== primary ? ` <small>· por «${escapeHtml(alias)}»</small>` : ''}<br>`
     + `${escapeHtml(messageText(msg))}<br>`
     + `<span class="links"><a href="${locate(conversationId, msg)}">ver na conversa</a> · <a href="${messageUrl(conversationId, msg)}">no app</a> · msg ${msg.id}</span>`
     + `</div>`;

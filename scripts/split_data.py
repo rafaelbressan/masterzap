@@ -9,7 +9,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 from message_schema import (
-    provenance_of, validate_messages, validate_provenance, validate_sources,
+    date_sort_key, provenance_of, validate_messages, validate_provenance, validate_sources,
 )
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -150,7 +150,16 @@ def document_of(src):
     }
 
 
-CALL_RE_PT = re.compile(r"^Chamada de (voz|v[ií]deo)(?: — duração (\d{1,2}:\d{2}))?( perdida)?", re.I)
+# "Chamada de voz — duração 02:49", "Ligação de vídeo perdida",
+# "Chamada de voz - duração: 4:34", "Chamada de voz 04:34" — the police report
+# and the prints transcribed from screenshots write the same thing several ways.
+CALL_RE_PT = re.compile(
+    r"^(?:chamada|liga[çc][ãa]o) de (voz|v[ií]deo)"
+    r"(?:\s*[—–-]\s*dura[çc][ãa]o:?\s*(\d{1,2}:\d{2})|\s+(\d{1,2}:\d{2}))?"
+    # No end anchor: a wording this does not know ("recusada") is still a call.
+    r"( perdida)?",
+    re.I,
+)
 CALL_RE_EN = re.compile(r"^(Missed )?(Voice|Video) call(?:, (\d+) (min|sec)|, (No answer)|, (Ended)|, (Tap to call back))?", re.I)
 
 
@@ -163,12 +172,15 @@ def describe_call(msg):
     Both become the same record. Returns None for a line that is not a call.
     """
     text = (msg.get("content") or "").strip()
+    # "[Chamada de voz perdida]": some transcriptions keep the brackets.
+    if text.startswith("[") and text.endswith("]"):
+        text = text[1:-1].strip()
     kind, status, duration = None, None, None
     m = CALL_RE_PT.match(text)
     if m:
         kind = "video" if m.group(1).lower().startswith("v") and "d" in m.group(1).lower() else "voice"
-        duration = m.group(2)
-        status = "missed" if m.group(3) else ("completed" if duration else "ended")
+        duration = m.group(2) or m.group(3)
+        status = "missed" if m.group(4) else ("completed" if duration else "ended")
     else:
         m = CALL_RE_EN.match(text)
         if not m:
@@ -214,7 +226,8 @@ def split_conversation(conv_id, data, index):
     conv_dir = OUTPUT_DIR / conv_id
 
     by_date = group_messages_by_date(messages)
-    dates = sorted(by_date.keys())
+    # Undated messages first, a month before its days (message_schema.sort_key).
+    dates = sorted(by_date.keys(), key=date_sort_key)
 
     write_json(conv_dir / "index.json", index)
 
@@ -243,13 +256,17 @@ def split_conversation(conv_id, data, index):
 
     type_counts = Counter(msg["type"] for msg in messages)
 
-    last_msg = messages[-1] if messages else None
+    # The chat list orders by the last message's time; one without a time
+    # (a partial date, an unreadable clock) cannot say where it goes.
+    last_msg = next((m for m in reversed(messages) if m.get("timestamp")),
+                    messages[-1] if messages else None)
     other = [p for p in metadata["participants"] if p != "DV"]
     entry = {
         "id": conv_id,
         "participants": metadata["participants"],
         # The other side, by name, so nobody has to know "the one that is not DV".
-        "contact": other[0] if other else metadata["participants"][0],
+        # A conversation file may name its contact outright (metadata.contact).
+        "contact": metadata.get("contact") or (other[0] if other else metadata["participants"][0]),
         "date_range": normalise_date_range(metadata["date_range"]),
         "total_messages": metadata["total_messages"],
         # Drives the "Mídias, links e documentos" count in the contact drawer.
@@ -259,7 +276,7 @@ def split_conversation(conv_id, data, index):
             "documents": type_counts["document"],
         },
         "last_message": {
-            "content": last_msg["content"][:80],
+            "content": (last_msg.get("content") or "")[:80],
             "timestamp": last_msg["timestamp"],
             "sender": last_msg["sender"],
         } if last_msg else None,
@@ -322,7 +339,7 @@ def main():
     entries = [split_conversation(*source) for source in sources]
 
     # Most recent conversation first, the way WhatsApp orders the chat list.
-    entries.sort(key=lambda e: e["last_message"]["timestamp"] if e["last_message"] else "",
+    entries.sort(key=lambda e: (e["last_message"]["timestamp"] or "") if e["last_message"] else "",
                  reverse=True)
     # The sources the conversations cite, for the seal and the contact drawer.
     public_sources = {

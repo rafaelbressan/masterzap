@@ -8,6 +8,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   createResolver, createLocator, loadEntries, normalize, citationOf, linksToMarkdown, linksToHtml, linksToText,
+  brDate, longDate, monthOf, zonedTimestamp, contactOf,
 } from '../../scripts/lib/corpus.mjs';
 
 const entries = loadEntries();
@@ -76,5 +77,32 @@ describe('rendering', () => {
 
   it('cites a message without a report page by date alone', () => {
     expect(citationOf({ date: '2024-12-04', time: '00:33:42' })).toBe('04/12/2024 00:33');
+  });
+});
+
+describe('partial dates and unknown times in the build', () => {
+  it('writes only what the source knows', () => {
+    expect(brDate('2024-07-02')).toBe('02/07/2024');
+    expect(brDate('2024-07')).toBe('07/2024');
+    expect(brDate('sem-data')).toBe('Data não informada');
+    expect(longDate('2024-07')).toBe('julho de 2024');
+    expect(longDate('sem-data')).toBe('Data não informada');
+  });
+
+  it('cites a message with no time without inventing one', () => {
+    expect(citationOf({ date: '2024-07', time: null, source_page: 3 })).toBe('07/2024, horário não informado · laudo p. 3');
+    expect(zonedTimestamp({ timestamp: null })).toBeNull();
+    expect(zonedTimestamp({ timestamp: '2024-07-02T10:00:00' })).toBe('2024-07-02T10:00:00-03:00');
+  });
+
+  it('puts undated messages on a page of their own', () => {
+    expect(monthOf('2024-07-02')).toBe('2024-07');
+    expect(monthOf('2024-07')).toBe('2024-07');
+    expect(monthOf('sem-data')).toBe('sem-data');
+  });
+
+  it('prefers the contact the build recorded', () => {
+    expect(contactOf({ contact: 'Fulano', participants: ['DV', 'Apelido'] })).toBe('Fulano');
+    expect(contactOf({ participants: ['DV', 'Apelido'] })).toBe('Apelido');
   });
 });
