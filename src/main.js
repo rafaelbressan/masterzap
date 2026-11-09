@@ -84,7 +84,7 @@ async function init() {
     // The chat Vorcaro kept with himself — his own photo, as WhatsApp shows it.
     'dv-self': '/assets/avatar-dv.jpg',
   };
-  const SENDER_NAMES = { 'DV': 'Daniel Vocaro' };
+  const SENDER_NAMES = { 'DV': 'Daniel Vorcaro' };
   // Per-conversation media tallies come from conversations.json (built by
   // scripts/split_data.py); this is only the fallback for older data.
   const MEDIA_COUNTS = { images: 0, videos: 0, documents: 0 };
