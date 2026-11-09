@@ -112,10 +112,19 @@ async function init() {
     if (activeChatSearch) { activeChatSearch.destroy(); activeChatSearch = null; }
   }
 
+  /** Remember where the reader is in the open chat, while it is still on screen. */
+  function rememberPosition() {
+    const position = activeLoader?.currentPosition();
+    // undefined: still loading, or hidden behind a drawer — nothing to say.
+    if (position !== undefined && currentConversationId) savePosition(currentConversationId, position);
+  }
+  // A reload or a closed tab never closes the chat; save on the way out too.
+  window.addEventListener('pagehide', () => rememberPosition());
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') rememberPosition(); });
+
   /** Close the chat (loader, context menu, right drawers). */
   function closeChat() {
-    // Remember where the reader was, before the chat leaves the screen.
-    if (activeLoader && currentConversationId) savePosition(currentConversationId, activeLoader.currentPosition());
+    rememberPosition();
     clearPreparedScreenshot();
     if (activeImagePreview) { activeImagePreview.destroy(); activeImagePreview = null; }
     closeRightDrawers();
@@ -145,6 +154,8 @@ async function init() {
 
   /** Save main area children and hide them, show a placeholder. */
   function hideMainAreaWithPlaceholder(iconSvg, label) {
+    // Hidden, the chat measures 0 everywhere; note the place while it shows.
+    rememberPosition();
     mainAreaSavedContent = Array.from(mainArea.children);
     mainAreaSavedContent.forEach(child => child.style.display = 'none');
 

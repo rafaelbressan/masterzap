@@ -10,6 +10,8 @@ import { compareDates } from './utils.js';
 const INITIAL_DAYS = 5;
 const LOAD_MORE_DAYS = 5;
 const LOAD_ATTEMPTS = 2;
+// A place further up than this is restored as a jump (see restorePosition).
+const RESTORE_CONTIGUOUS_MAX_DAYS = 30;
 // Closer than this to the end counts as "at the end".
 const AT_END_PX = 48;
 
@@ -51,6 +53,9 @@ export class ScrollLoader {
 
     // Back where the reader left off, or at the most recent messages.
     if (!position || !(await this.restorePosition(position))) this._scrollToBottom();
+    if (this._destroyed) return;
+    // From here on, where the reader is means something (currentPosition).
+    this._ready = true;
 
     // Observe sentinel to load more when user scrolls up
     this._observer = new IntersectionObserver(
@@ -69,7 +74,7 @@ export class ScrollLoader {
    * @param {number} count
    */
   async _loadBatch(count) {
-    if (this._loading || this._nextIndex < 0) return false;
+    if (this._destroyed || this._loading || this._nextIndex < 0) return false;
     this._loading = true;
 
     const scrollHeightBefore = this._container.scrollHeight;
@@ -87,7 +92,7 @@ export class ScrollLoader {
 
     let loaded = 0;
     let failed = false;
-    while (loaded < count && this._nextIndex >= 0) {
+    while (loaded < count && this._nextIndex >= 0 && !this._destroyed) {
       const entry = this._dateIndex[this._nextIndex];
 
       // Already on screen (a search or a shared link jumped to it).
@@ -180,10 +185,14 @@ export class ScrollLoader {
    * Where the reader is: the first message in view, its day, and how far its
    * top sits below the top of the chat. null when the reader is at the end —
    * the next visit should open at the newest message anyway.
-   * @returns {{date: string, id: string, offset: number, contiguous: boolean}|null}
+   * undefined when there is nothing to say: the chat is still loading (the
+   * reader has not been put anywhere yet) or is hidden behind a drawer, where
+   * every measure reads 0 — saving then would overwrite the real place.
+   * @returns {{date: string, id: string, offset: number, contiguous: boolean}|null|undefined}
    */
   currentPosition() {
     const c = this._container;
+    if (!this._ready || this._destroyed || c.clientHeight === 0) return undefined;
     if (c.scrollHeight - c.scrollTop - c.clientHeight < AT_END_PX) return null;
     const top = c.getBoundingClientRect().top;
     const row = Array.from(c.querySelectorAll('[data-id]')).find(r => r.getBoundingClientRect().bottom > top);
@@ -209,9 +218,17 @@ export class ScrollLoader {
    */
   async restorePosition({ date, id, offset = 0, contiguous = false }) {
     const index = this._dateIndex.findIndex(d => d.date === date);
-    if (index < 0) return false;
-    if (contiguous) {
-      while (this._nextIndex >= index) {
+    // Ids are numbers; anything else came from tampered storage.
+    if (index < 0 || !/^\d+$/.test(String(id))) return false;
+    // Far up a long conversation, bringing back every day in between is
+    // hundreds of requests and tens of thousands of rows: go there as a jump.
+    const between = this._nextIndex - index + 1;
+    if (contiguous && between <= RESTORE_CONTIGUOUS_MAX_DAYS) {
+      // Ask for the days in parallel; the loop below then renders them in
+      // order (the data store dedups requests and caches the answers).
+      const wanted = this._dateIndex.slice(index, this._nextIndex + 1).map(d => d.date);
+      await Promise.allSettled(wanted.map(d => this._loadMessages(d)));
+      while (this._nextIndex >= index && !this._destroyed) {
         const before = this._nextIndex;
         await this._loadBatch(LOAD_MORE_DAYS);
         if (this._nextIndex === before) break;
@@ -219,6 +236,7 @@ export class ScrollLoader {
     } else {
       await this.loadDate(date);
     }
+    if (this._destroyed) return false;
     const row = this._container.querySelector(`[data-date="${date}"] [data-id="${id}"]`);
     if (!row) return false;
     this._container.scrollTop += row.getBoundingClientRect().top
@@ -316,6 +334,7 @@ export class ScrollLoader {
 
   /** Clean up observer. */
   destroy() {
+    this._destroyed = true;
     this._observer?.disconnect();
     this._observer = null;
   }

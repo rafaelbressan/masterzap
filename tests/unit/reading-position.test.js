@@ -68,3 +68,49 @@ describe('ScrollLoader.restorePosition', () => {
     expect(days(container)).toEqual([]);
   });
 });
+
+describe('ScrollLoader.currentPosition guards', () => {
+  beforeEach(() => {
+    globalThis.IntersectionObserver = class { observe() {} unobserve() {} disconnect() {} };
+  });
+
+  it('says nothing while loading, when hidden, or after destroy', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    const loader = new ScrollLoader({
+      container, dateIndex: [{ date: '2024-03-01' }],
+      loadMessages: () => Promise.resolve([]),
+      renderDay: (date) => { const el = document.createElement('section'); el.dataset.date = date; return el; },
+    });
+    expect(loader.currentPosition()).toBeUndefined(); // init not finished
+    await loader.init();
+    // jsdom lays nothing out: clientHeight 0 is what a display:none chat reads.
+    expect(loader.currentPosition()).toBeUndefined();
+    loader.destroy();
+    expect(loader.currentPosition()).toBeUndefined();
+  });
+
+  it('ignores a stored id that is not a message id', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    const loader = new ScrollLoader({
+      container, dateIndex: [{ date: '2024-03-01' }],
+      loadMessages: () => Promise.resolve([]),
+      renderDay: (date) => { const el = document.createElement('section'); el.dataset.date = date; return el; },
+    });
+    expect(await loader.restorePosition({ date: '2024-03-01', id: '"]div[x="', offset: 0 })).toBe(false);
+  });
+
+  it('restores a place far up as a jump, not by loading every day in between', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    const dateIndex = Array.from({ length: 100 }, (_, i) => ({ date: `2024-${String(Math.floor(i / 28) + 1).padStart(2, '0')}-${String((i % 28) + 1).padStart(2, '0')}` }));
+    const loadMessages = vi.fn(() => Promise.resolve([]));
+    const loader = new ScrollLoader({
+      container, dateIndex, loadMessages,
+      renderDay: (date) => { const el = document.createElement('section'); el.dataset.date = date; el.innerHTML = '<div data-id="1"></div>'; return el; },
+    });
+    await loader.init({ position: { date: dateIndex[3].date, id: '1', offset: 0, contiguous: true } });
+    expect(loadMessages.mock.calls.length).toBeLessThan(10);
+  });
+});
