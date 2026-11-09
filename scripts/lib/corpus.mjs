@@ -12,7 +12,10 @@ export const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 export const DATA_DIR = join(ROOT, 'data');
 export const PUBLIC_DATA = join(ROOT, 'public/data');
 
-export const SITE = 'https://www.masterwhats.com.br';
+import { SITE_URL } from '../../src/config/site.js';
+
+/** The site's address — src/config/site.js decides it, for the app and the build alike. */
+export const SITE = SITE_URL;
 export const REPO = 'https://github.com/rafaelbressan/masterzap';
 
 // The phones were seized in Brazil and every timestamp in the sources is local
