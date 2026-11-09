@@ -5,6 +5,8 @@
  * near the top. Uses IntersectionObserver for efficient scroll detection.
  */
 
+import { compareDates } from './utils.js';
+
 const INITIAL_DAYS = 5;
 const LOAD_MORE_DAYS = 5;
 
@@ -150,7 +152,7 @@ export class ScrollLoader {
   _insertDayInChronologicalOrder(dayEl) {
     const date = dayEl.dataset.date;
     const existingSections = Array.from(this._container.querySelectorAll('[data-date]'));
-    const nextSection = existingSections.find(section => section.dataset.date > date);
+    const nextSection = existingSections.find(section => compareDates(section.dataset.date, date) > 0);
     this._container.insertBefore(dayEl, nextSection || null);
   }
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { slugify, formatDateLong, formatTime, linkify, escapeHtml, classifyMessage, truncate } from '../../src/lib/utils.js';
+import { slugify, formatDateLong, formatDateShort, formatTime, formatRelativeDate, compareDates, linkify, escapeHtml, classifyMessage, truncate } from '../../src/lib/utils.js';
 
 describe('slugify', () => {
   it('converts name to lowercase slug', () => {
@@ -109,5 +109,28 @@ describe('truncate', () => {
   it('handles null/undefined', () => {
     expect(truncate(null)).toBe('');
     expect(truncate(undefined)).toBe('');
+  });
+});
+
+describe('partial dates and unknown times', () => {
+  it('says only what is known of a date', () => {
+    expect(formatDateLong('2024-07')).toBe('julho de 2024');
+    expect(formatDateLong('2024')).toBe('2024');
+    expect(formatDateLong('sem-data')).toBe('Data não informada');
+    expect(formatDateLong(null)).toBe('Data não informada');
+    expect(formatDateShort('2024-07')).toBe('07/2024');
+    expect(formatDateShort('sem-data')).toBe('Data não informada');
+    expect(formatRelativeDate('2024-07')).toBe('07/2024');
+  });
+
+  it('never invents a time', () => {
+    expect(formatTime(null)).toBe('--:--');
+    expect(formatTime('')).toBe('--:--');
+    expect(formatTime('09:05:00')).toBe('09:05');
+  });
+
+  it('orders partial dates the way the build does', () => {
+    const dates = ['2024-07-02', 'sem-data', '2024-07', '2024', '2024-07-01'];
+    expect([...dates].sort(compareDates)).toEqual(['sem-data', '2024', '2024-07', '2024-07-01', '2024-07-02']);
   });
 });
