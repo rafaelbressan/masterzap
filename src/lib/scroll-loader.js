@@ -46,7 +46,7 @@ export class ScrollLoader {
     this._observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && !this._loading) {
-          this._loadBatch(LOAD_MORE_DAYS);
+          this._loadUntilOutOfRange();
         }
       },
       { root: this._container, rootMargin: '200px 0px 0px 0px' }
@@ -59,41 +59,59 @@ export class ScrollLoader {
    * @param {number} count
    */
   async _loadBatch(count) {
-    if (this._loading || this._nextIndex < 0) return;
+    if (this._loading || this._nextIndex < 0) return false;
     this._loading = true;
 
     const scrollHeightBefore = this._container.scrollHeight;
     const scrollTopBefore = this._container.scrollTop;
 
+    // Remember the first day still in view and where it sits, so the reader
+    // stays on it however much lands above. Measuring scrollHeight alone goes
+    // wrong when a day arrives below the view (one loadDate() put there).
+    const containerTop = this._container.getBoundingClientRect().top;
+    const scrollAnchor = scrollTopBefore > 0
+      ? Array.from(this._container.querySelectorAll('[data-date]'))
+        .find(section => section.getBoundingClientRect().bottom > containerTop)
+      : null;
+    const scrollAnchorTop = scrollAnchor?.getBoundingClientRect().top;
+
     let loaded = 0;
+    let failed = false;
     while (loaded < count && this._nextIndex >= 0) {
       const entry = this._dateIndex[this._nextIndex];
-      this._nextIndex--;
 
-      if (this._loadedDates.has(entry.date)) continue;
+      // Already on screen (a search or a shared link jumped to it).
+      if (this._loadedDates.has(entry.date)) {
+        this._nextIndex--;
+        continue;
+      }
 
       try {
         const messages = await this._loadMessages(entry.date);
         const dayEl = this._renderDay(entry.date, messages);
-
-        // Insert after sentinel (which is always first child)
-        if (this._sentinel.nextSibling) {
-          this._container.insertBefore(dayEl, this._sentinel.nextSibling);
-        } else {
-          this._container.appendChild(dayEl);
-        }
+        this._insertDayInChronologicalOrder(dayEl);
 
         this._loadedDates.add(entry.date);
+        // Only move past a day once it is on screen: a day that failed to
+        // load is tried again on the next scroll, not skipped for good.
+        this._nextIndex--;
         loaded++;
       } catch (err) {
         console.error(`Failed to load day ${entry.date}:`, err);
+        failed = true;
+        break;
       }
     }
 
     // Preserve scroll position when prepending content
     if (loaded > 0 && scrollTopBefore > 0) {
-      const scrollHeightAfter = this._container.scrollHeight;
-      this._container.scrollTop = scrollTopBefore + (scrollHeightAfter - scrollHeightBefore);
+      if (scrollAnchor?.isConnected) {
+        this._container.scrollTop = scrollTopBefore
+          + scrollAnchor.getBoundingClientRect().top - scrollAnchorTop;
+      } else {
+        const scrollHeightAfter = this._container.scrollHeight;
+        this._container.scrollTop = scrollTopBefore + (scrollHeightAfter - scrollHeightBefore);
+      }
     }
 
     this._loading = false;
@@ -102,6 +120,38 @@ export class ScrollLoader {
     if (this._nextIndex < 0 && this._sentinel) {
       this._observer?.unobserve(this._sentinel);
     }
+
+    return failed;
+  }
+
+  /**
+   * Load enough history to make the container scrollable past the observer's
+   * root margin. The sentinel stays at the top of the container as days are
+   * inserted after it, so checking the sentinel's rect would keep loading the
+   * entire conversation in one go. Short days (a conversation of one-liners)
+   * would otherwise leave the sentinel in view with nothing left to scroll,
+   * and the observer, which only fires on a change, would never fire again.
+   */
+  async _loadUntilOutOfRange() {
+    while (!this._loading && this._nextIndex >= 0) {
+      const loadedBefore = this._loadedDates.size;
+      const failed = await this._loadBatch(LOAD_MORE_DAYS);
+      if (failed) return;
+      if (this._nextIndex < 0) return;
+      if (this._container.scrollHeight > this._container.clientHeight + 200) return;
+      if (this._loadedDates.size === loadedBefore) return;
+    }
+  }
+
+  /**
+   * Put a day section among the others by date. Days arrive out of order: the
+   * scroll loads them newest to oldest, a jump to a message loads one anywhere.
+   */
+  _insertDayInChronologicalOrder(dayEl) {
+    const date = dayEl.dataset.date;
+    const existingSections = Array.from(this._container.querySelectorAll('[data-date]'));
+    const nextSection = existingSections.find(section => section.dataset.date > date);
+    this._container.insertBefore(dayEl, nextSection || null);
   }
 
   /** Scroll container to the bottom. */
@@ -137,20 +187,7 @@ export class ScrollLoader {
     try {
       const messages = await this._loadMessages(date);
       const dayEl = this._renderDay(date, messages);
-
-      // Insert in chronological order among existing day sections
-      const existingSections = Array.from(this._container.querySelectorAll('.chat-day'));
-      let inserted = false;
-      for (const section of existingSections) {
-        if (section.dataset.date > date) {
-          this._container.insertBefore(dayEl, section);
-          inserted = true;
-          break;
-        }
-      }
-      if (!inserted) {
-        this._container.appendChild(dayEl);
-      }
+      this._insertDayInChronologicalOrder(dayEl);
 
       this._loadedDates.add(date);
       return dayEl;

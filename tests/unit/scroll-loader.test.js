@@ -143,3 +143,63 @@ describe('ScrollLoader', () => {
     expect(() => loader.destroy()).not.toThrow();
   });
 });
+
+describe('ScrollLoader — failures and order', () => {
+  beforeEach(() => {
+    globalThis.IntersectionObserver = MockIntersectionObserver;
+  });
+
+  const section = (date) => {
+    const el = document.createElement('section');
+    el.dataset.date = date;
+    return el;
+  };
+
+  it('does not skip a day that failed to load; the next scroll retries it', async () => {
+    const container = createMockContainer();
+    document.body.appendChild(container);
+    const dateIndex = [{ date: '2024-02-10' }, { date: '2024-02-11' }, { date: '2024-02-12' }];
+    let fail = true;
+    const loadMessages = vi.fn((date) => (date === '2024-02-11' && fail ? Promise.reject(new Error('offline')) : Promise.resolve([])));
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const loader = new ScrollLoader({ container, dateIndex, loadMessages, renderDay: section });
+    await loader.init();
+
+    // The 12th loaded, the 11th failed, and the loader stopped there.
+    expect(loader.loadedCount).toBe(1);
+    expect(loader.isFullyLoaded).toBe(false);
+
+    fail = false;
+    await loader._loadBatch(5);
+    expect([...container.querySelectorAll('[data-date]')].map(s => s.dataset.date))
+      .toEqual(['2024-02-10', '2024-02-11', '2024-02-12']);
+    expect(loader.isFullyLoaded).toBe(true);
+    spy.mockRestore();
+  });
+
+  it('keeps days in date order when a jump loads one out of turn', async () => {
+    const container = createMockContainer();
+    document.body.appendChild(container);
+    const dateIndex = Array.from({ length: 8 }, (_, i) => ({ date: `2024-02-${String(i + 10).padStart(2, '0')}` }));
+    const loader = new ScrollLoader({ container, dateIndex, loadMessages: () => Promise.resolve([]), renderDay: section });
+    await loader.init(); // the five newest: 13–17
+    await loader.loadDate('2024-02-10'); // a shared link to the oldest day
+    await loader._loadBatch(5); // scrolling up fills 11 and 12, skips 10
+    expect([...container.querySelectorAll('[data-date]')].map(s => s.dataset.date))
+      .toEqual(dateIndex.map(d => d.date));
+    expect(container.firstElementChild.classList.contains('scroll-sentinel')).toBe(true);
+  });
+
+  it('keeps loading until there is something to scroll', async () => {
+    const container = createMockContainer();
+    Object.defineProperty(container, 'clientHeight', { value: 1000, configurable: true });
+    document.body.appendChild(container);
+    // 20 one-line days, 100px each: five are not enough to fill 1000px + 200.
+    const dateIndex = Array.from({ length: 20 }, (_, i) => ({ date: `2024-03-${String(i + 1).padStart(2, '0')}` }));
+    const loader = new ScrollLoader({ container, dateIndex, loadMessages: () => Promise.resolve([]), renderDay: section });
+    await loader.init();
+    await loader._loadUntilOutOfRange();
+    expect(container.scrollHeight).toBeGreaterThan(1200);
+    expect(loader.isFullyLoaded).toBe(false);
+  });
+});
