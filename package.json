@@ -10,6 +10,7 @@
     "split-data": "python3 scripts/split_data.py",
     "export": "node scripts/export.mjs",
     "prerender": "node scripts/prerender.mjs",
+    "ids:pin": "node scripts/message-ids.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
