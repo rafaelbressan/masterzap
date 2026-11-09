@@ -115,6 +115,8 @@ copiar o campo como veio:
 - **Hora desconhecida**: `time: null` e `timestamp: null` (não `00:00:00`, não `??`).
 - **`type`**: `text`, `image`, `video`, `audio`, `sticker`, `document`, `deleted`, `call`,
   `system`, `contact`, `link`, `location`, `image_view_once`.
-- **`sender`**: `DV` para as mensagens de Vorcaro; do outro lado, o nome do contato.
-  Conversa nova usa o mesmo nome de `metadata.participants`. (Parte das conversas do
-  relatório registra uma forma curta do nome salvo, como a transcrição a leu.)
+- **`sender`**: `DV` para as mensagens de Vorcaro; do outro lado, um **nome limpo** — o nome
+  do contato sem os sufixos e números que o celular guardou ("Ana Matos", não "Ana Matos
+  Mkt"; "Fabiano Zettel", não "Fabiano Zettel 1"; "Geraldo", não "Geraldo Brazil Journal").
+  É o que sai assinando o "Compartilhar texto", a info da mensagem e o export. O nome
+  salvo fica em `metadata.participants` (e `saved_as`), e o nome real no perfil do contato.
