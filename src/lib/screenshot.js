@@ -30,6 +30,8 @@
  * exists, and every capture falls through to a download.
  */
 
+import { SITE_HOST } from '../config/site.js';
+
 /** Loaded on demand: ~200 kB that only matters once someone asks for a print. */
 async function loadHtml2Canvas() {
   const { default: html2canvas } = await import('html2canvas');
@@ -167,7 +169,7 @@ function inlineStylesheets(clonedDoc) {
 
 /** Height, in CSS pixels, of the bar with the site's address under every print. */
 export const ATTRIBUTION_BAR_HEIGHT = 44;
-const ATTRIBUTION_URL = 'www.masterwhats.com.br';
+const ATTRIBUTION_URL = SITE_HOST;
 const ATTRIBUTION_NAME = 'MasterWhats';
 const ATTRIBUTION_LOGO = '/assets/masterzap-logo.png';
 

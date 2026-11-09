@@ -21,7 +21,7 @@ SRC_DIR = ROOT / "data" / "ipj-3298613"
 OUT_DIR = ROOT / "data" / "conversations"
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from message_schema import normalise_message  # noqa: E402
+from message_schema import date_sort_key, normalise_message  # noqa: E402
 
 SOURCE_DOC = "IPJ-A nº 3298613/2026 — NADIP/DFIN/CGRC/DICOR/PF"
 # The report's record in data/sources.json. Every message built here comes from
@@ -223,7 +223,9 @@ def build_index(messages):
                 "first_message_id": by_date[date][0]["id"],
                 "last_message_id": by_date[date][-1]["id"],
             }
-            for date in sorted(by_date)
+            # Undated first, a month before its days — the order the viewer
+            # loads them in (message_schema.date_sort_key).
+            for date in sorted(by_date, key=date_sort_key)
         ]
     }
 

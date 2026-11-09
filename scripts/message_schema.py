@@ -180,6 +180,13 @@ def validate_messages(messages, where):
     return problems
 
 
+def date_sort_key(date):
+    """Order of message dates: undated first, then by what is known."""
+    if not date or date == NO_DATE:
+        return ""
+    return date
+
+
 def sort_key(msg):
     """Chronological order that tolerates partial dates and unknown times.
 
@@ -263,6 +270,10 @@ def validate_provenance(metadata, messages, sources, where):
         if "source_id" in msg and msg["source_id"] not in sources:
             problems.append(f"{where} msg {msg.get('id')}: source_id inválido {msg['source_id']!r}")
             continue
+        # also_in: other documents that quote the same message, by source id.
+        for other in msg.get("also_in") or []:
+            if other not in sources:
+                problems.append(f"{where} msg {msg.get('id')}: also_in aponta para fonte inexistente {other!r}")
         source_id, seal = provenance_of(msg, metadata)
         if seal == "verificado" and sources[source_id].get("kind") not in OFFICIAL_KINDS:
             unofficial += 1

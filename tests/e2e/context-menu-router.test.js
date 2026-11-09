@@ -5,6 +5,9 @@ test.describe('Context Menu — Batch 6', () => {
     await page.goto('/');
     await page.locator('.conversation-item').first().click();
     await page.locator('.chat-msg-bubble').first().waitFor({ timeout: 10000 });
+    // The loader keeps adding older days until there is something to scroll;
+    // let it settle, or "the first bubble" moves under the pointer.
+    await page.waitForLoadState('networkidle');
   });
 
   test('right-clicking a message shows context menu', async ({ page }) => {

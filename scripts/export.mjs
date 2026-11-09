@@ -21,7 +21,7 @@ import { SETTINGS_CONTENT } from '../src/lib/settings-content.js';
 import {
   ROOT, SITE, REPO, TIMEZONE, UTC_OFFSET,
   loadEntries, loadMessages, sourceOf, provenanceOf, VERIFICATION_LABELS, contactOf, whoIs, createResolver, createLocator, isPaged,
-  urlsIn, linksToMarkdown, longDate, phonePretty, MEDIA, loadSources,
+  urlsIn, linksToMarkdown, longDate, phonePretty, MEDIA, monthOf, zonedTimestamp, loadSources,
 } from './lib/corpus.mjs';
 
 const OUT = join(ROOT, 'public/export');
@@ -34,8 +34,8 @@ const entries = loadEntries();
 // Highlights point at messages; resolved once here, for every file below.
 const resolve = createResolver(entries);
 const hrefFor = createLocator(entries);
-const monthFmt = new Intl.DateTimeFormat('pt-BR', { month: 'long', year: 'numeric' });
-const monthName = (ym) => monthFmt.format(new Date(`${ym}-15T12:00:00`));
+// "julho de 2024" — and, for messages without a full date, what is known.
+const monthName = (ym) => longDate(ym);
 const md = (text, context) => linksToMarkdown(text, { resolve, context, hrefFor });
 
 // ── text helpers ───────────────────────────────────────────────────────────
@@ -121,6 +121,8 @@ function conversationMarkdown(entry, messages, { standalone = true, month = null
   out.push(`${sub} Proveniência`, '', '| | |', '|---|---|');
   out.push(`| Fonte | ${source.label} |`);
   out.push(`| Selo | ${VERIFICATION_LABELS[source.verification]} |`);
+  if (!source.document && source.document_url) out.push(`| Referência | [${source.document_url}](${source.document_url}) |`);
+  if (source.archive_url) out.push(`| Cópia arquivada | [${source.archive_url}](${source.archive_url}) |`);
   if (source.document) out.push(`| Documento | \`${source.document}\`${source.document_pages ? `, ${source.document_pages} páginas` : ''}${source.document_url ? ` — [no repositório](${source.document_url})` : ''} (sha256 \`${source.document_sha256 || 'n/d'}\`) |`);
   out.push(`| Como chegou ao público | ${source.how} |`);
   out.push(`| Período | ${month ? `${messages[0].date} a ${messages.at(-1).date}` : `${entry.date_range.start} a ${entry.date_range.end}`} |`);
@@ -143,7 +145,8 @@ function conversationMarkdown(entry, messages, { standalone = true, month = null
       out.push(`${standalone ? '###' : '####'} ${longDate(day)}`, '');
     }
     // Time to the second and the message id: the key a citation needs.
-    const tags = [`${msg.date} ${msg.time}`, `msg ${msg.id}`];
+    const when = msg.time ? `${msg.date} ${msg.time}` : `${msg.date === 'sem-data' ? 'data e horário não informados' : `${msg.date}, horário não informado`}`;
+    const tags = [when, `msg ${msg.id}`];
     if (msg.is_edited) tags.push('editada');
     if (msg.view_once) tags.push('visualização única');
     if (msg.source_page) tags.push(`laudo p. ${msg.source_page}${msg.source_figure ? `, fig. ${msg.source_figure}` : ''}`);
@@ -151,6 +154,8 @@ function conversationMarkdown(entry, messages, { standalone = true, month = null
     const { source_id: sourceId, verification: seal } = provenanceOf(msg, entry);
     if (seal !== entry.verification) tags.push(VERIFICATION_LABELS[seal].toLowerCase());
     if (sourceId !== entry.source_id) tags.push(`fonte: ${loadSources().get(sourceId)?.titulo || sourceId}`);
+    // The same message, quoted in another document too.
+    for (const id of msg.also_in || []) tags.push(`também em ${loadSources().get(id)?.titulo || id}`);
     out.push(`**${msg.sender}** · ${tags.join(' · ')}`);
     const body = messageBody(msg);
     if (body) out.push(...body.split('\n').map(escapeLine));
@@ -186,7 +191,7 @@ function conversationJson(entry, messages) {
       note: entry.note || null,
     },
     profile: profileJson(getContactProfile(entry.id), entry.id),
-    messages: messages.map(m => ({ ...m, ...provenanceOf(m, entry), timestamp: `${m.timestamp}${UTC_OFFSET}` })),
+    messages: messages.map(m => ({ ...m, ...provenanceOf(m, entry), timestamp: zonedTimestamp(m) })),
   };
 }
 
@@ -269,7 +274,7 @@ for (const entry of entries) {
   // reader after a single exchange does not have to take all of it.
   if (isPaged(entry)) {
     const months = new Map();
-    for (const m of messages) { const ym = m.date.slice(0, 7); if (!months.has(ym)) months.set(ym, []); months.get(ym).push(m); }
+    for (const m of messages) { const ym = monthOf(m.date); if (!months.has(ym)) months.set(ym, []); months.get(ym).push(m); }
     for (const [ym, msgs] of months) {
       const monthMd = conversationMarkdown(entry, msgs, { month: ym });
       const monthJson = JSON.stringify({ ...conversationJson(entry, msgs), month: ym }, null, 1);

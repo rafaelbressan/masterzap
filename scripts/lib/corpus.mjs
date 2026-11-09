@@ -12,7 +12,10 @@ export const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 export const DATA_DIR = join(ROOT, 'data');
 export const PUBLIC_DATA = join(ROOT, 'public/data');
 
-export const SITE = 'https://www.masterwhats.com.br';
+import { SITE_URL } from '../../src/config/site.js';
+
+/** The site's address — src/config/site.js decides it, for the app and the build alike. */
+export const SITE = SITE_URL;
 export const REPO = 'https://github.com/rafaelbressan/masterzap';
 
 // The phones were seized in Brazil and every timestamp in the sources is local
@@ -85,7 +88,8 @@ export const provenanceOf = (msg, entry) => {
   return { source_id: sourceId, verification };
 };
 
-export const contactOf = (entry) => entry.participants.find(p => p !== 'DV') || entry.participants[0];
+/** The other side: the name split_data.py recorded, else the participant who is not DV. */
+export const contactOf = (entry) => entry.contact || entry.participants.find(p => p !== 'DV') || entry.participants[0];
 
 /** The person, as opposed to the name the phone saved them under. */
 export const whoIs = (entry, profile) =>
@@ -162,11 +166,25 @@ export function mentionsOf(person, entries, messagesOf) {
   return found;
 }
 
-const brDate = (iso) => `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}`;
+// A message's date may be partial ("2024-07", "2024") or absent ("sem-data"):
+// the source said no more, and nothing here fills the gap (data/README.md).
+const DAY = /^\d{4}-\d{2}-\d{2}$/;
+const MONTH = /^\d{4}-\d{2}$/;
+const YEAR = /^\d{4}$/;
+export const NO_DATE = 'Data não informada';
+
+/** "2024-07-02" → "02/07/2024"; "2024-07" → "07/2024"; "2024" → "2024". */
+export const brDate = (iso) => (DAY.test(iso || '') ? `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}`
+  : MONTH.test(iso || '') ? `${iso.slice(5, 7)}/${iso.slice(0, 4)}`
+  : YEAR.test(iso || '') ? iso
+  : NO_DATE);
+
+/** The month a message belongs to, for the per-month pages: 'YYYY-MM', or the partial date itself. */
+export const monthOf = (date) => (DAY.test(date || '') || MONTH.test(date || '') ? date.slice(0, 7) : YEAR.test(date || '') ? date : 'sem-data');
 
 /** "15/11/2025 18:22 · laudo p. 109, fig. 108" — what a quote needs to be checked. */
 export function citationOf(msg) {
-  const parts = [`${brDate(msg.date)} ${msg.time.slice(0, 5)}`];
+  const parts = [msg.time ? `${brDate(msg.date)} ${msg.time.slice(0, 5)}` : `${brDate(msg.date)}, horário não informado`];
   if (msg.source_page) parts.push(`laudo p. ${msg.source_page}${msg.source_figure ? `, fig. ${msg.source_figure}` : ''}`);
   return parts.join(' · ');
 }
@@ -188,7 +206,7 @@ export function createLocator(entries) {
   return (conversationId, msg) => {
     const entry = byId.get(conversationId);
     if (!entry) return null;
-    return isPaged(entry) ? `/chat/${conversationId}/${msg.date.slice(0, 7)}#msg-${msg.id}` : `/chat/${conversationId}#msg-${msg.id}`;
+    return isPaged(entry) ? `/chat/${conversationId}/${monthOf(msg.date)}#msg-${msg.id}` : `/chat/${conversationId}#msg-${msg.id}`;
   };
 }
 
@@ -273,7 +291,15 @@ export const linksToHtml = (text, opts) => renderLinks(text, { ...opts, mode: 'h
 export const linksToText = (text) => renderLinks(text, { mode: 'text' });
 
 const dateFmt = new Intl.DateTimeFormat('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' });
-export const longDate = (iso) => dateFmt.format(new Date(`${iso}T12:00:00`));
+const monthYearFmt = new Intl.DateTimeFormat('pt-BR', { month: 'long', year: 'numeric' });
+/** "15 de novembro de 2025"; a partial date says only what it knows. */
+export const longDate = (iso) => (DAY.test(iso || '') ? dateFmt.format(new Date(`${iso}T12:00:00`))
+  : MONTH.test(iso || '') ? monthYearFmt.format(new Date(`${iso}-15T12:00:00`))
+  : YEAR.test(iso || '') ? iso
+  : NO_DATE);
+
+/** A timestamp with the zone, or null when the time is not known. */
+export const zonedTimestamp = (msg) => (msg.timestamp ? `${msg.timestamp}${UTC_OFFSET}` : null);
 
 export const phonePretty = (p) => (p && /^55\d{10,11}$/.test(p)
   ? `+55 ${p.slice(2, 4)} ${p.slice(4, -4)}-${p.slice(-4)}`

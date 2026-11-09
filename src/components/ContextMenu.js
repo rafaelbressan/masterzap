@@ -5,7 +5,7 @@
  * Positioned near the click point, auto-adjusts to stay within viewport.
  */
 
-import { escapeHtml, formatDateLong, formatTime } from '../lib/utils.js';
+import { escapeHtml, formatDateLong, formatTime, NO_TIME_LABEL } from '../lib/utils.js';
 import { showToast } from './Toast.js';
 import { ICON_COPY, ICON_SEND, ICON_INFO } from '../lib/icons.js';
 
@@ -169,7 +169,7 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
 
     const previewMeta = document.createElement('span');
     previewMeta.className = 'msg-info-preview-meta';
-    previewMeta.textContent = msg.time;
+    previewMeta.textContent = formatTime(msg.time);
     preview.appendChild(previewMeta);
 
     drawerEl.appendChild(preview);
@@ -184,6 +184,8 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
     }
     if (msg.time) {
       fields.appendChild(createField('Hora', msg.time));
+    } else {
+      fields.appendChild(createField('Hora', NO_TIME_LABEL));
     }
     if (msg.type && msg.type !== 'text') {
       const typeLabels = {
@@ -264,7 +266,8 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
       content,
       sender: isOutgoing ? 'DV' : incomingSender,
       date,
-      time: meta.replace(/editada/i, '').trim(),
+      // "--:--" is how the bubble draws an unknown time; it is not a time.
+      time: (meta.replace(/editada/i, '').trim().match(/\d{2}:\d{2}/) || [null])[0],
       type: 'text',
       isEdited,
     };

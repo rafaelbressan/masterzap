@@ -192,8 +192,11 @@ export function showChatSearchDrawer(mainArea, conversationId, { dateIndex, onRe
 }
 
 function buildCalendar(dateIndex, onSelect) {
-  const availableDates = new Set(dateIndex.map(d => d.date));
-  const sortedDates = dateIndex.map(d => d.date).sort();
+  // Only full dates have a cell on the calendar; a month-only or undated day
+  // is reached by scrolling.
+  const days = dateIndex.map(d => d.date).filter(d => /^\d{4}-\d{2}-\d{2}$/.test(d));
+  const availableDates = new Set(days);
+  const sortedDates = days.sort();
   const firstChatDate = sortedDates[0]; // e.g. "2024-02-10"
   const lastChatDate = sortedDates[sortedDates.length - 1]; // e.g. "2025-08-13"
 

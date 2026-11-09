@@ -24,3 +24,10 @@ describe('formatCallTime', () => {
     expect(formatCallTime('2024-07-16T21:12:05')).toMatch(/^16 de jul\.? de 2024, 21:12$/);
   });
 });
+
+describe('a call without a known time', () => {
+  it('shows its date and no made-up hour', () => {
+    expect(formatCallTime(null, '2024-07-02')).toBe('02/07/2024');
+    expect(formatCallTime(null, 'sem-data')).toBe('Data não informada');
+  });
+});

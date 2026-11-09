@@ -8,7 +8,7 @@
  *    then linkify() wraps plain-text URLs in <a> tags. This is safe
  *    because the input to linkify is already fully escaped.
  */
-import { escapeHtml, formatTime, formatDateLong, linkify } from '../lib/utils.js';
+import { escapeHtml, formatTime, formatDateLong, linkify, NO_TIME_LABEL } from '../lib/utils.js';
 import { ScrollLoader } from '../lib/scroll-loader.js';
 import { ICON_INFO, ICON_SEARCH, ICON_CHECKEMPTY, ICON_BELL, ICON_TIMER, ICON_DOWNLOAD, ICON_CLOSE_CIRCULAR, ICON_MASTERZAP_LOGO, ICON_MEETBALL, ICON_CHEVRON_DW, ICON_SCREENSHOT } from '../lib/icons.js';
 
@@ -515,7 +515,19 @@ function renderMessage(msg) {
   // Metadata row (seal + edited flag + time)
   const meta = document.createElement('span');
   meta.className = 'chat-msg-meta';
-  meta.textContent = formatTime(msg.time);
+  const time = document.createElement('span');
+  time.textContent = formatTime(msg.time);
+  if (!msg.time) {
+    // "--:--" on screen and on hover says what it means; a screen reader
+    // reads the words instead of the dashes.
+    time.title = NO_TIME_LABEL;
+    time.setAttribute('aria-hidden', 'true');
+    const spoken = document.createElement('span');
+    spoken.className = 'sr-only';
+    spoken.textContent = NO_TIME_LABEL;
+    meta.appendChild(spoken);
+  }
+  meta.appendChild(time);
   if (msg.is_edited) {
     const edited = document.createElement('span');
     edited.className = 'chat-msg-edited';

@@ -25,6 +25,7 @@ import { renderCallsPanel } from './components/CallsPanel.js';
 import { exportUrl, EXPORT_ALL_URL, downloadFile } from './lib/export.js';
 import { copyText } from './lib/utils.js';
 import { setSources } from './lib/provenance.js';
+import { dataUrl } from './lib/data-url.js';
 
 // ── Active state (only one thing at a time) ──────
 let activeLoader = null;
@@ -84,7 +85,7 @@ async function init() {
     // The chat Vorcaro kept with himself — his own photo, as WhatsApp shows it.
     'dv-self': '/assets/avatar-dv.jpg',
   };
-  const SENDER_NAMES = { 'DV': 'Daniel Vocaro' };
+  const SENDER_NAMES = { 'DV': 'Daniel Vorcaro' };
   // Per-conversation media tallies come from conversations.json (built by
   // scripts/split_data.py); this is only the fallback for older data.
   const MEDIA_COUNTS = { images: 0, videos: 0, documents: 0 };
@@ -537,7 +538,7 @@ async function init() {
   let callsPromise = null;
   router.on('calls', async () => {
     showEmptyState();
-    callsPromise ??= fetch('/data/calls.json').then(r => r.json()).then(d => d.calls);
+    callsPromise ??= fetch(dataUrl('/data/calls.json')).then(r => r.json()).then(d => d.calls);
     let calls = [];
     try { calls = await callsPromise; } catch { callsPromise = null; }
     const panel = renderCallsPanel({

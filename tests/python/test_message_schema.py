@@ -93,9 +93,6 @@ class SortKey(unittest.TestCase):
         self.assertEqual([m["id"] for m in sorted(rows, key=sort_key)], [1, 2, 3, 4])
 
 
-if __name__ == "__main__":
-    unittest.main()
-
 
 class Provenance(unittest.TestCase):
     def test_unknown_source_id_is_rejected(self):
@@ -133,3 +130,28 @@ class Provenance(unittest.TestCase):
             self.assertTrue(validate_sources([{**good, "sha256": "0" * 64}], root))
             self.assertTrue(validate_sources([{**good, "kind": "blog"}], root))
             self.assertTrue(validate_sources([good, good], root))
+
+
+class Calls(unittest.TestCase):
+    """The call grammars scripts/split_data.py reads."""
+
+    def test_every_wording_becomes_the_same_record(self):
+        from split_data import describe_call
+        cases = {
+            "Chamada de voz — duração 02:49": ("voice", "completed", "02:49"),
+            "Chamada de voz - duração: 4:34": ("voice", "completed", "4:34"),
+            "Chamada de voz 04:34": ("voice", "completed", "04:34"),
+            "Ligação de vídeo perdida": ("video", "missed", None),
+            "[Chamada de voz perdida]": ("voice", "missed", None),
+            "Chamada de voz recusada": ("voice", "ended", None),
+            "Missed video call, Tap to call back": ("video", "missed", None),
+            "Voice call, 3 min": ("voice", "completed", "3 min"),
+        }
+        for text, (kind, status, duration) in cases.items():
+            call = describe_call({"content": text, "sender": "DV"})
+            self.assertEqual((call["kind"], call["status"], call["duration"]), (kind, status, duration), text)
+        self.assertIsNone(describe_call({"content": "Vou ligar", "sender": "DV"}))
+
+
+if __name__ == "__main__":
+    unittest.main()
