@@ -200,10 +200,14 @@ async function init() {
       if (!activeLoader || target !== currentConversationId) {
         router.navigate('chat', target);
       }
-      setTimeout(() => {
+      setTimeout(async () => {
         const chatViewEl = mainArea.querySelector('.chat-view');
         if (chatViewEl && !activeChatSearch) {
+          // The calendar needs the conversation's days (already cached by the open).
+          const dateIndex = await store.getConversationIndex(target);
+          if (activeChatSearch || !chatViewEl.isConnected) return;
           activeChatSearch = showMobileSearchBar(chatViewEl, target, {
+            dateIndex,
             onNavigate: (messageId, date) => activeLoader?.scrollToMessage(messageId, date),
             onDateSelect: (date) => activeLoader?.scrollToDate(date),
             onClose: () => { activeChatSearch = null; },
@@ -246,6 +250,7 @@ async function init() {
       const chatViewEl = mainArea.querySelector('.chat-view');
       if (chatViewEl) {
         activeChatSearch = showMobileSearchBar(chatViewEl, conversationId, {
+          dateIndex,
           onNavigate: (messageId, date) => activeLoader?.scrollToMessage(messageId, date),
           onDateSelect: (date) => activeLoader?.scrollToDate(date),
           onClose: () => { activeChatSearch = null; },

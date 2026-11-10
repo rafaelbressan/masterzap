@@ -604,6 +604,47 @@
   visibility: hidden;
 }
 
+/* The day picked last time, as WhatsApp marks it. */
+.chat-calendar-day.selected {
+  background-color: var(--WDS-accent);
+  color: var(--WDS-content-on-accent);
+}
+
+.chat-calendar-day:focus-visible,
+.chat-calendar-nav-btn:focus-visible {
+  outline: 2px solid var(--WDS-content-action-emphasized);
+  outline-offset: 1px;
+}
+
+.chat-calendar-empty {
+  margin: 0;
+  font-size: 14px;
+  color: var(--WDS-content-deemphasized);
+  text-align: center;
+}
+
+/* On the phone the calendar opens under the search bar, centred, with days
+   big enough for a thumb (40px). */
+.mobile-search-bar .chat-calendar {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + 67px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(340px, calc(100vw - 32px));
+  box-sizing: border-box;
+}
+
+.mobile-search-bar .chat-calendar-day {
+  width: 40px;
+  height: 40px;
+  font-size: 15px;
+}
+
+.mobile-search-bar .chat-calendar-nav-btn {
+  min-width: 40px;
+  min-height: 40px;
+}
+
 /* Mobile handled in shared drawer media query above */
 
 /* ── Profile Placeholder (main area when profile is open) ── */
