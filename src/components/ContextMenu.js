@@ -5,6 +5,7 @@
  * Positioned near the click point, auto-adjusts to stay within viewport.
  */
 
+import { openMenu, menuClosed } from '../lib/menus.js';
 import { escapeHtml, formatDateLong, formatTime, NO_TIME_LABEL } from '../lib/utils.js';
 import { showToast } from './Toast.js';
 import { ICON_COPY, ICON_SEND, ICON_INFO } from '../lib/icons.js';
@@ -47,6 +48,8 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
     }
 
     document.body.appendChild(menuEl);
+    // The only menu on screen; any touch or click outside closes it.
+    openMenu(menuEl, hideMenu);
 
     // Position — adjust to stay within viewport
     const rect = menuEl.getBoundingClientRect();
@@ -67,6 +70,7 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
 
   function hideMenu() {
     if (menuEl) {
+      menuClosed(menuEl);
       menuEl.remove();
       menuEl = null;
     }
@@ -288,9 +292,6 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
   }
 
   function onClickOutside(e) {
-    if (menuEl && !menuEl.contains(e.target)) {
-      hideMenu();
-    }
     if (drawerEl && !drawerEl.contains(e.target)) {
       hideDrawer();
     }

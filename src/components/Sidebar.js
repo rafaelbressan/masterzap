@@ -4,6 +4,7 @@
  * Security note: innerHTML is used with static SVGs and data from our own
  * bundled JSON files (not user input), so XSS risk does not apply here.
  */
+import { openMenu, menuClosed } from '../lib/menus.js';
 import { formatTime, escapeHtml, formatNumber, formatRelativeDate } from '../lib/utils.js';
 
 import { ICON_SEARCH as SEARCH_ICON, ICON_MEETBALL } from '../lib/icons.js';
@@ -276,21 +277,12 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
     }
 
     el.querySelector('.sidebar-header').appendChild(sidebarMenuEl);
-
-    setTimeout(() => {
-      document.addEventListener('click', closeSidebarMenuOnOutside, true);
-    }, 0);
+    // The only menu on screen; the ⋮ button itself toggles rather than closes.
+    openMenu(sidebarMenuEl, closeSidebarMenu, { keep: (target) => menuBtn?.contains(target) });
   }
 
   function closeSidebarMenu() {
-    if (sidebarMenuEl) { sidebarMenuEl.remove(); sidebarMenuEl = null; }
-    document.removeEventListener('click', closeSidebarMenuOnOutside, true);
-  }
-
-  function closeSidebarMenuOnOutside(e) {
-    if (sidebarMenuEl && !sidebarMenuEl.contains(e.target) && e.target !== menuBtn) {
-      closeSidebarMenu();
-    }
+    if (sidebarMenuEl) { menuClosed(sidebarMenuEl); sidebarMenuEl.remove(); sidebarMenuEl = null; }
   }
 
   if (menuBtn) {

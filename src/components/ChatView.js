@@ -15,6 +15,7 @@ import { ICON_INFO, ICON_SEARCH, ICON_CHECKEMPTY, ICON_BELL, ICON_TIMER, ICON_DO
 import { defaultAvatarSvg } from '../lib/avatar.js';
 import { parseContacts, parseLocation, mapsUrl, parseLink, parseAudio, parseImage, conversationForPhone } from '../lib/media.js';
 import { showContactsSheet, ICON_MESSAGE } from './ContactsSheet.js';
+import { openMenu, menuClosed } from '../lib/menus.js';
 import { SEALS, SEAL_ICONS, sealToMark, sealDescription, provenanceOf, sourceById, conversationSealLine } from '../lib/provenance.js';
 
 /**
@@ -712,12 +713,11 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
     menuEl = buildMenuEl();
     header.appendChild(menuEl);
     menuOpen = true;
+    // The only menu on screen; the ⋮ button itself toggles rather than closes.
+    openMenu(menuEl, closeMenu, { keep: (target) => menuBtn.contains(target) });
     // Give the screenshot a head start: capturing takes seconds, and the tap
     // that follows has to still be live when navigator.share() is reached.
     if (onMenuOpen) onMenuOpen();
-    setTimeout(() => {
-      document.addEventListener('click', onOutsideClick, true);
-    }, 0);
   }
 
   function showMenuAt(x, y) {
@@ -737,22 +737,12 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
     if (rect.bottom > window.innerHeight) menuEl.style.top = `${window.innerHeight - rect.height - 8}px`;
 
     menuOpen = true;
-    setTimeout(() => {
-      document.addEventListener('click', onOutsideClick, true);
-    }, 0);
+    openMenu(menuEl, closeMenu);
   }
 
   function closeMenu() {
-    if (menuEl) { menuEl.remove(); menuEl = null; }
+    if (menuEl) { menuClosed(menuEl); menuEl.remove(); menuEl = null; }
     menuOpen = false;
-    document.removeEventListener('click', onOutsideClick, true);
-    document.removeEventListener('contextmenu', onOutsideClick, true);
-  }
-
-  function onOutsideClick(e) {
-    if (menuEl && !menuEl.contains(e.target) && e.target !== menuBtn) {
-      closeMenu();
-    }
   }
 
   menuBtn.addEventListener('click', (e) => {
