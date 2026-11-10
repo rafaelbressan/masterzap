@@ -44,11 +44,20 @@ describe('chat search calendar', () => {
     expect(calendar.querySelector('.chat-calendar-empty').textContent).toBe('Nenhuma data disponível');
   });
 
-  it('gives each calendar its own label id', () => {
-    const a = buildCalendar(dateIndex);
-    const b = buildCalendar(dateIndex);
-    expect(a.getAttribute('aria-labelledby')).not.toBe(b.getAttribute('aria-labelledby'));
+  it('keeps the keyboard on the month arrow', () => {
+    const calendar = buildCalendar([{ date: '2024-12-01' }, { date: '2025-01-01' }, { date: '2025-03-01' }]);
+    document.body.appendChild(calendar);
+    const arrow = calendar.querySelector('[aria-label="Mês anterior"]');
+    const label = calendar.querySelector('.chat-calendar-label');
+    arrow.focus(); // as the keyboard leaves it
+    arrow.click();
+    // Same nodes, new month: the focus stays put and the live label changes.
+    expect(document.activeElement).toBe(arrow);
+    expect(calendar.querySelector('.chat-calendar-label')).toBe(label);
+    expect(label.textContent).toBe('fevereiro 2025');
+    calendar.remove();
   });
+
 });
 
 describe('mobile search bar', () => {

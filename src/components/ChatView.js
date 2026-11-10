@@ -585,6 +585,7 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
 
   const el = document.createElement('div');
   el.className = 'chat-view';
+  el.dataset.conversationId = conversation.id;
 
   // Header
   const displayName = conversation.participants.find(p => p !== 'DV') || conversation.participants[0];

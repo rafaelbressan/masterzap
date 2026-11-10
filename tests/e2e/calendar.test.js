@@ -41,3 +41,13 @@ test('Esc closes the calendar first, then the search', async ({ page }, info) =>
   await expect(calendar).toHaveCount(0);
   await expect(page.locator('.chat-search-drawer')).toBeVisible();
 });
+
+test('back closes the calendar first, then the search (phone)', async ({ page }, info) => {
+  test.skip(info.project.name !== 'mobile');
+  const calendar = await openCalendar(page);
+  await page.goBack();
+  await expect(calendar).toHaveCount(0);
+  await expect(page.locator('.mobile-search-bar')).toBeVisible();
+  await page.goBack();
+  await expect(page.locator('.mobile-search-bar')).toHaveCount(0);
+});

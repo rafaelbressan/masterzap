@@ -604,18 +604,6 @@
   visibility: hidden;
 }
 
-/* The day picked last time, as WhatsApp marks it. */
-.chat-calendar-day.selected {
-  background-color: var(--WDS-accent);
-  color: var(--WDS-content-on-accent);
-}
-
-.chat-calendar-day:focus-visible,
-.chat-calendar-nav-btn:focus-visible {
-  outline: 2px solid var(--WDS-content-action-emphasized);
-  outline-offset: 1px;
-}
-
 .chat-calendar-empty {
   margin: 0;
   font-size: 14px;

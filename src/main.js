@@ -203,17 +203,21 @@ async function init() {
       setTimeout(async () => {
         const chatViewEl = mainArea.querySelector('.chat-view');
         if (chatViewEl && !activeChatSearch) {
-          // The calendar needs the conversation's days (already cached by the open).
-          const dateIndex = await store.getConversationIndex(target);
-          if (activeChatSearch || !chatViewEl.isConnected) return;
-          activeChatSearch = showMobileSearchBar(chatViewEl, target, {
+          // The calendar needs the conversation's days (cached by the open);
+          // without them the search still opens, with an empty calendar.
+          const dateIndex = await store.getConversationIndex(target).catch(() => []);
+          // The open may still have been in flight: take the chat on screen now,
+          // and only if it is the one searched.
+          const view = mainArea.querySelector(`.chat-view[data-conversation-id="${CSS.escape(target)}"]`);
+          if (activeChatSearch || !view) return;
+          activeChatSearch = showMobileSearchBar(view, target, {
             dateIndex,
             onNavigate: (messageId, date) => activeLoader?.scrollToMessage(messageId, date),
             onDateSelect: (date) => activeLoader?.scrollToDate(date),
             onClose: () => { activeChatSearch = null; },
           });
           // Pre-fill the search input and trigger search
-          const mobileInput = chatViewEl.querySelector('.mobile-search-input');
+          const mobileInput = view.querySelector('.mobile-search-input');
           if (mobileInput) {
             mobileInput.value = term;
             mobileInput.dispatchEvent(new Event('input'));
@@ -283,6 +287,8 @@ async function init() {
     currentConversationId = id;
 
     const dateIndex = await store.getConversationIndex(id);
+    // Another conversation was opened while this one's index was on its way.
+    if (currentConversationId !== id) return;
 
     // Build toggleSearch bound to this conversation
     const toggleSearch = () => toggleChatSearch(id, dateIndex);
@@ -393,6 +399,18 @@ async function init() {
     });
 
     activeLoader = loader;
+
+    // The message menu works from the first bubble on screen, not only once
+    // the first days (or the restored place) have finished loading.
+    const messagesArea = mainArea.querySelector('.chat-messages');
+    if (messagesArea) {
+      const incomingSender = conversation.participants.find(p => p !== 'DV') || '';
+      activeContextMenu = attachContextMenu(messagesArea, {
+        senderNames: SENDER_NAMES,
+        incomingSender,
+        conversationId: id,
+      });
+    }
     // A link to a message goes to that message; otherwise, back where the
     // reader stopped in this conversation earlier in the session.
     await loader.init({ position: pendingScrollTarget ? null : getPosition(id) });
@@ -403,15 +421,6 @@ async function init() {
       await loader.scrollToMessage(messageId, date);
     }
 
-    const messagesArea = mainArea.querySelector('.chat-messages');
-    if (messagesArea) {
-      const incomingSender = conversation.participants.find(p => p !== 'DV') || '';
-      activeContextMenu = attachContextMenu(messagesArea, {
-        senderNames: SENDER_NAMES,
-        incomingSender,
-        conversationId: id,
-      });
-    }
   }
 
   // ── Empty state ────────────────────────────────────

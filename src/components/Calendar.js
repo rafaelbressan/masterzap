@@ -11,12 +11,11 @@ const MONTHS = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
 const WEEKDAYS = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
 const FULL_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
-let instances = 0;
-
 /**
  * @param {Array<{date: string}>} dateIndex - the conversation's days
  * @param {function} onSelect - (date) => void, with 'YYYY-MM-DD'
- * @param {string|null} [selectedDate] - the day picked last time, marked
+ * @param {string|null} [selectedDate] - the day picked last time: the
+ *   calendar opens on its month and reports it as pressed
  * @returns {HTMLElement}
  */
 export function buildCalendar(dateIndex = [], onSelect = () => {}, selectedDate = null) {
@@ -24,7 +23,6 @@ export function buildCalendar(dateIndex = [], onSelect = () => {}, selectedDate 
   // scrolling (data/README.md, partial dates).
   const days = dateIndex.map(d => d?.date).filter(d => FULL_DATE.test(d || '')).sort();
   const available = new Set(days);
-  const labelId = `chat-calendar-month-${++instances}`;
 
   const el = document.createElement('div');
   el.className = 'chat-calendar';
@@ -45,54 +43,57 @@ export function buildCalendar(dateIndex = [], onSelect = () => {}, selectedDate 
   let [year, month] = (selectedDate && available.has(selectedDate) ? selectedDate : days.at(-1)).split('-').map(Number);
   month -= 1;
 
-  function render() {
-    while (el.firstChild) el.removeChild(el.firstChild);
+  // Built once; a month change only rewrites the label, the arrows' state and
+  // the days. The label stays the same node, so a screen reader announces the
+  // new month, and the arrow keeps the keyboard focus.
+  const nav = document.createElement('div');
+  nav.className = 'chat-calendar-nav';
+  const arrow = (text, ariaLabel, step) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'chat-calendar-nav-btn';
+    btn.textContent = text;
+    btn.setAttribute('aria-label', ariaLabel);
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (btn.disabled) return;
+      month += step;
+      if (month < 0) { month = 11; year--; }
+      if (month > 11) { month = 0; year++; }
+      render();
+    });
+    return btn;
+  };
+  const prev = arrow('‹', 'Mês anterior', -1);
+  const next = arrow('›', 'Próximo mês', 1);
+  const label = document.createElement('span');
+  label.className = 'chat-calendar-label';
+  label.setAttribute('aria-live', 'polite');
+  nav.append(prev, label, next);
 
+  const headers = document.createElement('div');
+  headers.className = 'chat-calendar-grid';
+  for (const d of WEEKDAYS) {
+    const hd = document.createElement('span');
+    hd.className = 'chat-calendar-header';
+    hd.textContent = d;
+    headers.appendChild(hd);
+  }
+
+  const grid = document.createElement('div');
+  grid.className = 'chat-calendar-grid';
+  el.append(nav, headers, grid);
+
+  function render() {
+    label.textContent = `${MONTHS[month]} ${year}`;
     const atFirst = year === firstY && month === firstM - 1;
     const atLast = year === lastY && month === lastM - 1;
-
-    const nav = document.createElement('div');
-    nav.className = 'chat-calendar-nav';
-    const arrow = (text, label, disabled, step) => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'chat-calendar-nav-btn';
-      btn.textContent = text;
-      btn.setAttribute('aria-label', label);
-      if (disabled) {
-        btn.classList.add('disabled');
-        btn.disabled = true;
-      } else {
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          month += step;
-          if (month < 0) { month = 11; year--; }
-          if (month > 11) { month = 0; year++; }
-          render();
-        });
-      }
-      return btn;
-    };
-    const label = document.createElement('span');
-    label.className = 'chat-calendar-label';
-    label.id = labelId;
-    label.textContent = `${MONTHS[month]} ${year}`;
-    nav.append(arrow('‹', 'Mês anterior', atFirst, -1), label, arrow('›', 'Próximo mês', atLast, 1));
-    el.appendChild(nav);
-    el.setAttribute('aria-labelledby', labelId);
-
-    const headers = document.createElement('div');
-    headers.className = 'chat-calendar-grid';
-    for (const d of WEEKDAYS) {
-      const hd = document.createElement('span');
-      hd.className = 'chat-calendar-header';
-      hd.textContent = d;
-      headers.appendChild(hd);
+    for (const [btn, disabled] of [[prev, atFirst], [next, atLast]]) {
+      btn.disabled = disabled;
+      btn.classList.toggle('disabled', disabled);
     }
-    el.appendChild(headers);
 
-    const grid = document.createElement('div');
-    grid.className = 'chat-calendar-grid';
+    while (grid.firstChild) grid.removeChild(grid.firstChild);
     // Monday first, as WhatsApp in pt-BR.
     const startDay = (new Date(year, month, 1).getDay() + 6) % 7;
     const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -110,9 +111,7 @@ export function buildCalendar(dateIndex = [], onSelect = () => {}, selectedDate 
       cell.setAttribute('aria-label', `${d} de ${MONTHS[month]} de ${year}`);
       if (available.has(date)) {
         cell.classList.add('has-messages');
-        const picked = date === selectedDate;
-        cell.classList.toggle('selected', picked);
-        cell.setAttribute('aria-pressed', String(picked));
+        cell.setAttribute('aria-pressed', String(date === selectedDate));
         cell.addEventListener('click', (e) => { e.stopPropagation(); onSelect(date); });
       } else {
         cell.classList.add('disabled');
@@ -120,7 +119,6 @@ export function buildCalendar(dateIndex = [], onSelect = () => {}, selectedDate 
       }
       grid.appendChild(cell);
     }
-    el.appendChild(grid);
   }
 
   render();

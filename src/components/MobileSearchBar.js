@@ -20,7 +20,9 @@ const TOAST_LOGO = `<svg viewBox="0 0 39 39" width="28" height="28"><path fill="
  * @param {HTMLElement} chatView - the .chat-view element
  * @param {string} conversationId
  * @param {object} options
+ * @param {Array<{date: string}>} [options.dateIndex] - the conversation's days, for the calendar
  * @param {function} options.onNavigate - (messageId, date) => void
+ * @param {function} [options.onDateSelect] - (date) => void, a day picked on the calendar
  * @param {function} options.onClose
  * @returns {{ destroy: function }}
  */
@@ -49,7 +51,7 @@ export function showMobileSearchBar(chatView, conversationId, { dateIndex = [], 
   input.setAttribute('aria-label', 'Pesquisar mensagens');
   bar.appendChild(input);
 
-  // Calendar button (visible when no results, hidden when nav arrows show)
+  // Calendar button, next to the result arrows when there are results
   const calendarBtn = document.createElement('button');
   calendarBtn.className = 'mobile-search-nav-btn';
   calendarBtn.setAttribute('aria-label', 'Pesquisar por data');
@@ -82,12 +84,17 @@ export function showMobileSearchBar(chatView, conversationId, { dateIndex = [], 
   let calendarEl = null;
   let selectedDate = null;
   calendarBtn.setAttribute('aria-expanded', 'false');
-  function closeCalendar() {
+  // The open calendar has its own history entry, pushed by the tap that
+  // opened it, so Android's back closes it before the search (the pattern of
+  // ImagePreview.js). Closed any other way, its entry is popped here; closed
+  // by back, the entry is already gone.
+  function closeCalendar({ fromHistory = false } = {}) {
     if (!calendarEl) return;
     menuClosed(calendarEl);
     calendarEl.remove();
     calendarEl = null;
     calendarBtn.setAttribute('aria-expanded', 'false');
+    if (!fromHistory && history.state?.calendar) history.back();
   }
   calendarBtn.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -98,7 +105,8 @@ export function showMobileSearchBar(chatView, conversationId, { dateIndex = [], 
       if (onDateSelect) onDateSelect(date);
     }, selectedDate);
     bar.appendChild(calendarEl);
-    openMenu(calendarEl, closeCalendar, { keep: (target) => calendarBtn.contains(target) });
+    history.pushState({ mobileSearch: true, calendar: true }, '');
+    openMenu(calendarEl, () => closeCalendar(), { keep: (target) => calendarBtn.contains(target) });
     calendarBtn.setAttribute('aria-expanded', 'true');
   });
 
@@ -174,6 +182,11 @@ export function showMobileSearchBar(chatView, conversationId, { dateIndex = [], 
   // Android back button: push state so popstate closes search
   history.pushState({ mobileSearch: true }, '');
   function onPopState(e) {
+    // Back from the calendar's entry: close the calendar, keep the search.
+    if (calendarEl && !e.state?.calendar) {
+      closeCalendar({ fromHistory: true });
+      if (e.state?.mobileSearch) return;
+    }
     if (e.state && e.state.mobileSearch) return;
     destroy();
   }
@@ -207,12 +220,12 @@ export function showMobileSearchBar(chatView, conversationId, { dateIndex = [], 
 
   function destroy() {
     clearTimeout(debounceTimer);
-    closeCalendar();
     window.removeEventListener('popstate', onPopState);
-    // Pop the search state if it's still on top
-    if (history.state && history.state.mobileSearch) {
-      history.back();
-    }
+    // Pop the entries this search pushed that are still on top: the
+    // calendar's and the search's, in one step (two back() calls race).
+    const steps = history.state?.calendar ? 2 : history.state?.mobileSearch ? 1 : 0;
+    closeCalendar({ fromHistory: true });
+    if (steps) history.go(-steps);
     bar.remove();
     header.style.display = '';
     const toast = chatView.querySelector('.search-toast');
