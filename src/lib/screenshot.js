@@ -2,7 +2,7 @@
  * Capture the open chat as an image and hand it to the platform.
  *
  * Browsers have no screenshot API without a permission prompt, so the picture
- * is redrawn from the DOM by html2canvas rather than grabbed from the screen.
+ * is redrawn from the DOM (dom-snapshot.js) rather than grabbed from the screen.
  * What you get is what is on screen right now: the main area is viewport-sized,
  * and the scrolled message list is clipped by its own box.
  *
@@ -31,20 +31,15 @@
  */
 
 import { SITE_HOST } from '../config/site.js';
-
-/** Loaded on demand: ~200 kB that only matters once someone asks for a print. */
-async function loadHtml2Canvas() {
-  const { default: html2canvas } = await import('html2canvas');
-  return html2canvas;
-}
+import { snapshotElement, preloadSnapshot } from './dom-snapshot.js';
 
 /**
- * Fetch the capture library ahead of the tap, so the tap only has to draw.
- * Cheap, unlike drawing ahead: that freezes a phone for seconds, and every
- * other item of the menu that opened it would wait behind the freeze.
+ * Fetch what the capture draws with — stylesheets, wallpaper, web font — ahead
+ * of the tap, so the tap only has to draw. Network only: drawing ahead would
+ * hold up whichever item of the menu is tapped next.
  */
 export function preloadScreenshot() {
-  loadHtml2Canvas().catch(() => {}); // the tap loads it again and reports
+  preloadSnapshot();
 }
 
 /** True when the browser exposes the APIs that need https. */
@@ -135,47 +130,6 @@ function isSpentActivation(err) {
   return err?.name === 'NotAllowedError' || err?.name === 'InvalidStateError';
 }
 
-/**
- * Put the page's own CSS inside the clone.
- *
- * html2canvas paints a copy of the document written into a hidden iframe, and
- * that copy is a second live page: every <link rel="stylesheet"> in it is a
- * fresh network request. The rules are already parsed and sitting in memory, so
- * asking for them again buys nothing and risks everything — when the second
- * request does not land, the capture comes out as raw HTML, serif and
- * colourless, and nothing reports a failure.
- *
- * The rules are copied across and the links they came from are dropped. A sheet
- * served from another origin (the web font) throws on cssRules; its link is
- * left alone, so the worst case there is a fallback typeface.
- */
-function inlineStylesheets(clonedDoc) {
-  const css = [];
-  const copied = new Set();
-
-  for (const sheet of Array.from(document.styleSheets)) {
-    if (sheet.ownerNode?.tagName !== 'LINK' || !sheet.href) continue;
-    let rules;
-    try {
-      rules = Array.from(sheet.cssRules);
-    } catch {
-      continue;
-    }
-    css.push(rules.map(rule => rule.cssText).join('\n'));
-    copied.add(sheet.href);
-  }
-
-  if (!css.length) return;
-
-  for (const link of Array.from(clonedDoc.querySelectorAll('link[rel="stylesheet"]'))) {
-    if (copied.has(link.href)) link.remove();
-  }
-
-  const style = clonedDoc.createElement('style');
-  style.textContent = css.join('\n');
-  clonedDoc.head.appendChild(style);
-}
-
 /** Height, in CSS pixels, of the bar with the site's address under every print. */
 export const ATTRIBUTION_BAR_HEIGHT = 44;
 const ATTRIBUTION_URL = SITE_HOST;
@@ -245,28 +199,14 @@ async function withAttributionBar(canvas, scale) {
  * @returns {Promise<Blob>}
  */
 export async function captureElement(element) {
-  const html2canvas = await loadHtml2Canvas();
-  const rect = element.getBoundingClientRect();
+  // Cap the pixel ratio: a 3x phone screen would otherwise produce an image
+  // several times larger than anything needs.
   const scale = Math.min(window.devicePixelRatio || 1, 2);
-
-  const canvas = await html2canvas(element, {
-    // The dropdown that started this sits inside the captured area; the picture
-    // should show the conversation, not the menu used to ask for it.
-    ignoreElements: el => el.classList?.contains('chat-dropdown-menu'),
-    onclone: inlineStylesheets,
-    // Cap the pixel ratio: a 3x phone screen would otherwise produce an image
-    // several times larger than anything needs.
+  const canvas = await snapshotElement(element, {
     scale,
-    backgroundColor: null,
-    useCORS: true,
-    logging: false,
-    // Draw the element's own box, not its full scroll height.
-    width: rect.width,
-    height: rect.height,
-    windowWidth: document.documentElement.clientWidth,
-    windowHeight: document.documentElement.clientHeight,
-    scrollX: 0,
-    scrollY: 0,
+    // The dropdown that started this, and any toast, sit inside the captured
+    // area; the picture should show the conversation, not them.
+    ignore: el => el.classList?.contains('chat-dropdown-menu') || el.classList?.contains('search-toast'),
   });
 
   const framed = await withAttributionBar(canvas, scale);

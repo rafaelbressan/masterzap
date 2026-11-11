@@ -24,8 +24,5 @@
     "jszip": "^3.10.1",
     "vite": "^6.2.0",
     "vitest": "^3.0.0"
-  },
-  "dependencies": {
-    "html2canvas": "^1.4.1"
   }
 }
