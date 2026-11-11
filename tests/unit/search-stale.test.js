@@ -6,6 +6,7 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { loadSearchIndex, isIndexLoaded, resetSearchIndex } from '../../src/lib/search.js';
 import { showMobileSearchBar } from '../../src/components/MobileSearchBar.js';
+import { showChatSearchDrawer } from '../../src/components/ChatSearchDrawer.js';
 
 const ENTRIES = [{ id: 7, date: '2024-01-01', sender: 'DV', content: 'amor' }];
 
@@ -55,5 +56,25 @@ describe('a late answer', () => {
 
     expect(onNavigate).not.toHaveBeenCalled();
     expect(chatView.querySelector('.search-toast')).toBeNull();
+  });
+
+  it('does not fill the chat search drawer once it is cleared', async () => {
+    vi.useFakeTimers();
+    vi.stubGlobal('requestAnimationFrame', (cb) => cb());
+    const release = heldFetch();
+    const mainArea = document.createElement('div');
+    document.body.appendChild(mainArea);
+    const drawer = showChatSearchDrawer(mainArea, 'martha-graeff', { dateIndex: [], onResultClick() {}, onClose() {} });
+
+    const input = mainArea.querySelector('.chat-search-input');
+    input.value = 'amor';
+    input.dispatchEvent(new Event('input'));
+    await vi.advanceTimersByTimeAsync(400);
+    mainArea.querySelector('.chat-search-clear-btn').click();
+    release();
+    await vi.runAllTimersAsync();
+
+    expect(mainArea.querySelector('.chat-search-result-item')).toBeNull();
+    drawer.destroy();
   });
 });

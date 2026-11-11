@@ -16,13 +16,6 @@ import { defaultAvatarSvg } from '../lib/avatar.js';
  */
 export const FAVORITE_CONVERSATIONS = new Set(['alexandre-de-moraes', 'martha-graeff']);
 
-/**
- * @param {HTMLElement} container
- * @param {object} options
- * @param {Array} options.conversations
- * @param {function} options.onSelect - called with conversation id
- * @param {Set<string>} [options.readConversations] - ids already opened
- */
 /** The name a conversation goes by in the list: the other participant. */
 export function conversationName(conv) {
   return conv.participants?.find(p => p !== 'DV') || conv.participants?.[0] || conv.id;
@@ -77,6 +70,13 @@ export function buildConversationItem(conv, { nameHtml } = {}) {
   return item;
 }
 
+/**
+ * @param {HTMLElement} container
+ * @param {object} options
+ * @param {Array} options.conversations
+ * @param {function} options.onSelect - called with conversation id
+ * @param {Set<string>} [options.readConversations] - ids already opened
+ */
 export function renderSidebar(container, { conversations, onSelect, onProfile, onAbout, onExportAll, onCalls, onChats, readConversations = new Set() }) {
   const el = document.createElement('aside');
   el.className = 'sidebar';
@@ -223,8 +223,16 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
         : 'Pesquisar';
       applyFilter();
       list.scrollTop = 0;
+      // A search on screen follows the tab: "Pesquisar nas favoritas" searches
+      // the favorites only.
+      if (searchInput.value.trim()) searchInput.dispatchEvent(new Event('input'));
     });
   }
+
+  /** The conversations a search covers: the favorites on that tab, else all. */
+  el.searchScope = () => (activeFilter === 'favoritas'
+    ? conversations.filter(c => FAVORITE_CONVERSATIONS.has(c.id))
+    : conversations);
 
   searchInput.placeholder = 'Pesquisar';
   refreshReadState();

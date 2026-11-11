@@ -159,9 +159,14 @@ test.describe('Search across conversations', () => {
     await page.locator('.sidebar-search-input').fill('amor');
     const row = page.locator('.search-result-item').filter({ has: page.locator('.search-result-sender', { hasText: 'Martha Graeff' }) }).first();
     await row.waitFor({ timeout: 10000 });
+    const text = (await row.locator('.search-result-content').textContent()).replace(/^…/, '').slice(0, 20);
     await row.click();
     await expect(page.locator('.chat-header-name').first()).toHaveText('Martha Graeff');
-    await expect(page).toHaveURL(/#\/chat\/martha-graeff/);
+    await expect(page).toHaveURL(/#\/chat\/martha-graeff\/msg\/\d+/);
+    // The very message clicked, flashed and on screen.
+    const target = page.locator('.msg-highlight');
+    await expect(target).toBeInViewport();
+    await expect(target).toContainText(text);
   });
 
   test('back on a phone returns to the results, as they were', async ({ page }, info) => {
@@ -193,5 +198,37 @@ test.describe('Search across conversations', () => {
     const row = page.locator('.search-results .conversation-item[data-id="vivi-moraes"]');
     await expect(row).toBeVisible({ timeout: 10000 });
     await expect(row.locator('.conversation-item-unread')).toBeHidden();
+  });
+
+  // "Pesquisar nas favoritas" searches the favorites only.
+  test('on the Favoritas tab the search covers the favorites only', async ({ page }) => {
+    await page.locator('.sidebar-tag[data-filter="favoritas"]').click();
+    await expect(page.locator('.sidebar-search-input')).toHaveAttribute('placeholder', 'Pesquisar nas favoritas');
+    // "moraes" names Vivi Moraes too, and is in Ana Matos's messages: neither
+    // is a favorite.
+    await page.locator('.sidebar-search-input').fill('moraes');
+    await page.locator('.search-result-item').first().waitFor({ timeout: 10000 });
+    await expect(page.locator('.search-results .conversation-item')).toHaveCount(1);
+    await expect(page.locator('.search-results .conversation-item[data-id="alexandre-de-moraes"]')).toBeVisible();
+    const contacts = new Set(await page.locator('.search-result-sender').allTextContents());
+    for (const c of contacts) expect(['Martha Graeff', 'Alexandre de Moraes BRASILIA']).toContain(c);
+    // Back to "Todas": the same words cover every chat again.
+    await page.locator('.sidebar-tag[data-filter="todas"]').click();
+    await page.locator('.sidebar-search-input').fill('moraes');
+    await expect(page.locator('.search-results .conversation-item[data-id="vivi-moraes"]')).toBeVisible();
+  });
+
+  test("DV's own messages carry the double tick", async ({ page }) => {
+    await page.locator('.sidebar-search-input').fill('amor');
+    await page.locator('.search-result-item').first().waitFor({ timeout: 10000 });
+    await expect(page.locator('.search-result-ticks').first()).toBeVisible();
+  });
+
+  test('the calls screen hides the search results', async ({ page }, info) => {
+    await page.locator('.sidebar-search-input').fill('amor');
+    await page.locator('.search-result-item').first().waitFor({ timeout: 10000 });
+    if (info.project.name === 'mobile') await page.locator('.sidebar-bottom-tab[data-tab="calls"]').click();
+    else await page.getByRole('button', { name: 'Chamadas' }).first().click();
+    await expect(page.locator('.search-results')).toBeHidden();
   });
 });

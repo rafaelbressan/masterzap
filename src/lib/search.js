@@ -154,19 +154,18 @@ function entriesOf(index) {
  * @param {object} [options]
  * @param {number} [options.limit=50] - max results to return
  * @param {string} [options.sender] - filter by sender name
- * @param {boolean} [options.newestFirst=false] - scan from the newest message
  * @returns {Array<{ id, date, sender, content, matchStart, matchEnd }>}
  */
-export function searchIndex(index, query, { limit = 50, sender, newestFirst = false } = {}) {
+export function searchIndex(index, query, { limit = 50, sender } = {}) {
   const entries = entriesOf(index);
-  if (!entries || !query || query.length < 2) return [];
+  // Two letters at least, counted after accents go (a lone accent is nothing).
+  const normalizedQuery = normalize(query || '');
+  if (!entries || normalizedQuery.length < 2) return [];
 
-  const normalizedQuery = normalize(query);
   const normalized = normalizedOf(entries);
   const results = [];
 
-  const step = newestFirst ? -1 : 1;
-  for (let i = newestFirst ? entries.length - 1 : 0; i >= 0 && i < entries.length; i += step) {
+  for (let i = 0; i < entries.length; i++) {
     const entry = entries[i];
     if (sender && entry.sender !== sender) continue;
 
@@ -181,28 +180,6 @@ export function searchIndex(index, query, { limit = 50, sender, newestFirst = fa
   }
 
   return results;
-}
-
-/**
- * How many messages of one conversation match, without building results.
- * @param {SearchIndex|Array} index
- * @param {string} query
- * @param {object} [options]
- * @param {string} [options.sender]
- * @returns {number}
- */
-export function countSearchIndex(index, query, { sender } = {}) {
-  const entries = entriesOf(index);
-  if (!entries || !query || query.length < 2) return 0;
-
-  const normalizedQuery = normalize(query);
-  const normalized = normalizedOf(entries);
-  let count = 0;
-  for (let i = 0; i < entries.length; i++) {
-    if (sender && entries[i].sender !== sender) continue;
-    if (normalized[i].includes(normalizedQuery)) count++;
-  }
-  return count;
 }
 
 /** Forget every loaded index (for tests). */

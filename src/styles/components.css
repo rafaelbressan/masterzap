@@ -978,6 +978,22 @@
   padding: 0 1px;
 }
 
+/* An outgoing message (DV's): the double tick before its text, as WhatsApp. */
+.search-result-ticks {
+  display: inline-block;
+  vertical-align: -3px;
+  margin-right: 3px;
+  color: var(--WDS-content-deemphasized);
+}
+
+@media (max-width: 380px) {
+  .search-result-item,
+  .search-results-heading {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
 /* In the sidebar results: green text, as WhatsApp. */
 .search-results .search-highlight {
   background: none;
@@ -1213,7 +1229,8 @@
 .sidebar--calls .sidebar-header,
 .sidebar--calls .sidebar-search,
 .sidebar--calls .sidebar-tags,
-.sidebar--calls .conversation-list {
+.sidebar--calls .conversation-list,
+.sidebar--calls .search-results {
   display: none;
 }
 

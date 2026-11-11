@@ -420,12 +420,13 @@ async function init() {
     }
     // A link to a message goes to that message; otherwise, back where the
     // reader stopped in this conversation earlier in the session.
-    await loader.init({ position: pendingScrollTarget ? null : getPosition(id) });
+    // A target left for another conversation (the reader moved on) is dropped.
+    const target = pendingScrollTarget?.conversationId === id ? pendingScrollTarget : null;
+    pendingScrollTarget = null;
+    await loader.init({ position: target ? null : getPosition(id) });
 
-    if (pendingScrollTarget) {
-      const { messageId, date } = pendingScrollTarget;
-      pendingScrollTarget = null;
-      await loader.scrollToMessage(messageId, date);
+    if (target) {
+      await loader.scrollToMessage(target.messageId, target.date);
     }
 
   }
@@ -563,6 +564,7 @@ async function init() {
         closeSettings();
         router.navigate('chat', id);
       },
+      scope: () => sidebar.searchScope?.() ?? conversations,
       onMessageClick: (id, messageId, date) => {
         closeProfile();
         closeSettings();
@@ -598,12 +600,17 @@ async function init() {
     sidebar.showCalls?.(panel);
     navRail.setActive?.('calls');
   });
+  // Each route is numbered: one still looking up its message's date when the
+  // reader has already gone elsewhere (another result, another chat) gives way.
+  let routeSeq = 0;
   router.on('chat', async (id, messageId) => {
+    const seq = ++routeSeq;
     if (messageId) {
-      // Look up the date for this message ID
-      const date = await store.findDateForMessage(id, messageId);
+      // Look up the date for this message ID; without it the chat still opens.
+      const date = await store.findDateForMessage(id, messageId).catch(() => null);
+      if (seq !== routeSeq) return;
       if (date) {
-        pendingScrollTarget = { messageId, date };
+        pendingScrollTarget = { conversationId: id, messageId, date };
       }
     }
     openConversation(id);

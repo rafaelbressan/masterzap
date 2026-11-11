@@ -4,7 +4,7 @@
 // conversation, and that both bit in practice.
 
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { loadSearchIndex, isIndexLoaded, resetSearchIndex, searchIndex, countSearchIndex } from '../../src/lib/search.js';
+import { loadSearchIndex, isIndexLoaded, resetSearchIndex, searchIndex } from '../../src/lib/search.js';
 
 const INDEXES = {
   'martha-graeff': [
@@ -133,19 +133,14 @@ describe('searching an index', () => {
     expect(searchIndex(entries, 'amor').map(r => r.id)).toEqual([1, 2, 3]);
   });
 
-  it('can start from the newest message', () => {
-    expect(searchIndex(entries, 'amor', { newestFirst: true, limit: 2 }).map(r => r.id)).toEqual([3, 2]);
-  });
-
   it('filters by sender', () => {
     expect(searchIndex(entries, 'amor', { sender: 'DV' }).map(r => r.id)).toEqual([1, 3]);
   });
 
-  it('counts without building results', () => {
-    expect(countSearchIndex(entries, 'amor')).toBe(3);
-    expect(countSearchIndex(entries, 'bom dia', { sender: 'DV' })).toBe(1);
-    expect(countSearchIndex(entries, 'a')).toBe(0); // too short
-    expect(countSearchIndex(null, 'amor')).toBe(0);
+  it('needs two letters once accents are gone', () => {
+    expect(searchIndex(entries, '\u0301\u0301')).toEqual([]);
+    expect(searchIndex(entries, 'á')).toEqual([]);
+    expect(searchIndex(entries, 'am').length).toBe(3);
   });
 });
 
