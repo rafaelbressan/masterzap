@@ -978,6 +978,16 @@
   padding: 0 1px;
 }
 
+/* The chat rows in the results: their divider spans the whole row, as the
+   message rows' do (in the list itself it starts after the avatar). */
+.search-results .conversation-item {
+  border-bottom: 1px solid var(--WDS-lines-divider);
+}
+
+.search-results .conversation-item-content {
+  border-bottom: none;
+}
+
 /* An outgoing message (DV's): the double tick before its text, as WhatsApp. */
 .search-result-ticks {
   display: inline-block;
