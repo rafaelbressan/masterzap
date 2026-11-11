@@ -7,6 +7,8 @@
  * highlightMatch() applies escapeHtml() to all segments before wrapping
  * the match in a static <mark> tag — safe by construction.
  */
+import { buildCalendar } from './Calendar.js';
+import { openMenu, menuClosed } from '../lib/menus.js';
 import { escapeHtml, formatDateShort } from '../lib/utils.js';
 import { search, loadSearchIndex, isIndexLoaded } from '../lib/search.js';
 
@@ -91,17 +93,29 @@ export function showChatSearchDrawer(mainArea, conversationId, { dateIndex, onRe
   resultsArea.className = 'chat-search-results';
   drawer.appendChild(resultsArea);
 
-  // Calendar
+  // Calendar — a popover like the other menus: one at a time, closed by a
+  // touch or click outside (src/lib/menus.js). Esc closes it before the search.
   let calendarEl = null;
+  let selectedDate = null;
+  calendarBtn.setAttribute('aria-expanded', 'false');
+  function closeCalendar() {
+    if (!calendarEl) return;
+    menuClosed(calendarEl);
+    calendarEl.remove();
+    calendarEl = null;
+    calendarBtn.setAttribute('aria-expanded', 'false');
+  }
   calendarBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    if (calendarEl) { calendarEl.remove(); calendarEl = null; return; }
+    if (calendarEl) { closeCalendar(); return; }
     calendarEl = buildCalendar(dateIndex, (date) => {
-      calendarEl.remove();
-      calendarEl = null;
+      selectedDate = date;
+      closeCalendar();
       if (onDateSelect) onDateSelect(date);
-    });
+    }, selectedDate);
     drawer.appendChild(calendarEl);
+    openMenu(calendarEl, closeCalendar, { keep: (target) => calendarBtn.contains(target) });
+    calendarBtn.setAttribute('aria-expanded', 'true');
   });
 
   // Search logic
@@ -170,7 +184,13 @@ export function showChatSearchDrawer(mainArea, conversationId, { dateIndex, onRe
   });
 
   input.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') { destroy(); if (onClose) onClose(); }
+    if (e.key === 'Escape') {
+      // Taken here: neither the document nor a CloseWatcher sees it.
+      e.stopPropagation();
+      e.preventDefault();
+      if (calendarEl) closeCalendar();
+      else { destroy(); if (onClose) onClose(); }
+    }
   });
 
   mainArea.appendChild(drawer);
@@ -178,127 +198,17 @@ export function showChatSearchDrawer(mainArea, conversationId, { dateIndex, onRe
 
   function destroy() {
     clearTimeout(debounceTimer);
-    if (calendarEl) { calendarEl.remove(); calendarEl = null; }
+    closeCalendar();
     drawer.remove();
     document.removeEventListener('keydown', onEscKey);
   }
 
   function onEscKey(e) {
-    if (e.key === 'Escape') { destroy(); if (onClose) onClose(); }
+    if (e.key !== 'Escape') return;
+    if (calendarEl) closeCalendar();
+    else { destroy(); if (onClose) onClose(); }
   }
   document.addEventListener('keydown', onEscKey);
 
   return { element: drawer, destroy };
-}
-
-function buildCalendar(dateIndex, onSelect) {
-  // Only full dates have a cell on the calendar; a month-only or undated day
-  // is reached by scrolling.
-  const days = dateIndex.map(d => d.date).filter(d => /^\d{4}-\d{2}-\d{2}$/.test(d));
-  const availableDates = new Set(days);
-  const sortedDates = days.sort();
-  const firstChatDate = sortedDates[0]; // e.g. "2024-02-10"
-  const lastChatDate = sortedDates[sortedDates.length - 1]; // e.g. "2025-08-13"
-
-  // Parse boundaries
-  const [firstY, firstM] = firstChatDate.split('-').map(Number);
-  const [lastY, lastM] = lastChatDate.split('-').map(Number);
-
-  // Start calendar at the last month of the chat
-  let year = lastY;
-  let month = lastM - 1; // 0-indexed
-
-  const el = document.createElement('div');
-  el.className = 'chat-calendar';
-
-  function render() {
-    while (el.firstChild) el.removeChild(el.firstChild);
-
-    // Clamp to chat range
-    const atMinMonth = (year === firstY && month === firstM - 1);
-    const atMaxMonth = (year === lastY && month === lastM - 1);
-    const beforeMin = (year < firstY || (year === firstY && month < firstM - 1));
-    const afterMax = (year > lastY || (year === lastY && month > lastM - 1));
-
-    if (beforeMin) { year = firstY; month = firstM - 1; }
-    if (afterMax) { year = lastY; month = lastM - 1; }
-
-    const nav = document.createElement('div');
-    nav.className = 'chat-calendar-nav';
-
-    const prevBtn = document.createElement('button');
-    prevBtn.textContent = '‹';
-    prevBtn.className = 'chat-calendar-nav-btn';
-    if (atMinMonth) {
-      prevBtn.classList.add('disabled');
-      prevBtn.disabled = true;
-    } else {
-      prevBtn.addEventListener('click', (e) => { e.stopPropagation(); month--; if (month < 0) { month = 11; year--; } render(); });
-    }
-
-    const nextBtn = document.createElement('button');
-    nextBtn.textContent = '›';
-    nextBtn.className = 'chat-calendar-nav-btn';
-    if (atMaxMonth) {
-      nextBtn.classList.add('disabled');
-      nextBtn.disabled = true;
-    } else {
-      nextBtn.addEventListener('click', (e) => { e.stopPropagation(); month++; if (month > 11) { month = 0; year++; } render(); });
-    }
-
-    const monthNames = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
-      'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
-    const label = document.createElement('span');
-    label.className = 'chat-calendar-label';
-    label.textContent = `${monthNames[month]} ${year}`;
-
-    nav.appendChild(prevBtn);
-    nav.appendChild(label);
-    nav.appendChild(nextBtn);
-    el.appendChild(nav);
-
-    const dayHeaders = document.createElement('div');
-    dayHeaders.className = 'chat-calendar-grid';
-    for (const d of ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom']) {
-      const hd = document.createElement('span');
-      hd.className = 'chat-calendar-header';
-      hd.textContent = d;
-      dayHeaders.appendChild(hd);
-    }
-    el.appendChild(dayHeaders);
-
-    const grid = document.createElement('div');
-    grid.className = 'chat-calendar-grid';
-
-    const firstDay = new Date(year, month, 1);
-    let startDay = firstDay.getDay() - 1;
-    if (startDay < 0) startDay = 6;
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-    for (let i = 0; i < startDay; i++) {
-      const empty = document.createElement('span');
-      empty.className = 'chat-calendar-day empty';
-      grid.appendChild(empty);
-    }
-
-    for (let d = 1; d <= daysInMonth; d++) {
-      const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-      const cell = document.createElement('button');
-      cell.className = 'chat-calendar-day';
-      cell.textContent = d;
-
-      if (availableDates.has(dateStr)) {
-        cell.classList.add('has-messages');
-        cell.addEventListener('click', (e) => { e.stopPropagation(); onSelect(dateStr); });
-      } else {
-        cell.classList.add('disabled');
-      }
-
-      grid.appendChild(cell);
-    }
-    el.appendChild(grid);
-  }
-
-  render();
-  return el;
 }

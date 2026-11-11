@@ -17,7 +17,7 @@ import { showSettingsDrawer } from './components/SettingsDrawer.js';
 import { loadReadConversations, markConversationRead } from './lib/read-state.js';
 import { showToast } from './components/Toast.js';
 import {
-  shareChatScreenshot, prepareScreenshot, clearPreparedScreenshot,
+  shareChatScreenshot, preloadScreenshot, clearPreparedScreenshot,
   shareImageFile, canShareFiles,
 } from './lib/screenshot.js';
 import { showImagePreview } from './components/ImagePreview.js';
@@ -27,6 +27,7 @@ import { copyText } from './lib/utils.js';
 import { setSources } from './lib/provenance.js';
 import { dataUrl } from './lib/data-url.js';
 import { savePosition, getPosition } from './lib/reading-position.js';
+import { closeOpenMenu } from './lib/menus.js';
 
 // ── Active state (only one thing at a time) ──────
 let activeLoader = null;
@@ -127,7 +128,10 @@ async function init() {
     rememberPosition();
     clearPreparedScreenshot();
     if (activeImagePreview) { activeImagePreview.destroy(); activeImagePreview = null; }
+    // The search first: it closes its own calendar along with its history.
     closeRightDrawers();
+    // A menu (the message's, the background's) must not outlive its chat.
+    closeOpenMenu();
     if (activeLoader) { activeLoader.destroy(); activeLoader = null; }
     if (activeContextMenu) { activeContextMenu.destroy(); activeContextMenu = null; }
   }
@@ -156,6 +160,7 @@ async function init() {
   function hideMainAreaWithPlaceholder(iconSvg, label) {
     // Hidden, the chat measures 0 everywhere; note the place while it shows.
     rememberPosition();
+    closeOpenMenu();
     mainAreaSavedContent = Array.from(mainArea.children);
     mainAreaSavedContent.forEach(child => child.style.display = 'none');
 
@@ -200,16 +205,24 @@ async function init() {
       if (!activeLoader || target !== currentConversationId) {
         router.navigate('chat', target);
       }
-      setTimeout(() => {
+      setTimeout(async () => {
         const chatViewEl = mainArea.querySelector('.chat-view');
         if (chatViewEl && !activeChatSearch) {
-          activeChatSearch = showMobileSearchBar(chatViewEl, target, {
+          // The calendar needs the conversation's days (cached by the open);
+          // without them the search still opens, with an empty calendar.
+          const dateIndex = await store.getConversationIndex(target).catch(() => []);
+          // The open may still have been in flight: take the chat on screen now,
+          // and only if it is the one searched.
+          const view = mainArea.querySelector(`.chat-view[data-conversation-id="${CSS.escape(target)}"]`);
+          if (activeChatSearch || !view) return;
+          activeChatSearch = showMobileSearchBar(view, target, {
+            dateIndex,
             onNavigate: (messageId, date) => activeLoader?.scrollToMessage(messageId, date),
             onDateSelect: (date) => activeLoader?.scrollToDate(date),
             onClose: () => { activeChatSearch = null; },
           });
           // Pre-fill the search input and trigger search
-          const mobileInput = chatViewEl.querySelector('.mobile-search-input');
+          const mobileInput = view.querySelector('.mobile-search-input');
           if (mobileInput) {
             mobileInput.value = term;
             mobileInput.dispatchEvent(new Event('input'));
@@ -246,6 +259,7 @@ async function init() {
       const chatViewEl = mainArea.querySelector('.chat-view');
       if (chatViewEl) {
         activeChatSearch = showMobileSearchBar(chatViewEl, conversationId, {
+          dateIndex,
           onNavigate: (messageId, date) => activeLoader?.scrollToMessage(messageId, date),
           onDateSelect: (date) => activeLoader?.scrollToDate(date),
           onClose: () => { activeChatSearch = null; },
@@ -278,6 +292,8 @@ async function init() {
     currentConversationId = id;
 
     const dateIndex = await store.getConversationIndex(id);
+    // Another conversation was opened while this one's index was on its way.
+    if (currentConversationId !== id) return;
 
     // Build toggleSearch bound to this conversation
     const toggleSearch = () => toggleChatSearch(id, dateIndex);
@@ -367,7 +383,9 @@ async function init() {
         onOpenChat: (convId) => router.navigate('chat', convId),
         onCopy: (text, label) => copyText(text).then(ok => showToast(mainArea, ok ? label : 'Não foi possível copiar')),
       },
-      onMenuOpen: () => prepareScreenshot(mainArea, contactName),
+      // Only the library: drawing the chat here froze the phone for seconds,
+      // and the "Pesquisar" tapped next waited behind it. The tap draws.
+      onMenuOpen: preloadScreenshot,
       onContactClick: () => {
         // Only one right drawer at a time
         if (activeChatSearch) { activeChatSearch.destroy(); activeChatSearch = null; }
@@ -388,6 +406,18 @@ async function init() {
     });
 
     activeLoader = loader;
+
+    // The message menu works from the first bubble on screen, not only once
+    // the first days (or the restored place) have finished loading.
+    const messagesArea = mainArea.querySelector('.chat-messages');
+    if (messagesArea) {
+      const incomingSender = conversation.participants.find(p => p !== 'DV') || '';
+      activeContextMenu = attachContextMenu(messagesArea, {
+        senderNames: SENDER_NAMES,
+        incomingSender,
+        conversationId: id,
+      });
+    }
     // A link to a message goes to that message; otherwise, back where the
     // reader stopped in this conversation earlier in the session.
     await loader.init({ position: pendingScrollTarget ? null : getPosition(id) });
@@ -398,15 +428,6 @@ async function init() {
       await loader.scrollToMessage(messageId, date);
     }
 
-    const messagesArea = mainArea.querySelector('.chat-messages');
-    if (messagesArea) {
-      const incomingSender = conversation.participants.find(p => p !== 'DV') || '';
-      activeContextMenu = attachContextMenu(messagesArea, {
-        senderNames: SENDER_NAMES,
-        incomingSender,
-        conversationId: id,
-      });
-    }
   }
 
   // ── Empty state ────────────────────────────────────

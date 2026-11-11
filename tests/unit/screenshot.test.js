@@ -10,8 +10,11 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 const canvasStub = {
   toBlob: (cb) => cb(new Blob(['png'], { type: 'image/png' })),
 };
-const html2canvas = vi.fn(async () => canvasStub);
-vi.mock('html2canvas', () => ({ default: (...args) => html2canvas(...args) }));
+const draw = vi.fn(async () => canvasStub); // the drawing: snapshotElement
+vi.mock('../../src/lib/dom-snapshot.js', () => ({
+  snapshotElement: (...args) => draw(...args),
+  preloadSnapshot: () => Promise.resolve(),
+}));
 
 const {
   shareChatScreenshot,
@@ -53,7 +56,7 @@ describe('delivery', () => {
   beforeEach(() => {
     clearPreparedScreenshot();
     clearPendingScreenshot();
-    html2canvas.mockClear();
+    draw.mockClear();
     globalThis.ClipboardItem = class { constructor(data) { this.data = data; } };
     URL.createObjectURL = vi.fn(() => 'blob:fake');
     URL.revokeObjectURL = vi.fn();
@@ -105,22 +108,22 @@ describe('delivery', () => {
   it('shares the held image on the next tap without capturing again', async () => {
     enableShare(() => Promise.reject(spentActivation()));
     await shareChatScreenshot(element(), 'Ciro');
-    const capturesSoFar = html2canvas.mock.calls.length;
+    const capturesSoFar = draw.mock.calls.length;
 
     enableShare(() => Promise.resolve());
     expect((await shareChatScreenshot(element(), 'Ciro')).outcome).toBe('shared');
-    expect(html2canvas).toHaveBeenCalledTimes(capturesSoFar);
+    expect(draw).toHaveBeenCalledTimes(capturesSoFar);
   });
 
   it('does not reuse an image held for a different conversation', async () => {
     enableShare(() => Promise.reject(spentActivation()));
     await shareChatScreenshot(element(), 'Ciro');
-    const capturesSoFar = html2canvas.mock.calls.length;
+    const capturesSoFar = draw.mock.calls.length;
 
     enableShare(() => Promise.resolve());
     await shareChatScreenshot(element(), 'Martha Graeff');
 
-    expect(html2canvas.mock.calls.length).toBeGreaterThan(capturesSoFar);
+    expect(draw.mock.calls.length).toBeGreaterThan(capturesSoFar);
   });
 
   it('falls back to the clipboard when sharing fails for another reason', async () => {
@@ -182,7 +185,7 @@ describe('delivery', () => {
   });
 
   it('reports a capture that never produced an image', async () => {
-    html2canvas.mockImplementationOnce(() => Promise.reject(new Error('canvas morreu')));
+    draw.mockImplementationOnce(() => Promise.reject(new Error('canvas morreu')));
     enableShare(() => Promise.resolve());
 
     const result = await shareChatScreenshot(element(), 'Ciro');
@@ -196,7 +199,7 @@ describe('preparing ahead of the tap', () => {
   beforeEach(() => {
     clearPreparedScreenshot();
     clearPendingScreenshot();
-    html2canvas.mockClear();
+    draw.mockClear();
     navigator.canShare = vi.fn(() => true);
     navigator.share = vi.fn(() => Promise.resolve());
   });
@@ -206,7 +209,7 @@ describe('preparing ahead of the tap', () => {
     prepareScreenshot(element(), 'Ciro');
     await new Promise(r => setTimeout(r, 0));
 
-    expect(html2canvas).toHaveBeenCalledTimes(1);
+    expect(draw).toHaveBeenCalledTimes(1);
   });
 
   it('reuses that capture on the tap instead of making another', async () => {
@@ -214,7 +217,7 @@ describe('preparing ahead of the tap', () => {
     await new Promise(r => setTimeout(r, 0));
 
     expect((await shareChatScreenshot(element(), 'Ciro')).outcome).toBe('shared');
-    expect(html2canvas).toHaveBeenCalledTimes(1);
+    expect(draw).toHaveBeenCalledTimes(1);
   });
 
   it('ignores a capture prepared for a different conversation', async () => {
@@ -223,7 +226,7 @@ describe('preparing ahead of the tap', () => {
 
     await shareChatScreenshot(element(), 'Martha Graeff');
 
-    expect(html2canvas).toHaveBeenCalledTimes(2);
+    expect(draw).toHaveBeenCalledTimes(2);
   });
 
   it('recaptures after the prepared image is dropped', async () => {
@@ -233,11 +236,11 @@ describe('preparing ahead of the tap', () => {
 
     await shareChatScreenshot(element(), 'Ciro');
 
-    expect(html2canvas).toHaveBeenCalledTimes(2);
+    expect(draw).toHaveBeenCalledTimes(2);
   });
 
   it('still delivers when the prepared capture failed', async () => {
-    html2canvas.mockImplementationOnce(() => Promise.reject(new Error('falhou')));
+    draw.mockImplementationOnce(() => Promise.reject(new Error('falhou')));
     prepareScreenshot(element(), 'Ciro');
     await new Promise(r => setTimeout(r, 0));
 
@@ -249,7 +252,7 @@ describe('what gets drawn', () => {
   beforeEach(() => {
     clearPreparedScreenshot();
     clearPendingScreenshot();
-    html2canvas.mockClear();
+    draw.mockClear();
     navigator.canShare = vi.fn(() => true);
     navigator.share = vi.fn(() => Promise.resolve());
   });
@@ -260,27 +263,14 @@ describe('what gets drawn', () => {
   it('leaves the dropdown out of the picture', async () => {
     await shareChatScreenshot(element(), 'Ciro');
 
-    const [, options] = html2canvas.mock.calls[0];
+    const [, options] = draw.mock.calls[0];
     const menu = document.createElement('div');
     menu.className = 'chat-dropdown-menu';
     const bubble = document.createElement('div');
     bubble.className = 'chat-msg-bubble';
 
-    expect(options.ignoreElements(menu)).toBe(true);
-    expect(options.ignoreElements(bubble)).toBeFalsy();
-  });
-
-  it('draws the element box, not its full scroll height', async () => {
-    const el = element();
-    el.getBoundingClientRect = () => ({ width: 400, height: 800 });
-
-    await shareChatScreenshot(el, 'Ciro');
-
-    const [, options] = html2canvas.mock.calls[0];
-    expect(options.width).toBe(400);
-    expect(options.height).toBe(800);
-    expect(options.scrollX).toBe(0);
-    expect(options.scrollY).toBe(0);
+    expect(options.ignore(menu)).toBe(true);
+    expect(options.ignore(bubble)).toBeFalsy();
   });
 
   it('caps the pixel ratio so a 3x screen does not triple the file', async () => {
@@ -288,7 +278,7 @@ describe('what gets drawn', () => {
 
     await shareChatScreenshot(element(), 'Ciro');
 
-    expect(html2canvas.mock.calls[0][1].scale).toBe(2);
+    expect(draw.mock.calls[0][1].scale).toBe(2);
   });
 });
 
@@ -400,7 +390,7 @@ describe('the retry is offered once, not forever', () => {
   beforeEach(() => {
     clearPreparedScreenshot();
     clearPendingScreenshot();
-    html2canvas.mockClear();
+    draw.mockClear();
     globalThis.ClipboardItem = class { constructor(data) { this.data = data; } };
     Object.defineProperty(navigator, 'clipboard', { value: undefined, configurable: true });
     navigator.canShare = vi.fn(() => true);

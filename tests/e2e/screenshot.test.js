@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { ATTRIBUTION_BAR_HEIGHT } from '../../src/lib/screenshot.js';
 
-// The capture itself only exists in a real browser: html2canvas walks the live
-// DOM and paints it into a canvas. The delivery chain is unit-tested; what is
+// The capture itself only exists in a real browser: the visible DOM is copied
+// and painted by the browser into a canvas (src/lib/dom-snapshot.js). The delivery chain is unit-tested; what is
 // checked here is that the button is wired, the picture comes out, and it
 // frames the chat rather than the whole page.
 
@@ -148,12 +148,11 @@ test.describe('Chat screenshot', () => {
   });
 });
 
-// The clone html2canvas paints is a second, live document: it re-downloads the
-// stylesheets rather than reusing the ones already parsed on the page. When
-// that second request does not land, the capture comes out as raw HTML —
-// serif text, no bubbles, no colours — and nothing reports a failure.
-//
-// The picture must not depend on the network a second time.
+// The picture is the page's DOM redrawn with the page's own CSS. Asking the
+// network for the stylesheets a second time (as html2canvas's clone did) can
+// fail, and then the capture comes out as raw HTML — serif text, no bubbles,
+// no colours — with nothing reporting a failure. The rules are already parsed
+// and in memory; the picture must not depend on the network a second time.
 test.describe('Chat screenshot without the network', () => {
   /** Fraction of the image within reach of a colour, 0..1. */
   const shareOfColour = (page, dataUrl, rgb) => page.evaluate(([src, want]) =>
@@ -189,4 +188,53 @@ test.describe('Chat screenshot without the network', () => {
 
     expect(await shareOfColour(page, dataUrl, OUTGOING_BUBBLE)).toBeGreaterThan(0.02);
   });
+});
+
+// The print is the screen: same messages, same place, mid-scroll included.
+// Only what is visible is copied, and each scrolled list is cut down to what
+// is on screen; a slip in that shows up as a picture shifted or empty.
+test('the print matches what is on screen, scrolled to the middle', async ({ page }) => {
+  await page.goto('/#/chat/martha-graeff');
+  await page.locator('.chat-msg-bubble').first().waitFor();
+  await page.waitForLoadState('networkidle');
+  await page.locator('.chat-messages').evaluate((el) => { el.scrollTop -= 700; });
+  await page.waitForLoadState('networkidle');
+  // The floating day badge shows only while scrolling; let it fade.
+  await page.waitForTimeout(1500);
+  const screen = `data:image/png;base64,${(await page.locator('.main-area').screenshot()).toString('base64')}`;
+
+  const print = await captureProducedImage(page);
+
+  // Mean difference per channel over the chat (the print's bar left out),
+  // 0..255, compared at the print's size: a phone's screen has more pixels
+  // than the print, which caps the ratio at 2.
+  const diff = await page.evaluate(async ([a, b, barCss]) => {
+    const load = (src) => new Promise((resolve) => { const i = new Image(); i.onload = () => resolve(i); i.src = src; });
+    const [ia, ib] = await Promise.all([load(a), load(b)]);
+    const cssWidth = ia.naturalWidth / devicePixelRatio;
+    const scale = ib.naturalWidth / cssWidth;
+    const w = ib.naturalWidth;
+    const h = ib.naturalHeight - Math.round(barCss * scale);
+    if (Math.abs(ia.naturalHeight / devicePixelRatio * scale - h) > 1) return { size: [ia.naturalWidth, ia.naturalHeight, ib.naturalWidth, ib.naturalHeight] };
+    const pixels = (img) => {
+      const c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      const ctx = c.getContext('2d');
+      // The screen resampled to the print's size; the print as it is, its bar
+      // falling outside the canvas.
+      if (img === ia) ctx.drawImage(img, 0, 0, w, h);
+      else ctx.drawImage(img, 0, 0);
+      return ctx.getImageData(0, 0, w, h).data;
+    };
+    const pa = pixels(ia);
+    const pb = pixels(ib);
+    let sum = 0;
+    for (let i = 0; i < pa.length; i += 4) {
+      sum += Math.abs(pa[i] - pb[i]) + Math.abs(pa[i + 1] - pb[i + 1]) + Math.abs(pa[i + 2] - pb[i + 2]);
+    }
+    return { mean: sum / (w * h * 3) };
+  }, [screen, print, ATTRIBUTION_BAR_HEIGHT]);
+
+  expect(diff.size).toBeUndefined();
+  expect(diff.mean).toBeLessThan(3);
 });
