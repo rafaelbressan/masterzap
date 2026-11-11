@@ -26,6 +26,7 @@ import { exportUrl, EXPORT_ALL_URL, downloadFile } from './lib/export.js';
 import { copyText } from './lib/utils.js';
 import { setSources } from './lib/provenance.js';
 import { dataUrl } from './lib/data-url.js';
+import { savePosition, getPosition } from './lib/reading-position.js';
 
 // ── Active state (only one thing at a time) ──────
 let activeLoader = null;
@@ -111,8 +112,19 @@ async function init() {
     if (activeChatSearch) { activeChatSearch.destroy(); activeChatSearch = null; }
   }
 
+  /** Remember where the reader is in the open chat, while it is still on screen. */
+  function rememberPosition() {
+    const position = activeLoader?.currentPosition();
+    // undefined: still loading, or hidden behind a drawer — nothing to say.
+    if (position !== undefined && currentConversationId) savePosition(currentConversationId, position);
+  }
+  // A reload or a closed tab never closes the chat; save on the way out too.
+  window.addEventListener('pagehide', () => rememberPosition());
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') rememberPosition(); });
+
   /** Close the chat (loader, context menu, right drawers). */
   function closeChat() {
+    rememberPosition();
     clearPreparedScreenshot();
     if (activeImagePreview) { activeImagePreview.destroy(); activeImagePreview = null; }
     closeRightDrawers();
@@ -142,6 +154,8 @@ async function init() {
 
   /** Save main area children and hide them, show a placeholder. */
   function hideMainAreaWithPlaceholder(iconSvg, label) {
+    // Hidden, the chat measures 0 everywhere; note the place while it shows.
+    rememberPosition();
     mainAreaSavedContent = Array.from(mainArea.children);
     mainAreaSavedContent.forEach(child => child.style.display = 'none');
 
@@ -323,8 +337,9 @@ async function init() {
       },
     };
 
-    function openContactInfo() {
+    function openContactInfo(at = null) {
       activeContactInfo = showContactInfo(mainArea, conversation, {
+        at,
         mediaCounts: conversation.media_counts || MEDIA_COUNTS,
         onClose: () => { activeContactInfo = null; },
         onSearch: toggleSearch,
@@ -366,15 +381,16 @@ async function init() {
       // The seal notice: open the drawer (never close it) at the "Fonte" row.
       onSourceClick: () => {
         if (activeChatSearch) { activeChatSearch.destroy(); activeChatSearch = null; }
-        if (!activeContactInfo) openContactInfo();
-        // After the drawer's own first frame, which resets its scroll to the top.
-        const drawer = activeContactInfo.element;
-        requestAnimationFrame(() => drawer.querySelector('.contact-info-source')?.scrollIntoView({ block: 'center' }));
+        // A new drawer scrolls there in its first frame; an open one, now.
+        if (!activeContactInfo) openContactInfo('.contact-info-source');
+        else activeContactInfo.element.querySelector('.contact-info-source')?.scrollIntoView({ block: 'center' });
       },
     });
 
     activeLoader = loader;
-    await loader.init();
+    // A link to a message goes to that message; otherwise, back where the
+    // reader stopped in this conversation earlier in the session.
+    await loader.init({ position: pendingScrollTarget ? null : getPosition(id) });
 
     if (pendingScrollTarget) {
       const { messageId, date } = pendingScrollTarget;

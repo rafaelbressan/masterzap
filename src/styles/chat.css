@@ -198,7 +198,7 @@
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
-  text-transform: capitalize;
+  /* "26 de abril de 2024", as WhatsApp writes it: months are lowercase in pt-BR. */
 }
 
 /* ── Message rows ─────────────────────────────── */
@@ -960,4 +960,16 @@
 .chat-seal-notice:focus-visible {
   outline: 2px solid var(--WDS-content-action-emphasized, #008069);
   outline-offset: 2px;
+}
+
+/* On a touchscreen a long press opens the message's menu. Left to itself the
+   browser would also start a text selection (and its callout), which swallows
+   the next tap and leaves the menu with no way out. Copying stays one tap away
+   in the menu. */
+@media (hover: none) and (pointer: coarse) {
+  .chat-messages {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
 }

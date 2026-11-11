@@ -5,6 +5,9 @@ test.describe('Share Message Links', () => {
     await page.goto('/');
     await page.locator('.conversation-item').first().click();
     await page.locator('.chat-msg-bubble').first().waitFor({ timeout: 10000 });
+    // Older days keep arriving until there is something to scroll; let them
+    // settle, or "the first bubble" moves under the pointer.
+    await page.waitForLoadState('networkidle');
   });
 
   test('context menu has "Compartilhar texto" option', async ({ page }) => {
