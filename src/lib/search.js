@@ -95,28 +95,28 @@ export function normalize(str) {
     .replace(/[\u0300-\u036f]/g, '');
 }
 
-/** How much context to keep on each side of a match in a long message. */
-const EXCERPT_LEAD = 32;
+/** How much text to keep before a match, and in all. */
+const EXCERPT_LEAD = 20;
 const EXCERPT_LENGTH = 110;
 
 /**
- * Trim long content down to a window around the match.
+ * Trim content down to a window that starts just before the match.
  *
- * Result rows are a single ellipsized line, so a match 300 characters into a
- * message would be scrolled off the right edge and invisible. Recentre the text
- * on the match and shift the offsets to suit. Short content is returned as-is.
+ * Result rows are a single ellipsized line, and on a 320px phone it holds
+ * about 40 characters: a match further in would sit past the "…" and never
+ * show, however short the message. So whenever the match is not near the
+ * start, the text begins a few words before it. Offsets move to suit.
  *
  * @returns {{content: string, matchStart: number, matchEnd: number}}
  */
 function excerptAround(content, matchStart, matchEnd) {
-  if (content.length <= EXCERPT_LENGTH) {
+  if (matchStart <= EXCERPT_LEAD && content.length <= EXCERPT_LENGTH) {
     return { content, matchStart, matchEnd };
   }
 
-  let start = Math.max(0, matchStart - EXCERPT_LEAD);
-  let end = Math.min(content.length, start + EXCERPT_LENGTH);
-  // Near the end of the message, slide the window back so it stays full width.
-  start = Math.max(0, Math.min(start, end - EXCERPT_LENGTH));
+  const start = Math.max(0, matchStart - EXCERPT_LEAD);
+  // The whole match always fits, however long the query.
+  const end = Math.min(content.length, Math.max(start + EXCERPT_LENGTH, matchEnd));
 
   const prefix = start > 0 ? '…' : '';
   const suffix = end < content.length ? '…' : '';
@@ -174,7 +174,7 @@ export function searchIndex(index, query, { limit = 50, sender, newestFirst = fa
     if (matchStart !== -1) {
       results.push({
         ...entry,
-        ...excerptAround(entry.content, matchStart, matchStart + query.length),
+        ...excerptAround(entry.content, matchStart, matchStart + normalizedQuery.length),
       });
       if (results.length >= limit) break;
     }

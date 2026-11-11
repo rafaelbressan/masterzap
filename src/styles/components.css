@@ -862,9 +862,19 @@
 }
 
 /* ── Search Results (sidebar) ────────────────── */
+/* As WhatsApp: "Conversas" (list rows) then "Mensagens"; the match in green,
+   section titles in grey, message rows sized like the list's. */
 .search-results {
   flex: 1;
   overflow-y: auto;
+}
+
+.search-results-heading {
+  margin: 0;
+  padding: 16px 16px 8px;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--WDS-content-deemphasized);
 }
 
 .search-empty {
@@ -874,21 +884,57 @@
   font-size: 14px;
 }
 
+.search-loading {
+  width: 24px;
+  height: 24px;
+  margin: 16px auto 24px;
+  border: 3px solid var(--WDS-lines-divider);
+  border-top-color: var(--WDS-accent);
+  border-radius: 50%;
+  animation: search-spin 0.8s linear infinite;
+}
+
+@keyframes search-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .search-loading { animation-duration: 2.4s; }
+}
+
 .search-result-item {
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  padding: 10px 16px;
+  justify-content: center;
+  gap: 2px;
+  min-height: 72px;
+  padding: 0 16px;
   cursor: pointer;
-  border-bottom: 1px solid var(--WDS-lines-divider);
-  transition: background-color 80ms;
+  transition: background-color 120ms;
 }
 
-.search-result-item:hover {
-  background-color: var(--WDS-surface-highlight);
+.search-result-item > * {
+  min-width: 0;
 }
 
-.search-result-item:focus-visible {
+.search-result-item + .search-result-item {
+  border-top: 1px solid var(--WDS-lines-divider);
+}
+
+@media (hover: hover) {
+  .search-result-item:hover {
+    background-color: var(--WDS-surface-highlight);
+  }
+}
+
+@media (hover: none) {
+  .search-result-item:active {
+    background-color: var(--WDS-surface-highlight);
+  }
+}
+
+.search-result-item:focus-visible,
+.search-results .conversation-item:focus-visible {
   outline: 2px solid var(--WDS-accent);
   outline-offset: -2px;
 }
@@ -901,19 +947,22 @@
 }
 
 .search-result-sender {
-  font-size: 13.5px;
-  font-weight: 500;
+  font-size: 16.5px;
   color: var(--WDS-content-default);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .search-result-date {
+  flex: none;
   font-size: 12px;
   color: var(--WDS-content-deemphasized);
   white-space: nowrap;
 }
 
 .search-result-content {
-  font-size: 13px;
+  font-size: 13.5px;
   color: var(--WDS-content-deemphasized);
   white-space: nowrap;
   overflow: hidden;
@@ -921,11 +970,24 @@
   line-height: 1.4;
 }
 
+/* In the chat's own search drawer: the highlighted run, as before. */
 .search-highlight {
   background-color: var(--WDS-yellow-200);
   color: var(--WDS-content-default);
   border-radius: 2px;
   padding: 0 1px;
+}
+
+/* In the sidebar results: green text, as WhatsApp. */
+.search-results .search-highlight {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  color: var(--WDS-content-action-emphasized);
+}
+
+.search-results .search-result-content .search-highlight {
+  font-weight: 500;
 }
 
 /* ── Image preview ────────────────────────────── */

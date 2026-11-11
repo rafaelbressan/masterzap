@@ -555,13 +555,24 @@ async function init() {
   // Sidebar search
   const conversations = store.getConversations();
   if (conversations.length > 0) {
-    activeSearch = attachSearch(sidebar, conversations[0].id, (messageId, date) => {
-      if (activeLoader) {
-        activeLoader.scrollToMessage(messageId, date);
-      } else {
-        pendingScrollTarget = { messageId, date };
-        router.navigate('chat', conversations[0].id);
-      }
+    // Across every conversation; the results stay in the sidebar while a chat
+    // opens, so back on a phone returns to them.
+    activeSearch = attachSearch(sidebar, conversations, {
+      onConversationClick: (id) => {
+        closeProfile();
+        closeSettings();
+        router.navigate('chat', id);
+      },
+      onMessageClick: (id, messageId, date) => {
+        closeProfile();
+        closeSettings();
+        // Already open: just go to the message. Otherwise open its chat there.
+        if (id === currentConversationId && activeLoader) {
+          activeLoader.scrollToMessage(messageId, date);
+          return;
+        }
+        router.navigate('chat', id, messageId);
+      },
     });
   }
 

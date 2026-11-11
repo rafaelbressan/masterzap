@@ -191,3 +191,13 @@ describe('search result excerpts', () => {
     expect(hit.content.slice(hit.matchStart, hit.matchEnd)).toBe('fora?');
   });
 });
+
+describe('excerpts on a narrow row', () => {
+  it('starts a short message near its match, so the match is on screen', () => {
+    const content = 'Nao conseguimos reverter isso com Paulo ou com ninguem em Brasilia';
+    const [hit] = searchIndex([{ id: 1, date: '2025-11-15', sender: 'DV', content }], 'brasilia');
+    expect(hit.content.startsWith('…')).toBe(true);
+    expect(hit.matchStart).toBeLessThanOrEqual(21);
+    expect(hit.content.slice(hit.matchStart, hit.matchEnd)).toBe('Brasilia');
+  });
+});
