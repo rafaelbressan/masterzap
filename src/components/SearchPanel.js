@@ -9,7 +9,7 @@
  * The <mark> tag itself is a static string literal, not derived from user input.
  */
 import { escapeHtml, formatDateShort } from '../lib/utils.js';
-import { search, loadSearchIndex, isIndexLoaded } from '../lib/search.js';
+import { searchIndex, loadSearchIndex } from '../lib/search.js';
 
 const DEBOUNCE_MS = 200;
 
@@ -27,6 +27,13 @@ export function attachSearch(sidebar, conversationId, onResultClick) {
   let resultsEl = null;
   let debounceTimer = null;
   let lastQuery = '';
+  // Each search is numbered; one that finishes after a newer search, Escape
+  // or the panel going away is dropped.
+  let searchSeq = 0;
+  function cancelSearch() {
+    searchSeq++;
+    lastQuery = '';
+  }
 
   function showResults(results, query) {
     hideResults();
@@ -112,24 +119,26 @@ export function attachSearch(sidebar, conversationId, onResultClick) {
 
     if (query.length < 2) {
       hideResults();
-      lastQuery = '';
+      cancelSearch();
       return;
     }
 
     if (query === lastQuery) return;
     lastQuery = query;
+    const seq = ++searchSeq;
 
-    // Load index on first search
-    if (!isIndexLoaded(conversationId)) {
-      try {
-        await loadSearchIndex(conversationId);
-      } catch (err) {
-        console.error('Failed to load search index:', err);
-        return;
-      }
+    let index;
+    try {
+      index = await loadSearchIndex(conversationId);
+    } catch (err) {
+      console.error('Failed to load search index:', err);
+      if (seq === searchSeq) lastQuery = ''; // the same words may try again
+      return;
     }
+    // A newer search, Escape or the panel going away came first.
+    if (seq !== searchSeq) return;
 
-    const results = search(query, { limit: 50 });
+    const results = searchIndex(index, query, { limit: 50 });
     showResults(results, query);
   }
 
@@ -140,6 +149,7 @@ export function attachSearch(sidebar, conversationId, onResultClick) {
 
   function onKeyDown(e) {
     if (e.key === 'Escape') {
+      cancelSearch();
       input.value = '';
       hideResults();
       input.blur();
@@ -152,6 +162,7 @@ export function attachSearch(sidebar, conversationId, onResultClick) {
   return {
     destroy() {
       clearTimeout(debounceTimer);
+      cancelSearch();
       hideResults();
       input.removeEventListener('input', onInputDebounced);
       input.removeEventListener('keydown', onKeyDown);

@@ -7,7 +7,7 @@
  */
 import { buildCalendar } from './Calendar.js';
 import { openMenu, menuClosed } from '../lib/menus.js';
-import { search, loadSearchIndex, isIndexLoaded } from '../lib/search.js';
+import { searchIndex, loadSearchIndex } from '../lib/search.js';
 
 const DEBOUNCE_MS = 300;
 
@@ -111,8 +111,13 @@ export function showMobileSearchBar(chatView, conversationId, { dateIndex = [], 
     calendarBtn.setAttribute('aria-expanded', 'true');
   });
 
+  // Each search is numbered; one that finishes after a newer search or the
+  // bar closing is dropped, or a closed search would still move the chat.
+  let searchSeq = 0;
+
   async function doSearch() {
     const query = input.value.trim();
+    const seq = ++searchSeq;
     if (query.length < 2) {
       results = [];
       currentIndex = -1;
@@ -121,11 +126,11 @@ export function showMobileSearchBar(chatView, conversationId, { dateIndex = [], 
       return;
     }
 
-    if (!isIndexLoaded(conversationId)) {
-      try { await loadSearchIndex(conversationId); } catch { return; }
-    }
+    let index;
+    try { index = await loadSearchIndex(conversationId); } catch { return; }
+    if (seq !== searchSeq) return;
 
-    results = search(query, { limit: 100 });
+    results = searchIndex(index, query, { limit: 100 });
 
     if (results.length === 0) {
       showToast();
@@ -223,6 +228,7 @@ export function showMobileSearchBar(chatView, conversationId, { dateIndex = [], 
 
   function destroy() {
     clearTimeout(debounceTimer);
+    searchSeq++;
     window.removeEventListener('popstate', onPopState);
     // Pop the entries this search pushed that are still on top: the
     // calendar's and the search's, in one step (two back() calls race).
