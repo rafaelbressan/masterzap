@@ -77,7 +77,7 @@ export function buildConversationItem(conv, { nameHtml } = {}) {
  * @param {function} options.onSelect - called with conversation id
  * @param {Set<string>} [options.readConversations] - ids already opened
  */
-export function renderSidebar(container, { conversations, onSelect, onProfile, onAbout, onExportAll, onCalls, onChats, readConversations = new Set() }) {
+export function renderSidebar(container, { conversations, onSelect, onProfile, onImportant, onAbout, onExportAll, onCalls, onChats, readConversations = new Set() }) {
   const el = document.createElement('aside');
   el.className = 'sidebar';
   el.setAttribute('role', 'navigation');
@@ -267,14 +267,22 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
    * Swap the list for the calls screen and back. The header, search and
    * filter tabs belong to the chat list; the calls panel brings its own.
    */
-  el.showCalls = (panel) => {
-    el.querySelector('.calls-panel')?.remove();
+  /**
+   * Put a screen in the list's place: the calls, or the important messages.
+   * @param {HTMLElement} panel
+   * @param {string} tab - the bottom-nav tab it belongs to ('calls' or 'chats')
+   */
+  el.showPanel = (panel, tab = 'chats') => {
+    el.querySelector('.sidebar-panel')?.remove();
+    panel.classList.add('sidebar-panel');
     el.insertBefore(panel, bottomNav);
-    el.classList.add('sidebar--calls');
-    for (const tab of bottomNav.querySelectorAll('.sidebar-bottom-tab')) tab.classList.toggle('active', tab.dataset.tab === 'calls');
+    el.classList.add('sidebar--panel');
+    for (const t of bottomNav.querySelectorAll('.sidebar-bottom-tab')) t.classList.toggle('active', t.dataset.tab === tab);
   };
+  el.showCalls = (panel) => el.showPanel(panel, 'calls');
   el.showChats = () => {
-    el.classList.remove('sidebar--calls');
+    el.querySelector('.sidebar-panel')?.remove();
+    el.classList.remove('sidebar--panel');
     for (const tab of bottomNav.querySelectorAll('.sidebar-bottom-tab')) tab.classList.toggle('active', tab.dataset.tab === 'chats');
   };
 
@@ -289,6 +297,7 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
 
     const items = [
       { label: 'Perfil', action: onProfile, enabled: !!onProfile },
+      { label: 'Mensagens importantes', action: onImportant, enabled: !!onImportant },
       { label: 'Exportar tudo (.zip)', action: onExportAll, enabled: !!onExportAll },
       { label: 'Sobre o MasterWhats', action: onAbout, enabled: !!onAbout },
     ];

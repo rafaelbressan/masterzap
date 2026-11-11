@@ -8,6 +8,7 @@
  * All dynamic text uses textContent.
  */
 
+import { importantMessages } from '../lib/important-messages.js';
 import { getContactProfile, SOURCES, CREDITS } from '../lib/profile-content.js';
 import { renderProfileSections } from './ProfileSections.js';
 import { defaultAvatarSvg } from '../lib/avatar.js';
@@ -33,6 +34,7 @@ import { SEALS, SEAL_ICONS, sourceById } from '../lib/provenance.js';
  * @returns {{ element: HTMLElement, destroy: function }}
  */
 export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onClose, onSearch, actions = {}, at = null } = {}) {
+  let refreshImportant = () => {};
   // Remove existing drawer if any
   const existing = mainArea.querySelector('.contact-info-drawer');
   if (existing) existing.remove();
@@ -133,7 +135,34 @@ export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onCl
   actionsEl.className = 'contact-info-actions';
 
   actionsEl.appendChild(createActionItem(ICON_MEDIA, 'Mídias, links e documentos', totalMedia.toLocaleString('pt-BR'), false, true));
-  actionsEl.appendChild(createActionItem(ICON_STAR, 'Mensagens importantes', '', false, true));
+  // The messages of this chat marked as important, saved in this browser.
+  const importantCount = () => {
+    const n = importantMessages(conversation.id).length;
+    return n ? n.toLocaleString('pt-BR') : '';
+  };
+  const importantItem = createActionItem(ICON_STAR, 'Mensagens importantes', importantCount(), false, !actions.onImportant);
+  // A mark made or undone while the drawer is open updates the count.
+  refreshImportant = () => {
+    const text = importantCount();
+    let detail = importantItem.querySelector('.contact-info-action-detail');
+    if (!text) { detail?.remove(); return; }
+    if (!detail) {
+      detail = document.createElement('span');
+      detail.className = 'contact-info-action-detail';
+      importantItem.querySelector('.contact-info-action-text').appendChild(detail);
+    }
+    detail.textContent = text;
+  };
+  if (actions.onImportant) {
+    importantItem.setAttribute('role', 'button');
+    importantItem.setAttribute('tabindex', '0');
+    const open = () => actions.onImportant(conversation.id);
+    importantItem.addEventListener('click', open);
+    importantItem.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+    });
+  }
+  actionsEl.appendChild(importantItem);
   actionsEl.appendChild(createActionItem(ICON_BELL, 'Modo silencioso', '', true, true));
   actionsEl.appendChild(createActionItem(ICON_CLOCK, 'Mensagens temporárias', contactProfile?.ephemeral || 'Não', false, true));
   actionsEl.appendChild(createActionItem(ICON_LOCK, 'Privacidade avançada da conversa', 'Desativada', false, true));
@@ -187,7 +216,7 @@ export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onCl
   }
   document.addEventListener('keydown', onKeyDown);
 
-  return { element: drawer, destroy };
+  return { element: drawer, destroy, refreshImportant: () => refreshImportant() };
 }
 
 function createDivider() {

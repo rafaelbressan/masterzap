@@ -3,7 +3,7 @@
 
 import { getDataStore } from './lib/data-store.js';
 import { HashRouter } from './lib/router.js';
-import { renderSidebar, setActiveConversation } from './components/Sidebar.js';
+import { renderSidebar, setActiveConversation, conversationName } from './components/Sidebar.js';
 import { renderEmptyState } from './components/EmptyState.js';
 import { renderChatView } from './components/ChatView.js';
 import { attachContextMenu } from './components/ContextMenu.js';
@@ -28,6 +28,7 @@ import { setSources } from './lib/provenance.js';
 import { dataUrl } from './lib/data-url.js';
 import { savePosition, getPosition } from './lib/reading-position.js';
 import { closeOpenMenu } from './lib/menus.js';
+import { renderImportantPanel, setBubbleStar } from './components/ImportantPanel.js';
 
 // ── Active state (only one thing at a time) ──────
 let activeLoader = null;
@@ -347,6 +348,10 @@ async function init() {
         closeRightDrawers();
         fillSidebarSearch(term, convId);
       },
+      onImportant: (convId) => {
+        closeRightDrawers();
+        openImportant(convId);
+      },
       onContact: (convId) => {
         closeRightDrawers();
         drawerActions(() => {}).onContact(convId);
@@ -441,6 +446,67 @@ async function init() {
     renderEmptyState(mainArea);
   }
 
+  // ── Mensagens importantes ──────────────────────────
+
+  // Set when a chat is opened from a sidebar screen (calls, important
+  // messages), which stays beside it; cleared by the chat route.
+  let keepPanel = false;
+
+  // Whether the list was opened from inside the app (its back can step back
+  // in history) or straight from a link (back goes to the start).
+  let importantFromApp = false;
+
+  /** Open the important messages, all or one conversation's. */
+  function openImportant(convId = null) {
+    importantFromApp = true;
+    closeProfile();
+    closeSettings();
+    const hash = convId ? `#/importantes/${convId}` : '#/importantes';
+    // The same hash fires nothing: draw it directly.
+    if (location.hash === hash) showImportant(convId);
+    else router.navigate('importantes', convId);
+  }
+
+  /**
+   * "Mensagens importantes" in the list's place. On a desktop the chat on
+   * screen stays beside it; the back arrow closes the list and leaves that
+   * chat as it is, as WhatsApp does.
+   */
+  function showImportant(convId) {
+    // On a phone the open chat covers the list: close it, as the calls do.
+    if (window.matchMedia('(max-width: 600px)').matches) showEmptyState();
+    const panel = renderImportantPanel({
+      conversationId: convId,
+      nameOf: (id) => {
+        const conv = store.getConversation(id);
+        return conv ? conversationName(conv) : id;
+      },
+      onOpen: (id, messageId) => { keepPanel = true; router.navigate('chat', id, messageId); },
+      onBack: () => {
+        sidebar.showChats?.();
+        // A chat beside the list (desktop): it stays as it is, and the URL
+        // follows it. Otherwise (a phone, where the list closed the chat):
+        // back to where the list was opened from.
+        if (currentConversationId && activeLoader) router.navigate('chat', currentConversationId);
+        else if (importantFromApp) history.back();
+        else router.navigate('home');
+        importantFromApp = false;
+      },
+    });
+    sidebar.showPanel?.(panel);
+    navRail.setActive?.('chats');
+  }
+
+  // One mark changed (menu, list, anywhere): the star on its bubble, the list
+  // on screen and the count in the contact's info follow.
+  window.addEventListener('importantchange', ({ detail: { conversationId, messageId, marked } }) => {
+    const row = mainArea.querySelector(`.chat-view[data-conversation-id="${CSS.escape(conversationId)}"] .chat-msg-row[data-id="${CSS.escape(String(messageId))}"]`);
+    const meta = row?.querySelector('.chat-msg-meta');
+    if (meta) setBubbleStar(meta, marked);
+    sidebar.querySelector('.important-panel')?.refresh?.();
+    activeContactInfo?.refreshImportant?.();
+  });
+
   // ── Profile drawer ─────────────────────────────────
 
   function openProfile() {
@@ -480,6 +546,7 @@ async function init() {
                 onProfileDV: () => { closeRightDrawers(); openProfile(); },
                 onSearch: (term, id) => { closeRightDrawers(); fillSidebarSearch(term, id); },
                 onContact: (id) => { closeRightDrawers(); drawerActions(() => {}).onContact(id); },
+                onImportant: (id) => { closeRightDrawers(); openImportant(id); },
               },
             });
           }
@@ -536,6 +603,7 @@ async function init() {
   const sidebar = renderSidebar(container, {
     conversations: store.getConversations(),
     readConversations,
+    onImportant: () => openImportant(),
     onProfile: openProfile,
     onAbout: openSettings,
     onExportAll: () => downloadFile(EXPORT_ALL_URL),
@@ -595,11 +663,13 @@ async function init() {
       calls,
       conversations: store.getConversations(),
       avatarFor: (convId) => AVATARS[convId] || null,
-      onOpen: (convId, messageId) => router.navigate('chat', convId, messageId),
+      onOpen: (convId, messageId) => { keepPanel = true; router.navigate('chat', convId, messageId); },
     });
     sidebar.showCalls?.(panel);
     navRail.setActive?.('calls');
   });
+  router.on('importantes', (convId) => showImportant(convId));
+
   // Each route is numbered: one still looking up its message's date when the
   // reader has already gone elsewhere (another result, another chat) gives way.
   let routeSeq = 0;
@@ -613,6 +683,13 @@ async function init() {
         pendingScrollTarget = { conversationId: id, messageId, date };
       }
     }
+    // A message opened from the calls or the important messages keeps that
+    // screen beside the chat; any other way here (back, a link) shows the list.
+    if (!keepPanel) sidebar.showChats?.();
+    keepPanel = false;
+    // Already on screen (back from a panel to the chat being read): leave it
+    // where the reader was rather than reopening it.
+    if (!messageId && id === currentConversationId && activeLoader) return;
     openConversation(id);
   });
 

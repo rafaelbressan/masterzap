@@ -1236,26 +1236,31 @@
 /* ── Calls screen ──────────────────────────────────────────────────────────
    Takes the chat list's place in the sidebar; the header, search and filter
    tabs are the list's, so they step aside. */
-.sidebar--calls .sidebar-header,
-.sidebar--calls .sidebar-search,
-.sidebar--calls .sidebar-tags,
-.sidebar--calls .conversation-list,
-.sidebar--calls .search-results {
+.sidebar--panel .sidebar-header,
+.sidebar--panel .sidebar-search,
+.sidebar--panel .sidebar-tags,
+.sidebar--panel .conversation-list,
+.sidebar--panel .search-results {
   display: none;
 }
 
-.calls-panel {
+/* A screen in the list's place (calls, important messages): showPanel()
+   gives it this class. */
+.sidebar-panel {
   display: none;
   flex: 1;
   min-height: 0;
   flex-direction: column;
-  overflow-y: auto;
-  overflow-x: hidden;
   background: var(--WDS-white);
 }
 
-.sidebar--calls .calls-panel {
+.sidebar--panel .sidebar-panel {
   display: flex;
+}
+
+.calls-panel {
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .calls-header {
@@ -1502,4 +1507,113 @@
   font-size: 11px;
   color: var(--WDS-content-deemphasized);
   word-break: break-all;
+}
+
+/* ── Mensagens importantes ─────────────────────────────────────────────────
+   The starred messages, in the list's place (as the calls screen). Rows are
+   the search results' message rows, with the star that unmarks at the end. */
+.important-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px 10px;
+}
+
+.important-back {
+  display: flex;
+  padding: 8px;
+  margin: -8px 0 -8px -8px;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: var(--WDS-content-default);
+  cursor: pointer;
+}
+
+.important-title {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--WDS-content-default);
+}
+
+.important-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.important-item-bottom {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.important-item-bottom .search-result-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.important-unmark {
+  flex: none;
+  display: flex;
+  padding: 6px;
+  margin: -6px -6px -6px 0;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: var(--WDS-content-deemphasized);
+  cursor: pointer;
+}
+
+.important-empty {
+  padding: 48px 32px;
+  text-align: center;
+  color: var(--WDS-content-deemphasized);
+  font-size: 14px;
+}
+
+.important-empty-icon {
+  display: inline-flex;
+  padding: 16px;
+  margin-bottom: 12px;
+  border-radius: 50%;
+  background: var(--WDS-surface-highlight);
+}
+
+.important-empty-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.important-empty p {
+  margin: 0 0 6px;
+}
+
+.important-empty-hint {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* The star by the time of a marked message, as WhatsApp. */
+.chat-msg-star {
+  display: inline-flex;
+  margin-right: 3px;
+  vertical-align: -1px;
+}
+
+.chat-msg-star svg {
+  width: 11px;
+  height: 11px;
+}
+
+/* Info do contato: the row that opens the chat's important messages. */
+.contact-info-action-item[role="button"] {
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .contact-info-action-item[role="button"]:hover {
+    background-color: var(--WDS-surface-highlight);
+  }
 }
