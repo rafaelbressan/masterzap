@@ -84,10 +84,11 @@ export function showMobileSearchBar(chatView, conversationId, { dateIndex = [], 
   let calendarEl = null;
   let selectedDate = null;
   calendarBtn.setAttribute('aria-expanded', 'false');
-  // The open calendar has its own history entry, pushed by the tap that
-  // opened it, so Android's back closes it before the search (the pattern of
-  // ImagePreview.js). Closed any other way, its entry is popped here; closed
-  // by back, the entry is already gone.
+  // Android's back closes the open calendar before the search. Where menus.js
+  // catches back for its menus (CloseWatcher), that covers the calendar too.
+  // Otherwise the calendar has its own history entry, pushed by the tap that
+  // opened it (the pattern of ImagePreview.js): closed any other way, its
+  // entry is popped here; closed by back, the entry is already gone.
   function closeCalendar({ fromHistory = false } = {}) {
     if (!calendarEl) return;
     menuClosed(calendarEl);
@@ -105,8 +106,8 @@ export function showMobileSearchBar(chatView, conversationId, { dateIndex = [], 
       if (onDateSelect) onDateSelect(date);
     }, selectedDate);
     bar.appendChild(calendarEl);
-    history.pushState({ mobileSearch: true, calendar: true }, '');
-    openMenu(calendarEl, () => closeCalendar(), { keep: (target) => calendarBtn.contains(target) });
+    const watched = openMenu(calendarEl, () => closeCalendar(), { keep: (target) => calendarBtn.contains(target) });
+    if (!watched) history.pushState({ mobileSearch: true, calendar: true }, '');
     calendarBtn.setAttribute('aria-expanded', 'true');
   });
 
@@ -166,7 +167,9 @@ export function showMobileSearchBar(chatView, conversationId, { dateIndex = [], 
 
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
+      // Taken here: neither the document nor a CloseWatcher sees it.
       e.stopPropagation();
+      e.preventDefault();
       if (calendarEl) closeCalendar();
       else destroy();
     }

@@ -1,9 +1,11 @@
 import { test, expect } from '@playwright/test';
+import { recordCloseWatchers, pressAndroidBack } from './helpers/android-back.js';
 
 // One floating menu at a time; anything outside closes it.
 const MENUS = '.context-menu, .chat-dropdown-menu, .sidebar-dropdown-menu';
 
 test.beforeEach(async ({ page }) => {
+  await recordCloseWatchers(page);
   await page.goto('/#/chat/geraldo-brazil-journal');
   await page.locator('.chat-msg-bubble').first().waitFor();
   await page.waitForLoadState('networkidle');
@@ -56,4 +58,33 @@ test('the ⋮ menu toggles, and a message menu replaces it', async ({ page }) =>
 test('day badges write the month in lowercase', async ({ page }) => {
   // innerText: the text as drawn, after CSS (a text-transform would show here).
   await expect(page.locator('.chat-date-badge').first()).toHaveText('26 de abril de 2024', { useInnerText: true });
+});
+
+test('Android back closes the menu and stays in the chat', async ({ page }) => {
+  const area = page.locator('.chat-messages');
+  const box = await area.boundingBox();
+  const historyLength = await page.evaluate(() => history.length);
+  const openers = [
+    () => page.locator('.chat-msg-bubble').nth(1).click({ button: 'right' }),
+    () => page.mouse.click(box.x + 8, box.y + box.height - 8, { button: 'right' }),
+  ];
+  for (const open of openers) {
+    await open();
+    await expect(page.locator(MENUS)).toHaveCount(1);
+    await pressAndroidBack(page);
+    await expect(page.locator(MENUS)).toHaveCount(0);
+    await expect(page.locator('.chat-view')).toBeVisible();
+    expect(page.url()).toContain('#/chat/geraldo-brazil-journal');
+  }
+  // No history entry was spent on a menu.
+  expect(await page.evaluate(() => history.length)).toBe(historyLength);
+});
+
+test('leaving the chat takes its menu along', async ({ page }) => {
+  const area = page.locator('.chat-messages');
+  const box = await area.boundingBox();
+  await page.mouse.click(box.x + 8, box.y + box.height - 8, { button: 'right' });
+  await expect(page.locator('.chat-dropdown-menu')).toBeVisible();
+  await page.evaluate(() => { location.hash = '#/'; });
+  await expect(page.locator(MENUS)).toHaveCount(0);
 });

@@ -38,6 +38,15 @@ async function loadHtml2Canvas() {
   return html2canvas;
 }
 
+/**
+ * Fetch the capture library ahead of the tap, so the tap only has to draw.
+ * Cheap, unlike drawing ahead: that freezes a phone for seconds, and every
+ * other item of the menu that opened it would wait behind the freeze.
+ */
+export function preloadScreenshot() {
+  loadHtml2Canvas().catch(() => {}); // the tap loads it again and reports
+}
+
 /** True when the browser exposes the APIs that need https. */
 export function hasSecureContext() {
   return typeof window !== 'undefined' && window.isSecureContext === true;
@@ -305,7 +314,7 @@ async function takePrepared(filename) {
   return promise ? await promise : null;
 }
 
-/** Drop any capture started ahead of time (leaving a chat, closing the menu). */
+/** Drop any capture started ahead of time (leaving a chat). */
 export function clearPreparedScreenshot() {
   prepared = null;
 }

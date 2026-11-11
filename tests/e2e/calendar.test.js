@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { recordCloseWatchers, pressAndroidBack } from './helpers/android-back.js';
 
 // Searching by date: a real calendar on both layouts, never a prompt().
 async function openCalendar(page) {
@@ -44,8 +45,9 @@ test('Esc closes the calendar first, then the search', async ({ page }, info) =>
 
 test('back closes the calendar first, then the search (phone)', async ({ page }, info) => {
   test.skip(info.project.name !== 'mobile');
+  await recordCloseWatchers(page);
   const calendar = await openCalendar(page);
-  await page.goBack();
+  await pressAndroidBack(page);
   await expect(calendar).toHaveCount(0);
   await expect(page.locator('.mobile-search-bar')).toBeVisible();
   await page.goBack();

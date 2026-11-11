@@ -17,7 +17,7 @@ import { showSettingsDrawer } from './components/SettingsDrawer.js';
 import { loadReadConversations, markConversationRead } from './lib/read-state.js';
 import { showToast } from './components/Toast.js';
 import {
-  shareChatScreenshot, prepareScreenshot, clearPreparedScreenshot,
+  shareChatScreenshot, preloadScreenshot, clearPreparedScreenshot,
   shareImageFile, canShareFiles,
 } from './lib/screenshot.js';
 import { showImagePreview } from './components/ImagePreview.js';
@@ -27,6 +27,7 @@ import { copyText } from './lib/utils.js';
 import { setSources } from './lib/provenance.js';
 import { dataUrl } from './lib/data-url.js';
 import { savePosition, getPosition } from './lib/reading-position.js';
+import { closeOpenMenu } from './lib/menus.js';
 
 // ── Active state (only one thing at a time) ──────
 let activeLoader = null;
@@ -127,7 +128,10 @@ async function init() {
     rememberPosition();
     clearPreparedScreenshot();
     if (activeImagePreview) { activeImagePreview.destroy(); activeImagePreview = null; }
+    // The search first: it closes its own calendar along with its history.
     closeRightDrawers();
+    // A menu (the message's, the background's) must not outlive its chat.
+    closeOpenMenu();
     if (activeLoader) { activeLoader.destroy(); activeLoader = null; }
     if (activeContextMenu) { activeContextMenu.destroy(); activeContextMenu = null; }
   }
@@ -156,6 +160,7 @@ async function init() {
   function hideMainAreaWithPlaceholder(iconSvg, label) {
     // Hidden, the chat measures 0 everywhere; note the place while it shows.
     rememberPosition();
+    closeOpenMenu();
     mainAreaSavedContent = Array.from(mainArea.children);
     mainAreaSavedContent.forEach(child => child.style.display = 'none');
 
@@ -378,7 +383,9 @@ async function init() {
         onOpenChat: (convId) => router.navigate('chat', convId),
         onCopy: (text, label) => copyText(text).then(ok => showToast(mainArea, ok ? label : 'Não foi possível copiar')),
       },
-      onMenuOpen: () => prepareScreenshot(mainArea, contactName),
+      // Only the library: drawing the chat here froze the phone for seconds,
+      // and the "Pesquisar" tapped next waited behind it. The tap draws.
+      onMenuOpen: preloadScreenshot,
       onContactClick: () => {
         // Only one right drawer at a time
         if (activeChatSearch) { activeChatSearch.destroy(); activeChatSearch = null; }

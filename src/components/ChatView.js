@@ -577,7 +577,7 @@ function renderMessage(msg) {
  */
 // Use the design system meetball icon for 3-dot menu
 
-export function renderChatView(container, { conversation, dateIndex, loadMessages, onBack, onContactClick, onSourceClick, onSearch, onCloseChat, onAbout, onScreenshot, onExport, onMenuOpen, media: mediaOptions }) {
+export function renderChatView(container, { conversation, dateIndex, loadMessages, onBack, onContactClick, onSourceClick, onSearch, onCloseChat, onAbout, onScreenshot, onMenuOpen, onExport, media: mediaOptions }) {
   if (mediaOptions) media = { ...media, ...mediaOptions, container };
   sealContext = { conversation };
   // Clear container
@@ -716,8 +716,6 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
     menuOpen = true;
     // The only menu on screen; the ⋮ button itself toggles rather than closes.
     openMenu(menuEl, closeMenu, { keep: (target) => menuBtn.contains(target) });
-    // Give the screenshot a head start: capturing takes seconds, and the tap
-    // that follows has to still be live when navigator.share() is reached.
     if (onMenuOpen) onMenuOpen();
   }
 

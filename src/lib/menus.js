@@ -13,9 +13,28 @@
  * any click), a `contextmenu` outside it, Escape, the reader starting to
  * scroll (wheel or finger) or the window losing focus all close it. Scrolling
  * the app does itself (loading older days) does not.
+ *
+ * Android's back closes the open menu, as in the app, instead of leaving the
+ * chat with the menu still up. Where the browser has CloseWatcher (Chrome on
+ * Android), back goes to the watcher first and no history entry is spent;
+ * elsewhere back keeps its usual meaning, and leaving the chat closes the menu.
  */
 
-let current = null; // { element, close }
+let current = null; // { element, close, keep, watcher }
+
+// Back (and an Escape no handler took) reaches the open menu with no history entry.
+const closesOnBack = typeof globalThis.CloseWatcher === 'function';
+
+function watch() {
+  if (!closesOnBack) return null;
+  try {
+    const watcher = new globalThis.CloseWatcher();
+    watcher.onclose = () => closeOpenMenu();
+    return watcher;
+  } catch {
+    return null; // e.g. refused without user activation: back keeps its meaning
+  }
+}
 
 function onPointerDown(e) {
   if (current && !current.element.contains(e.target) && !current.keep?.(e.target)) closeOpenMenu();
@@ -53,28 +72,36 @@ function listen(on) {
  * @param {object} [options]
  * @param {function} [options.keep] - (target) => true for elements that must
  *   not close the menu, e.g. the button that toggles it
+ * @returns {boolean} whether Android's back reaches this menu (a CloseWatcher
+ *   took it); if not, back keeps its usual meaning
  */
 export function openMenu(element, close, { keep } = {}) {
   closeOpenMenu();
-  current = { element, close, keep };
+  current = { element, close, keep, watcher: watch() };
   listen(true);
+  return !!current.watcher;
+}
+
+function forget() {
+  const { watcher } = current;
+  current = null;
+  listen(false);
+  // Done with: the next back press is the page's again. destroy() does not
+  // fire onclose.
+  watcher?.destroy();
 }
 
 /** Close whatever menu is open. */
 export function closeOpenMenu() {
   if (!current) return;
   const { close } = current;
-  current = null;
-  listen(false);
+  forget();
   close();
 }
 
 /** Forget a menu its owner already removed, without calling its close. */
 export function menuClosed(element) {
-  if (current?.element === element) {
-    current = null;
-    listen(false);
-  }
+  if (current?.element === element) forget();
 }
 
 /** For tests. */

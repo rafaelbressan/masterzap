@@ -185,7 +185,9 @@ export function showChatSearchDrawer(mainArea, conversationId, { dateIndex, onRe
 
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
+      // Taken here: neither the document nor a CloseWatcher sees it.
       e.stopPropagation();
+      e.preventDefault();
       if (calendarEl) closeCalendar();
       else { destroy(); if (onClose) onClose(); }
     }
