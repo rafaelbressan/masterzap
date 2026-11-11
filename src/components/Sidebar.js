@@ -16,6 +16,60 @@ import { defaultAvatarSvg } from '../lib/avatar.js';
  */
 export const FAVORITE_CONVERSATIONS = new Set(['alexandre-de-moraes', 'martha-graeff']);
 
+/** The name a conversation goes by in the list: the other participant. */
+export function conversationName(conv) {
+  return conv.participants?.find(p => p !== 'DV') || conv.participants?.[0] || conv.id;
+}
+
+/**
+ * One row of the conversation list. Shared with the search results, whose
+ * "Conversas" section shows the same rows.
+ *
+ * @param {object} conv
+ * @param {object} [options]
+ * @param {string} [options.nameHtml] - the name, already escaped (the search
+ *   passes it with the match marked)
+ * @returns {HTMLElement}
+ */
+export function buildConversationItem(conv, { nameHtml } = {}) {
+  const item = document.createElement('div');
+  item.className = 'conversation-item';
+  item.setAttribute('role', 'listitem');
+  item.setAttribute('tabindex', '0');
+  item.dataset.id = conv.id;
+  if (FAVORITE_CONVERSATIONS.has(conv.id)) item.dataset.favorite = 'true';
+
+  const lastDate = conv.last_message?.timestamp
+    ? conv.last_message.timestamp.split('T')[0]
+    : '';
+  const lastTimeLabel = lastDate ? formatRelativeDate(lastDate) : '';
+
+  const lastPreview = escapeHtml(conv.last_message?.content || '');
+  const displayName = escapeHtml(conversationName(conv));
+  const msgCount = conv.total_messages ? formatNumber(conv.total_messages) : '';
+
+  // Use real avatar if available, otherwise default SVG
+  const avatarHtml = conv.avatar
+    ? `<img src="${conv.avatar}" alt="${displayName}" class="conversation-item-avatar-img" />`
+    : defaultAvatarSvg(conv.id);
+
+  // Escaped user-facing data inserted via innerHTML
+  item.innerHTML = `
+    <div class="conversation-item-avatar">${avatarHtml}</div>
+    <div class="conversation-item-content">
+      <div class="conversation-item-top">
+        <span class="conversation-item-name">${nameHtml ?? displayName}</span>
+        <span class="conversation-item-time">${lastTimeLabel}</span>
+      </div>
+      <div class="conversation-item-bottom">
+        <span class="conversation-item-preview">${lastPreview}</span>
+        <span class="conversation-item-unread" data-conv-id="${conv.id}">${msgCount}</span>
+      </div>
+    </div>
+  `;
+  return item;
+}
+
 /**
  * @param {HTMLElement} container
  * @param {object} options
@@ -76,43 +130,7 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
   });
 
   for (const conv of conversations) {
-    const item = document.createElement('div');
-    item.className = 'conversation-item';
-    item.setAttribute('role', 'listitem');
-    item.setAttribute('tabindex', '0');
-    item.dataset.id = conv.id;
-    if (FAVORITE_CONVERSATIONS.has(conv.id)) item.dataset.favorite = 'true';
-
-    const lastDate = conv.last_message?.timestamp
-      ? conv.last_message.timestamp.split('T')[0]
-      : '';
-    const lastTimeLabel = lastDate ? formatRelativeDate(lastDate) : '';
-
-    const lastPreview = escapeHtml(conv.last_message?.content || '');
-    const displayName = escapeHtml(
-      conv.participants.find(p => p !== 'DV') || conv.participants[0]
-    );
-    const msgCount = conv.total_messages ? formatNumber(conv.total_messages) : '';
-
-    // Use real avatar if available, otherwise default SVG
-    const avatarHtml = conv.avatar
-      ? `<img src="${conv.avatar}" alt="${displayName}" class="conversation-item-avatar-img" />`
-      : defaultAvatarSvg(conv.id);
-
-    // Escaped user-facing data inserted via innerHTML
-    item.innerHTML = `
-      <div class="conversation-item-avatar">${avatarHtml}</div>
-      <div class="conversation-item-content">
-        <div class="conversation-item-top">
-          <span class="conversation-item-name">${displayName}</span>
-          <span class="conversation-item-time">${lastTimeLabel}</span>
-        </div>
-        <div class="conversation-item-bottom">
-          <span class="conversation-item-preview">${lastPreview}</span>
-          <span class="conversation-item-unread" data-conv-id="${conv.id}">${msgCount}</span>
-        </div>
-      </div>
-    `;
+    const item = buildConversationItem(conv);
 
     item.addEventListener('click', () => onSelect(conv.id));
     item.addEventListener('keydown', (e) => {
@@ -167,6 +185,7 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
     unreadCountEl.textContent = unreadMessages ? unreadMessages.toLocaleString('pt-BR') : '';
     unreadCountEl.style.display = unreadMessages ? '' : 'none';
 
+    // Every row, the search results' "Conversas" included.
     for (const item of el.querySelectorAll('.conversation-item')) {
       const badge = item.querySelector('.conversation-item-unread');
       if (badge) badge.style.display = readConversations.has(item.dataset.id) ? 'none' : '';
@@ -179,7 +198,8 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
     const byId = new Map(conversations.map(c => [c.id, c]));
     let visible = 0;
 
-    for (const item of el.querySelectorAll('.conversation-item')) {
+    // The list's own rows: the tabs filter the list, not the search results.
+    for (const item of list.querySelectorAll('.conversation-item')) {
       const conv = byId.get(item.dataset.id);
       const show = conv ? matchesFilter(conv) : true;
       item.style.display = show ? '' : 'none';
@@ -203,8 +223,16 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
         : 'Pesquisar';
       applyFilter();
       list.scrollTop = 0;
+      // A search on screen follows the tab: "Pesquisar nas favoritas" searches
+      // the favorites only.
+      if (searchInput.value.trim()) searchInput.dispatchEvent(new Event('input'));
     });
   }
+
+  /** The conversations a search covers: the favorites on that tab, else all. */
+  el.searchScope = () => (activeFilter === 'favoritas'
+    ? conversations.filter(c => FAVORITE_CONVERSATIONS.has(c.id))
+    : conversations);
 
   searchInput.placeholder = 'Pesquisar';
   refreshReadState();

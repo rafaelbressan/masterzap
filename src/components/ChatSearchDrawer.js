@@ -10,7 +10,7 @@
 import { buildCalendar } from './Calendar.js';
 import { openMenu, menuClosed } from '../lib/menus.js';
 import { escapeHtml, formatDateShort } from '../lib/utils.js';
-import { search, loadSearchIndex, isIndexLoaded } from '../lib/search.js';
+import { searchIndex, loadSearchIndex } from '../lib/search.js';
 
 import { ICON_SEARCH } from '../lib/icons.js';
 const ICON_CALENDAR = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`;
@@ -73,6 +73,7 @@ export function showChatSearchDrawer(mainArea, conversationId, { dateIndex, onRe
   clearBtn.style.display = 'none';
   clearBtn.innerHTML = ICON_CLEAR; // Static SVG
   clearBtn.addEventListener('click', () => {
+    cancelSearch();
     input.value = '';
     clearBtn.style.display = 'none';
     showEmpty();
@@ -121,19 +122,27 @@ export function showChatSearchDrawer(mainArea, conversationId, { dateIndex, onRe
   // Search logic
   let debounceTimer = null;
   let lastQuery = '';
+  // Each search is numbered; one that finishes after a newer search, a clear
+  // or the drawer closing is dropped.
+  let searchSeq = 0;
+  function cancelSearch() {
+    searchSeq++;
+    lastQuery = '';
+  }
 
   async function doSearch() {
     const query = input.value.trim();
     clearBtn.style.display = query.length > 0 ? '' : 'none';
-    if (query.length < 2) { showEmpty(); lastQuery = ''; return; }
+    if (query.length < 2) { showEmpty(); cancelSearch(); return; }
     if (query === lastQuery) return;
     lastQuery = query;
+    const seq = ++searchSeq;
 
-    if (!isIndexLoaded(conversationId)) {
-      try { await loadSearchIndex(conversationId); } catch { return; }
-    }
+    let index;
+    try { index = await loadSearchIndex(conversationId); } catch { if (seq === searchSeq) lastQuery = ''; return; }
+    if (seq !== searchSeq) return;
 
-    const results = search(query, { limit: 30 });
+    const results = searchIndex(index, query, { limit: 30 });
     showResults(results);
   }
 
@@ -198,6 +207,7 @@ export function showChatSearchDrawer(mainArea, conversationId, { dateIndex, onRe
 
   function destroy() {
     clearTimeout(debounceTimer);
+    cancelSearch();
     closeCalendar();
     drawer.remove();
     document.removeEventListener('keydown', onEscKey);

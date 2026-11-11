@@ -4,7 +4,7 @@
 // conversation, and that both bit in practice.
 
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { loadSearchIndex, isIndexLoaded, resetSearchIndex, search } from '../../src/lib/search.js';
+import { loadSearchIndex, isIndexLoaded, resetSearchIndex, searchIndex } from '../../src/lib/search.js';
 
 const INDEXES = {
   'martha-graeff': [
@@ -35,8 +35,8 @@ describe('search index cache', () => {
   afterEach(() => vi.restoreAllMocks());
 
   it('loads the index for a conversation', async () => {
-    await loadSearchIndex('martha-graeff');
-    expect(search('peleleca')).toHaveLength(1);
+    const index = await loadSearchIndex('martha-graeff');
+    expect(searchIndex(index, 'peleleca')).toHaveLength(1);
   });
 
   it('serves the same conversation from cache', async () => {
@@ -48,13 +48,31 @@ describe('search index cache', () => {
 
   // The cache used to be a single module-level variable that ignored the id, so
   // the second conversation opened kept answering with the first one's messages.
-  it('refetches when the conversation changes', async () => {
-    await loadSearchIndex('martha-graeff');
-    await loadSearchIndex('alexandre-de-moraes');
+  it('keeps each conversation to its own index', async () => {
+    const martha = await loadSearchIndex('martha-graeff');
+    const moraes = await loadSearchIndex('alexandre-de-moraes');
 
     expect(globalThis.fetch).toHaveBeenCalledTimes(2);
-    expect(search('peleleca')).toHaveLength(0);
-    expect(search('estar fora')).toHaveLength(1);
+    expect(searchIndex(moraes, 'peleleca')).toHaveLength(0);
+    expect(searchIndex(moraes, 'estar fora')).toHaveLength(1);
+    // Loading the second did not take the first one's place.
+    expect(searchIndex(martha, 'peleleca')).toHaveLength(1);
+  });
+
+  // The fork kept an "active" index that every load overwrote: a search in
+  // one chat, overlapping a load for another, answered from the other.
+  it('answers overlapping searches from their own conversations', async () => {
+    const [martha, moraes] = await Promise.all([
+      loadSearchIndex('martha-graeff'),
+      loadSearchIndex('alexandre-de-moraes'),
+    ]);
+    expect(searchIndex(martha, 'estar fora')).toHaveLength(0);
+    expect(searchIndex(moraes, 'estar fora')).toHaveLength(1);
+  });
+
+  it('loads a conversation once even when asked twice at the same time', async () => {
+    await Promise.all([loadSearchIndex('martha-graeff'), loadSearchIndex('martha-graeff')]);
+    expect(globalThis.fetch).toHaveBeenCalledTimes(1);
   });
 
   it('reports loaded state per conversation', async () => {
@@ -70,6 +88,59 @@ describe('search index cache', () => {
   it('propagates a failed fetch and stays unloaded', async () => {
     await expect(loadSearchIndex('nao-existe')).rejects.toThrow();
     expect(isIndexLoaded('nao-existe')).toBe(false);
+  });
+});
+
+describe('search index limits', () => {
+  beforeEach(() => resetSearchIndex());
+  afterEach(() => vi.restoreAllMocks());
+
+  // Kept up to 200 thousand messages in all, least recently used out first.
+  it('drops the least recently used index past the limit, never the one just used', async () => {
+    const sizes = { a: 90_000, b: 90_000, c: 90_000 };
+    globalThis.fetch = vi.fn((url) => {
+      const id = String(url).split('/').at(-2);
+      const entries = Array.from({ length: sizes[id] }, (_, i) => ({ id: i, date: '2024-01-01', sender: 'DV', content: 'x' }));
+      return Promise.resolve({ ok: true, json: () => Promise.resolve(entries) });
+    });
+    await loadSearchIndex('a');
+    await loadSearchIndex('b');
+    await loadSearchIndex('a'); // a is now the more recent
+    await loadSearchIndex('c');
+    expect(isIndexLoaded('a')).toBe(true);
+    expect(isIndexLoaded('b')).toBe(false);
+    expect(isIndexLoaded('c')).toBe(true);
+  });
+
+  it('keeps an index bigger than the limit while it is the one in use', async () => {
+    globalThis.fetch = vi.fn(() => Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve(Array.from({ length: 250_000 }, (_, i) => ({ id: i, content: 'x' }))),
+    }));
+    await loadSearchIndex('enorme');
+    expect(isIndexLoaded('enorme')).toBe(true);
+  });
+});
+
+describe('searching an index', () => {
+  const entries = [
+    { id: 1, date: '2024-01-01', sender: 'DV', content: 'Amor, bom dia' },
+    { id: 2, date: '2024-01-02', sender: 'Martha Graeff', content: 'Bom dia, amor!' },
+    { id: 3, date: '2024-01-03', sender: 'DV', content: 'AMÔR da minha vida' },
+  ];
+
+  it('finds without case or accents, oldest first by default', () => {
+    expect(searchIndex(entries, 'amor').map(r => r.id)).toEqual([1, 2, 3]);
+  });
+
+  it('filters by sender', () => {
+    expect(searchIndex(entries, 'amor', { sender: 'DV' }).map(r => r.id)).toEqual([1, 3]);
+  });
+
+  it('needs two letters once accents are gone', () => {
+    expect(searchIndex(entries, '\u0301\u0301')).toEqual([]);
+    expect(searchIndex(entries, 'á')).toEqual([]);
+    expect(searchIndex(entries, 'am').length).toBe(3);
   });
 });
 
@@ -92,8 +163,7 @@ describe('search result excerpts', () => {
   afterEach(() => vi.restoreAllMocks());
 
   it('recentres long content on the match', async () => {
-    await loadSearchIndex('alexandre-de-moraes');
-    const [hit] = search('estar fora');
+    const [hit] = searchIndex(await loadSearchIndex('alexandre-de-moraes'), 'estar fora');
 
     expect(hit.content.length).toBeLessThan(150);
     expect(hit.content).toContain('estar fora');
@@ -103,8 +173,7 @@ describe('search result excerpts', () => {
   });
 
   it('leaves short content untouched', async () => {
-    await loadSearchIndex('alexandre-de-moraes');
-    const [hit] = search('Que loucura');
+    const [hit] = searchIndex(await loadSearchIndex('alexandre-de-moraes'), 'Que loucura');
 
     expect(hit.content.startsWith('Que loucura')).toBe(true);
     expect(hit.matchStart).toBe(0);
@@ -112,9 +181,18 @@ describe('search result excerpts', () => {
   });
 
   it('finds a match near the end and keeps the offsets valid', async () => {
-    await loadSearchIndex('alexandre-de-moraes');
-    const [hit] = search('fora?');
+    const [hit] = searchIndex(await loadSearchIndex('alexandre-de-moraes'), 'fora?');
 
     expect(hit.content.slice(hit.matchStart, hit.matchEnd)).toBe('fora?');
+  });
+});
+
+describe('excerpts on a narrow row', () => {
+  it('starts a short message near its match, so the match is on screen', () => {
+    const content = 'Nao conseguimos reverter isso com Paulo ou com ninguem em Brasilia';
+    const [hit] = searchIndex([{ id: 1, date: '2025-11-15', sender: 'DV', content }], 'brasilia');
+    expect(hit.content.startsWith('…')).toBe(true);
+    expect(hit.matchStart).toBeLessThanOrEqual(21);
+    expect(hit.content.slice(hit.matchStart, hit.matchEnd)).toBe('Brasilia');
   });
 });
