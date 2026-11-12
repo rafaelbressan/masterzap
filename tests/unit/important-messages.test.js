@@ -48,12 +48,30 @@ describe('important messages', () => {
     expect(importantMessages().map(m => m.content)).toEqual(['ok']);
   });
 
+  it('refuses a mark it could not read back (an id that is not a message id)', () => {
+    expect(toggleImportant(msg('x1'))).toBe(false);
+    expect(toggleImportant({ ...msg(1), conversationId: '../x' })).toBe(false);
+    expect(importantMessages()).toEqual([]);
+  });
+
   it('starts empty from unreadable storage, and still works for the visit', () => {
     localStorage.setItem(KEY, '{not json');
     expect(importantMessages()).toEqual([]);
     vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => { throw new Error('quota'); });
     expect(toggleImportant(msg(9))).toBe(true);
-    expect(isImportant('martha-graeff', 9)).toBe(true);
+    expect(toggleImportant(msg(10))).toBe(true);
+    // Nothing reached storage: the second mark did not wipe the first.
+    expect(importantMessages().map(m => m.messageId)).toEqual(['10', '9']);
+  });
+
+  it('another tab marking in between is not undone', () => {
+    toggleImportant(msg(1));
+    // The other tab saved its own mark meanwhile.
+    const other = JSON.parse(localStorage.getItem(KEY));
+    other.unshift({ ...other[0], messageId: '2', content: 'da outra aba' });
+    localStorage.setItem(KEY, JSON.stringify(other));
+    toggleImportant(msg(3));
+    expect(importantMessages().map(m => m.messageId)).toEqual(['3', '2', '1']);
   });
 });
 
@@ -76,6 +94,21 @@ describe('the "Mensagens importantes" panel', () => {
     rows[0].querySelector('.important-unmark').click();
     expect(panel.querySelectorAll('.important-item')).toHaveLength(1);
     expect(isImportant('martha-graeff', 2)).toBe(false);
+  });
+
+  it('keeps the keyboard in the list after unmarking from it', () => {
+    toggleImportant(msg(1));
+    toggleImportant(msg(2));
+    const panel = renderImportantPanel({ nameOf, onOpen() {}, onBack() {} });
+    document.body.appendChild(panel);
+    const star = panel.querySelector('.important-unmark');
+    star.focus();
+    star.click();
+    expect(document.activeElement).toBe(panel.querySelector('.important-item'));
+    panel.querySelector('.important-unmark').focus();
+    panel.querySelector('.important-unmark').click();
+    expect(document.activeElement).toBe(panel.querySelector('.important-back'));
+    panel.remove();
   });
 
   it('shows what to do when there is nothing marked', () => {
@@ -103,5 +136,25 @@ describe('route', () => {
     expect(HashRouter.parseHash('#/importantes')).toEqual({ route: 'importantes', param: null, messageId: null });
     expect(HashRouter.parseHash('#/importantes/martha-graeff')).toEqual({ route: 'importantes', param: 'martha-graeff', messageId: null });
     expect(HashRouter.parseHash('#/importantes/../x').route).toBe('home');
+  });
+});
+
+describe('the count in the contact info', () => {
+  it('follows marks made while the drawer is open', async () => {
+    const { showContactInfo } = await import('../../src/components/ContactInfo.js');
+    const mainArea = document.createElement('div');
+    document.body.appendChild(mainArea);
+    const conversation = { id: 'martha-graeff', participants: ['DV', 'Martha Graeff'], total_messages: 1 };
+    const info = showContactInfo(mainArea, conversation, { actions: { onImportant() {} } });
+    const row = () => [...mainArea.querySelectorAll('.contact-info-action-item')].find(r => r.textContent.includes('Mensagens importantes'));
+    expect(row().querySelector('.contact-info-action-detail')).toBeNull();
+    toggleImportant(msg(1));
+    info.refreshImportant();
+    expect(row().querySelector('.contact-info-action-detail').textContent).toBe('1');
+    toggleImportant(msg(1));
+    info.refreshImportant();
+    expect(row().querySelector('.contact-info-action-detail')).toBeNull();
+    info.destroy();
+    mainArea.remove();
   });
 });

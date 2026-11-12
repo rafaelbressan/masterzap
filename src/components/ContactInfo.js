@@ -14,7 +14,7 @@ import { renderProfileSections } from './ProfileSections.js';
 import { defaultAvatarSvg } from '../lib/avatar.js';
 
 const ICON_MEDIA = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`;
-const ICON_STAR = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+const ICON_STAR_OUTLINE = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
 const ICON_BELL = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>`;
 const ICON_CLOCK = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
 const ICON_LOCK = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>`;
@@ -34,7 +34,6 @@ import { SEALS, SEAL_ICONS, sourceById } from '../lib/provenance.js';
  * @returns {{ element: HTMLElement, destroy: function }}
  */
 export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onClose, onSearch, actions = {}, at = null } = {}) {
-  let refreshImportant = () => {};
   // Remove existing drawer if any
   const existing = mainArea.querySelector('.contact-info-drawer');
   if (existing) existing.remove();
@@ -140,9 +139,9 @@ export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onCl
     const n = importantMessages(conversation.id).length;
     return n ? n.toLocaleString('pt-BR') : '';
   };
-  const importantItem = createActionItem(ICON_STAR, 'Mensagens importantes', importantCount(), false, !actions.onImportant);
+  const importantItem = createActionItem(ICON_STAR_OUTLINE, 'Mensagens importantes', importantCount(), false, !actions.onImportant);
   // A mark made or undone while the drawer is open updates the count.
-  refreshImportant = () => {
+  const refreshImportant = () => {
     const text = importantCount();
     let detail = importantItem.querySelector('.contact-info-action-detail');
     if (!text) { detail?.remove(); return; }
@@ -216,7 +215,7 @@ export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onCl
   }
   document.addEventListener('keydown', onKeyDown);
 
-  return { element: drawer, destroy, refreshImportant: () => refreshImportant() };
+  return { element: drawer, destroy, refreshImportant };
 }
 
 function createDivider() {

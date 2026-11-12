@@ -123,3 +123,41 @@ test('a system line cannot be marked, as on WhatsApp', async ({ page }) => {
   await expect(page.locator('.context-menu')).toBeVisible();
   await expect(page.locator('.context-menu-item', { hasText: 'importante' })).toHaveCount(0);
 });
+
+// A location or an audio note is stored with markers ("[localização]
+// Latitude…", "[transcrição do áudio]") the bubble does not show: what is
+// copied and what the list keeps is what the reader saw.
+test('a marked location keeps what the bubble shows, not the source markers', async ({ page }) => {
+  await page.goto('/#/chat/fabio-faria/msg/28');
+  const bubble = page.locator('.chat-msg-row[data-id="28"] .chat-msg-bubble');
+  await bubble.waitFor();
+  await page.waitForLoadState('networkidle');
+  await bubble.click({ button: 'right' });
+  await page.locator('.context-menu-item', { hasText: 'Marcar como importante' }).click();
+  await page.goto('/#/importantes');
+  const text = page.locator('.important-item .search-result-content');
+  await expect(text).toBeVisible();
+  await expect(text).not.toContainText('Latitude');
+  await expect(text).not.toContainText('[localização]');
+});
+
+test("on a phone, the chat's back arrow returns to the important messages it came from", async ({ page }, info) => {
+  test.skip(info.project.name !== 'mobile', 'the chat covers the list on a phone');
+  await openChat(page);
+  await mark(page, (await pick(page)).bubble);
+  await page.locator('.chat-back-btn, [aria-label="Voltar"]').first().click();
+  await page.locator('.sidebar-menu-btn').click();
+  await page.locator('.sidebar-dropdown-item', { hasText: 'Mensagens importantes' }).click();
+  await page.locator('.important-item').click();
+  await expect(page.locator('.msg-highlight')).toBeInViewport();
+  await page.locator('.chat-header .chat-back-btn, .chat-header [aria-label="Voltar"]').first().click();
+  await expect(page.locator('.important-panel')).toBeVisible();
+  await expect(page).toHaveURL(/#\/importantes$/);
+});
+
+test('reached by a link, the back arrow goes to the start, not off the site', async ({ page }) => {
+  await page.goto('/#/importantes');
+  await page.locator('.important-back').click();
+  await expect(page).toHaveURL(/localhost:\d+\/#\/$/);
+  await expect(page.locator('.conversation-list')).toBeVisible();
+});

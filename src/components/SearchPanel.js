@@ -15,10 +15,9 @@
 import { escapeHtml, formatDateShort } from '../lib/utils.js';
 import { searchIndex, loadSearchIndex, normalize, isIndexLoaded } from '../lib/search.js';
 import { buildConversationItem, conversationName } from './Sidebar.js';
+import { ICON_TICKS } from '../lib/icons.js';
 
 const DEBOUNCE_MS = 200;
-/** The double tick WhatsApp puts before the phone owner's own messages. */
-const ICON_TICKS = `<svg class="search-result-ticks" viewBox="0 0 16 11" width="16" height="11" aria-hidden="true"><path fill="currentColor" d="M11.07.65a.46.46 0 0 0-.65.08L4.8 7.8 2.07 5.13a.46.46 0 0 0-.65.01.46.46 0 0 0 0 .65l3.08 3.02a.46.46 0 0 0 .69-.05l5.96-7.46a.46.46 0 0 0-.08-.65Zm3.5 0a.46.46 0 0 0-.65.08L8.3 7.8l-.6-.58a.46.46 0 0 0-.64.66l.94.92a.46.46 0 0 0 .69-.05l5.96-7.46a.46.46 0 0 0-.08-.65Z"/></svg>`;
 /** Message rows drawn at a time; more as the reader nears the end. */
 const PAGE = 50;
 /** How close to the end, in pixels, the next page is drawn. */

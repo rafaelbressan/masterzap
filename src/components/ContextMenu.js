@@ -8,9 +8,8 @@
 import { openMenu, menuClosed } from '../lib/menus.js';
 import { escapeHtml, formatDateLong, formatTime, NO_TIME_LABEL } from '../lib/utils.js';
 import { showToast } from './Toast.js';
-import { ICON_COPY, ICON_SEND, ICON_INFO } from '../lib/icons.js';
+import { ICON_COPY, ICON_SEND, ICON_INFO, ICON_STAR } from '../lib/icons.js';
 import { isImportant, toggleImportant } from '../lib/important-messages.js';
-import { ICON_STAR } from './ImportantPanel.js';
 
 /**
  * Create and manage a context menu for the chat area.
@@ -131,7 +130,7 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
     // Mark as important (the star), as WhatsApp. Saved in this browser; the
     // bubble's star follows through the 'importantchange' event. A system
     // line (someone added, a number changed) cannot be marked, as on WhatsApp.
-    if (msg.id && conversationId && !msg.isSystem) {
+    if (msg.id && conversationId && !msg.isSystem && !msg.isDeleted) {
       const marked = isImportant(conversationId, msg.id);
       items.push({
         label: marked ? 'Desmarcar como importante' : 'Marcar como importante',
@@ -270,8 +269,13 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
     if (!row) return null;
 
     const id = row.dataset.id;
-    // The message's own text when the bubble carries it; what is drawn otherwise.
-    const content = row._message?.content ?? row.querySelector('.chat-msg-content')?.textContent ?? '';
+    // A text message: its own text (clean, with its line breaks), not the
+    // labels the bubble draws around it. Anything else (a location, an audio
+    // note, a document): what the bubble shows, without the source's markers
+    // ("[localização] Latitude…", "[transcrição do áudio]").
+    const drawnEl = row.querySelector('.chat-msg-content');
+    const drawn = (drawnEl?.innerText ?? drawnEl?.textContent ?? '').trim();
+    const content = row._message?.type === 'text' ? row._message.content : drawn;
     const meta = row.querySelector('.chat-msg-meta')?.textContent || '';
     const isOutgoing = row.classList.contains('outgoing');
     const isEdited = !!row.querySelector('.chat-msg-edited');
@@ -293,7 +297,7 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
       type: 'text',
       isEdited,
       isSystem: row.classList.contains('system') || message?.type === 'system',
-      row,
+      isDeleted: message?.type === 'deleted',
     };
   }
 

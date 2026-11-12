@@ -74,7 +74,7 @@ export class HashRouter {
     if (cleaned === 'calls') return { route: 'calls', param: null, messageId: null };
 
     // #/importantes, or #/importantes/:conversationId for one conversation's
-    const important = cleaned.match(/^importantes(?:\/([a-z0-9-]+))?$/);
+    const important = cleaned.match(/^importantes(?:\/([a-z0-9-]+))?\/?$/);
     if (important) return { route: 'importantes', param: important[1] || null, messageId: null };
 
     // Match #/chat/:id/msg/:msgId

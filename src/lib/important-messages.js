@@ -14,6 +14,7 @@ const KEY = 'masterwhats:mensagens-importantes';
 
 let marks = null; // Array<Mark>, newest first
 let keys = new Set(); // conversation/message of every mark: one lookup per bubble drawn
+let stored = true; // false once saving fails: then memory is the only copy
 
 /**
  * @typedef {object} Mark
@@ -46,12 +47,10 @@ function load() {
   try {
     const saved = JSON.parse(localStorage.getItem(KEY) || '[]');
     if (Array.isArray(saved)) {
-      const seen = new Set();
       for (const mark of saved) {
         if (!isMark(mark)) continue;
         const key = keyOf(mark.conversationId, mark.messageId);
-        if (seen.has(key)) continue;
-        seen.add(key);
+        if (keys.has(key)) continue;
         keys.add(key);
         marks.push(mark);
       }
@@ -63,7 +62,10 @@ function load() {
 function save() {
   try {
     localStorage.setItem(KEY, JSON.stringify(marks));
-  } catch { /* storage unavailable or full: the marks last for the visit */ }
+    stored = true;
+  } catch {
+    stored = false; // storage unavailable or full: the marks last for the visit
+  }
 }
 
 /** @returns {Mark[]} newest first; the conversation's only when given one */
@@ -89,6 +91,10 @@ function announce(conversationId, messageId, marked) {
  * @returns {boolean} whether the message is now marked
  */
 export function toggleImportant(message) {
+  // Read storage afresh: another tab may have marked or unmarked since, and
+  // saving a stale copy would undo what it did. Not when saving fails: then
+  // the copy in memory is the only one.
+  if (stored) marks = null;
   const all = load();
   const messageId = String(message.id);
   const key = keyOf(message.conversationId, messageId);
@@ -117,7 +123,19 @@ export function toggleImportant(message) {
   return true;
 }
 
+// Another tab changed the marks: read them again, and let the screen follow
+// (stars, the list, counts).
+if (typeof window !== 'undefined') {
+  window.addEventListener('storage', (e) => {
+    if (e.key !== KEY && e.key !== null) return;
+    marks = null;
+    load();
+    window.dispatchEvent(new CustomEvent('importantchange', { detail: { all: true } }));
+  });
+}
+
 /** Forget the in-memory copy (for tests). */
 export function resetImportantMessages() {
   marks = null;
+  stored = true;
 }

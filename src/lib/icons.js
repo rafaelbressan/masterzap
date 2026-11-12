@@ -28,3 +28,12 @@ export const ICON_CHEVRON_DW = `<svg viewBox="0 0 12 12" width="12" height="12" 
 export const ICON_MASTERZAP_LOGO = `<img src="/assets/masterzap-logo.png" width="20" height="20" alt="" style="vertical-align:middle;" />`;
 
 export const ICON_DOWNLOAD = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="m7.5 10.5 4.5 4.5 4.5-4.5"/><path d="M4 17.5v1a1.5 1.5 0 0 0 1.5 1.5h13a1.5 1.5 0 0 0 1.5-1.5v-1"/></svg>`;
+
+/** The filled star of an important message (menu, bubble, list). */
+export const ICON_STAR = `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="m12 2.8 2.83 5.73 6.33.92-4.58 4.46 1.08 6.3L12 17.24l-5.66 2.97 1.08-6.3-4.58-4.46 6.33-.92L12 2.8Z"/></svg>`;
+
+/** The back arrow of a screen that replaces the list. */
+export const ICON_ARROW_BACK = `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>`;
+
+/** The double tick before the phone owner's own messages, as WhatsApp. */
+export const ICON_TICKS = `<svg class="search-result-ticks" viewBox="0 0 16 11" width="16" height="11" aria-hidden="true"><path fill="currentColor" d="M11.07.65a.46.46 0 0 0-.65.08L4.8 7.8 2.07 5.13a.46.46 0 0 0-.65.01.46.46 0 0 0 0 .65l3.08 3.02a.46.46 0 0 0 .69-.05l5.96-7.46a.46.46 0 0 0-.08-.65Zm3.5 0a.46.46 0 0 0-.65.08L8.3 7.8l-.6-.58a.46.46 0 0 0-.64.66l.94.92a.46.46 0 0 0 .69-.05l5.96-7.46a.46.46 0 0 0-.08-.65Z"/></svg>`;

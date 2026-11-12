@@ -264,11 +264,9 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
   bottomNav.querySelector('[data-tab="calls"]').addEventListener('click', () => onCalls?.());
 
   /**
-   * Swap the list for the calls screen and back. The header, search and
-   * filter tabs belong to the chat list; the calls panel brings its own.
-   */
-  /**
    * Put a screen in the list's place: the calls, or the important messages.
+   * The header, search and filter tabs belong to the list and step aside;
+   * the screen brings its own.
    * @param {HTMLElement} panel
    * @param {string} tab - the bottom-nav tab it belongs to ('calls' or 'chats')
    */

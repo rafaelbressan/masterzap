@@ -11,10 +11,8 @@
  */
 import { formatDateShort } from '../lib/utils.js';
 import { importantMessages, toggleImportant } from '../lib/important-messages.js';
+import { ICON_STAR, ICON_ARROW_BACK, ICON_TICKS } from '../lib/icons.js';
 
-export const ICON_STAR = `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="m12 2.8 2.83 5.73 6.33.92-4.58 4.46 1.08 6.3L12 17.24l-5.66 2.97 1.08-6.3-4.58-4.46 6.33-.92L12 2.8Z"/></svg>`;
-const ICON_BACK = `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>`;
-const ICON_TICKS = `<svg class="search-result-ticks" viewBox="0 0 16 11" width="16" height="11" aria-hidden="true"><path fill="currentColor" d="M11.07.65a.46.46 0 0 0-.65.08L4.8 7.8 2.07 5.13a.46.46 0 0 0-.65.01.46.46 0 0 0 0 .65l3.08 3.02a.46.46 0 0 0 .69-.05l5.96-7.46a.46.46 0 0 0-.08-.65Zm3.5 0a.46.46 0 0 0-.65.08L8.3 7.8l-.6-.58a.46.46 0 0 0-.64.66l.94.92a.46.46 0 0 0 .69-.05l5.96-7.46a.46.46 0 0 0-.08-.65Z"/></svg>`;
 
 /**
  * Show or hide the star by a bubble's time (its .chat-msg-meta), as WhatsApp
@@ -54,7 +52,7 @@ export function renderImportantPanel({ conversationId = null, nameOf, onOpen, on
   back.type = 'button';
   back.className = 'important-back';
   back.setAttribute('aria-label', 'Voltar');
-  back.innerHTML = ICON_BACK; // Static SVG
+  back.innerHTML = ICON_ARROW_BACK; // Static SVG
   back.addEventListener('click', () => onBack?.());
   const title = document.createElement('h1');
   title.className = 'important-title';
@@ -99,8 +97,15 @@ export function renderImportantPanel({ conversationId = null, nameOf, onOpen, on
     unmark.innerHTML = ICON_STAR; // Static SVG
     unmark.addEventListener('click', (e) => {
       e.stopPropagation();
+      // The keyboard stays in the list: on the row that takes this one's
+      // place, the one before at the end, the back arrow when none is left.
+      const index = [...list.children].indexOf(item);
+      const hadFocus = item.contains(document.activeElement);
       toggleImportant({ conversationId: mark.conversationId, id: mark.messageId });
       draw();
+      if (!hadFocus) return;
+      const rows = list.querySelectorAll('.important-item');
+      (rows[Math.min(index, rows.length - 1)] || back).focus();
     });
     bottom.append(content, unmark);
 
@@ -138,5 +143,7 @@ export function renderImportantPanel({ conversationId = null, nameOf, onOpen, on
   draw();
   panel.append(header, list);
   panel.refresh = draw;
+  // Where the keyboard starts when the list opens.
+  panel.focusStart = () => back.focus({ preventScroll: true });
   return panel;
 }

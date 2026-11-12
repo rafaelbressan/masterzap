@@ -1557,8 +1557,13 @@
 .important-unmark {
   flex: none;
   display: flex;
-  padding: 6px;
-  margin: -6px -6px -6px 0;
+  align-items: center;
+  justify-content: center;
+  /* A 44px target around the 20px star, so a tap a little off it does not
+     open the chat instead. */
+  min-width: 44px;
+  min-height: 44px;
+  margin: -12px -12px -12px 0;
   border: none;
   border-radius: 50%;
   background: none;
