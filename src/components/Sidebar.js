@@ -7,7 +7,9 @@
 import { openMenu, menuClosed } from '../lib/menus.js';
 import { formatTime, escapeHtml, formatNumber, formatRelativeDate } from '../lib/utils.js';
 
-import { ICON_SEARCH as SEARCH_ICON, ICON_MEETBALL } from '../lib/icons.js';
+import { ICON_SEARCH as SEARCH_ICON, ICON_MEETBALL, ICON_PIN, ICON_CHEVRON_DW } from '../lib/icons.js';
+import { isPinned, togglePinned, orderWithPinned, MAX_PINNED } from '../lib/pinned-conversations.js';
+import { showToast } from './Toast.js';
 import { defaultAvatarSvg } from '../lib/avatar.js';
 
 /**
@@ -64,6 +66,7 @@ export function buildConversationItem(conv, { nameHtml } = {}) {
       <div class="conversation-item-bottom">
         <span class="conversation-item-preview">${lastPreview}</span>
         <span class="conversation-item-unread" data-conv-id="${conv.id}">${msgCount}</span>
+        <span class="conversation-item-pin" role="img" aria-label="Conversa fixada" title="Conversa fixada"${isPinned(conv.id) ? '' : ' hidden'}>${ICON_PIN}</span>
       </div>
     </div>
   `;
@@ -129,8 +132,35 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
     searchInput.blur();
   });
 
-  for (const conv of conversations) {
+  for (const conv of orderWithPinned(conversations)) {
     const item = buildConversationItem(conv);
+
+    // The row's menu (pin), as WhatsApp Web: a chevron on hover, a right
+    // click, or a long press on a phone.
+    const chevron = document.createElement('button');
+    chevron.type = 'button';
+    chevron.className = 'conversation-item-chevron';
+    chevron.setAttribute('aria-label', 'Mais opções da conversa');
+    chevron.innerHTML = ICON_CHEVRON_DW; // Static SVG
+    chevron.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const r = chevron.getBoundingClientRect();
+      openRowMenu(conv.id, r.left, r.bottom + 4);
+    });
+    // Enter on the chevron opens its menu, not the chat behind it.
+    chevron.addEventListener('keydown', (e) => e.stopPropagation());
+    item.querySelector('.conversation-item-bottom').appendChild(chevron);
+    item.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      // From the keyboard (Menu key, Shift+F10) there is no pointer: under the row.
+      if (!e.clientX && !e.clientY) {
+        const r = item.getBoundingClientRect();
+        openRowMenu(conv.id, r.left + 16, r.bottom - 8);
+      } else {
+        openRowMenu(conv.id, e.clientX, e.clientY);
+      }
+    });
+    onLongPress(item, (x, y) => openRowMenu(conv.id, x, y));
 
     item.addEventListener('click', () => onSelect(conv.id));
     item.addEventListener('keydown', (e) => {
@@ -143,6 +173,89 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
     list.appendChild(item);
   }
 
+  // ── Pinned conversations ─────────────────────────
+  //
+  // Up to three at the top, most recently pinned first, saved in this
+  // browser (src/lib/pinned-conversations.js).
+
+  let rowMenu = null;
+  function closeRowMenu() {
+    if (rowMenu) { menuClosed(rowMenu); rowMenu.remove(); rowMenu = null; }
+  }
+
+  /**
+   * A long press on a touch screen. Android fires contextmenu for it, iOS
+   * Safari does not: the press is timed here, and the click that would follow
+   * (opening the chat) is swallowed.
+   */
+  function onLongPress(target, open) {
+    let timer = null;
+    let fired = false;
+    let start = null;
+    const cancel = () => { clearTimeout(timer); timer = null; };
+    target.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'touch') return;
+      fired = false;
+      start = { x: e.clientX, y: e.clientY };
+      cancel();
+      timer = setTimeout(() => { fired = true; open(start.x, start.y); }, 500);
+    });
+    target.addEventListener('pointermove', (e) => {
+      if (timer && start && Math.hypot(e.clientX - start.x, e.clientY - start.y) > 10) cancel();
+    });
+    target.addEventListener('pointerup', cancel);
+    target.addEventListener('pointercancel', cancel);
+    // Android fires its own contextmenu for the same press: whichever comes
+    // first opens the menu, the other stands down.
+    target.addEventListener('contextmenu', (e) => {
+      if (fired) { e.preventDefault(); e.stopImmediatePropagation(); return; }
+      cancel();
+    }, true);
+    target.addEventListener('click', (e) => {
+      if (fired) { e.preventDefault(); e.stopImmediatePropagation(); fired = false; }
+    }, true);
+  }
+  function openRowMenu(convId, x, y) {
+    closeRowMenu();
+    const pinned = isPinned(convId);
+    rowMenu = document.createElement('div');
+    rowMenu.className = 'context-menu';
+    rowMenu.setAttribute('role', 'menu');
+    const btn = document.createElement('button');
+    btn.className = 'context-menu-item';
+    btn.setAttribute('role', 'menuitem');
+    // Static SVG icon + static label — safe innerHTML
+    btn.innerHTML = `<span class="context-menu-icon">${ICON_PIN}</span><span>${pinned ? 'Desafixar conversa' : 'Fixar conversa'}</span>`;
+    btn.addEventListener('click', () => {
+      closeRowMenu();
+      if (togglePinned(convId) === 'limit') showToast(el, `Você só pode fixar até ${MAX_PINNED} conversas`);
+      // The keyboard back on the row, wherever pinning moved it.
+      list.querySelector(`:scope > .conversation-item[data-id="${CSS.escape(convId)}"]`)?.focus({ preventScroll: true });
+    });
+    rowMenu.appendChild(btn);
+    document.body.appendChild(rowMenu);
+    openMenu(rowMenu, closeRowMenu);
+    // Within the window, as the message menu.
+    const r = rowMenu.getBoundingClientRect();
+    rowMenu.style.left = `${Math.max(8, Math.min(x, window.innerWidth - r.width - 8))}px`;
+    rowMenu.style.top = `${Math.max(8, Math.min(y, window.innerHeight - r.height - 8))}px`;
+    btn.focus({ preventScroll: true });
+  }
+
+  /** Put the rows in pinned order and show each pin. */
+  function applyPins() {
+    // A sidebar no longer on the page stops listening.
+    if (!el.isConnected) { window.removeEventListener('pinchange', applyPins); return; }
+    const rows = new Map([...list.querySelectorAll(':scope > .conversation-item')].map(r => [r.dataset.id, r]));
+    for (const conv of orderWithPinned(conversations)) {
+      const row = rows.get(conv.id);
+      if (row) list.insertBefore(row, lockMsg);
+    }
+    for (const pin of el.querySelectorAll('.conversation-item-pin')) {
+      pin.hidden = !isPinned(pin.closest('.conversation-item').dataset.id);
+    }
+  }
+
   // Lock message right after the last conversation — inside the scrollable list
   const lockMsg = document.createElement('div');
   lockMsg.className = 'sidebar-lock-message';
@@ -152,6 +265,8 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
     <span>Suas mensagens são exibidas <span class="sidebar-lock-link" data-action="profile-dv"><strong>nacionalmente para todos do Brasil</strong></span>.</span>
   `;
   list.appendChild(lockMsg);
+  // Pinned or unpinned anywhere (this menu, another tab): the list follows.
+  window.addEventListener('pinchange', applyPins);
 
   // Shown when a filter leaves nothing on screen.
   const emptyMsg = document.createElement('div');

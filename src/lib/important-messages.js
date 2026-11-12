@@ -10,11 +10,7 @@
  * entry is dropped, never drawn.
  */
 
-const KEY = 'masterwhats:mensagens-importantes';
-
-let marks = null; // Array<Mark>, newest first
-let keys = new Set(); // conversation/message of every mark: one lookup per bubble drawn
-let stored = true; // false once saving fails: then memory is the only copy
+import { createStoredList } from './stored-list.js';
 
 /**
  * @typedef {object} Mark
@@ -40,32 +36,30 @@ function isMark(value) {
     && typeof value.markedAt === 'string';
 }
 
-function load() {
-  if (marks) return marks;
-  marks = [];
-  keys = new Set();
-  try {
-    const saved = JSON.parse(localStorage.getItem(KEY) || '[]');
-    if (Array.isArray(saved)) {
-      for (const mark of saved) {
-        if (!isMark(mark)) continue;
-        const key = keyOf(mark.conversationId, mark.messageId);
-        if (keys.has(key)) continue;
-        keys.add(key);
-        marks.push(mark);
-      }
-    }
-  } catch { /* storage unavailable or unreadable: start empty */ }
-  return marks;
-}
-
-function save() {
-  try {
-    localStorage.setItem(KEY, JSON.stringify(marks));
-    stored = true;
-  } catch {
-    stored = false; // storage unavailable or full: the marks last for the visit
+const list = createStoredList('masterwhats:mensagens-importantes', (saved) => {
+  const marks = [];
+  const seen = new Set();
+  for (const mark of saved) {
+    if (!isMark(mark)) continue;
+    const key = keyOf(mark.conversationId, mark.messageId);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    marks.push(mark);
   }
+  return marks;
+}, 'importantchange');
+
+// conversation/message of every mark, one lookup per bubble drawn; rebuilt
+// when the list is read again.
+let keys = new Set();
+let keysOf = null;
+function load() {
+  const marks = list.load();
+  if (keysOf !== marks) {
+    keys = new Set(marks.map(m => keyOf(m.conversationId, m.messageId)));
+    keysOf = marks;
+  }
+  return marks;
 }
 
 /** @returns {Mark[]} newest first; the conversation's only when given one */
@@ -79,11 +73,6 @@ export function isImportant(conversationId, messageId) {
   return keys.has(keyOf(conversationId, String(messageId)));
 }
 
-/** Tell whoever shows marks (the bubble's star, the list, a count). */
-function announce(conversationId, messageId, marked) {
-  if (typeof window === 'undefined') return;
-  window.dispatchEvent(new CustomEvent('importantchange', { detail: { conversationId, messageId, marked } }));
-}
 
 /**
  * Mark or unmark a message.
@@ -91,10 +80,8 @@ function announce(conversationId, messageId, marked) {
  * @returns {boolean} whether the message is now marked
  */
 export function toggleImportant(message) {
-  // Read storage afresh: another tab may have marked or unmarked since, and
-  // saving a stale copy would undo what it did. Not when saving fails: then
-  // the copy in memory is the only one.
-  if (stored) marks = null;
+  // As storage has it now: another tab may have changed it since.
+  list.fresh();
   const all = load();
   const messageId = String(message.id);
   const key = keyOf(message.conversationId, messageId);
@@ -102,8 +89,8 @@ export function toggleImportant(message) {
   if (index >= 0) {
     all.splice(index, 1);
     keys.delete(key);
-    save();
-    announce(message.conversationId, messageId, false);
+    list.save();
+    list.announce({ conversationId: message.conversationId, messageId, marked: false });
     return false;
   }
   const mark = {
@@ -118,24 +105,10 @@ export function toggleImportant(message) {
   if (!isMark(mark)) return false;
   all.unshift(mark);
   keys.add(key);
-  save();
-  announce(message.conversationId, messageId, true);
+  list.save();
+  list.announce({ conversationId: message.conversationId, messageId, marked: true });
   return true;
 }
 
-// Another tab changed the marks: read them again, and let the screen follow
-// (stars, the list, counts).
-if (typeof window !== 'undefined') {
-  window.addEventListener('storage', (e) => {
-    if (e.key !== KEY && e.key !== null) return;
-    marks = null;
-    load();
-    window.dispatchEvent(new CustomEvent('importantchange', { detail: { all: true } }));
-  });
-}
-
 /** Forget the in-memory copy (for tests). */
-export function resetImportantMessages() {
-  marks = null;
-  stored = true;
-}
+export const resetImportantMessages = list.reset;

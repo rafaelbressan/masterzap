@@ -600,3 +600,69 @@ body,
   min-width: 0;
   overflow-wrap: anywhere;
 }
+
+/* ── Pinned conversations ─────────────────────────────────────────────────
+   The pin sits with the count at the bottom right of the row; the chevron
+   that opens the row's menu shows on hover (desktop), as WhatsApp Web. A
+   long press opens the same menu on a phone, without selecting the text. */
+.sidebar {
+  position: relative; /* the toast ("Você só pode fixar…") sits in it */
+}
+
+.conversation-item-pin {
+  display: inline-flex;
+  flex: none;
+  color: var(--WDS-content-deemphasized);
+}
+
+.conversation-item-pin[hidden] {
+  display: none;
+}
+
+.conversation-item-chevron {
+  display: inline-flex;
+  opacity: 0;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--WDS-content-deemphasized);
+  cursor: pointer;
+}
+
+/* Shown on hover, or when the keyboard is on it (it is always in the tab
+   order); on a touch screen the long press opens the menu instead. */
+.conversation-item-chevron:focus-visible {
+  opacity: 1;
+}
+
+@media (hover: hover) {
+  .conversation-item:hover .conversation-item-chevron {
+    opacity: 1;
+  }
+}
+
+@media (hover: none) {
+  .conversation-item-chevron {
+    display: none;
+  }
+}
+
+/* On a phone the bottom tabs share the sidebar: the toast sits above them. */
+@media (max-width: 600px) {
+  .sidebar > .search-toast {
+    bottom: 88px;
+  }
+}
+
+@media (hover: none) {
+  .conversation-list .conversation-item {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+}
