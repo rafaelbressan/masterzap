@@ -1,14 +1,15 @@
 /**
  * ContextMenu component — right-click menu for messages.
  *
- * Actions: copy text, show message info drawer.
+ * Actions: copy text, share, mark as important, show message info drawer.
  * Positioned near the click point, auto-adjusts to stay within viewport.
  */
 
 import { openMenu, menuClosed } from '../lib/menus.js';
 import { escapeHtml, formatDateLong, formatTime, NO_TIME_LABEL } from '../lib/utils.js';
 import { showToast } from './Toast.js';
-import { ICON_COPY, ICON_SEND, ICON_INFO } from '../lib/icons.js';
+import { ICON_COPY, ICON_SEND, ICON_INFO, ICON_STAR } from '../lib/icons.js';
+import { isImportant, toggleImportant } from '../lib/important-messages.js';
 
 /**
  * Create and manage a context menu for the chat area.
@@ -123,6 +124,18 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
             copyAndToast(shareUrl);
           }
         },
+      });
+    }
+
+    // Mark as important (the star), as WhatsApp. Saved in this browser; the
+    // bubble's star follows through the 'importantchange' event. A system
+    // line (someone added, a number changed) cannot be marked, as on WhatsApp.
+    if (msg.id && conversationId && !msg.isSystem && !msg.isDeleted) {
+      const marked = isImportant(conversationId, msg.id);
+      items.push({
+        label: marked ? 'Desmarcar como importante' : 'Marcar como importante',
+        icon: ICON_STAR,
+        action: () => toggleImportant({ ...msg, conversationId }),
       });
     }
 
@@ -256,7 +269,13 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
     if (!row) return null;
 
     const id = row.dataset.id;
-    const content = row.querySelector('.chat-msg-content')?.textContent || '';
+    // A text message: its own text (clean, with its line breaks), not the
+    // labels the bubble draws around it. Anything else (a location, an audio
+    // note, a document): what the bubble shows, without the source's markers
+    // ("[localização] Latitude…", "[transcrição do áudio]").
+    const drawnEl = row.querySelector('.chat-msg-content');
+    const drawn = (drawnEl?.innerText ?? drawnEl?.textContent ?? '').trim();
+    const content = row._message?.type === 'text' ? row._message.content : drawn;
     const meta = row.querySelector('.chat-msg-meta')?.textContent || '';
     const isOutgoing = row.classList.contains('outgoing');
     const isEdited = !!row.querySelector('.chat-msg-edited');
@@ -265,15 +284,20 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
     const daySection = row.closest('.chat-day');
     const date = daySection?.dataset.date || '';
 
+    // The message itself when the bubble carries it (sender and time as the
+    // data has them); otherwise what the bubble shows.
+    const message = row._message;
     return {
       id,
       content,
-      sender: isOutgoing ? 'DV' : incomingSender,
-      date,
+      sender: message?.sender ?? (isOutgoing ? 'DV' : incomingSender),
+      date: message?.date ?? date,
       // "--:--" is how the bubble draws an unknown time; it is not a time.
-      time: (meta.replace(/editada/i, '').trim().match(/\d{2}:\d{2}/) || [null])[0],
+      time: message ? (message.time || '').slice(0, 5) || null : (meta.replace(/editada/i, '').trim().match(/\d{2}:\d{2}/) || [null])[0],
       type: 'text',
       isEdited,
+      isSystem: row.classList.contains('system') || message?.type === 'system',
+      isDeleted: message?.type === 'deleted',
     };
   }
 

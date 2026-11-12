@@ -16,6 +16,8 @@ import { defaultAvatarSvg } from '../lib/avatar.js';
 import { parseContacts, parseLocation, mapsUrl, parseLink, parseAudio, parseImage, conversationForPhone } from '../lib/media.js';
 import { showContactsSheet, ICON_MESSAGE } from './ContactsSheet.js';
 import { openMenu, menuClosed } from '../lib/menus.js';
+import { isImportant } from '../lib/important-messages.js';
+import { setBubbleStar } from './ImportantPanel.js';
 import { SEALS, SEAL_ICONS, sealToMark, sealDescription, provenanceOf, sourceById, conversationSealLine } from '../lib/provenance.js';
 
 /**
@@ -446,6 +448,9 @@ function renderMessage(msg) {
   const row = document.createElement('div');
   row.className = `chat-msg-row ${isOutgoing ? 'outgoing' : 'incoming'}${isSystem ? ' system' : ''}`;
   row.dataset.id = msg.id;
+  // The message itself, for the menu (marking as important keeps its text,
+  // not the bubble's labels around it).
+  row._message = msg;
 
   if (isSystem) {
     const bubble = document.createElement('div');
@@ -517,6 +522,7 @@ function renderMessage(msg) {
   const meta = document.createElement('span');
   meta.className = 'chat-msg-meta';
   const time = document.createElement('span');
+  time.className = 'chat-msg-time';
   time.textContent = formatTime(msg.time);
   if (!msg.time) {
     // "--:--" on screen and on hover says what it means; a screen reader
@@ -547,6 +553,7 @@ function renderMessage(msg) {
     glyph.innerHTML = SEAL_ICONS[mark];
     meta.prepend(glyph);
   }
+  if (sealContext.conversation && isImportant(sealContext.conversation.id, msg.id)) setBubbleStar(meta, true);
   bubble.appendChild(meta);
 
   // Tail (the little triangle on the bubble)

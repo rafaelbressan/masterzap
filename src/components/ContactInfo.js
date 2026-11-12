@@ -8,12 +8,13 @@
  * All dynamic text uses textContent.
  */
 
+import { importantMessages } from '../lib/important-messages.js';
 import { getContactProfile, SOURCES, CREDITS } from '../lib/profile-content.js';
 import { renderProfileSections } from './ProfileSections.js';
 import { defaultAvatarSvg } from '../lib/avatar.js';
 
 const ICON_MEDIA = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`;
-const ICON_STAR = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+const ICON_STAR_OUTLINE = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
 const ICON_BELL = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>`;
 const ICON_CLOCK = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
 const ICON_LOCK = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>`;
@@ -133,7 +134,34 @@ export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onCl
   actionsEl.className = 'contact-info-actions';
 
   actionsEl.appendChild(createActionItem(ICON_MEDIA, 'Mídias, links e documentos', totalMedia.toLocaleString('pt-BR'), false, true));
-  actionsEl.appendChild(createActionItem(ICON_STAR, 'Mensagens importantes', '', false, true));
+  // The messages of this chat marked as important, saved in this browser.
+  const importantCount = () => {
+    const n = importantMessages(conversation.id).length;
+    return n ? n.toLocaleString('pt-BR') : '';
+  };
+  const importantItem = createActionItem(ICON_STAR_OUTLINE, 'Mensagens importantes', importantCount(), false, !actions.onImportant);
+  // A mark made or undone while the drawer is open updates the count.
+  const refreshImportant = () => {
+    const text = importantCount();
+    let detail = importantItem.querySelector('.contact-info-action-detail');
+    if (!text) { detail?.remove(); return; }
+    if (!detail) {
+      detail = document.createElement('span');
+      detail.className = 'contact-info-action-detail';
+      importantItem.querySelector('.contact-info-action-text').appendChild(detail);
+    }
+    detail.textContent = text;
+  };
+  if (actions.onImportant) {
+    importantItem.setAttribute('role', 'button');
+    importantItem.setAttribute('tabindex', '0');
+    const open = () => actions.onImportant(conversation.id);
+    importantItem.addEventListener('click', open);
+    importantItem.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+    });
+  }
+  actionsEl.appendChild(importantItem);
   actionsEl.appendChild(createActionItem(ICON_BELL, 'Modo silencioso', '', true, true));
   actionsEl.appendChild(createActionItem(ICON_CLOCK, 'Mensagens temporárias', contactProfile?.ephemeral || 'Não', false, true));
   actionsEl.appendChild(createActionItem(ICON_LOCK, 'Privacidade avançada da conversa', 'Desativada', false, true));
@@ -187,7 +215,7 @@ export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onCl
   }
   document.addEventListener('keydown', onKeyDown);
 
-  return { element: drawer, destroy };
+  return { element: drawer, destroy, refreshImportant };
 }
 
 function createDivider() {

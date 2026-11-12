@@ -5,6 +5,8 @@
  *   #/                                → empty state (no conversation)
  *   #/chat/:conversationId            → open conversation
  *   #/chat/:conversationId/msg/:msgId → open conversation + scroll to message
+ *   #/calls                           → the calls screen
+ *   #/importantes[/:conversationId]   → the messages marked as important
  */
 
 export class HashRouter {
@@ -43,6 +45,8 @@ export class HashRouter {
   navigate(route, param, messageId) {
     if (route === 'calls') {
       window.location.hash = '#/calls';
+    } else if (route === 'importantes') {
+      window.location.hash = param ? `#/importantes/${param}` : '#/importantes';
     } else if (route === 'home') {
       window.location.hash = '#/';
     } else if (route === 'chat' && param) {
@@ -68,6 +72,10 @@ export class HashRouter {
     const cleaned = hash.replace(/^#\/?/, '');
     if (!cleaned) return { route: 'home', param: null, messageId: null };
     if (cleaned === 'calls') return { route: 'calls', param: null, messageId: null };
+
+    // #/importantes, or #/importantes/:conversationId for one conversation's
+    const important = cleaned.match(/^importantes(?:\/([a-z0-9-]+))?\/?$/);
+    if (important) return { route: 'importantes', param: important[1] || null, messageId: null };
 
     // Match #/chat/:id/msg/:msgId
     const msgMatch = cleaned.match(/^chat\/([^/]+)\/msg\/(.+)$/);

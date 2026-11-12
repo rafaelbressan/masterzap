@@ -3,7 +3,7 @@
 
 import { getDataStore } from './lib/data-store.js';
 import { HashRouter } from './lib/router.js';
-import { renderSidebar, setActiveConversation } from './components/Sidebar.js';
+import { renderSidebar, setActiveConversation, conversationName } from './components/Sidebar.js';
 import { renderEmptyState } from './components/EmptyState.js';
 import { renderChatView } from './components/ChatView.js';
 import { attachContextMenu } from './components/ContextMenu.js';
@@ -28,6 +28,8 @@ import { setSources } from './lib/provenance.js';
 import { dataUrl } from './lib/data-url.js';
 import { savePosition, getPosition } from './lib/reading-position.js';
 import { closeOpenMenu } from './lib/menus.js';
+import { renderImportantPanel, setBubbleStar } from './components/ImportantPanel.js';
+import { isImportant } from './lib/important-messages.js';
 
 // ── Active state (only one thing at a time) ──────
 let activeLoader = null;
@@ -197,6 +199,8 @@ async function init() {
   // ── Shared search action for sidebar ───────────────
 
   function fillSidebarSearch(term, convId) {
+    // The search lives in the list: a screen in its place steps aside.
+    sidebar.showChats?.();
     const isMobile = window.innerWidth <= 600;
     const target = convId || currentConversationId || 'martha-graeff';
 
@@ -347,6 +351,10 @@ async function init() {
         closeRightDrawers();
         fillSidebarSearch(term, convId);
       },
+      onImportant: (convId) => {
+        closeRightDrawers();
+        openImportant(convId);
+      },
       onContact: (convId) => {
         closeRightDrawers();
         drawerActions(() => {}).onContact(convId);
@@ -367,7 +375,8 @@ async function init() {
       conversation,
       dateIndex,
       loadMessages: (date) => store.getMessages(id, date),
-      onBack: () => router.navigate('home'),
+      // Opened from the calls or the important messages: back to them.
+      onBack: () => (chatFromPanel ? history.back() : router.navigate('home')),
       onCloseChat: () => router.navigate('home'),
       onAbout: openSettings,
       onSearch: toggleSearch,
@@ -441,6 +450,97 @@ async function init() {
     renderEmptyState(mainArea);
   }
 
+  // ── Mensagens importantes ──────────────────────────
+
+  // Set when a chat is opened from a sidebar screen (calls, important
+  // messages), which stays beside it; the chat route takes it at once.
+  let keepPanel = false;
+  // Whether the chat on screen was opened from such a screen: its back arrow
+  // then returns there (a phone), as WhatsApp does.
+  let chatFromPanel = false;
+  // Routes are numbered: a chat still looking up its message's date when the
+  // reader has already gone elsewhere gives way.
+  let routeSeq = 0;
+
+  /** Open a message from the calls or the important messages. */
+  async function openFromPanel(id, messageId) {
+    // Already there (the URL would not change): just go to the message.
+    if (location.hash === `#/chat/${id}/msg/${messageId}` && id === currentConversationId && activeLoader) {
+      const date = await store.findDateForMessage(id, messageId).catch(() => null);
+      if (date) activeLoader.scrollToMessage(messageId, date);
+      return;
+    }
+    keepPanel = true;
+    router.navigate('chat', id, messageId);
+  }
+
+  /**
+   * Open the important messages, all or one conversation's. The history entry
+   * it adds is tagged as opened from inside the app, so the list's back arrow
+   * may step back to where the reader was; reached by a link, it may not
+   * (that step would leave the site).
+   */
+  function openImportant(convId = null) {
+    const hash = convId ? `#/importantes/${convId}` : '#/importantes';
+    if (location.hash !== hash) history.pushState({ importantFromApp: true }, '', hash);
+    else history.replaceState({ ...history.state, importantFromApp: true }, '');
+    showImportant(convId);
+  }
+
+  /**
+   * "Mensagens importantes" in the list's place. On a desktop the chat on
+   * screen stays beside it; the back arrow closes the list and leaves that
+   * chat as it is, as WhatsApp does.
+   */
+  function showImportant(convId) {
+    routeSeq++; // a chat still opening gives way
+    closeProfile();
+    closeSettings();
+    // On a phone the open chat covers the list: close it, as the calls do.
+    if (window.matchMedia('(max-width: 600px)').matches) showEmptyState();
+    const panel = renderImportantPanel({
+      conversationId: convId,
+      nameOf: (id) => {
+        const conv = store.getConversation(id);
+        return conv ? conversationName(conv) : id;
+      },
+      onOpen: (id, messageId) => openFromPanel(id, messageId),
+      onBack: () => {
+        sidebar.showChats?.();
+        // A chat beside the list (desktop): it stays as it is, and the URL
+        // follows it. Otherwise (a phone, where the list closed the chat):
+        // back to where the list was opened from.
+        if (currentConversationId && activeLoader) router.navigate('chat', currentConversationId);
+        else if (history.state?.importantFromApp) history.back();
+        else router.navigate('home');
+        // The keyboard back where the list was opened from: the list's menu.
+        sidebar.querySelector('.sidebar-menu-btn')?.focus({ preventScroll: true });
+      },
+    });
+    sidebar.showPanel?.(panel);
+    navRail.setActive?.('chats');
+    panel.focusStart();
+  }
+
+  // One mark changed (menu, list, anywhere): the star on its bubble, the list
+  // on screen and the count in the contact's info follow.
+  window.addEventListener('importantchange', ({ detail: { conversationId, messageId, marked, all } }) => {
+    if (all) {
+      // Changed in another tab: every star on screen follows.
+      const view = mainArea.querySelector('.chat-view');
+      for (const row of view?.querySelectorAll('.chat-msg-row[data-id]') || []) {
+        const meta = row.querySelector('.chat-msg-meta');
+        if (meta) setBubbleStar(meta, isImportant(view.dataset.conversationId, row.dataset.id));
+      }
+    } else {
+      const row = mainArea.querySelector(`.chat-view[data-conversation-id="${CSS.escape(conversationId)}"] .chat-msg-row[data-id="${CSS.escape(String(messageId))}"]`);
+      const meta = row?.querySelector('.chat-msg-meta');
+      if (meta) setBubbleStar(meta, marked);
+    }
+    sidebar.querySelector('.important-panel')?.refresh?.();
+    activeContactInfo?.refreshImportant?.();
+  });
+
   // ── Profile drawer ─────────────────────────────────
 
   function openProfile() {
@@ -480,6 +580,7 @@ async function init() {
                 onProfileDV: () => { closeRightDrawers(); openProfile(); },
                 onSearch: (term, id) => { closeRightDrawers(); fillSidebarSearch(term, id); },
                 onContact: (id) => { closeRightDrawers(); drawerActions(() => {}).onContact(id); },
+                onImportant: (id) => { closeRightDrawers(); openImportant(id); },
               },
             });
           }
@@ -525,6 +626,8 @@ async function init() {
       if (router.getCurrentRoute().route === 'calls') { router.navigate('home'); return; }
       closeProfile();
       closeSettings();
+      // The important messages (or the calls beside a chat) give the list back.
+      sidebar.showChats?.();
     },
   });
 
@@ -536,6 +639,7 @@ async function init() {
   const sidebar = renderSidebar(container, {
     conversations: store.getConversations(),
     readConversations,
+    onImportant: () => openImportant(),
     onProfile: openProfile,
     onAbout: openSettings,
     onExportAll: () => downloadFile(EXPORT_ALL_URL),
@@ -581,12 +685,13 @@ async function init() {
   // ── Router ─────────────────────────────────────────
 
   const router = new HashRouter();
-  router.on('home', () => { sidebar.showChats?.(); navRail.setActive?.('chats'); showEmptyState(); });
+  router.on('home', () => { routeSeq++; sidebar.showChats?.(); navRail.setActive?.('chats'); showEmptyState(); });
 
   // The calls screen takes the list's place; the log is one file, fetched
   // the first time it is asked for.
   let callsPromise = null;
   router.on('calls', async () => {
+    routeSeq++;
     showEmptyState();
     callsPromise ??= fetch(dataUrl('/data/calls.json')).then(r => r.json()).then(d => d.calls);
     let calls = [];
@@ -595,16 +700,17 @@ async function init() {
       calls,
       conversations: store.getConversations(),
       avatarFor: (convId) => AVATARS[convId] || null,
-      onOpen: (convId, messageId) => router.navigate('chat', convId, messageId),
+      onOpen: (convId, messageId) => openFromPanel(convId, messageId),
     });
     sidebar.showCalls?.(panel);
     navRail.setActive?.('calls');
   });
-  // Each route is numbered: one still looking up its message's date when the
-  // reader has already gone elsewhere (another result, another chat) gives way.
-  let routeSeq = 0;
+  router.on('importantes', (convId) => showImportant(convId));
+
   router.on('chat', async (id, messageId) => {
     const seq = ++routeSeq;
+    const keep = keepPanel;
+    keepPanel = false;
     if (messageId) {
       // Look up the date for this message ID; without it the chat still opens.
       const date = await store.findDateForMessage(id, messageId).catch(() => null);
@@ -612,6 +718,17 @@ async function init() {
       if (date) {
         pendingScrollTarget = { conversationId: id, messageId, date };
       }
+    }
+    // A message opened from the calls or the important messages keeps that
+    // screen beside the chat; any other way here (back, a link) shows the list.
+    if (!keep) { sidebar.showChats?.(); navRail.setActive?.('chats'); }
+    chatFromPanel = keep;
+    // Already on screen (back from a panel to the chat being read): leave it
+    // where the reader was rather than reopening it.
+    if (!messageId && id === currentConversationId && activeLoader) {
+      closeProfile();
+      closeSettings();
+      return;
     }
     openConversation(id);
   });
