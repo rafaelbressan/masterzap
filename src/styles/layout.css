@@ -625,7 +625,10 @@ body,
   flex: none;
   align-items: center;
   justify-content: center;
-  width: 20px;
+  /* No room taken until shown, so the preview keeps its width, as WhatsApp. */
+  width: 0;
+  margin-left: -6px; /* and no gap: the row's bottom line spaces items by 6px */
+  overflow: hidden;
   height: 20px;
   padding: 0;
   border: none;
@@ -638,11 +641,15 @@ body,
    order); on a touch screen the long press opens the menu instead. */
 .conversation-item-chevron:focus-visible {
   opacity: 1;
+  width: 20px;
+  margin-left: 0;
 }
 
 @media (hover: hover) {
   .conversation-item:hover .conversation-item-chevron {
     opacity: 1;
+    width: 20px;
+    margin-left: 0;
   }
 }
 

@@ -19,6 +19,20 @@ const list = createStoredList('masterwhats:conversas-fixadas', (saved) => {
   return pins;
 }, 'pinchange');
 
+/**
+ * Drop pins to conversations that are not in the list (renamed, removed,
+ * hand-edited): unseen, they would still take one of the three places.
+ * @param {string[]} knownIds
+ */
+export function keepOnlyPinned(knownIds) {
+  const known = new Set(knownIds);
+  const pins = list.fresh();
+  const kept = pins.filter(id => known.has(id));
+  if (kept.length === pins.length) return;
+  pins.splice(0, pins.length, ...kept);
+  list.save();
+}
+
 /** @returns {string[]} the pinned ids, most recently pinned first */
 export function pinnedConversations() {
   return list.load().slice();

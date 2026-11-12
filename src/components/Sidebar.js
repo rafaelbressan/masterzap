@@ -8,7 +8,7 @@ import { openMenu, menuClosed } from '../lib/menus.js';
 import { formatTime, escapeHtml, formatNumber, formatRelativeDate } from '../lib/utils.js';
 
 import { ICON_SEARCH as SEARCH_ICON, ICON_MEETBALL, ICON_PIN, ICON_CHEVRON_DW } from '../lib/icons.js';
-import { isPinned, togglePinned, orderWithPinned, MAX_PINNED } from '../lib/pinned-conversations.js';
+import { isPinned, togglePinned, orderWithPinned, keepOnlyPinned, MAX_PINNED } from '../lib/pinned-conversations.js';
 import { showToast } from './Toast.js';
 import { defaultAvatarSvg } from '../lib/avatar.js';
 
@@ -132,6 +132,7 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
     searchInput.blur();
   });
 
+  keepOnlyPinned(conversations.map(c => c.id));
   for (const conv of orderWithPinned(conversations)) {
     const item = buildConversationItem(conv);
 
@@ -147,20 +148,23 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
       const r = chevron.getBoundingClientRect();
       openRowMenu(conv.id, r.left, r.bottom + 4);
     });
-    // Enter on the chevron opens its menu, not the chat behind it.
-    chevron.addEventListener('keydown', (e) => e.stopPropagation());
+    // Enter or Space on the chevron opens its menu, not the chat behind it;
+    // other keys (Escape, shortcuts) go on as usual.
+    chevron.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') e.stopPropagation();
+    });
     item.querySelector('.conversation-item-bottom').appendChild(chevron);
     item.addEventListener('contextmenu', (e) => {
       e.preventDefault();
       // From the keyboard (Menu key, Shift+F10) there is no pointer: under the row.
       if (!e.clientX && !e.clientY) {
         const r = item.getBoundingClientRect();
-        openRowMenu(conv.id, r.left + 16, r.bottom - 8);
+        openRowMenu(conv.id, r.left + 16, r.bottom - 8, item);
       } else {
-        openRowMenu(conv.id, e.clientX, e.clientY);
+        openRowMenu(conv.id, e.clientX, e.clientY, item);
       }
     });
-    onLongPress(item, (x, y) => openRowMenu(conv.id, x, y));
+    onLongPress(item, (x, y) => openRowMenu(conv.id, x, y, item, { holding: true }));
 
     item.addEventListener('click', () => onSelect(conv.id));
     item.addEventListener('keydown', (e) => {
@@ -179,9 +183,21 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
   // browser (src/lib/pinned-conversations.js).
 
   let rowMenu = null;
+  let rowMenuOpener = null;
   function closeRowMenu() {
-    if (rowMenu) { menuClosed(rowMenu); rowMenu.remove(); rowMenu = null; }
+    if (!rowMenu) return;
+    // Closed by Escape with the keyboard in it: back on the row it came from.
+    const hadFocus = rowMenu.contains(document.activeElement);
+    menuClosed(rowMenu);
+    rowMenu.remove();
+    rowMenu = null;
+    if (hadFocus) rowMenuOpener?.focus({ preventScroll: true });
+    rowMenuOpener = null;
   }
+
+  // A long press: held this long, the finger moving less than this.
+  const LONG_PRESS_MS = 500;
+  const LONG_PRESS_SLOP_PX = 10;
 
   /**
    * A long press on a touch screen. Android fires contextmenu for it, iOS
@@ -194,14 +210,14 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
     let start = null;
     const cancel = () => { clearTimeout(timer); timer = null; };
     target.addEventListener('pointerdown', (e) => {
+      fired = false; // any press (a mouse too, on a touch laptop) starts afresh
       if (e.pointerType !== 'touch') return;
-      fired = false;
       start = { x: e.clientX, y: e.clientY };
       cancel();
-      timer = setTimeout(() => { fired = true; open(start.x, start.y); }, 500);
+      timer = setTimeout(() => { fired = true; open(start.x, start.y); }, LONG_PRESS_MS);
     });
     target.addEventListener('pointermove', (e) => {
-      if (timer && start && Math.hypot(e.clientX - start.x, e.clientY - start.y) > 10) cancel();
+      if (timer && start && Math.hypot(e.clientX - start.x, e.clientY - start.y) > LONG_PRESS_SLOP_PX) cancel();
     });
     target.addEventListener('pointerup', cancel);
     target.addEventListener('pointercancel', cancel);
@@ -215,7 +231,13 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
       if (fired) { e.preventDefault(); e.stopImmediatePropagation(); fired = false; }
     }, true);
   }
-  function openRowMenu(convId, x, y) {
+  /**
+   * @param {object} [options]
+   * @param {boolean} [options.holding] - opened by a finger still on the row:
+   *   until it lifts, the row's own contextmenu and touchmove are not taken
+   *   for "elsewhere" (they would close the menu at once)
+   */
+  function openRowMenu(convId, x, y, opener = null, { holding = false } = {}) {
     closeRowMenu();
     const pinned = isPinned(convId);
     rowMenu = document.createElement('div');
@@ -234,7 +256,10 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
     });
     rowMenu.appendChild(btn);
     document.body.appendChild(rowMenu);
-    openMenu(rowMenu, closeRowMenu);
+    rowMenuOpener = opener;
+    let held = holding;
+    if (held) window.addEventListener('pointerup', () => { held = false; }, { once: true, capture: true });
+    openMenu(rowMenu, closeRowMenu, { keep: (target) => held && !!opener?.contains(target) });
     // Within the window, as the message menu.
     const r = rowMenu.getBoundingClientRect();
     rowMenu.style.left = `${Math.max(8, Math.min(x, window.innerWidth - r.width - 8))}px`;
@@ -246,6 +271,8 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
   function applyPins() {
     // A sidebar no longer on the page stops listening.
     if (!el.isConnected) { window.removeEventListener('pinchange', applyPins); return; }
+    // A menu open over the change (another tab) would offer the wrong action.
+    closeRowMenu();
     const rows = new Map([...list.querySelectorAll(':scope > .conversation-item')].map(r => [r.dataset.id, r]));
     for (const conv of orderWithPinned(conversations)) {
       const row = rows.get(conv.id);

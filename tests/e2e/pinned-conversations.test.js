@@ -67,15 +67,22 @@ test('a long press opens the row menu on a touch screen', async ({ page }, info)
   test.skip(info.project.name !== 'mobile', 'touch');
   const target = row(page, 'ciro-soares');
   const box = await target.boundingBox();
-  const x = box.x + box.width / 2;
-  const y = box.y + box.height / 2;
-  // A touch pointer held for 600 ms, no contextmenu event.
-  await target.dispatchEvent('pointerdown', { pointerType: 'touch', clientX: x, clientY: y, isPrimary: true });
-  await page.waitForTimeout(600);
-  await target.dispatchEvent('pointerup', { pointerType: 'touch', clientX: x, clientY: y, isPrimary: true });
-  await target.dispatchEvent('click', { clientX: x, clientY: y });
-  await expect(page.locator('.context-menu-item', { hasText: 'Fixar conversa' })).toBeVisible();
+  const at = { pointerType: 'touch', clientX: box.x + box.width / 2, clientY: box.y + box.height / 2, isPrimary: true };
+  // A touch pointer held until the menu shows, no contextmenu event.
+  await target.dispatchEvent('pointerdown', at);
+  const item = page.locator('.context-menu-item', { hasText: 'Fixar conversa' });
+  await expect(item).toBeVisible();
+  // While the finger is down: the browser's own contextmenu for the same
+  // press (Android) and a little jitter do not close it.
+  await target.dispatchEvent('contextmenu', { clientX: at.clientX, clientY: at.clientY });
+  await target.dispatchEvent('touchmove');
+  await expect(item).toBeVisible();
+  await target.dispatchEvent('pointerup', at);
+  await target.dispatchEvent('click', { clientX: at.clientX, clientY: at.clientY });
+  await expect(item).toBeVisible();
   await expect(page).not.toHaveURL(/#\/chat\//);
+  await item.click();
+  await expect(page.locator('.conversation-list > .conversation-item').first()).toHaveAttribute('data-id', 'ciro-soares');
 });
 
 test('from the keyboard: the menu key opens it by the row, and focus comes back to the row', async ({ page }, info) => {
@@ -97,4 +104,15 @@ test('the limit notice sits above the bottom tabs on a phone', async ({ page }, 
   const toast = await page.locator('.search-toast').boundingBox();
   const nav = await page.locator('.sidebar-bottom-nav').boundingBox();
   expect(toast.y + toast.height).toBeLessThanOrEqual(nav.y);
+});
+
+test('Escape closes the row menu and the keyboard stays on the row', async ({ page }, info) => {
+  test.skip(info.project.name !== 'desktop', 'keyboard');
+  const target = row(page, 'ciro-soares');
+  await target.focus();
+  await target.dispatchEvent('contextmenu', { clientX: 0, clientY: 0, button: -1 });
+  await expect(page.locator('.context-menu')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(page.locator('.context-menu')).toHaveCount(0);
+  await expect(target).toBeFocused();
 });

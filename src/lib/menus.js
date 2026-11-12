@@ -43,7 +43,9 @@ function onPointerDown(e) {
 function onContextMenu(e) {
   // A long press or right click elsewhere opens its own menu (or none):
   // either way this one goes. Runs in the capture phase, before the new one.
-  if (current && !current.element.contains(e.target)) closeOpenMenu();
+  // Not on what `keep` names: the browser's own contextmenu for the long
+  // press that just opened this menu.
+  if (current && !current.element.contains(e.target) && !current.keep?.(e.target)) closeOpenMenu();
 }
 
 function onKeyDown(e) {
@@ -52,7 +54,8 @@ function onKeyDown(e) {
 
 function onUserScroll(e) {
   // A menu points at something; once the reader moves it, the menu is wrong.
-  if (current && !current.element.contains(e.target)) closeOpenMenu();
+  // Not the finger still on what opened it (its jitter is not a scroll).
+  if (current && !current.element.contains(e.target) && !current.keep?.(e.target)) closeOpenMenu();
 }
 
 function listen(on) {
@@ -70,8 +73,9 @@ function listen(on) {
  * @param {HTMLElement} element - the menu
  * @param {function} close - removes it (called at most once)
  * @param {object} [options]
- * @param {function} [options.keep] - (target) => true for elements that must
- *   not close the menu, e.g. the button that toggles it
+ * @param {function} [options.keep] - (target) => true for elements whose
+ *   touch, contextmenu or scroll must not close the menu, e.g. the button
+ *   that toggles it, or the row a finger is still holding
  * @returns {boolean} whether Android's back reaches this menu (a CloseWatcher
  *   took it); if not, back keeps its usual meaning
  */
