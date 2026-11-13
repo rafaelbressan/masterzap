@@ -58,13 +58,13 @@ export function showThemeDialog({ returnFocus = null } = {}) {
   actions.className = 'theme-dialog-actions';
   const cancel = document.createElement('button');
   cancel.type = 'button'; // not a submit: OK stays the form's default button
-  cancel.className = 'theme-dialog-cancel';
+  cancel.className = 'theme-dialog-cancel wds-button wds-button--borderless';
   cancel.textContent = 'Cancelar';
   cancel.addEventListener('click', () => dialog.close());
   const ok = document.createElement('button');
   ok.type = 'submit';
   ok.value = 'ok';
-  ok.className = 'theme-dialog-ok';
+  ok.className = 'theme-dialog-ok wds-button wds-button--filled';
   ok.textContent = 'OK';
   actions.append(cancel, ok);
 

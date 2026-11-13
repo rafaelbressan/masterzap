@@ -12,10 +12,48 @@
  * slots in as another block — nothing above it needs rewriting. The legal
  * channel closes the list (its form and deadlines are in src/config/site.js).
  *
- * A section has `paragraphs` and, optionally, a `list` of items.
+ * A section has `paragraphs` and, optionally, a `list` of items or
+ * `copyItems` (a value with a button that copies it: the donation keys);
+ * `divider` puts the drawer's grey band above it.
  */
 
-import { LEGAL_CHANNEL } from '../config/site.js';
+import { LEGAL_CHANNEL, DONATION } from '../config/site.js';
+
+/**
+ * "Apoie o MasterWhats": one row per way to donate that has a key — the key
+ * and a button that copies it. None without a key.
+ */
+// A Lightning address (name@wallet.com), not an on-chain one: a wallet that
+// only sends on-chain would refuse it.
+const lightning = (address) => /^[^\s@:]+@[^\s@]+\.[^\s@]+$/.test(address);
+
+export function donationSections(donation = DONATION) {
+  const items = [
+    donation.pix && {
+      label: donation.pix.startsWith('+') ? 'PIX (celular)' : 'PIX',
+      value: donation.pix,
+      button: 'Copiar chave PIX',
+      copied: 'Chave PIX copiada',
+    },
+    donation.bitcoin && (lightning(donation.bitcoin) ? {
+      label: 'Bitcoin (Lightning)',
+      value: donation.bitcoin,
+      button: 'Copiar endereço Lightning',
+      copied: 'Endereço Lightning copiado',
+    } : {
+      label: 'Bitcoin',
+      value: donation.bitcoin,
+      button: 'Copiar endereço Bitcoin',
+      copied: 'Endereço Bitcoin copiado',
+    }),
+  ].filter(Boolean);
+  return items.length ? [{
+    title: 'Apoie o MasterWhats',
+    divider: true,
+    paragraphs: [{ text: 'Doe qualquer valor. A contribuição será usada para a infraestrutura e para manter o site no ar.' }],
+    copyItems: items,
+  }] : [];
+}
 
 export const SETTINGS_CONTENT = {
   sections: [
@@ -111,9 +149,14 @@ export const SETTINGS_CONTENT = {
       ],
     },
 
+    // ── Apoio (only with a key in src/config/site.js) ──
+    ...donationSections(),
+
     // ── Canal jurídico ──
     {
       title: 'Canal Jurídico',
+      // Set apart from the reading above, as the header is from the text.
+      divider: true,
       paragraphs: [
         { text: 'Este canal é destinado exclusivamente ao recebimento de notificações extrajudiciais, ordens judiciais, ofícios e citações formais relacionadas a qualquer conteúdo exibido na plataforma.' },
         { text: 'Toda solicitação recebida por este canal é tratada com prioridade e analisada juridicamente antes de qualquer resposta ou ação.' },

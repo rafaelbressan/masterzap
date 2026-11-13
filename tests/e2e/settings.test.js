@@ -51,6 +51,13 @@ test.describe('Settings/About Drawer', () => {
     expect(titles.filter(t => t === 'Canal Jurídico')).toHaveLength(1);
     expect(channel).toBeGreaterThan(titles.findLastIndex(t => t.startsWith('Destaques')));
     expect(titles[channel + 1]).toBe('Prazos de atendimento');
+    // Grey bands set the donation and the channel apart, edge to edge as the
+    // one under the header.
+    const bands = page.locator('.settings-drawer .profile-section-divider');
+    expect(await bands.evaluateAll(els => els.map(el => el.nextElementSibling?.querySelector('.profile-section-title')?.textContent)))
+      .toEqual(['Apoie o MasterWhats', 'Canal Jurídico']);
+    const [bandBox, drawerBox] = [await bands.last().boundingBox(), await page.locator('.settings-drawer').boundingBox()];
+    expect(Math.abs(bandBox.width - drawerBox.width)).toBeLessThan(2);
     // The deadlines are a list a screen reader announces as one.
     await expect(page.locator('.settings-drawer .profile-section', { hasText: 'Prazos de atendimento' }).getByRole('listitem')).toHaveCount(3);
     const form = page.locator('.settings-drawer .profile-section', { hasText: 'Canal Jurídico' }).getByRole('link', { name: 'formulário' });
@@ -66,6 +73,19 @@ test.describe('Settings/About Drawer', () => {
     expect(order.every(i => i >= 0)).toBe(true);
     expect(order[0]).toBeLessThan(order[1]);
     expect(order[1]).toBeLessThan(order[2]);
+  });
+
+  test('the donation keys copy with a tap, and say so where it can be seen', async ({ page, context }) => {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+    await page.locator('.sidebar-menu-btn').click();
+    await page.locator('.sidebar-dropdown-item', { hasText: 'Sobre o MasterWhats' }).click();
+    const support = page.locator('.settings-drawer .profile-section', { hasText: 'Apoie o MasterWhats' });
+    await support.getByRole('button', { name: 'Copiar chave PIX' }).click();
+    const toast = page.locator('.search-toast');
+    await expect(toast).toContainText('Chave PIX copiada');
+    await expect(toast).toBeInViewport();
+    const pix = await support.locator('.profile-copy-value').first().textContent();
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(pix);
   });
 
   test('about drawer has action links for search terms', async ({ page }) => {
