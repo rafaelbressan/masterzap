@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { SETTINGS_CONTENT } from '../../src/lib/settings-content.js';
-import { CREDITS, AUTHOR, REPO_URL, DISCLAIMER, LEGAL_CHANNEL } from '../../src/config/site.js';
+import { CREDITS, AUTHOR, REPO_URL, DISCLAIMER, LEGAL_CHANNEL, withUtm, authorPlaceholders } from '../../src/config/site.js';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { parseLinks } from '../../src/lib/profile-content.js';
 
 describe('SETTINGS_CONTENT', () => {
@@ -26,8 +28,8 @@ describe('SETTINGS_CONTENT', () => {
 
 describe('site config: credits and legal channel', () => {
   it('the credits name the author, link the code and carry the disclaimer', () => {
-    expect(CREDITS).toContain(`{${AUTHOR.name}}[${AUTHOR.url}]`);
-    expect(CREDITS).toContain(`[${REPO_URL}]`);
+    expect(CREDITS).toContain(`{${AUTHOR.name}}[${withUtm(AUTHOR.url, 'app')}]`);
+    expect(CREDITS).toContain(`[${withUtm(REPO_URL, 'app')}]`);
     expect(CREDITS.endsWith(DISCLAIMER)).toBe(true);
     // Not every conversation came from a court record: the Martha chat was leaked.
     expect(DISCLAIMER).toContain('reportagens jornalísticas, de fontes abertas e de documentos');
@@ -80,3 +82,34 @@ describe('parseLinks with action links', () => {
     expect(parseLinks('no links here')).toBe('no links here');
   });
 });
+
+describe('author links: UTM and the static files', () => {
+  it('tags a credits link with where the click was', () => {
+    const url = new URL(withUtm(AUTHOR.url, 'noscript'));
+    expect(url.origin + url.pathname).toBe(AUTHOR.url);
+    expect(Object.fromEntries(url.searchParams)).toEqual({
+      utm_source: 'masterwhats', utm_medium: 'referral', utm_campaign: 'creditos', utm_content: 'noscript',
+    });
+    expect(withUtm('https://example.com/?a=1')).toBe('https://example.com/?a=1&utm_source=masterwhats&utm_medium=referral&utm_campaign=creditos');
+  });
+
+  it('fills the static files: escaped in HTML, plain in text; identity without UTM', () => {
+    const html = authorPlaceholders({ html: true });
+    const text = authorPlaceholders();
+    expect(html['%AUTHOR_LINK%']).toContain('&amp;utm_medium=referral');
+    expect(html['%AUTHOR_LINK%']).toContain('utm_content=noscript');
+    expect(text['%AUTHOR_LINK%']).toBe(withUtm(AUTHOR.url, 'llms'));
+    expect(text['%AUTHOR_URL%']).toBe(AUTHOR.url);
+    expect(text['%AUTHOR_NAME%']).toBe(AUTHOR.name);
+  });
+
+  it('index.html and llms.txt carry the placeholders, not a hand copy of the author', () => {
+    for (const file of ['index.html', 'public/llms.txt']) {
+      const content = readFileSync(resolve(__dirname, '../..', file), 'utf8');
+      expect(content).not.toContain(AUTHOR.name);
+      expect(content).not.toContain(AUTHOR.url);
+      expect(content).toContain('%AUTHOR_NAME%');
+    }
+  });
+});
+

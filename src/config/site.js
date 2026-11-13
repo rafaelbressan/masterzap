@@ -46,12 +46,23 @@ export const SITE_URL_PLACEHOLDER = '%SITE_URL%';
 export const AUTHOR = { name: 'Rafael Bressan', url: 'https://linkedin.com/in/rafaelbressan' };
 export const REPO_URL = 'https://github.com/rafaelbressan/masterzap';
 
+/**
+ * A credits link with the site's UTM tags, so the visit is counted as coming
+ * from here; `content` says where the click was (app, noscript, llms). The
+ * plain URLs stay for identity (JSON-LD) and for links to the data.
+ */
+export function withUtm(url, content) {
+  const params = new URLSearchParams({ utm_source: 'masterwhats', utm_medium: 'referral', utm_campaign: 'creditos' });
+  if (content) params.set('utm_content', content);
+  return `${url}${url.includes('?') ? '&' : '?'}${params}`;
+}
+
 /** What the site's material is, and that it takes no side. */
 export const DISCLAIMER = 'As informações aqui compiladas são de domínio público, extraídas de reportagens jornalísticas, de fontes abertas e de documentos cujo sigilo foi levantado judicialmente. '
   + 'Este projeto não tem vinculação com nenhuma das partes envolvidas.';
 
 /** The line at the foot of the "Sobre" drawer and of every profile. */
-export const CREDITS = `Projeto feito por {${AUTHOR.name}}[${AUTHOR.url}] com Claude Code. {Código-fonte no GitHub}[${REPO_URL}]. ${DISCLAIMER}`;
+export const CREDITS = `Projeto feito por {${AUTHOR.name}}[${withUtm(AUTHOR.url, 'app')}] com Claude Code. {Código-fonte no GitHub}[${withUtm(REPO_URL, 'app')}]. ${DISCLAIMER}`;
 
 /**
  * Where extrajudicial notices, court orders, official letters and summons
@@ -66,3 +77,19 @@ export const LEGAL_CHANNEL = {
     'Resposta formal ou cumprimento da medida determinada: em até 72 horas (ou no prazo estabelecido na própria decisão, caso seja inferior)',
   ],
 };
+
+/**
+ * The author and credits links in the static files (index.html, which the
+ * pre-rendered pages copy, and public/llms.txt), filled in by the build next
+ * to %SITE_URL% (vite.config.js). `html` escapes them for an attribute.
+ */
+export function authorPlaceholders({ html = false } = {}) {
+  const value = (text) => (html ? text.replaceAll('&', '&amp;') : text);
+  const where = html ? 'noscript' : 'llms';
+  return {
+    '%AUTHOR_NAME%': AUTHOR.name,
+    '%AUTHOR_URL%': AUTHOR.url,
+    '%AUTHOR_LINK%': value(withUtm(AUTHOR.url, where)),
+    '%REPO_LINK%': value(withUtm(REPO_URL, where)),
+  };
+}
