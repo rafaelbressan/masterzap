@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { ownerOf, contactOf, isOutgoing, DEFAULT_OWNER } from '../../src/lib/participants.js';
+import { ownerOf, contactOf, isOutgoing, ownerName, otherParticipantOf, DEFAULT_OWNER } from '../../src/lib/participants.js';
 
 // Whose phone a conversation came from, and who is on the other side.
 describe('participants', () => {
@@ -26,5 +26,15 @@ describe('participants', () => {
     expect(isOutgoing({ sender: 'Ana' }, vorcaro)).toBe(false);
     expect(isOutgoing({ sender: 'Ana' }, other)).toBe(true);
     expect(isOutgoing({ sender: 'DV' }, other)).toBe(false);
+  });
+
+  it("names the owner in full when known, else by their id", () => {
+    expect(ownerName(vorcaro)).toBe('Daniel Vorcaro');
+    expect(ownerName(other)).toBe('Ana');
+  });
+
+  it('the other side as a sender id, not the display name', () => {
+    expect(otherParticipantOf({ ...vorcaro, contact: 'Ana Matos MKT' })).toBe('Ana');
+    expect(otherParticipantOf(other)).toBe('DV');
   });
 });

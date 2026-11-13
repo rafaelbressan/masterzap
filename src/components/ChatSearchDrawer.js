@@ -7,7 +7,7 @@
  * highlightMatch() applies escapeHtml() to all segments before wrapping
  * the match in a static <mark> tag — safe by construction.
  */
-import { DEFAULT_OWNER } from '../lib/participants.js';
+import { isOutgoing } from '../lib/participants.js';
 import { buildCalendar } from './Calendar.js';
 import { openMenu, menuClosed } from '../lib/menus.js';
 import { escapeHtml, formatDateShort } from '../lib/utils.js';
@@ -27,9 +27,9 @@ const DEBOUNCE_MS = 250;
  * @param {function} options.onResultClick - (messageId, date) => void
  * @param {function} options.onDateSelect - (date) => void
  * @param {function} [options.onClose]
- * @param {string} [options.owner] - the phone owner's sender id (their messages carry ✓✓)
+ * @param {object} options.conversation - its entry (whose phone: their messages carry ✓✓)
  */
-export function showChatSearchDrawer(mainArea, conversationId, { dateIndex, onResultClick, onDateSelect, onClose, owner = DEFAULT_OWNER }) {
+export function showChatSearchDrawer(mainArea, conversationId, { dateIndex, onResultClick, onDateSelect, onClose, conversation }) {
   const existing = mainArea.querySelector('.chat-search-drawer');
   if (existing) existing.remove();
 
@@ -164,7 +164,7 @@ export function showChatSearchDrawer(mainArea, conversationId, { dateIndex, onRe
 
       const meta = document.createElement('div');
       meta.className = 'chat-search-result-meta';
-      meta.textContent = `${formatDateShort(r.date)}  ${r.sender === owner ? '✓✓' : ''}`;
+      meta.textContent = `${formatDateShort(r.date)}  ${isOutgoing(r, conversation) ? '✓✓' : ''}`;
 
       const content = document.createElement('div');
       content.className = 'chat-search-result-content';

@@ -15,13 +15,14 @@
 import { writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import JSZip from 'jszip';
+import { ownerOf } from '../src/lib/participants.js';
 
 import { getContactProfile, VORCARO_PROFILE, SOURCES } from '../src/lib/profile-content.js';
 import { SETTINGS_CONTENT } from '../src/lib/settings-content.js';
 import { DISCLAIMER } from '../src/config/site.js';
 import {
   ROOT, SITE, REPO, TIMEZONE, UTC_OFFSET,
-  loadEntries, loadMessages, sourceOf, provenanceOf, VERIFICATION_LABELS, contactOf, whoIs, createResolver, createLocator, isPaged,
+  loadEntries, loadMessages, sourceOf, provenanceOf, VERIFICATION_LABELS, contactOf, ownerName, whoIs, createResolver, createLocator, isPaged,
   urlsIn, linksToMarkdown, longDate, phonePretty, MEDIA, monthOf, zonedTimestamp, loadSources,
 } from './lib/corpus.mjs';
 
@@ -114,7 +115,7 @@ function conversationMarkdown(entry, messages, { standalone = true, month = null
   const sub = standalone ? '##' : '###';
   const out = [];
 
-  out.push(`${heading} Daniel Vorcaro ↔ ${contact}${month ? ` — ${monthName(month)}` : ''}`, '');
+  out.push(`${heading} ${ownerName(entry)} ↔ ${contact}${month ? ` — ${monthName(month)}` : ''}`, '');
   if (standalone) {
     out.push(`> Exportado de [MasterWhats](${SITE}/#/chat/${entry.id}) em ${generatedAt.slice(0, 10)}.${month ? ` Só ${monthName(month)} (${messages.length} mensagens); a conversa inteira está em masterwhats-${entry.id}.md.` : ''} Código e dados: ${REPO}.`, '');
   }
@@ -181,6 +182,8 @@ function conversationJson(entry, messages) {
     conversation: {
       id: entry.id,
       participants: entry.participants,
+      // Whose phone it came from: their messages are the outgoing ones.
+      owner: ownerOf(entry),
       contact: contactOf(entry),
       saved_as: entry.saved_as || null,
       phone: entry.phone || null,

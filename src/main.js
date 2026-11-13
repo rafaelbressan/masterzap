@@ -31,7 +31,7 @@ import { closeOpenMenu } from './lib/menus.js';
 import { renderImportantPanel, setBubbleStar } from './components/ImportantPanel.js';
 import { isImportant } from './lib/important-messages.js';
 import { initTheme } from './lib/theme.js';
-import { OWNER_NAMES, ownerOf, contactOf, isOutgoing } from './lib/participants.js';
+import { OWNER_NAMES, ownerOf, ownerName, contactOf, otherParticipantOf, isOutgoing } from './lib/participants.js';
 import { showThemeDialog } from './components/ThemeDialog.js';
 
 // ── Active state (only one thing at a time) ──────
@@ -95,7 +95,6 @@ async function init() {
     // The chat Vorcaro kept with himself — his own photo, as WhatsApp shows it.
     'dv-self': '/assets/avatar-dv.jpg',
   };
-  const SENDER_NAMES = OWNER_NAMES;
   // Per-conversation media tallies come from conversations.json (built by
   // scripts/split_data.py); this is only the fallback for older data.
   const MEDIA_COUNTS = { images: 0, videos: 0, documents: 0 };
@@ -278,7 +277,7 @@ async function init() {
     } else {
       activeChatSearch = showChatSearchDrawer(mainArea, conversationId, {
         dateIndex,
-        owner: ownerOf(store.getConversation(conversationId)),
+        conversation: store.getConversation(conversationId),
         onResultClick: (messageId, date) => activeLoader?.scrollToMessage(messageId, date),
         onDateSelect: (date) => activeLoader?.scrollToDate(date),
         onClose: () => { activeChatSearch = null; },
@@ -392,7 +391,9 @@ async function init() {
       media: {
         conversations: store.getConversations(),
         avatarFor: (convId) => AVATARS[convId] || null,
-        selfAvatar: AVATARS['dv-self'],
+        // The owner's photo when there is one (Vorcaro's, for his phones).
+      selfAvatar: ownerOf(conversation) === 'DV' ? AVATARS['dv-self'] : null,
+      selfName: ownerName(conversation),
         contactAvatar: AVATARS[conversation.id] || null,
         contactName,
         onOpenChat: (convId) => router.navigate('chat', convId),
@@ -427,8 +428,9 @@ async function init() {
     const messagesArea = mainArea.querySelector('.chat-messages');
     if (messagesArea) {
       activeContextMenu = attachContextMenu(messagesArea, {
-        senderNames: SENDER_NAMES,
-        incomingSender: contactOf(conversation),
+        senderNames: OWNER_NAMES,
+        // A sender id, as the messages carry it (not the display contact).
+        incomingSender: otherParticipantOf(conversation),
         outgoingSender: ownerOf(conversation),
         conversationId: id,
       });
@@ -504,13 +506,15 @@ async function init() {
     closeSettings();
     // On a phone the open chat covers the list: close it, as the calls do.
     if (window.matchMedia('(max-width: 600px)').matches) showEmptyState();
+    // One lookup per mark: the conversations by id, once.
+    const conversationsById = new Map(store.getConversations().map(c => [c.id, c]));
     const panel = renderImportantPanel({
       conversationId: convId,
       nameOf: (id) => {
         const conv = store.getConversation(id);
         return conv ? conversationName(conv) : id;
       },
-      isOutgoing: (mark) => isOutgoing(mark, store.getConversation(mark.conversationId)),
+      isOutgoing: (mark) => isOutgoing(mark, conversationsById.get(mark.conversationId)),
       onOpen: (id, messageId) => openFromPanel(id, messageId),
       onBack: () => {
         sidebar.showChats?.();

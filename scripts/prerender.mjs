@@ -32,7 +32,7 @@ import { SETTINGS_CONTENT } from '../src/lib/settings-content.js';
 import { PEOPLE } from '../src/lib/people-content.js';
 import {
   ROOT, SITE, REPO, TIMEZONE, UTC_OFFSET,
-  loadEntries, loadMessages, sourceOf, contactOf, whoIs, createResolver, mentionsOf, createLocator, isPaged, PREVIEW_MESSAGES,
+  loadEntries, loadMessages, sourceOf, contactOf, ownerName, whoIs, createResolver, mentionsOf, createLocator, isPaged, PREVIEW_MESSAGES,
   urlsIn, linksToMarkdown, linksToText, linksToHtml, escapeHtml,
   longDate, phonePretty, messageText, citationOf, messageUrl,
   OFFICIAL_KINDS, VERIFICATION_LABELS, monthOf, zonedTimestamp,
@@ -135,7 +135,7 @@ function appPage({ title, description, path, jsonLd, chat, hash, article, extraH
 /** A description a search result can show, from the profile when there is one. */
 function describe(entry, profile, who) {
   const first = profile?.sections?.[0]?.paragraphs?.[0]?.text;
-  const fallback = `Conversa entre Daniel Vorcaro e ${who}: ${entry.total_messages} mensagens, de ${entry.date_range.start} a ${entry.date_range.end}, no MasterWhats.`;
+  const fallback = `Conversa entre ${ownerName(entry)} e ${who}: ${entry.total_messages} mensagens, de ${entry.date_range.start} a ${entry.date_range.end}, no MasterWhats.`;
   if (!first) return fallback;
   const text = linksToText(first).replace(/\s+/g, ' ').trim();
   if (text.length <= 155) return text;
@@ -149,13 +149,13 @@ function conversationLd(entry, who, description, { path, month, first, last, par
     '@context': 'https://schema.org',
     '@type': 'Conversation',
     '@id': url,
-    name: month ? `Daniel Vorcaro ↔ ${who} — ${longMonth(month)}` : `Daniel Vorcaro ↔ ${who}`,
+    name: month ? `${ownerName(entry)} ↔ ${who} — ${longMonth(month)}` : `${ownerName(entry)} ↔ ${who}`,
     url,
     inLanguage: 'pt-BR',
     description,
     temporalCoverage: `${first}/${last}`,
     about: [
-      { '@type': 'Person', name: 'Daniel Vorcaro' },
+      { '@type': 'Person', name: ownerName(entry) },
       { '@type': 'Person', name: who },
     ],
     isPartOf: parent ? { '@id': `${SITE}${parent}` } : { '@id': `${SITE}/#dataset` },
@@ -231,7 +231,7 @@ function conversationPage(entry, messages, profile, who) {
   const out = [];
 
   out.push(`<article id="prerender">`);
-  out.push(`<h1>Daniel Vorcaro ↔ ${escapeHtml(who)}</h1>`);
+  out.push(`<h1>${escapeHtml(ownerName(entry))} ↔ ${escapeHtml(who)}</h1>`);
   out.push(`<p>${entry.total_messages} mensagens, de ${entry.date_range.start} a ${entry.date_range.end}. `
     + `<a href="/#/chat/${entry.id}">Abrir no MasterWhats</a> · `
     + `<a href="/export/masterwhats-${entry.id}.md">Markdown completo</a> · `
@@ -258,7 +258,7 @@ function conversationPage(entry, messages, profile, who) {
 
   const description = describe(entry, profile, who);
   return appPage({
-    title: `Daniel Vorcaro ↔ ${who} — MasterWhats`,
+    title: `${ownerName(entry)} ↔ ${who} — MasterWhats`,
     description,
     path,
     jsonLd: conversationLd(entry, who, description, { path, first: entry.date_range.start, last: entry.date_range.end }),
@@ -273,7 +273,7 @@ function monthPage(entry, who, ym, msgs, prevYm, nextYm) {
   const parent = `/chat/${entry.id}`;
   const out = [];
   out.push(`<article id="prerender">`);
-  out.push(`<h1>Daniel Vorcaro ↔ ${escapeHtml(who)} — ${longMonth(ym)}</h1>`);
+  out.push(`<h1>${escapeHtml(ownerName(entry))} ↔ ${escapeHtml(who)} — ${longMonth(ym)}</h1>`);
   out.push(`<p>${msgs.length} mensagens em ${longMonth(ym)}, de ${msgs[0].date} a ${msgs.at(-1).date}. `
     + `<a href="${parent}">A conversa</a> · `
     + (prevYm ? `<a href="${parent}/${prevYm}" rel="prev">${longMonth(prevYm)}</a> · ` : '')
@@ -284,11 +284,11 @@ function monthPage(entry, who, ym, msgs, prevYm, nextYm) {
   out.push(...messagesHtml(msgs));
   out.push('</article>');
 
-  const description = `Conversa entre Daniel Vorcaro e ${who} em ${longMonth(ym)}: ${msgs.length} mensagens, de ${msgs[0].date} a ${msgs.at(-1).date}.`;
+  const description = `Conversa entre ${ownerName(entry)} e ${who} em ${longMonth(ym)}: ${msgs.length} mensagens, de ${msgs[0].date} a ${msgs.at(-1).date}.`;
   const links = (prevYm ? `<link rel="prev" href="${SITE}${parent}/${prevYm}">\n` : '')
     + (nextYm ? `<link rel="next" href="${SITE}${parent}/${nextYm}">\n` : '');
   return appPage({
-    title: `Daniel Vorcaro ↔ ${who} — ${longMonth(ym)} — MasterWhats`,
+    title: `${ownerName(entry)} ↔ ${who} — ${longMonth(ym)} — MasterWhats`,
     description,
     path,
     jsonLd: conversationLd(entry, who, description, { path, month: ym, first: msgs[0].date, last: msgs.at(-1).date, parent }),
@@ -374,7 +374,7 @@ function personPage(person, mentions) {
   body.push(`<p class="how">Como as mensagens se referem a essa pessoa: ${person.aliases.map(a => `<code>${escapeHtml(a.match)}</code>${a.only ? ` (só em ${a.only.map(id => contactOf(byId.get(id))).join(', ')})` : ''}`).join(', ')}. Uma menção achada por um apelido que não é o nome vem marcada.</p>`);
   for (const [id, hits] of mentions) {
     const entry = byId.get(id);
-    body.push(`<h2><a href="/chat/${id}">Daniel Vorcaro ↔ ${escapeHtml(contactOf(entry))}</a> — ${hits.length} men${hits.length === 1 ? 'ção' : 'ções'}</h2>`);
+    body.push(`<h2><a href="/chat/${id}">${escapeHtml(ownerName(entry))} ↔ ${escapeHtml(contactOf(entry))}</a> — ${hits.length} men${hits.length === 1 ? 'ção' : 'ções'}</h2>`);
     for (const { msg, alias } of hits) body.push(mentionHtml(id, msg, alias, primary));
   }
   const jsonLd = {

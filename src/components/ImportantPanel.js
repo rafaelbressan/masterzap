@@ -9,7 +9,7 @@
  * Security note: every text is set with textContent; the only innerHTML is
  * static SVG.
  */
-import { DEFAULT_OWNER } from '../lib/participants.js';
+import { isOutgoing as isOwnerMessage } from '../lib/participants.js';
 import { formatDateShort } from '../lib/utils.js';
 import { importantMessages, toggleImportant } from '../lib/important-messages.js';
 import { ICON_STAR, ICON_ARROW_BACK, ICON_TICKS } from '../lib/icons.js';
@@ -43,7 +43,7 @@ export function setBubbleStar(meta, on) {
  * @param {function} options.onBack - () => void
  * @returns {HTMLElement}
  */
-export function renderImportantPanel({ conversationId = null, nameOf, isOutgoing = (mark) => mark.sender === DEFAULT_OWNER, onOpen, onBack }) {
+export function renderImportantPanel({ conversationId = null, nameOf, isOutgoing = (mark) => isOwnerMessage(mark), onOpen, onBack }) {
   const panel = document.createElement('section');
   panel.className = 'important-panel';
   panel.setAttribute('aria-label', 'Mensagens importantes');

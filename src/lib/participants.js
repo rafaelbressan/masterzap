@@ -30,6 +30,21 @@ export function contactOf(conversation) {
     || '';
 }
 
+/** The owner's full name ("Daniel Vorcaro"), or their sender id when unknown. */
+export function ownerName(conversation) {
+  const owner = ownerOf(conversation);
+  return OWNER_NAMES[owner] || owner;
+}
+
+/**
+ * The other side's sender id, as the messages carry it — not the display
+ * name `contact` may give ("Alexandre de Moraes BRASILIA").
+ */
+export function otherParticipantOf(conversation) {
+  const owner = ownerOf(conversation);
+  return conversation?.participants?.find(p => p !== owner) || '';
+}
+
 /** Whether a message was sent from the owner's phone (the green bubble). */
 export function isOutgoing(message, conversation) {
   return !!message && message.sender === ownerOf(conversation);

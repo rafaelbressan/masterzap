@@ -8,7 +8,7 @@
  *    then linkify() wraps plain-text URLs in <a> tags. This is safe
  *    because the input to linkify is already fully escaped.
  */
-import { DEFAULT_OWNER, ownerOf, contactOf } from '../lib/participants.js';
+import { contactOf, isOutgoing as isOwnerMessage } from '../lib/participants.js';
 import { escapeHtml, formatTime, formatDateLong, linkify, NO_TIME_LABEL } from '../lib/utils.js';
 import { ScrollLoader } from '../lib/scroll-loader.js';
 import { ICON_INFO, ICON_SEARCH, ICON_CHECKEMPTY, ICON_BELL, ICON_TIMER, ICON_DOWNLOAD, ICON_CLOSE_CIRCULAR, ICON_MASTERZAP_LOGO, ICON_MEETBALL, ICON_CHEVRON_DW, ICON_SCREENSHOT } from '../lib/icons.js';
@@ -26,7 +26,7 @@ import { SEALS, SEAL_ICONS, sealToMark, sealDescription, provenanceOf, sourceByI
  * are, where the avatars live, how to open a chat or copy a number. Set once
  * per chat view; there is only ever one on screen.
  */
-let media = { conversations: [], avatarFor: () => null, selfAvatar: null, contactAvatar: null, contactName: '', onOpenChat: () => {}, onCopy: () => {}, container: null };
+let media = { conversations: [], avatarFor: () => null, selfAvatar: null, selfName: '', contactAvatar: null, contactName: '', onOpenChat: () => {}, onCopy: () => {}, container: null };
 
 /** The open conversation, for the seal each bubble may carry. */
 let sealContext = { conversation: null };
@@ -68,7 +68,7 @@ const BACK_ICON = `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" s
  * @param {Array} messages
  * @returns {HTMLElement}
  */
-function renderDaySection(date, messages, { notice = null, owner = DEFAULT_OWNER } = {}) {
+function renderDaySection(date, messages, { notice = null, conversation }) {
   const section = document.createElement('section');
   section.className = 'chat-day';
   section.dataset.date = date;
@@ -85,7 +85,7 @@ function renderDaySection(date, messages, { notice = null, owner = DEFAULT_OWNER
 
   // Messages
   for (const msg of messages) {
-    section.appendChild(renderMessage(msg, owner));
+    section.appendChild(renderMessage(msg, conversation));
   }
 
   return section;
@@ -193,7 +193,7 @@ function renderAudioMessage(msg, isOutgoing) {
   row.appendChild(waveform);
 
   const who = avatarEl(isOutgoing ? media.selfAvatar : media.contactAvatar,
-    isOutgoing ? 'Daniel Vorcaro' : media.contactName, 40, 'chat-audio-avatar');
+    isOutgoing ? media.selfName : media.contactName, 40, 'chat-audio-avatar');
   const mic = document.createElement('span');
   mic.className = 'chat-audio-mic';
   mic.innerHTML = ICON_MIC;
@@ -442,9 +442,9 @@ function renderDeletedMessage() {
  * @param {object} msg
  * @returns {HTMLElement}
  */
-function renderMessage(msg, owner = DEFAULT_OWNER) {
+function renderMessage(msg, conversation) {
   // Green and on the right: what the phone's owner sent.
-  const isOutgoing = msg.sender === owner;
+  const isOutgoing = isOwnerMessage(msg, conversation);
   const isSystem = msg.type === 'system';
 
   const row = document.createElement('div');
@@ -784,7 +784,7 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
     dateIndex,
     loadMessages,
     renderDay: (date, messages) => renderDaySection(date, messages, {
-      owner: ownerOf(conversation),
+      conversation,
       notice: date === dateIndex[0]?.date ? renderSealNotice(conversation, onSourceClick || onContactClick) : null,
     }),
   });
