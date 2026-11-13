@@ -195,11 +195,17 @@
   line-height: 1;
 }
 
+.msg-info-drawer-close:focus-visible {
+  outline: 2px solid var(--WDS-content-action-emphasized);
+  border-radius: 4px;
+}
+
 .msg-info-drawer-close:hover {
   color: var(--WDS-content-default);
 }
 
 .msg-info-drawer-title {
+  margin: 0;
   font-size: 16px;
   font-weight: 500;
   color: var(--WDS-content-default);
@@ -232,10 +238,17 @@
   margin-top: 4px;
 }
 
+/* Preview, note and fields scroll together under the header: a long note
+   must not push the fields out of reach. */
+.msg-info-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
 .msg-info-fields {
   padding: 0 24px;
-  flex: 1;
-  overflow-y: auto;
 }
 
 /* Stacked layout: title on top, value below — like WhatsApp info drawer */
@@ -1709,11 +1722,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin: -8px 0 -8px -6px;
+  /* A tap target bigger than the glyph, without moving the time. */
+  margin: -8px -6px;
   padding: 8px 6px;
   border: none;
   background: none;
-  color: var(--WDS-content-deemphasized);
+  color: var(--WDS-systems-bubble-content-deemphasized);
   vertical-align: -3px;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -1736,7 +1750,7 @@
 
 /* The note in the message's info. */
 .msg-info-note {
-  margin: 0 16px 8px;
+  margin: 0 24px 8px;
   padding: 12px 16px;
   border-radius: 8px;
   background-color: var(--WDS-surface-emphasized);

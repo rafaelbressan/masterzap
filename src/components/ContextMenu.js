@@ -6,6 +6,7 @@
  */
 
 import { DEFAULT_OWNER } from '../lib/participants.js';
+import { noteOf, NOTE_LABEL } from '../lib/provenance.js';
 import { parseAudio } from '../lib/media.js';
 import { openMenu, menuClosed } from '../lib/menus.js';
 import { escapeHtml, formatDateLong, formatTime, NO_TIME_LABEL } from '../lib/utils.js';
@@ -80,11 +81,17 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
     }
   }
 
-  function hideDrawer() {
+  // What had the focus before the drawer took it (the note's ⓘ), to give it
+  // back when the drawer is closed from the keyboard or its ✕.
+  let drawerOpener = null;
+
+  function hideDrawer({ restoreFocus = false } = {}) {
     if (drawerEl) {
       drawerEl.remove();
       drawerEl = null;
     }
+    if (restoreFocus && drawerOpener?.isConnected) drawerOpener.focus({ preventScroll: true });
+    drawerOpener = null;
   }
 
   function buildMenuItems(msg) {
@@ -152,13 +159,16 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
     return items;
   }
 
-  function showDrawer(msg) {
+  function showDrawer(msg, { opener = null } = {}) {
     hideDrawer();
+    drawerOpener = opener;
 
     const senderDisplay = senderNames[msg.sender] || msg.sender || 'Desconhecido';
 
     drawerEl = document.createElement('div');
     drawerEl.className = 'msg-info-drawer';
+    drawerEl.setAttribute('role', 'region');
+    drawerEl.setAttribute('aria-labelledby', 'msg-info-drawer-title');
 
     // Header
     const header = document.createElement('div');
@@ -168,15 +178,21 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
     closeBtn.className = 'msg-info-drawer-close';
     closeBtn.setAttribute('aria-label', 'Fechar');
     closeBtn.textContent = '✕';
-    closeBtn.addEventListener('click', hideDrawer);
+    closeBtn.addEventListener('click', () => hideDrawer({ restoreFocus: true }));
     header.appendChild(closeBtn);
 
-    const title = document.createElement('span');
+    const title = document.createElement('h2');
     title.className = 'msg-info-drawer-title';
+    title.id = 'msg-info-drawer-title';
     title.textContent = 'Info da mensagem';
     header.appendChild(title);
 
     drawerEl.appendChild(header);
+
+    // Everything under the header scrolls as one (components.css).
+    const body = document.createElement('div');
+    body.className = 'msg-info-body';
+    drawerEl.appendChild(body);
 
     // Message preview bubble
     const preview = document.createElement('div');
@@ -193,21 +209,22 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
     previewMeta.textContent = formatTime(msg.time);
     preview.appendChild(previewMeta);
 
-    drawerEl.appendChild(preview);
+    body.appendChild(preview);
 
     // The note on this message, from whoever put the data together.
     if (msg.note) {
       const note = document.createElement('section');
       note.className = 'msg-info-note';
-      note.setAttribute('aria-label', 'Nota do MasterWhats');
+      note.setAttribute('aria-labelledby', 'msg-info-note-title');
       const heading = document.createElement('h3');
       heading.className = 'msg-info-note-title';
-      heading.textContent = 'Nota do MasterWhats';
+      heading.id = 'msg-info-note-title';
+      heading.textContent = NOTE_LABEL;
       const text = document.createElement('p');
       text.className = 'msg-info-note-text';
       text.textContent = msg.note;
       note.append(heading, text);
-      drawerEl.appendChild(note);
+      body.appendChild(note);
     }
 
     // Info fields
@@ -234,7 +251,7 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
       fields.appendChild(createField('Editada', 'Sim'));
     }
 
-    drawerEl.appendChild(fields);
+    body.appendChild(fields);
 
     // Mount inside the main area so width % is relative to the chat panel
     const mainArea = chatContainer.closest('.main-area');
@@ -244,8 +261,12 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
       document.body.appendChild(drawerEl);
     }
 
+    // Opened from the note's ⓘ: the focus goes with it, so the keyboard and
+    // a screen reader land on the note, not back in the chat.
+    if (opener) closeBtn.focus({ preventScroll: true });
+
     // Trigger open animation
-    requestAnimationFrame(() => drawerEl.classList.add('open'));
+    requestAnimationFrame(() => drawerEl?.classList.add('open'));
   }
 
   function createField(label, value) {
@@ -315,7 +336,7 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
       content,
       outgoing: isOutgoing,
       // A note from whoever put the data together, if any (msg.note).
-      note: typeof message?.note === 'string' && message.note.trim() ? message.note.trim() : null,
+      note: noteOf(message),
       sender: message?.sender ?? (isOutgoing ? outgoingSender : incomingSender),
       date: message?.date ?? date,
       // "--:--" is how the bubble draws an unknown time; it is not a time.
@@ -350,12 +371,21 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
   function onKeyDown(e) {
     if (e.key === 'Escape') {
       hideMenu();
-      hideDrawer();
+      hideDrawer({ restoreFocus: true });
     }
   }
 
-  // Chevron button click → open context menu at chevron position
+  // Chevron button click → open context menu at chevron position; the ⓘ of
+  // a message with a note (ChatView.js) → its info, with the note.
   function onChevronClick(e) {
+    const flag = e.target.closest('.chat-msg-note-flag');
+    if (flag) {
+      e.stopPropagation();
+      const bubble = flag.closest('.chat-msg-bubble');
+      const msg = bubble && getMessageFromElement(bubble);
+      if (msg) { hideMenu(); showDrawer(msg, { opener: flag }); }
+      return;
+    }
     const chevron = e.target.closest('.chat-msg-chevron');
     if (!chevron) return;
     e.stopPropagation();
@@ -368,16 +398,8 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
     }
   }
 
-  // The ⓘ of a message with a note (ChatView.js) opens its info.
-  function onMessageInfo(e) {
-    const bubble = e.target.closest('.chat-msg-bubble');
-    const msg = bubble && getMessageFromElement(bubble);
-    if (msg) { hideMenu(); showDrawer(msg); }
-  }
-
   // Attach listeners
   chatContainer.addEventListener('contextmenu', onContextMenu);
-  chatContainer.addEventListener('messageinfo', onMessageInfo);
   chatContainer.addEventListener('click', onChevronClick);
   document.addEventListener('click', onClickOutside, true);
   document.addEventListener('keydown', onKeyDown);
@@ -387,7 +409,6 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
       hideMenu();
       hideDrawer();
       chatContainer.removeEventListener('contextmenu', onContextMenu);
-      chatContainer.removeEventListener('messageinfo', onMessageInfo);
       chatContainer.removeEventListener('click', onChevronClick);
       document.removeEventListener('click', onClickOutside, true);
       document.removeEventListener('keydown', onKeyDown);

@@ -99,3 +99,14 @@ export function conversationSealLine(conversation) {
   }
   return line;
 }
+
+/** What the editorial note on a message is called wherever it is shown. */
+export const NOTE_LABEL = 'Nota do MasterWhats';
+
+/**
+ * The note from whoever put the data together (how a time was estimated,
+ * what a figure leaves out), trimmed, or null when the message has none.
+ */
+export function noteOf(msg) {
+  return typeof msg?.note === 'string' && msg.note.trim() ? msg.note.trim() : null;
+}

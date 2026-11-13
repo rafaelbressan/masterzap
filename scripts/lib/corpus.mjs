@@ -4,7 +4,7 @@
  */
 
 import { readFileSync, existsSync } from 'node:fs';
-import { SEALS, provenanceOf as appProvenanceOf } from '../../src/lib/provenance.js';
+import { SEALS, provenanceOf as appProvenanceOf, noteOf, NOTE_LABEL } from '../../src/lib/provenance.js';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -311,8 +311,14 @@ export const MEDIA = {
   document: 'Documento', call: 'Chamada', deleted: 'Mensagem apagada', system: 'Sistema',
 };
 
-/** One message as plain text, media and system events in brackets. */
+/** One message as plain text, media and system events in brackets, and the editorial note after. */
 export function messageText(msg) {
+  const text = contentText(msg);
+  const note = noteOf(msg);
+  return note ? `${text}${text ? ' ' : ''}(${NOTE_LABEL}: ${note})` : text;
+}
+
+function contentText(msg) {
   const text = (msg.content || '').trim();
   switch (msg.type) {
     case 'text': return text;

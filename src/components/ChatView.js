@@ -20,7 +20,7 @@ import { showContactsSheet, ICON_MESSAGE } from './ContactsSheet.js';
 import { openMenu, menuClosed } from '../lib/menus.js';
 import { isImportant } from '../lib/important-messages.js';
 import { setBubbleStar } from './ImportantPanel.js';
-import { SEALS, SEAL_ICONS, sealToMark, sealDescription, provenanceOf, sourceById, conversationSealLine } from '../lib/provenance.js';
+import { SEALS, SEAL_ICONS, sealToMark, sealDescription, provenanceOf, sourceById, conversationSealLine, noteOf, NOTE_LABEL } from '../lib/provenance.js';
 
 /**
  * What the media renderers need from outside the bubble: who the contacts
@@ -680,18 +680,14 @@ function renderMessage(msg, conversation) {
   // A note from whoever put the data together (how a time was estimated,
   // where a line came from): an ⓘ by the time, as the star, that opens the
   // message's info with it. It is not anyone's message in the chat.
-  if (typeof msg.note === 'string' && msg.note.trim()) {
+  // The click is ContextMenu.js's, as the chevron's.
+  if (noteOf(msg)) {
     const flag = document.createElement('button');
     flag.type = 'button';
     flag.className = 'chat-msg-note-flag';
     flag.setAttribute('aria-label', 'Ver nota do MasterWhats sobre esta mensagem');
-    flag.title = 'Nota do MasterWhats';
+    flag.title = NOTE_LABEL;
     flag.innerHTML = ICON_INFO; // Static SVG
-    flag.addEventListener('click', (e) => {
-      e.stopPropagation();
-      // The message menu (ContextMenu.js) opens the info, as from its item.
-      flag.dispatchEvent(new CustomEvent('messageinfo', { bubbles: true }));
-    });
     meta.insertBefore(flag, time);
   }
   bubble.appendChild(meta);
