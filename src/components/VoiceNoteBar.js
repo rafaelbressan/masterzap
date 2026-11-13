@@ -58,18 +58,24 @@ export function mountVoiceNoteBar(sidebar, { onOpen }) {
 
   let openConversation = null;
   let shownKey = null;
+  let drawnPlaying = null;
 
   function draw() {
     const note = currentVoiceNote();
     bar.hidden = !note || note.conversationId === openConversation;
-    if (!note) { shownKey = null; return; }
+    if (!note) { shownKey = null; drawnPlaying = null; return; }
     const playing = !note.audio.paused;
-    toggle.innerHTML = playing ? ICON_PAUSE : ICON_PLAY; // Static SVG
-    toggle.setAttribute('aria-label', playing ? 'Pausar áudio' : 'Reproduzir áudio');
+    if (drawnPlaying !== playing) {
+      // Only on a change: a button rewritten under the finger can lose it.
+      drawnPlaying = playing;
+      toggle.innerHTML = playing ? ICON_PAUSE : ICON_PLAY; // Static SVG
+      toggle.setAttribute('aria-label', playing ? 'Pausar áudio' : 'Reproduzir áudio');
+    }
     if (shownKey !== note.key) {
       shownKey = note.key;
       name.textContent = note.name || '';
-      who.setAttribute('aria-label', `Abrir a conversa com ${note.name || ''}`);
+      // The chat it opens is the one with the contact, whoever sent it.
+      who.setAttribute('aria-label', `Abrir a conversa com ${note.contactName || note.name || ''}`);
       photo.replaceChildren();
       if (note.avatar) {
         const img = document.createElement('img');

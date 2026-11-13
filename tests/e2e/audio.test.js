@@ -74,8 +74,9 @@ for (const [name, src, plays] of [
     await expect(play).toHaveAttribute('aria-label', 'Pausar áudio');
     await expect(note965(page).locator('.chat-audio')).toHaveClass(/playing/);
     await expect(note965(page).locator('.chat-audio-foot')).toHaveText(/^\d+:\d{2}$/);
-    // At the end it is back to play.
+    // At the end it is back to play, and the length stays.
     await expect(play).toHaveAttribute('aria-label', 'Reproduzir áudio', { timeout: 6000 });
+    await expect(note965(page).locator('.chat-audio-foot')).toHaveText('0:02');
   });
 }
 
@@ -154,3 +155,21 @@ test('on a phone, back to the list with a recording playing shows the bar', asyn
   await expect(bar).toBeInViewport();
   await expect(bar.getByRole('button', { name: 'Pausar áudio' })).toBeVisible();
 });
+
+test('a recording that cannot be played says so, and leaves no bar behind', async ({ page }, info) => {
+  test.skip(info.project.name !== 'desktop', 'the list beside the chat');
+  await page.route(/\/data\/martha-graeff\/2024-03-20\.json/, async (route) => {
+    const response = await route.fetch();
+    const data = await response.json();
+    data.messages.find(m => m.id === 965).audio_src = '/assets/missing-recording.mp3';
+    await route.fulfill({ response, json: data });
+  });
+  await page.route('**/assets/missing-recording.mp3', route => route.fulfill({ status: 404, body: '' }));
+  await page.goto('/#/chat/martha-graeff/msg/965');
+  await note965(page).locator('.chat-audio-play').click();
+  await expect(note965(page).locator('.chat-audio-foot')).toHaveText('Não foi possível tocar o áudio');
+  await expect(note965(page).locator('.chat-audio-play')).toBeDisabled();
+  await page.locator('.conversation-item[data-id="ciro-soares"]').click();
+  await expect(page.locator('.voice-note-bar')).toBeHidden();
+});
+

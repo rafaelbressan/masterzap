@@ -8,7 +8,7 @@
  *    then linkify() wraps plain-text URLs in <a> tags. This is safe
  *    because the input to linkify is already fully escaped.
  */
-import { currentVoiceNote, isCurrent, playVoiceNote, pauseVoiceNote, clock } from '../lib/voice-notes.js';
+import { currentVoiceNote, isCurrent, playVoiceNote, pauseVoiceNote, durationOf, hasFailed, clock } from '../lib/voice-notes.js';
 import { contactOf, isOutgoing as isOwnerMessage } from '../lib/participants.js';
 import { escapeHtml, formatTime, formatDateLong, linkify, NO_TIME_LABEL } from '../lib/utils.js';
 import { ScrollLoader } from '../lib/scroll-loader.js';
@@ -27,7 +27,7 @@ import { SEALS, SEAL_ICONS, sealToMark, sealDescription, provenanceOf, sourceByI
  * are, where the avatars live, how to open a chat or copy a number. Set once
  * per chat view; there is only ever one on screen.
  */
-let media = { conversations: [], avatarFor: () => null, selfAvatar: null, selfName: '', contactAvatar: null, contactName: '', onOpenChat: () => {}, onCopy: () => {}, container: null };
+let media = { conversations: [], avatarFor: () => null, selfAvatar: null, selfName: '', contactAvatar: null, contactName: '', onOpenChat: () => {}, onCopy: () => {}, container: null, signal: undefined };
 
 /** The open conversation, for the seal each bubble may carry. */
 let sealContext = { conversation: null };
@@ -56,6 +56,8 @@ function renderSealNotice(conversation, onOpen) {
   return notice;
 }
 
+// A transcript this short fits in four lines of any bubble: never cut.
+const TRANSCRIPT_NEVER_CUT_CHARS = 120;
 const ICON_PAUSE = `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>`;
 const ICON_PLAY = `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
 const MAP_PLACEHOLDER = '/assets/map-placeholder.jpg';
@@ -218,30 +220,39 @@ function renderAudioMessage(msg, isOutgoing, conversation) {
     // reader left the chat and came back), and it goes on if they leave.
     const key = `${conversation?.id}/${msg.id}`;
     play.setAttribute('aria-label', 'Reproduzir áudio');
+    let drawnOn = null; // the icon drawn, so it is only replaced on a change
     const show = () => {
       const note = isCurrent(key) ? currentVoiceNote() : null;
       const audio = note?.audio;
       const on = !!audio && !audio.paused;
-      play.innerHTML = on ? ICON_PAUSE : ICON_PLAY; // Static SVG
-      play.setAttribute('aria-label', on ? 'Pausar áudio' : 'Reproduzir áudio');
-      el.classList.toggle('playing', on);
+      if (drawnOn !== on) {
+        // Replaced only on a change: a button rewritten under the finger
+        // four times a second can lose the press (WebKit).
+        drawnOn = on;
+        play.innerHTML = on ? ICON_PAUSE : ICON_PLAY; // Static SVG
+        play.setAttribute('aria-label', on ? 'Pausar áudio' : 'Reproduzir áudio');
+        el.classList.toggle('playing', on);
+      }
       const done = audio?.duration ? audio.currentTime / audio.duration : 0;
       bars.forEach((bar, i) => bar.classList.toggle('played', i / bars.length < done));
-      if (note?.failed) {
+      if (hasFailed(key)) {
         play.disabled = true;
+        play.setAttribute('aria-label', 'Áudio não disponível');
         foot.textContent = 'Não foi possível tocar o áudio';
         return;
       }
-      const time = audio ? clock(audio.currentTime > 0 ? audio.currentTime : audio.duration) : '';
-      foot.textContent = [time, provenance].filter(Boolean).join(' · ');
+      const seconds = audio && audio.currentTime > 0 ? audio.currentTime : durationOf(key);
+      foot.textContent = [clock(seconds), provenance].filter(Boolean).join(' · ');
     };
     show();
-    // Follow the note while this bubble is on the page (it is put there in
-    // the same frame; once off it, it stops listening).
-    let seen = false;
-    requestAnimationFrame(() => { seen = true; });
-    const follow = () => { if (el.isConnected) show(); else if (seen) window.removeEventListener('voicenotechange', follow); };
-    window.addEventListener('voicenotechange', follow);
+    // Follow this note only (not every note that plays), while its chat is
+    // on screen: the chat's signal ends the listening when it closes.
+    let mine = false;
+    window.addEventListener('voicenotechange', (e) => {
+      if (e.detail?.key !== key && !mine) return;
+      mine = isCurrent(key);
+      show();
+    }, { signal: media.signal });
     play.addEventListener('click', (e) => {
       e.stopPropagation();
       const note = currentVoiceNote();
@@ -252,6 +263,7 @@ function renderAudioMessage(msg, isOutgoing, conversation) {
         conversationId: conversation?.id,
         messageId: msg.id,
         name: isOutgoing ? media.selfName : media.contactName,
+        contactName: media.contactName,
         avatar: isOutgoing ? media.selfAvatar : media.contactAvatar,
       });
     });
@@ -290,11 +302,17 @@ function renderTranscript(transcript) {
   text.textContent = transcript;
   wrap.appendChild(text);
 
+  // Short ones are never cut. Longer ones keep the button's line from the
+  // start (invisible until measured), so nothing jumps when it shows.
+  if (transcript.length <= TRANSCRIPT_NEVER_CUT_CHARS) {
+    wrap.classList.remove('clamped');
+    return wrap;
+  }
   const more = document.createElement('button');
   more.type = 'button';
   more.className = 'chat-audio-transcript-more';
   more.textContent = 'Ler mais';
-  more.hidden = true;
+  more.style.visibility = 'hidden';
   more.addEventListener('click', (e) => {
     e.stopPropagation();
     expandTranscript(wrap);
@@ -305,8 +323,8 @@ function renderTranscript(transcript) {
   const measure = new ResizeObserver(() => {
     if (!text.clientHeight) return; // not laid out yet
     measure.disconnect();
-    if (text.scrollHeight > text.clientHeight + 1) more.hidden = false;
-    else wrap.classList.remove('clamped');
+    if (text.scrollHeight > text.clientHeight + 1) more.style.visibility = '';
+    else expandTranscript(wrap);
   });
   measure.observe(text);
   return wrap;
@@ -691,6 +709,9 @@ function renderMessage(msg, conversation) {
 
 export function renderChatView(container, { conversation, dateIndex, loadMessages, onBack, onContactClick, onSourceClick, onSearch, onCloseChat, onAbout, onScreenshot, onMenuOpen, onExport, media: mediaOptions }) {
   if (mediaOptions) media = { ...media, ...mediaOptions, container };
+  // What this chat's bubbles listen to (the voice note playing) stops with it.
+  const listeners = new AbortController();
+  media = { ...media, signal: listeners.signal };
   sealContext = { conversation };
   // Clear container
   while (container.firstChild) container.removeChild(container.firstChild);
@@ -886,6 +907,9 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
     container: messagesArea,
     dateIndex,
     loadMessages,
+    // Landing on a voice note (a search, a link): its transcript whole.
+    revealMessage: (row) => row.querySelectorAll('.chat-audio-transcript').forEach(expandTranscript),
+    onDestroy: () => listeners.abort(),
     renderDay: (date, messages) => renderDaySection(date, messages, {
       conversation,
       notice: date === dateIndex[0]?.date ? renderSealNotice(conversation, onSourceClick || onContactClick) : null,

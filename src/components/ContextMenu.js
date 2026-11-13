@@ -281,7 +281,7 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
     // A voice note's text is what was said (its transcript), not the labels
     // and the clock drawn around it.
     const content = row._message?.type === 'text' ? row._message.content
-      : row._message?.type === 'audio' ? parseAudio(row._message.content).transcript
+      : row._message?.type === 'audio' ? (parseAudio(row._message.content).transcript || 'Áudio')
         : drawn;
     const meta = row.querySelector('.chat-msg-meta')?.textContent || '';
     const isOutgoing = row.classList.contains('outgoing');
