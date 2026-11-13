@@ -7,7 +7,7 @@
  * uses ProfileSections with parseLinks from static content files.
  */
 import { SETTINGS_CONTENT } from '../lib/settings-content.js';
-import { CREDITS, legalChannelSections } from '../config/site.js';
+import { CREDITS } from '../config/site.js';
 import { SOURCES } from '../lib/profile-content.js';
 import { renderProfileSections } from './ProfileSections.js';
 
@@ -81,10 +81,8 @@ export function showSettingsDrawer(container, { onClose, actions = {} } = {}) {
   divider.className = 'contact-info-divider';
   body.appendChild(divider);
 
-  // Content sections with action links; the legal channel last, before the
-  // sources and the credits.
-  const sections = [...SETTINGS_CONTENT.sections, ...legalChannelSections()];
-  renderProfileSections(body, sections, SOURCES, CREDITS, actions);
+  // Content sections with action links
+  renderProfileSections(body, SETTINGS_CONTENT.sections, SOURCES, CREDITS, actions);
 
   drawer.appendChild(body);
 

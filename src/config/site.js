@@ -46,14 +46,17 @@ export const SITE_URL_PLACEHOLDER = '%SITE_URL%';
 export const AUTHOR = { name: 'Rafael Bressan', url: 'https://linkedin.com/in/rafaelbressan' };
 export const REPO_URL = 'https://github.com/rafaelbressan/masterzap';
 
-/** The line at the foot of the "Sobre" drawer and of every profile. */
-export const CREDITS = `Projeto feito por {${AUTHOR.name}}[${AUTHOR.url}] com Claude Code. {Código-fonte no GitHub}[${REPO_URL}]. `
-  + 'As informações aqui compiladas são de domínio público, extraídas de reportagens jornalísticas e de documentos cujo sigilo foi levantado judicialmente. '
+/** What the site's material is, and that it takes no side. */
+export const DISCLAIMER = 'As informações aqui compiladas são de domínio público, extraídas de reportagens jornalísticas, de fontes abertas e de documentos cujo sigilo foi levantado judicialmente. '
   + 'Este projeto não tem vinculação com nenhuma das partes envolvidas.';
+
+/** The line at the foot of the "Sobre" drawer and of every profile. */
+export const CREDITS = `Projeto feito por {${AUTHOR.name}}[${AUTHOR.url}] com Claude Code. {Código-fonte no GitHub}[${REPO_URL}]. ${DISCLAIMER}`;
 
 /**
  * Where extrajudicial notices, court orders, official letters and summons
  * about the site's content are received, and how fast they are answered.
+ * The "Sobre" text around them is in src/lib/settings-content.js.
  */
 export const LEGAL_CHANNEL = {
   formUrl: 'https://app.pipefy.com/public/form/Z9mvDoph',
@@ -63,21 +66,3 @@ export const LEGAL_CHANNEL = {
     'Resposta formal ou cumprimento da medida determinada: em até 72 horas (ou no prazo estabelecido na própria decisão, caso seja inferior)',
   ],
 };
-
-/** The legal channel as sections of the "Sobre" drawer. */
-export function legalChannelSections(channel = LEGAL_CHANNEL) {
-  return [
-    {
-      title: 'Canal Jurídico',
-      paragraphs: [
-        { text: 'Este canal é destinado exclusivamente ao recebimento de notificações extrajudiciais, ordens judiciais, ofícios e citações formais relacionadas a qualquer conteúdo exibido na plataforma.' },
-        { text: 'Toda solicitação recebida por este canal é tratada com prioridade e analisada juridicamente antes de qualquer resposta ou ação.' },
-        { text: `Envie sua solicitação pelo {formulário}[${channel.formUrl}].` },
-      ],
-    },
-    {
-      title: 'Prazos de atendimento',
-      paragraphs: channel.deadlines.map(text => ({ text: `• ${text}` })),
-    },
-  ];
-}

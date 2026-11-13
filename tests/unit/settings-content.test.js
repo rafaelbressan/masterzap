@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { SETTINGS_CONTENT } from '../../src/lib/settings-content.js';
-import { CREDITS, AUTHOR, REPO_URL, LEGAL_CHANNEL, legalChannelSections } from '../../src/config/site.js';
+import { CREDITS, AUTHOR, REPO_URL, DISCLAIMER, LEGAL_CHANNEL } from '../../src/config/site.js';
 import { parseLinks } from '../../src/lib/profile-content.js';
 
 describe('SETTINGS_CONTENT', () => {
@@ -9,34 +9,38 @@ describe('SETTINGS_CONTENT', () => {
     expect(SETTINGS_CONTENT.sections.length).toBeGreaterThan(5);
   });
 
-  it('each section has title and paragraphs', () => {
+  it('each section has a title and some text: paragraphs, a list, or both', () => {
     for (const section of SETTINGS_CONTENT.sections) {
       expect(section).toHaveProperty('title');
       expect(Array.isArray(section.paragraphs)).toBe(true);
-      expect(section.paragraphs.length).toBeGreaterThan(0);
+      expect(section.paragraphs.length + (section.list?.length ?? 0)).toBeGreaterThan(0);
       for (const para of section.paragraphs) {
         expect(para).toHaveProperty('text');
         expect(para.text.length).toBeGreaterThan(0);
       }
+      for (const item of section.list ?? []) expect(item.length).toBeGreaterThan(0);
     }
   });
 
 });
 
 describe('site config: credits and legal channel', () => {
-  it('the credits name the author and link the code', () => {
+  it('the credits name the author, link the code and carry the disclaimer', () => {
     expect(CREDITS).toContain(`{${AUTHOR.name}}[${AUTHOR.url}]`);
     expect(CREDITS).toContain(`[${REPO_URL}]`);
+    expect(CREDITS.endsWith(DISCLAIMER)).toBe(true);
+    // Not every conversation came from a court record: the Martha chat was leaked.
+    expect(DISCLAIMER).toContain('reportagens jornalísticas, de fontes abertas e de documentos');
   });
 
-  it('the legal channel links its form and lists the three deadlines', () => {
-    const [channel, deadlines] = legalChannelSections();
-    expect(channel.title).toBe('Canal Jurídico');
-    expect(channel.paragraphs.map(p => p.text).join(' ')).toContain(`[${LEGAL_CHANNEL.formUrl}]`);
+  it('the legal channel closes the "Sobre": the form, then the three deadlines as a list', () => {
+    const titles = SETTINGS_CONTENT.sections.map(s => s.title);
+    expect(titles.slice(-2)).toEqual(['Canal Jurídico', 'Prazos de atendimento']);
+    const [channel, deadlines] = SETTINGS_CONTENT.sections.slice(-2);
+    expect(channel.paragraphs.map(p => p.text).join(' ')).toContain(`{formulário}[${LEGAL_CHANNEL.formUrl}]`);
     expect(LEGAL_CHANNEL.formUrl).toMatch(/^https:\/\//);
-    expect(deadlines.title).toBe('Prazos de atendimento');
-    expect(deadlines.paragraphs.map(p => p.text)).toEqual(LEGAL_CHANNEL.deadlines.map(d => `• ${d}`));
-    expect(deadlines.paragraphs.map(p => p.text).join(' ')).toMatch(/24 horas.*48 horas.*72 horas/);
+    expect(deadlines.list).toEqual(LEGAL_CHANNEL.deadlines);
+    expect(deadlines.list.join(' ')).toMatch(/24 horas.*48 horas.*72 horas/);
   });
 });
 
