@@ -79,7 +79,7 @@ export function showImagePreview(container, blob, { filename, onShare, onClose }
     hint.textContent = 'Ou toque e segure na imagem para usar o menu do navegador.';
 
     const shareBtn = document.createElement('button');
-    shareBtn.className = 'image-preview-action primary wds-button wds-button--filled';
+    shareBtn.className = 'image-preview-action wds-button wds-button--filled';
     shareBtn.textContent = 'Compartilhar';
     shareBtn.addEventListener('click', async () => {
       shareBtn.disabled = true;

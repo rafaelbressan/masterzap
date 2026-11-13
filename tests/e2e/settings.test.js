@@ -68,14 +68,15 @@ test.describe('Settings/About Drawer', () => {
     expect(order[1]).toBeLessThan(order[2]);
   });
 
-  test('the donation keys copy with a tap, and say so', async ({ page, context }, info) => {
-    test.skip(info.project.name !== 'desktop', 'clipboard permissions are set for the desktop project');
+  test('the donation keys copy with a tap, and say so where it can be seen', async ({ page, context }) => {
     await context.grantPermissions(['clipboard-read', 'clipboard-write']);
     await page.locator('.sidebar-menu-btn').click();
     await page.locator('.sidebar-dropdown-item', { hasText: 'Sobre o MasterWhats' }).click();
     const support = page.locator('.settings-drawer .profile-section', { hasText: 'Apoie o MasterWhats' });
     await support.getByRole('button', { name: 'Copiar chave PIX' }).click();
-    await expect(page.locator('.search-toast')).toContainText('Chave PIX copiada');
+    const toast = page.locator('.search-toast');
+    await expect(toast).toContainText('Chave PIX copiada');
+    await expect(toast).toBeInViewport();
     const pix = await support.locator('.profile-copy-value').first().textContent();
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(pix);
   });

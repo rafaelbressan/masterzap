@@ -22,15 +22,29 @@ import { LEGAL_CHANNEL, DONATION } from '../config/site.js';
  * "Apoie o MasterWhats": one row per way to donate that has a key — the key
  * and a button that copies it. None without a key.
  */
+// A Lightning address (name@wallet.com), not an on-chain one: a wallet that
+// only sends on-chain would refuse it.
+const lightning = (address) => /^[^\s@:]+@[^\s@]+\.[^\s@]+$/.test(address);
+
 export function donationSections(donation = DONATION) {
   const items = [
-    donation.pix && { label: 'PIX', value: donation.pix, button: 'Copiar chave PIX', copied: 'Chave PIX copiada' },
-    donation.bitcoin && {
-      label: donation.bitcoin.includes('@') ? 'Bitcoin (Lightning)' : 'Bitcoin',
+    donation.pix && {
+      label: donation.pix.startsWith('+') ? 'PIX (celular)' : 'PIX',
+      value: donation.pix,
+      button: 'Copiar chave PIX',
+      copied: 'Chave PIX copiada',
+    },
+    donation.bitcoin && (lightning(donation.bitcoin) ? {
+      label: 'Bitcoin (Lightning)',
+      value: donation.bitcoin,
+      button: 'Copiar endereço Lightning',
+      copied: 'Endereço Lightning copiado',
+    } : {
+      label: 'Bitcoin',
       value: donation.bitcoin,
       button: 'Copiar endereço Bitcoin',
       copied: 'Endereço Bitcoin copiado',
-    },
+    }),
   ].filter(Boolean);
   return items.length ? [{
     title: 'Apoie o MasterWhats',

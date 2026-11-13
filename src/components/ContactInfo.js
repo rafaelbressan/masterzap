@@ -99,13 +99,16 @@ export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onCl
   profile.appendChild(phoneEl);
 
   // Search button
-  const searchBtn = document.createElement('button');
-  searchBtn.type = 'button';
-  searchBtn.className = 'contact-info-search-btn wds-button wds-button--outline';
-  // Static SVG icon — safe innerHTML
-  searchBtn.innerHTML = `${ICON_SEARCH} <span>Pesquisar</span>`;
-  if (onSearch) searchBtn.addEventListener('click', onSearch);
-  profile.appendChild(searchBtn);
+  // Only with somewhere to search: a button that does nothing has no place.
+  if (onSearch) {
+    const searchBtn = document.createElement('button');
+    searchBtn.type = 'button';
+    searchBtn.className = 'contact-info-search-btn wds-button wds-button--outline';
+    // Static SVG icon — safe innerHTML
+    searchBtn.innerHTML = `${ICON_SEARCH} <span>Pesquisar</span>`;
+    searchBtn.addEventListener('click', onSearch);
+    profile.appendChild(searchBtn);
+  }
 
   body.appendChild(profile);
   body.appendChild(createDivider());

@@ -129,12 +129,18 @@ describe('donation', () => {
     expect(titles.indexOf('Apoie o MasterWhats')).toBe(titles.indexOf('Canal Jurídico') - 1);
     const [section] = donationSections();
     expect(section.copyItems.map(i => i.value)).toEqual([DONATION.pix, DONATION.bitcoin]);
-    expect(section.copyItems.map(i => i.button)).toEqual(['Copiar chave PIX', 'Copiar endereço Bitcoin']);
+    expect(section.copyItems.map(i => i.label)).toEqual(['PIX (celular)', 'Bitcoin (Lightning)']);
+    expect(section.copyItems.map(i => i.button)).toEqual(['Copiar chave PIX', 'Copiar endereço Lightning']);
+    // A phone key goes with +55, so no bank app reads it as a CPF.
+    expect(DONATION.pix).toMatch(/^\+55\d{10,11}$/);
   });
 
   it('names Lightning by its name@wallet form, plain Bitcoin otherwise', () => {
-    expect(donationSections({ bitcoin: 'a@wallet.com' })[0].copyItems[0].label).toBe('Bitcoin (Lightning)');
-    expect(donationSections({ bitcoin: 'bc1qexample' })[0].copyItems[0].label).toBe('Bitcoin');
+    const [ln] = donationSections({ bitcoin: 'a@wallet.com' })[0].copyItems;
+    expect([ln.label, ln.button]).toEqual(['Bitcoin (Lightning)', 'Copiar endereço Lightning']);
+    const [chain] = donationSections({ bitcoin: 'bc1qexample' })[0].copyItems;
+    expect([chain.label, chain.button]).toEqual(['Bitcoin', 'Copiar endereço Bitcoin']);
+    expect(donationSections({ pix: 'chave@email.com' })[0].copyItems[0].label).toBe('PIX');
   });
 
   it('shows nothing without a key, and only the keys there are', () => {

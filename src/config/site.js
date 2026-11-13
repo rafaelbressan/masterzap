@@ -71,10 +71,11 @@ export const CREDITS = `Projeto feito por {${AUTHOR.name}}[${withUtm(AUTHOR.url,
 /**
  * Where a reader can chip in: a PIX key and a Bitcoin address (Lightning,
  * name@wallet, or on-chain). Empty, the "Apoie o MasterWhats" block in the
- * "Sobre" does not show.
+ * "Sobre" does not show. A phone PIX key goes as +55…: 11 bare digits read as
+ * a CPF in some bank apps.
  */
 export const DONATION = {
-  pix: '84996961915',
+  pix: '+5584996961915',
   bitcoin: 'fullsearch03@walletofsatoshi.com',
 };
 

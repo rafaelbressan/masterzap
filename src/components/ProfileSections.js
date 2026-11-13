@@ -38,7 +38,8 @@ function copyRow(item) {
   button.textContent = item.button;
   button.addEventListener('click', async () => {
     const ok = await copyText(item.value);
-    const host = row.closest('.profile-drawer, .contact-info-drawer') || document.body;
+    // At the foot of the drawer the row is in (positioned for it).
+    const host = row.closest('.profile-drawer') || document.body;
     showToast(host, ok ? item.copied : 'Não foi possível copiar');
   });
   row.append(label, value, button);

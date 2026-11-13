@@ -91,7 +91,8 @@
 }
 
 /* ── Buttons, as WhatsApp's (WDS) ──────────────
-   A pill, 40px (32 small, 56 large), 14px text. Filled: the action;
+   A pill, 40px, 14px text (WhatsApp also has 32px and 56px sizes; none
+   here yet). Filled: the action;
    tonal: a lighter second action; outline and borderless: the rest. Values
    from WhatsApp Web's WDSButton config. */
 .wds-button {
@@ -114,16 +115,12 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-.wds-button--small { height: 32px; padding: 0 12px; }
-.wds-button--large { height: 56px; padding: 0 20px; }
 
 .wds-button--filled { background-color: var(--WDS-accent); color: var(--WDS-content-on-accent); }
 .wds-button--tonal { background-color: var(--WDS-accent-deemphasized); color: var(--WDS-accent-emphasized); }
 .wds-button--outline { border: 1px solid var(--WDS-lines-outline-deemphasized); color: var(--WDS-content-action-emphasized); }
 .wds-button--borderless { color: var(--WDS-content-action-emphasized); }
 
-/* Over a photo or the dark media viewer. */
-.wds-button--media-outline { border: 1px solid rgba(255, 255, 255, .3); color: #fff; }
 
 .wds-button svg { width: 20px; height: 20px; flex-shrink: 0; }
 
@@ -339,7 +336,6 @@
   margin-bottom: 16px;
 }
 
-/* The search button: a .wds-button (outline). */
 
 .contact-info-divider {
   height: 8px;
@@ -888,6 +884,7 @@
   font-size: 15px;
   color: var(--WDS-content-default);
   overflow-wrap: anywhere;
+  -webkit-user-select: all;
   user-select: all;
 }
 
@@ -1199,8 +1196,15 @@
 }
 
 .image-preview-action {
-  /* A .wds-button: primary filled, the rest outline on the dark viewer. */
   min-width: 180px;
+}
+
+/* Sharing in progress: still the green button, dimmed (a grey disabled pill
+   would flash on the black viewer). */
+.image-preview-action.wds-button--filled:disabled {
+  background-color: var(--WDS-accent);
+  color: var(--WDS-content-on-accent);
+  opacity: .6;
 }
 
 /* ── Contacts sheet: the list behind "Ver todos" on a contact card ───────── */
@@ -1755,4 +1759,3 @@
   margin-top: 16px;
 }
 
-/* Cancelar and OK are .wds-button (borderless and filled). */
