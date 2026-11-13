@@ -10,6 +10,9 @@ import { compareDates } from './utils.js';
 const INITIAL_DAYS = 5;
 const LOAD_MORE_DAYS = 5;
 const LOAD_ATTEMPTS = 2;
+// How far above the view the top counts as reached (the observer's root
+// margin): the next days start loading a little before the very top.
+const TOP_MARGIN_PX = 200;
 // A place further up than this is restored as a jump (see restorePosition).
 const RESTORE_CONTIGUOUS_MAX_DAYS = 30;
 // Closer than this to the end counts as "at the end".
@@ -48,11 +51,19 @@ export class ScrollLoader {
     this._sentinel.setAttribute('aria-hidden', 'true');
     this._container.prepend(this._sentinel);
 
-    // Load initial batch (most recent days)
-    await this._loadBatch(INITIAL_DAYS);
+    // Opening: busy for assistive tech (and anyone waiting on it) until the
+    // first days are in and the view is where it opens — the network going
+    // quiet is not that: it pauses between days while a long one renders.
+    this._container.setAttribute('aria-busy', 'true');
+    try {
+      // Load initial batch (most recent days)
+      await this._loadBatch(INITIAL_DAYS);
 
-    // Back where the reader left off, or at the most recent messages.
-    if (!position || !(await this.restorePosition(position))) this._scrollToBottom();
+      // Back where the reader left off, or at the most recent messages.
+      if (!position || !(await this.restorePosition(position))) this._scrollToBottom();
+    } finally {
+      this._container.removeAttribute('aria-busy');
+    }
     if (this._destroyed) return;
     // From here on, where the reader is means something (currentPosition).
     this._ready = true;
@@ -64,9 +75,20 @@ export class ScrollLoader {
           this._loadUntilOutOfRange();
         }
       },
-      { root: this._container, rootMargin: '200px 0px 0px 0px' }
+      { root: this._container, rootMargin: `${TOP_MARGIN_PX}px 0px 0px 0px` }
     );
     this._observer.observe(this._sentinel);
+
+    // The observer speaks only when the top comes into view, and looks only
+    // once a frame: on a slow phone a quick jump away and back between two
+    // looks, or a reach of the top while a load was going, says nothing, and
+    // the history above would stop coming. Any scroll near the top loads too.
+    this._onScroll = () => {
+      if (!this._loading && this._nextIndex >= 0 && this._container.scrollTop <= TOP_MARGIN_PX) {
+        this._loadUntilOutOfRange();
+      }
+    };
+    this._container.addEventListener('scroll', this._onScroll, { passive: true });
   }
 
   /**
@@ -146,6 +168,7 @@ export class ScrollLoader {
     // If no more days to load, hide sentinel
     if (this._nextIndex < 0 && this._sentinel) {
       this._observer?.unobserve(this._sentinel);
+      if (this._onScroll) this._container.removeEventListener('scroll', this._onScroll);
     }
 
     return failed;
@@ -165,7 +188,7 @@ export class ScrollLoader {
       const failed = await this._loadBatch(LOAD_MORE_DAYS);
       if (this._nextIndex < 0) return;
       if (failed && this._loadedDates.size === loadedBefore) return;
-      if (this._container.scrollHeight > this._container.clientHeight + 200) return;
+      if (this._container.scrollHeight > this._container.clientHeight + TOP_MARGIN_PX) return;
       if (this._loadedDates.size === loadedBefore) return;
     }
   }
@@ -335,7 +358,9 @@ export class ScrollLoader {
   /** Clean up observer. */
   destroy() {
     this._destroyed = true;
+    this._container?.removeAttribute('aria-busy');
     this._observer?.disconnect();
     this._observer = null;
+    if (this._onScroll) this._container?.removeEventListener('scroll', this._onScroll);
   }
 }
