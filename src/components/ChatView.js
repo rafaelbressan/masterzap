@@ -677,6 +677,23 @@ function renderMessage(msg, conversation) {
     meta.prepend(glyph);
   }
   if (sealContext.conversation && isImportant(sealContext.conversation.id, msg.id)) setBubbleStar(meta, true);
+  // A note from whoever put the data together (how a time was estimated,
+  // where a line came from): an ⓘ by the time, as the star, that opens the
+  // message's info with it. It is not anyone's message in the chat.
+  if (typeof msg.note === 'string' && msg.note.trim()) {
+    const flag = document.createElement('button');
+    flag.type = 'button';
+    flag.className = 'chat-msg-note-flag';
+    flag.setAttribute('aria-label', 'Ver nota do MasterWhats sobre esta mensagem');
+    flag.title = 'Nota do MasterWhats';
+    flag.innerHTML = ICON_INFO; // Static SVG
+    flag.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // The message menu (ContextMenu.js) opens the info, as from its item.
+      flag.dispatchEvent(new CustomEvent('messageinfo', { bubbles: true }));
+    });
+    meta.insertBefore(flag, time);
+  }
   bubble.appendChild(meta);
 
   // Tail (the little triangle on the bubble)

@@ -180,7 +180,8 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
 
     // Message preview bubble
     const preview = document.createElement('div');
-    preview.className = 'msg-info-preview';
+    // In the colour of who sent it: green only for the phone's owner.
+    preview.className = `msg-info-preview ${msg.outgoing ? 'outgoing' : 'incoming'}`;
 
     const previewContent = document.createElement('div');
     previewContent.className = 'msg-info-preview-content';
@@ -193,6 +194,21 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
     preview.appendChild(previewMeta);
 
     drawerEl.appendChild(preview);
+
+    // The note on this message, from whoever put the data together.
+    if (msg.note) {
+      const note = document.createElement('section');
+      note.className = 'msg-info-note';
+      note.setAttribute('aria-label', 'Nota do MasterWhats');
+      const heading = document.createElement('h3');
+      heading.className = 'msg-info-note-title';
+      heading.textContent = 'Nota do MasterWhats';
+      const text = document.createElement('p');
+      text.className = 'msg-info-note-text';
+      text.textContent = msg.note;
+      note.append(heading, text);
+      drawerEl.appendChild(note);
+    }
 
     // Info fields
     const fields = document.createElement('div');
@@ -297,6 +313,9 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
     return {
       id,
       content,
+      outgoing: isOutgoing,
+      // A note from whoever put the data together, if any (msg.note).
+      note: typeof message?.note === 'string' && message.note.trim() ? message.note.trim() : null,
       sender: message?.sender ?? (isOutgoing ? outgoingSender : incomingSender),
       date: message?.date ?? date,
       // "--:--" is how the bubble draws an unknown time; it is not a time.
@@ -349,8 +368,16 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
     }
   }
 
+  // The ⓘ of a message with a note (ChatView.js) opens its info.
+  function onMessageInfo(e) {
+    const bubble = e.target.closest('.chat-msg-bubble');
+    const msg = bubble && getMessageFromElement(bubble);
+    if (msg) { hideMenu(); showDrawer(msg); }
+  }
+
   // Attach listeners
   chatContainer.addEventListener('contextmenu', onContextMenu);
+  chatContainer.addEventListener('messageinfo', onMessageInfo);
   chatContainer.addEventListener('click', onChevronClick);
   document.addEventListener('click', onClickOutside, true);
   document.addEventListener('keydown', onKeyDown);
@@ -360,6 +387,7 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
       hideMenu();
       hideDrawer();
       chatContainer.removeEventListener('contextmenu', onContextMenu);
+      chatContainer.removeEventListener('messageinfo', onMessageInfo);
       chatContainer.removeEventListener('click', onChevronClick);
       document.removeEventListener('click', onClickOutside, true);
       document.removeEventListener('keydown', onKeyDown);
