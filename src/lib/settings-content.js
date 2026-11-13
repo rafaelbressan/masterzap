@@ -60,7 +60,7 @@ export const SETTINGS_CONTENT = {
     {
       title: 'Sobre o Projeto',
       paragraphs: [
-        { text: 'MasterWhats é um visualizador das conversas extraídas dos celulares apreendidos de Daniel Vorcaro, ex-dono do Banco Master, na Operação Compliance Zero. São 66.387 mensagens em 24 conversas, de dezembro de 2023 a novembro de 2025 — navegáveis, pesquisáveis e compartilháveis no estilo WhatsApp Web.' },
+        { text: 'MasterWhats é um visualizador das conversas extraídas dos celulares apreendidos de Daniel Vorcaro, ex-dono do Banco Master, na Operação Compliance Zero. São 66.401 mensagens em 25 conversas, de dezembro de 2023 a novembro de 2025 — navegáveis, pesquisáveis e compartilháveis no estilo WhatsApp Web.' },
         { text: 'O material chegou ao público em dois momentos, por caminhos diferentes: o vazamento das conversas com Martha Graeff, em março de 2026, e o relatório da Polícia Federal sobre os contatos com o ministro Alexandre de Moraes, cujo sigilo caiu em setembro de 2026. Cada conversa traz, no perfil do contato, quem é a pessoa e o que aquele material revela.' },
         { text: 'Busca com suporte a acentos e resultados em tempo real. Calendário para navegar por data. Compartilhamento por link direto — quem clicar cai na mensagem exata. Menu de contexto em cada mensagem. Responsivo no desktop e no celular.' },
       ],

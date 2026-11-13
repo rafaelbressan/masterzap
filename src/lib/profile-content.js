@@ -362,6 +362,18 @@ export const OTHER_PROFILES = {
     }],
   },
 
+  'berg': {
+    about: 'Voo de 11/09/2024',
+    sections: [{
+      title: 'Berg',
+      paragraphs: [
+        { text: 'Identificado pela PF como José Alfredo Berg Filho; no celular de Vorcaro, salvo como "Berg". Não é figura pública; a única fonte é a representação da PF no Inq 5.026, de junho de 2026.' },
+        { text: 'A conversa é de 11 de setembro de 2024. Segundo a PF, é a quarta vez que o senador Jaques Wagner e outros passageiros voaram em aeronave ligada a Vorcaro. Berg encaminha a lista de passageiros — "{JAGUES VAGNER}[action:search@berg:JAGUES]", como está no print — e Vorcaro cobra o embarque: "{Pq nao embarcaram}[action:search@berg:nao embarcaram]".' },
+        { text: 'No fim da tarde, Berg confirma: "{Já chegou}[action:search@berg:Já chegou]", e um dos passageiros já está pegando táxi.' },
+      ],
+    }],
+  },
+
   'gustavo-motorista': {
     about: 'Motorista — São Paulo',
     sections: [{

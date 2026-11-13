@@ -31,6 +31,23 @@
       "archive_url": null,
       "sha256": null,
       "pages": null
+    },
+    {
+      "id": "inq-5026-representacao-pf-2026-06-09",
+      "kind": "peticao-stf",
+      "titulo": "Representação da PF por medidas cautelares — Inq 5.026 (Pet 16.032)",
+      "nome": "Representação da PF no Inq 5.026 — Polícia Federal",
+      "descricao": "Representação de 98 páginas ao ministro André Mendonça, no Inq 5.026 e na Pet 16.032, por monitoramento de ERBs e acesso a registros de chamadas; trata dos benefícios ligados ao senador Jaques Wagner.",
+      "orgao_ou_veiculo": "Polícia Federal",
+      "data": "2026-06-09",
+      "made_public": "2026-09",
+      "how": "Transcrição manual dos prints da extração do celular reproduzidos no documento; cada mensagem cita a página. O PDF é a cópia pública do acervo Arkanto, com a marca d'água dele.",
+      "file": "data/source/Inq-5026-Representacao-PF-2026-06-09.pdf",
+      "url": "https://arkanto.company/vorcaro/documentos/inq5026-peticao-pf-medidas-cautelares-jaques-wagner.pdf",
+      "download": "https://raw.githubusercontent.com/rafaelbressan/masterzap/main/data/source/Inq-5026-Representacao-PF-2026-06-09.pdf",
+      "archive_url": null,
+      "sha256": "974533faf154a92fada9b9aa6e69fae3ee053a03261bbc7686204d235851f7af",
+      "pages": 98
     }
   ]
 }

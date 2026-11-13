@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
-"""Build conversation JSON from the IPJ-A 3298613/2026 extraction.
+"""Build conversation JSON from the Federal Police documents.
 
-Source: data/ipj-3298613/*.jsonl — transcription of the Federal Police report
-on Daniel Vorcaro's seized iPhone (Operação Compliance Zero). The message
-content in the PDF lives inside page images, so the JSONL files are a manual
-transcription, not a parser output.
+Sources:
+- data/ipj-3298613/*.jsonl — transcription of the IPJ-A 3298613/2026 report
+  on Daniel Vorcaro's seized iPhone (Operação Compliance Zero);
+- data/<document>/mensagens.jsonl for the other documents in DOCUMENTS, each
+  line with its own fixed id.
+The message content in the PDFs lives inside page images, so the JSONL files
+are a manual transcription, not a parser output.
 
 Output: data/conversations/<conv-id>.json in the same shape as
 data/messages.json (metadata + messages), consumable by scripts/split_data.py.
@@ -21,7 +24,7 @@ SRC_DIR = ROOT / "data" / "ipj-3298613"
 OUT_DIR = ROOT / "data" / "conversations"
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from message_schema import date_sort_key, normalise_message  # noqa: E402
+from message_schema import date_sort_key, normalise_message, sort_key  # noqa: E402
 
 SOURCE_DOC = "IPJ-A nº 3298613/2026 — NADIP/DFIN/CGRC/DICOR/PF"
 # The report's record in data/sources.json. Every message built here comes from
@@ -68,7 +71,7 @@ def make_message(mid, timestamp, sender, content, mtype, **extra):
     }
     for key in ("forwarded", "quoted", "source_page", "source_figure",
                 "view_once", "note_created_utc", "sent_utc", "duration",
-                "note"):
+                "note", "source_id", "verification"):
         if extra.get(key) is not None:
             msg[key] = extra[key]
     return normalise_message(msg)
@@ -215,6 +218,79 @@ def build_other_conversations():
     return built
 
 
+# Other police documents that reproduce Vorcaro's chats. Their lines carry the
+# message id: a message keeps it for good, and one added later gets the
+# conversation's highest id plus one, even when it is older (data/README.md).
+DOCUMENTS = [
+    {
+        "dir": "inq-5026",
+        "source_id": "inq-5026-representacao-pf-2026-06-09",
+        "label": "Representação da PF por medidas cautelares — Inq 5.026 (Pet 16.032)",
+    },
+]
+
+DOCUMENT_DISPLAY_NAMES = {
+    # Identified by the PF; saved in the phone as "Berg".
+    "berg": "José Alfredo Berg Filho",
+}
+
+
+def document_message(row, **extra):
+    return make_message(
+        row["id"], row["ts"], row["sender"], row["content"], row["type"],
+        attachment=row.get("attachment"),
+        forwarded=row.get("forwarded"),
+        quoted=row.get("quoted"),
+        duration=row.get("duration"),
+        source_page=row["page"],
+        source_figure=row.get("fig"),
+        note=row.get("note"),
+        **extra,
+    )
+
+
+def add_document_conversations(conversations):
+    """The chats the other documents quote: new conversations, or messages
+    added to one already built, each citing its own document."""
+    for doc in DOCUMENTS:
+        by_conv = defaultdict(list)
+        for row in read_jsonl(ROOT / "data" / doc["dir"] / "mensagens.jsonl"):
+            by_conv[row["conv"]].append(row)
+
+        for conv_id, rows in by_conv.items():
+            existing = conversations.get(conv_id)
+            if existing:
+                top = max(m["id"] for m in existing["messages"])
+                low = min(r["id"] for r in rows)
+                if low <= top:
+                    sys.exit(f"{doc['dir']}: {conv_id} já vai até o id {top}; "
+                             f"as mensagens novas começam em {low}")
+                existing["messages"].extend(
+                    document_message(r, source_id=doc["source_id"], verification="verificado")
+                    for r in rows)
+                messages = existing["messages"]
+                metadata = existing["metadata"]
+            else:
+                saved_as = rows[0]["peer"]
+                peer = DOCUMENT_DISPLAY_NAMES.get(conv_id, saved_as)
+                messages = [document_message(r) for r in rows]
+                metadata = {
+                    "participants": ["DV", peer],
+                    "saved_as": saved_as if saved_as != peer else None,
+                    "phone": rows[0].get("phone"),
+                    "source": doc["label"],
+                    "source_id": doc["source_id"],
+                    "verification": "verificado",
+                    "note": ("Trechos citados no documento da PF — a conversa "
+                             "completa não consta dele."),
+                }
+                conversations[conv_id] = {"metadata": metadata, "messages": messages}
+
+            messages.sort(key=sort_key)
+            metadata["date_range"] = {"start": messages[0]["date"], "end": messages[-1]["date"]}
+            metadata["total_messages"] = len(messages)
+
+
 def build_index(messages):
     by_date = defaultdict(list)
     for msg in messages:
@@ -239,6 +315,7 @@ def main():
 
     conversations = dict([build_moraes_conversation()])
     conversations.update(build_other_conversations())
+    add_document_conversations(conversations)
 
     for conv_id, payload in sorted(conversations.items()):
         payload["index"] = build_index(payload["messages"])
