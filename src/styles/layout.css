@@ -691,3 +691,104 @@ body,
     -webkit-touch-callout: none;
   }
 }
+
+/* ── The voice note playing outside its chat, as WhatsApp's bar on top of
+   the list: pause/play, the sender (opens the chat), close, progress. ── */
+.voice-note-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 56px;
+  padding: 6px 8px;
+  background-color: var(--WDS-surface-default);
+  border-bottom: 1px solid var(--WDS-lines-divider);
+  flex-shrink: 0;
+}
+
+.voice-note-bar[hidden] { display: none; }
+
+.voice-note-bar-toggle,
+.voice-note-bar-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: var(--WDS-content-default);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.voice-note-bar-who {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 4px;
+  border: none;
+  background: none;
+  color: var(--WDS-content-default);
+  font-family: inherit;
+  font-size: 16px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.voice-note-bar-photo {
+  position: relative;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+}
+
+.voice-note-bar-photo img,
+.voice-note-bar-photo svg:not(.voice-note-bar-mic svg) {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.voice-note-bar-mic {
+  position: absolute;
+  right: -4px;
+  bottom: -2px;
+  display: flex;
+  color: var(--WDS-content-default);
+}
+
+.voice-note-bar-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@media (hover: hover) {
+  .voice-note-bar-toggle:hover,
+  .voice-note-bar-close:hover,
+  .voice-note-bar-who:hover {
+    background-color: var(--WDS-surface-highlight);
+  }
+}
+
+.voice-note-bar-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 3px;
+  background-color: var(--WDS-lines-divider);
+}
+
+.voice-note-bar-progress > div {
+  height: 100%;
+  width: 0;
+  background-color: var(--WDS-content-deemphasized);
+}

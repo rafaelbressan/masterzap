@@ -8,6 +8,7 @@
  *    then linkify() wraps plain-text URLs in <a> tags. This is safe
  *    because the input to linkify is already fully escaped.
  */
+import { currentVoiceNote, isCurrent, playVoiceNote, pauseVoiceNote, durationOf, hasFailed, clock } from '../lib/voice-notes.js';
 import { contactOf, isOutgoing as isOwnerMessage } from '../lib/participants.js';
 import { escapeHtml, formatTime, formatDateLong, linkify, NO_TIME_LABEL } from '../lib/utils.js';
 import { ScrollLoader } from '../lib/scroll-loader.js';
@@ -26,7 +27,7 @@ import { SEALS, SEAL_ICONS, sealToMark, sealDescription, provenanceOf, sourceByI
  * are, where the avatars live, how to open a chat or copy a number. Set once
  * per chat view; there is only ever one on screen.
  */
-let media = { conversations: [], avatarFor: () => null, selfAvatar: null, selfName: '', contactAvatar: null, contactName: '', onOpenChat: () => {}, onCopy: () => {}, container: null };
+let media = { conversations: [], avatarFor: () => null, selfAvatar: null, selfName: '', contactAvatar: null, contactName: '', onOpenChat: () => {}, onCopy: () => {}, container: null, signal: undefined };
 
 /** The open conversation, for the seal each bubble may carry. */
 let sealContext = { conversation: null };
@@ -55,6 +56,9 @@ function renderSealNotice(conversation, onOpen) {
   return notice;
 }
 
+// A transcript this short fits in four lines of any bubble: never cut.
+const TRANSCRIPT_NEVER_CUT_CHARS = 120;
+const ICON_PAUSE = `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>`;
 const ICON_PLAY = `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
 const MAP_PLACEHOLDER = '/assets/map-placeholder.jpg';
 const MAP_PIN = '/assets/map-pin.jpg';
@@ -163,12 +167,16 @@ function avatarEl(src, name, size, className) {
 }
 
 /**
- * A voice message as WhatsApp draws it — play, waveform, the sender's photo —
- * with the transcript underneath. The audio itself is not in the material;
- * the play button says so by being disabled.
+ * A voice note, as WhatsApp draws one: play, waveform, the sender's photo
+ * with the mic. It plays only the original recording (msg.audio_src, a file
+ * of this site) — never a voice made up for it. Without one, the play button
+ * is off and the line below says so. A transcript (the police report's, for
+ * now) is the bubble's text under the waveform, cut at a few lines with
+ * "Ler mais", as WhatsApp shows one.
  */
-function renderAudioMessage(msg, isOutgoing) {
+function renderAudioMessage(msg, isOutgoing, conversation) {
   const { transcript } = parseAudio(msg.content);
+  const src = playableSource(msg.audio_src);
   const el = document.createElement('div');
   el.className = 'chat-audio';
 
@@ -176,19 +184,20 @@ function renderAudioMessage(msg, isOutgoing) {
   row.className = 'chat-audio-row';
 
   const play = document.createElement('button');
+  play.type = 'button';
   play.className = 'chat-audio-play';
-  play.disabled = true;
-  play.setAttribute('aria-label', 'Áudio não disponível');
-  play.innerHTML = ICON_PLAY;
+  play.innerHTML = ICON_PLAY; // Static SVG
   row.appendChild(play);
 
   const waveform = document.createElement('div');
   waveform.className = 'chat-audio-waveform';
+  const bars = [];
   for (let i = 0; i < 34; i++) {
     const bar = document.createElement('span');
     bar.className = 'chat-audio-bar';
     bar.style.height = `${4 + ((i * 7919) % 17)}px`;
     waveform.appendChild(bar);
+    bars.push(bar);
   }
   row.appendChild(waveform);
 
@@ -203,16 +212,128 @@ function renderAudioMessage(msg, isOutgoing) {
 
   const foot = document.createElement('div');
   foot.className = 'chat-audio-foot';
-  foot.textContent = 'Áudio não recuperado · transcrição da perícia';
   el.appendChild(foot);
 
-  if (transcript) {
-    const t = document.createElement('div');
-    t.className = 'chat-audio-transcript';
-    t.textContent = `\u201C${transcript}\u201D`;
-    el.appendChild(t);
+  const provenance = transcript ? 'transcrição da perícia' : '';
+  if (src) {
+    // Its state lives in voice-notes.js: it may already be playing (the
+    // reader left the chat and came back), and it goes on if they leave.
+    const key = `${conversation?.id}/${msg.id}`;
+    play.setAttribute('aria-label', 'Reproduzir áudio');
+    let drawnOn = null; // the icon drawn, so it is only replaced on a change
+    const show = () => {
+      const note = isCurrent(key) ? currentVoiceNote() : null;
+      const audio = note?.audio;
+      const on = !!audio && !audio.paused;
+      if (drawnOn !== on) {
+        // Replaced only on a change: a button rewritten under the finger
+        // four times a second can lose the press (WebKit).
+        drawnOn = on;
+        play.innerHTML = on ? ICON_PAUSE : ICON_PLAY; // Static SVG
+        play.setAttribute('aria-label', on ? 'Pausar áudio' : 'Reproduzir áudio');
+        el.classList.toggle('playing', on);
+      }
+      const done = audio?.duration ? audio.currentTime / audio.duration : 0;
+      bars.forEach((bar, i) => bar.classList.toggle('played', i / bars.length < done));
+      if (hasFailed(key)) {
+        play.disabled = true;
+        play.setAttribute('aria-label', 'Áudio não disponível');
+        foot.textContent = 'Não foi possível tocar o áudio';
+        return;
+      }
+      const seconds = audio && audio.currentTime > 0 ? audio.currentTime : durationOf(key);
+      foot.textContent = [clock(seconds), provenance].filter(Boolean).join(' · ');
+    };
+    show();
+    // Follow this note only (not every note that plays), while its chat is
+    // on screen: the chat's signal ends the listening when it closes.
+    let mine = false;
+    window.addEventListener('voicenotechange', (e) => {
+      if (e.detail?.key !== key && !mine) return;
+      mine = isCurrent(key);
+      show();
+    }, { signal: media.signal });
+    play.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const note = currentVoiceNote();
+      if (isCurrent(key) && !note.audio.paused) { pauseVoiceNote(); return; }
+      playVoiceNote({
+        key,
+        src,
+        conversationId: conversation?.id,
+        messageId: msg.id,
+        name: isOutgoing ? media.selfName : media.contactName,
+        contactName: media.contactName,
+        avatar: isOutgoing ? media.selfAvatar : media.contactAvatar,
+      });
+    });
+  } else {
+    play.disabled = true;
+    play.setAttribute('aria-label', 'Áudio não disponível');
+    foot.textContent = ['Áudio não recuperado', provenance].filter(Boolean).join(' · ');
   }
+
+  if (transcript) el.appendChild(renderTranscript(transcript));
   return el;
+}
+
+/** The recording's address, when it is a file of this site (not elsewhere). */
+function playableSource(src) {
+  if (typeof src !== 'string' || !src.startsWith('/') || src.startsWith('//')) return null;
+  try {
+    const url = new URL(src, window.location.origin);
+    if (url.origin !== window.location.origin) return null;
+    return /\.(mp3|m4a|ogg|opus|wav|aac)$/i.test(url.pathname) ? url.pathname + url.search : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * A transcript cut at four lines, with "Ler mais" — only when the cut hides
+ * something (measured once it is laid out, not guessed from its length).
+ */
+function renderTranscript(transcript) {
+  const wrap = document.createElement('div');
+  wrap.className = 'chat-audio-transcript clamped';
+  const text = document.createElement('div');
+  text.className = 'chat-audio-transcript-text';
+  text.tabIndex = -1; // where the keyboard goes when it opens
+  text.textContent = transcript;
+  wrap.appendChild(text);
+
+  // Short ones are never cut. Longer ones keep the button's line from the
+  // start (invisible until measured), so nothing jumps when it shows.
+  if (transcript.length <= TRANSCRIPT_NEVER_CUT_CHARS) {
+    wrap.classList.remove('clamped');
+    return wrap;
+  }
+  const more = document.createElement('button');
+  more.type = 'button';
+  more.className = 'chat-audio-transcript-more';
+  more.textContent = 'Ler mais';
+  more.style.visibility = 'hidden';
+  more.addEventListener('click', (e) => {
+    e.stopPropagation();
+    expandTranscript(wrap);
+    text.focus({ preventScroll: true });
+  });
+  wrap.appendChild(more);
+
+  const measure = new ResizeObserver(() => {
+    if (!text.clientHeight) return; // not laid out yet
+    measure.disconnect();
+    if (text.scrollHeight > text.clientHeight + 1) more.style.visibility = '';
+    else expandTranscript(wrap);
+  });
+  measure.observe(text);
+  return wrap;
+}
+
+/** Show a transcript whole (Ler mais; a search or a link landing on it). */
+export function expandTranscript(wrap) {
+  wrap.classList.remove('clamped');
+  wrap.querySelector('.chat-audio-transcript-more')?.remove();
 }
 
 /** A shared location: the map with a pin, the place and its address; opens on Google Maps. */
@@ -476,7 +597,7 @@ function renderMessage(msg, conversation) {
       content.appendChild(renderMediaPlaceholder('video', msg));
       break;
     case 'audio':
-      content.appendChild(renderAudioMessage(msg, isOutgoing));
+      content.appendChild(renderAudioMessage(msg, isOutgoing, conversation));
       break;
     case 'image_view_once':
       content.appendChild(renderMediaPlaceholder('image', msg));
@@ -588,6 +709,9 @@ function renderMessage(msg, conversation) {
 
 export function renderChatView(container, { conversation, dateIndex, loadMessages, onBack, onContactClick, onSourceClick, onSearch, onCloseChat, onAbout, onScreenshot, onMenuOpen, onExport, media: mediaOptions }) {
   if (mediaOptions) media = { ...media, ...mediaOptions, container };
+  // What this chat's bubbles listen to (the voice note playing) stops with it.
+  const listeners = new AbortController();
+  media = { ...media, signal: listeners.signal };
   sealContext = { conversation };
   // Clear container
   while (container.firstChild) container.removeChild(container.firstChild);
@@ -783,6 +907,9 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
     container: messagesArea,
     dateIndex,
     loadMessages,
+    // Landing on a voice note (a search, a link): its transcript whole.
+    revealMessage: (row) => row.querySelectorAll('.chat-audio-transcript').forEach(expandTranscript),
+    onDestroy: () => listeners.abort(),
     renderDay: (date, messages) => renderDaySection(date, messages, {
       conversation,
       notice: date === dateIndex[0]?.date ? renderSealNotice(conversation, onSourceClick || onContactClick) : null,

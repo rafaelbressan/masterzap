@@ -26,11 +26,14 @@ export class ScrollLoader {
    * @param {function} options.loadMessages - async (date) => messages[]
    * @param {function} options.renderDay - (date, messages, container) => HTMLElement
    */
-  constructor({ container, dateIndex, loadMessages, renderDay }) {
+  constructor({ container, dateIndex, loadMessages, renderDay, revealMessage = null, onDestroy = null }) {
     this._container = container;
     this._dateIndex = dateIndex;
     this._loadMessages = loadMessages;
     this._renderDay = renderDay;
+    // Called on a message landed on (a search, a link), to show it whole.
+    this._revealMessage = revealMessage;
+    this._onDestroy = onDestroy;
     this._loadedDates = new Set();
     this._loading = false;
     this._nextIndex = dateIndex.length - 1; // Start from most recent
@@ -323,6 +326,9 @@ export class ScrollLoader {
 
     const msgEl = this._container.querySelector(`[data-id="${messageId}"]`);
     if (msgEl) {
+      // Shown whole before it is scrolled to (a transcript cut with "Ler
+      // mais" would hide what was looked for).
+      this._revealMessage?.(msgEl);
       msgEl.scrollIntoView({ block: 'center' });
       if (highlight) {
         // Remove + reflow + re-add to restart animation on repeated clicks
@@ -358,6 +364,7 @@ export class ScrollLoader {
   /** Clean up observer. */
   destroy() {
     this._destroyed = true;
+    this._onDestroy?.();
     this._container?.removeAttribute('aria-busy');
     this._observer?.disconnect();
     this._observer = null;
