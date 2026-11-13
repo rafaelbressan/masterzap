@@ -28,7 +28,9 @@ test.describe('Layout — Batch 2', () => {
   test('sidebar renders at least one conversation item', async ({ page }) => {
     const items = page.locator('.conversation-item');
     // Both leaks are loaded; assert there is a list rather than a fixed size,
-    // so adding a conversation does not break the test.
+    // so adding a conversation does not break the test. The list comes after
+    // the data: wait for its first row before counting.
+    await items.first().waitFor();
     expect(await items.count()).toBeGreaterThan(1);
   });
 

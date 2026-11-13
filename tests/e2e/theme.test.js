@@ -110,6 +110,23 @@ test.describe('on a dark device', () => {
     expect(await theme(page)).toBe('dark');
   });
 
+  test('before the stylesheets arrive the page is already dark, with nothing unstyled on it', async ({ page }) => {
+    // Firefox paints before the CSS has come: hold it back to see that paint.
+    let release;
+    const held = new Promise(r => { release = r; });
+    await page.route(/\/(base\.css|assets\/index-[^/]*\.css)/, async (route) => { await held; await route.continue(); });
+    await page.goto('/', { waitUntil: 'commit' });
+    await page.waitForSelector('#loading-screen', { state: 'attached' });
+    const before = await page.evaluate(() => ({
+      bg: getComputedStyle(document.documentElement).backgroundColor,
+      loading: getComputedStyle(document.getElementById('loading-screen')).visibility,
+    }));
+    expect(before).toEqual({ bg: 'rgb(22, 23, 23)', loading: 'hidden' });
+    release();
+    await expect(page.locator('#loading-screen, #app').first()).toBeVisible();
+    await page.locator('.conversation-item').first().waitFor();
+  });
+
   test('Claro overrides the device; Padrão do sistema follows it again', async ({ page }) => {
     await page.goto('/');
     await page.locator('.conversation-item').first().waitFor();
