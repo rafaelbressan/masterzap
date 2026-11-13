@@ -31,6 +31,7 @@ import { closeOpenMenu } from './lib/menus.js';
 import { renderImportantPanel, setBubbleStar } from './components/ImportantPanel.js';
 import { isImportant } from './lib/important-messages.js';
 import { initTheme } from './lib/theme.js';
+import { OWNER_NAMES, ownerOf, contactOf, isOutgoing } from './lib/participants.js';
 import { showThemeDialog } from './components/ThemeDialog.js';
 
 // ── Active state (only one thing at a time) ──────
@@ -94,7 +95,7 @@ async function init() {
     // The chat Vorcaro kept with himself — his own photo, as WhatsApp shows it.
     'dv-self': '/assets/avatar-dv.jpg',
   };
-  const SENDER_NAMES = { 'DV': 'Daniel Vorcaro' };
+  const SENDER_NAMES = OWNER_NAMES;
   // Per-conversation media tallies come from conversations.json (built by
   // scripts/split_data.py); this is only the fallback for older data.
   const MEDIA_COUNTS = { images: 0, videos: 0, documents: 0 };
@@ -277,6 +278,7 @@ async function init() {
     } else {
       activeChatSearch = showChatSearchDrawer(mainArea, conversationId, {
         dateIndex,
+        owner: ownerOf(store.getConversation(conversationId)),
         onResultClick: (messageId, date) => activeLoader?.scrollToMessage(messageId, date),
         onDateSelect: (date) => activeLoader?.scrollToDate(date),
         onClose: () => { activeChatSearch = null; },
@@ -313,8 +315,7 @@ async function init() {
      * The main area is exactly the right frame for this: on mobile it fills the
      * screen, and on desktop it is the chat without the sidebar.
      */
-    const contactName = conversation.participants.find(p => p !== 'DV')
-      || conversation.participants[0];
+    const contactName = contactOf(conversation);
 
     async function shareScreenshot() {
       const result = await shareChatScreenshot(mainArea, contactName);
@@ -425,10 +426,10 @@ async function init() {
     // the first days (or the restored place) have finished loading.
     const messagesArea = mainArea.querySelector('.chat-messages');
     if (messagesArea) {
-      const incomingSender = conversation.participants.find(p => p !== 'DV') || '';
       activeContextMenu = attachContextMenu(messagesArea, {
         senderNames: SENDER_NAMES,
-        incomingSender,
+        incomingSender: contactOf(conversation),
+        outgoingSender: ownerOf(conversation),
         conversationId: id,
       });
     }
@@ -509,6 +510,7 @@ async function init() {
         const conv = store.getConversation(id);
         return conv ? conversationName(conv) : id;
       },
+      isOutgoing: (mark) => isOutgoing(mark, store.getConversation(mark.conversationId)),
       onOpen: (id, messageId) => openFromPanel(id, messageId),
       onBack: () => {
         sidebar.showChats?.();

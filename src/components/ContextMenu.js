@@ -5,6 +5,7 @@
  * Positioned near the click point, auto-adjusts to stay within viewport.
  */
 
+import { DEFAULT_OWNER } from '../lib/participants.js';
 import { openMenu, menuClosed } from '../lib/menus.js';
 import { escapeHtml, formatDateLong, formatTime, NO_TIME_LABEL } from '../lib/utils.js';
 import { showToast } from './Toast.js';
@@ -16,9 +17,10 @@ import { isImportant, toggleImportant } from '../lib/important-messages.js';
  * @param {HTMLElement} chatContainer - the .chat-messages element
  * @param {object} [options]
  * @param {Record<string,string>} [options.senderNames] - map short names to full names
+ * @param {string} [options.outgoingSender] - the phone owner's sender id
  * @returns {{ destroy: function }}
  */
-export function attachContextMenu(chatContainer, { senderNames = {}, incomingSender = '', conversationId = '' } = {}) {
+export function attachContextMenu(chatContainer, { senderNames = {}, incomingSender = '', outgoingSender = DEFAULT_OWNER, conversationId = '' } = {}) {
   let menuEl = null;
   let drawerEl = null;
 
@@ -290,7 +292,7 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
     return {
       id,
       content,
-      sender: message?.sender ?? (isOutgoing ? 'DV' : incomingSender),
+      sender: message?.sender ?? (isOutgoing ? outgoingSender : incomingSender),
       date: message?.date ?? date,
       // "--:--" is how the bubble draws an unknown time; it is not a time.
       time: message ? (message.time || '').slice(0, 5) || null : (meta.replace(/editada/i, '').trim().match(/\d{2}:\d{2}/) || [null])[0],

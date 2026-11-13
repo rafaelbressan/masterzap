@@ -8,6 +8,7 @@
  * All dynamic text uses textContent.
  */
 
+import { contactOf } from '../lib/participants.js';
 import { importantMessages } from '../lib/important-messages.js';
 import { getContactProfile, SOURCES, CREDITS } from '../lib/profile-content.js';
 import { renderProfileSections } from './ProfileSections.js';
@@ -38,7 +39,7 @@ export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onCl
   const existing = mainArea.querySelector('.contact-info-drawer');
   if (existing) existing.remove();
 
-  const displayName = conversation.participants.find(p => p !== 'DV') || conversation.participants[0];
+  const displayName = contactOf(conversation);
   const contactProfile = getContactProfile(conversation.id);
   const totalMedia = (mediaCounts.images || 0) + (mediaCounts.videos || 0) + (mediaCounts.documents || 0);
 

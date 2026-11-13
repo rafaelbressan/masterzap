@@ -8,6 +8,7 @@
  *    then linkify() wraps plain-text URLs in <a> tags. This is safe
  *    because the input to linkify is already fully escaped.
  */
+import { DEFAULT_OWNER, ownerOf, contactOf } from '../lib/participants.js';
 import { escapeHtml, formatTime, formatDateLong, linkify, NO_TIME_LABEL } from '../lib/utils.js';
 import { ScrollLoader } from '../lib/scroll-loader.js';
 import { ICON_INFO, ICON_SEARCH, ICON_CHECKEMPTY, ICON_BELL, ICON_TIMER, ICON_DOWNLOAD, ICON_CLOSE_CIRCULAR, ICON_MASTERZAP_LOGO, ICON_MEETBALL, ICON_CHEVRON_DW, ICON_SCREENSHOT } from '../lib/icons.js';
@@ -67,7 +68,7 @@ const BACK_ICON = `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" s
  * @param {Array} messages
  * @returns {HTMLElement}
  */
-function renderDaySection(date, messages, { notice = null } = {}) {
+function renderDaySection(date, messages, { notice = null, owner = DEFAULT_OWNER } = {}) {
   const section = document.createElement('section');
   section.className = 'chat-day';
   section.dataset.date = date;
@@ -84,7 +85,7 @@ function renderDaySection(date, messages, { notice = null } = {}) {
 
   // Messages
   for (const msg of messages) {
-    section.appendChild(renderMessage(msg));
+    section.appendChild(renderMessage(msg, owner));
   }
 
   return section;
@@ -441,8 +442,9 @@ function renderDeletedMessage() {
  * @param {object} msg
  * @returns {HTMLElement}
  */
-function renderMessage(msg) {
-  const isOutgoing = msg.sender === 'DV';
+function renderMessage(msg, owner = DEFAULT_OWNER) {
+  // Green and on the right: what the phone's owner sent.
+  const isOutgoing = msg.sender === owner;
   const isSystem = msg.type === 'system';
 
   const row = document.createElement('div');
@@ -595,7 +597,7 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
   el.dataset.conversationId = conversation.id;
 
   // Header
-  const displayName = conversation.participants.find(p => p !== 'DV') || conversation.participants[0];
+  const displayName = contactOf(conversation);
 
   const header = document.createElement('header');
   header.className = 'chat-header';
@@ -782,6 +784,7 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
     dateIndex,
     loadMessages,
     renderDay: (date, messages) => renderDaySection(date, messages, {
+      owner: ownerOf(conversation),
       notice: date === dateIndex[0]?.date ? renderSealNotice(conversation, onSourceClick || onContactClick) : null,
     }),
   });

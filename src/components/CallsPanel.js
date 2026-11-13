@@ -15,6 +15,7 @@
  * innerHTML is static SVG.
  */
 
+import { contactOf } from '../lib/participants.js';
 import { defaultAvatarSvg } from '../lib/avatar.js';
 import { formatDateShort } from '../lib/utils.js';
 import { ICON_SEARCH, ICON_MEETBALL } from '../lib/icons.js';
@@ -76,7 +77,7 @@ function describe(call) {
  */
 export function renderCallsPanel({ calls, conversations, avatarFor, onOpen }) {
   const byId = new Map(conversations.map(c => [c.id, c]));
-  const nameOf = (id) => byId.get(id)?.contact || byId.get(id)?.participants?.find(p => p !== 'DV') || id;
+  const nameOf = (id) => (byId.has(id) ? contactOf(byId.get(id)) : id);
 
   const panel = document.createElement('section');
   panel.className = 'calls-panel';

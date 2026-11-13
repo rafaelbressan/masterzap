@@ -4,6 +4,7 @@
  * Security note: innerHTML is used with static SVGs and data from our own
  * bundled JSON files (not user input), so XSS risk does not apply here.
  */
+import { contactOf } from '../lib/participants.js';
 import { openMenu, menuClosed } from '../lib/menus.js';
 import { formatTime, escapeHtml, formatNumber, formatRelativeDate } from '../lib/utils.js';
 
@@ -20,7 +21,7 @@ export const FAVORITE_CONVERSATIONS = new Set(['alexandre-de-moraes', 'martha-gr
 
 /** The name a conversation goes by in the list: the other participant. */
 export function conversationName(conv) {
-  return conv.participants?.find(p => p !== 'DV') || conv.participants?.[0] || conv.id;
+  return contactOf(conv);
 }
 
 /**

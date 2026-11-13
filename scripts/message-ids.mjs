@@ -19,6 +19,7 @@
  *                                                   never for a renumbering
  */
 
+import { contactOf } from '../src/lib/participants.js';
 import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync, writeFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -42,7 +43,7 @@ export function currentIds() {
     out[convId] = Object.fromEntries(messages.map(m => [m.id, hashMessage(m)]));
   };
   const martha = JSON.parse(readFileSync(join(ROOT, 'data/messages.json'), 'utf-8'));
-  add(slugify(martha.metadata.participants.find(p => p !== 'DV')), martha.messages);
+  add(slugify(contactOf(martha.metadata)), martha.messages);
   const dir = join(ROOT, 'data/conversations');
   for (const file of readdirSync(dir).filter(f => f.endsWith('.json')).sort()) {
     add(file.replace(/\.json$/, ''), JSON.parse(readFileSync(join(dir, file), 'utf-8')).messages);
