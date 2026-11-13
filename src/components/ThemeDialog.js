@@ -71,10 +71,21 @@ export function showThemeDialog({ returnFocus = null } = {}) {
   form.append(title, group, actions);
   dialog.appendChild(form);
 
-  // A tap on the dimmed page around the dialog (the dialog box itself has no
-  // padding, so only the backdrop hits the dialog element) cancels.
+  // A tap on the dimmed page around the dialog cancels. The box has no
+  // padding, so only the backdrop hits the dialog element itself; the press
+  // must start there too (one that starts on an option and slips off is
+  // not a tap outside).
+  let pressedOutside = false;
+  dialog.addEventListener('pointerdown', (e) => { pressedOutside = e.target === dialog; });
   dialog.addEventListener('click', (e) => {
-    if (e.target === dialog) dialog.close();
+    if (e.target === dialog && pressedOutside) dialog.close();
+    pressedOutside = false;
+  });
+
+  // Escape cancels the dialog only: the drawers behind it (contact info,
+  // chat search) close on Escape at the document too.
+  dialog.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') e.stopPropagation();
   });
 
   dialog.addEventListener('close', () => {

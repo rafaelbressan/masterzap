@@ -352,7 +352,7 @@
   width: 36px;
   height: 20px;
   border-radius: 10px;
-  background-color: var(--WDS-neutral-gray-300);
+  background-color: var(--MW-toggle-off);
   flex-shrink: 0;
   position: relative;
 }
@@ -651,7 +651,7 @@
 }
 
 .profile-placeholder svg {
-  color: var(--WDS-warm-gray-300);
+  color: var(--MW-placeholder-icon);
 }
 
 .profile-placeholder-text {
@@ -810,7 +810,7 @@
 
 .profile-section-text a,
 .profile-action-link {
-  color: var(--WDS-green-700);
+  color: var(--MW-link-emphasized);
   text-decoration: none;
   font-weight: 500;
   cursor: pointer;
@@ -843,7 +843,7 @@
 }
 
 .profile-sources a {
-  color: var(--WDS-green-700);
+  color: var(--MW-link-emphasized);
   text-decoration: none;
   font-size: 12.5px;
 }
@@ -972,8 +972,8 @@
 
 /* In the chat's own search drawer: the highlighted run, as before. */
 .search-highlight {
-  background-color: var(--WDS-yellow-200);
-  color: var(--WDS-content-default);
+  background-color: var(--MW-highlight);
+  color: var(--MW-on-highlight);
   border-radius: 2px;
   padding: 0 1px;
 }
@@ -1383,7 +1383,7 @@
 }
 
 .calls-item.missed .calls-item-name {
-  color: #e53935;
+  color: var(--MW-negative);
 }
 
 .calls-item-meta {
@@ -1400,7 +1400,7 @@
 }
 
 .calls-item.missed .calls-item-arrow {
-  color: #e53935;
+  color: var(--MW-negative);
 }
 
 .calls-item-kind {

@@ -231,4 +231,22 @@
   --WDS-yellow-600: #9D6C2C;
   --WDS-yellow-700: #6D4E26;
   --WDS-yellow-800: #362C1F;
+
+  /* App tokens (not WhatsApp's): colours the light theme takes from the
+     palette, where WDS has no semantic token of the same value. Their dark
+     values are in dark-theme.css. */
+  --MW-scrollbar: var(--WDS-black-alpha-20);
+  --MW-track: var(--WDS-warm-gray-200);
+  --MW-link: var(--WDS-cobalt-400);
+  --MW-link-emphasized: var(--WDS-green-700);
+  --MW-media-placeholder: var(--WDS-warm-gray-100);
+  --MW-bubble-card: var(--WDS-warm-gray-75);
+  --MW-audio-bar: var(--WDS-warm-gray-300);
+  --MW-toggle-off: var(--WDS-neutral-gray-300);
+  --MW-placeholder-icon: var(--WDS-warm-gray-300);
+  --MW-highlight: var(--WDS-yellow-200);
+  --MW-on-highlight: var(--WDS-content-default);
+  --MW-negative: #e53935;
+  --MW-nav-selected: var(--WDS-green-50);
+  --MW-tag-selected: var(--WDS-green-50);
 }

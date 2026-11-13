@@ -47,11 +47,8 @@ export function resolvedTheme(choice = themeChoice()) {
 /** Put the current choice on the page. */
 export function applyTheme() {
   const theme = resolvedTheme();
-  const root = document.documentElement;
-  if (root.dataset.theme === theme) return;
-  root.dataset.theme = theme;
+  document.documentElement.dataset.theme = theme;
   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', THEME_COLOR[theme]);
-  window.dispatchEvent(new CustomEvent('themechange', { detail: { theme } }));
 }
 
 /**

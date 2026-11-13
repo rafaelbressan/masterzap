@@ -40,7 +40,7 @@ a:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--WDS-black-alpha-20);
+  background-color: var(--MW-scrollbar);
   border-radius: 3px;
 }
 
@@ -51,7 +51,7 @@ a:hover {
 /* Thin scrollbar for Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--WDS-black-alpha-20) transparent;
+  scrollbar-color: var(--MW-scrollbar) transparent;
 }
 
 /* Screen reader only — visible to crawlers but hidden visually */
@@ -97,7 +97,7 @@ a:hover {
 .loading-bar-track {
   width: 260px;
   height: 3px;
-  background-color: var(--WDS-warm-gray-200);
+  background-color: var(--MW-track);
   border-radius: 2px;
   overflow: hidden;
 }

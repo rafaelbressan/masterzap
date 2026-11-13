@@ -1,6 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import {
-  THEME_KEY, themeChoice, resolvedTheme, setThemeChoice, applyTheme, initTheme, resetTheme,
+  THEME_KEY, THEME_COLOR, themeChoice, resolvedTheme, setThemeChoice, applyTheme, initTheme, resetTheme,
 } from '../../src/lib/theme.js';
 
 // The device's theme, as matchMedia reports it.
@@ -95,13 +97,34 @@ describe('following changes', () => {
     applyTheme();
     expect(document.documentElement.dataset.theme).toBe('light');
   });
+});
 
-  it('announces a change once, not on every apply', () => {
-    const seen = vi.fn();
-    window.addEventListener('themechange', seen);
-    setThemeChoice('dark');
-    applyTheme();
-    expect(seen).toHaveBeenCalledTimes(1);
-    window.removeEventListener('themechange', seen);
+// The one-line script in index.html's <head> puts the theme on before the
+// first paint; it repeats theme.js's key and colour, so they are checked here.
+describe('the <head> script', () => {
+  const html = readFileSync(resolve(__dirname, '../../index.html'), 'utf8');
+  const script = html.match(/<script>(var t;[\s\S]*?)<\/script>/)[1];
+  const run = () => new Function(script)();
+
+  it('reads the same key and paints the same dark bar colour as theme.js', () => {
+    expect(script).toContain(`'${THEME_KEY}'`);
+    expect(script).toContain(`'${THEME_COLOR.dark}'`);
+  });
+
+  it('follows the saved choice, else the device', () => {
+    localStorage.setItem(THEME_KEY, 'dark');
+    run();
+    expect(document.documentElement.dataset.theme).toBe('dark');
+    localStorage.setItem(THEME_KEY, 'system');
+    deviceDark(false);
+    run();
+    expect(document.documentElement.dataset.theme).toBe('light');
+  });
+
+  it('with storage blocked, still follows the device', () => {
+    vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => { throw new Error('blocked'); });
+    deviceDark(true);
+    run();
+    expect(document.documentElement.dataset.theme).toBe('dark');
   });
 });

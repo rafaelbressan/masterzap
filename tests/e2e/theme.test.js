@@ -61,6 +61,30 @@ test.describe('on a light device', () => {
     await expect(page.locator('.sidebar-menu-btn')).toBeFocused();
   });
 
+  test('Escape cancels the dialog only, not the contact info behind it', async ({ page }, info) => {
+    test.skip(info.project.name !== 'desktop', 'the drawer sits beside the list on a desktop');
+    await page.goto('/#/chat/alexandre-de-moraes');
+    await expect(page.locator('.chat-msg-bubble').first()).toBeVisible();
+    await page.locator('.chat-header-info, .chat-header-name').first().click();
+    const drawer = page.locator('.contact-info-drawer');
+    await expect(drawer).toBeVisible();
+    const dialog = await openDialog(page);
+    await page.keyboard.press('Escape');
+    await expect(dialog).toHaveCount(0);
+    await expect(drawer).toBeVisible();
+  });
+
+  test('a press that starts on an option and ends outside does not cancel', async ({ page }, info) => {
+    test.skip(info.project.name !== 'desktop', 'mouse');
+    const dialog = await openDialog(page);
+    const option = await dialog.getByText('Escuro').boundingBox();
+    await page.mouse.move(option.x + 5, option.y + 5);
+    await page.mouse.down();
+    await page.mouse.move(5, 5);
+    await page.mouse.up();
+    await expect(dialog).toBeVisible();
+  });
+
   test('the dialog is centred and fits a phone', async ({ page }) => {
     const dialog = await openDialog(page);
     const box = await dialog.boundingBox();
@@ -100,6 +124,16 @@ test.describe('on a dark device', () => {
     await dialog.getByRole('button', { name: 'OK' }).click();
     await expect(dialog).toHaveCount(0);
     expect(await theme(page)).toBe('dark');
+  });
+
+  test('the list search keeps its green match, not the chat search yellow', async ({ page }) => {
+    await page.goto('/');
+    await page.locator('.conversation-item').first().waitFor();
+    await page.locator('.sidebar-search-input').fill('amor');
+    const match = page.locator('.search-results .search-highlight').first();
+    await expect(match).toBeVisible();
+    expect(await match.evaluate(el => getComputedStyle(el).color)).toBe('rgb(33, 192, 99)');
+    expect(await match.evaluate(el => getComputedStyle(el).backgroundColor)).toBe('rgba(0, 0, 0, 0)');
   });
 
   test('the chat print comes out dark, as the screen', async ({ page }) => {
