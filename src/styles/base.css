@@ -17,7 +17,7 @@ html {
 }
 
 /* index.html hides the page until this stylesheet arrives. */
-body > * {
+body {
   visibility: visible;
 }
 

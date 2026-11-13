@@ -67,7 +67,8 @@ def make_message(mid, timestamp, sender, content, mtype, **extra):
         "urls": URL_PATTERN.findall(content),
     }
     for key in ("forwarded", "quoted", "source_page", "source_figure",
-                "view_once", "note_created_utc", "sent_utc", "duration"):
+                "view_once", "note_created_utc", "sent_utc", "duration",
+                "note"):
         if extra.get(key) is not None:
             msg[key] = extra[key]
     return normalise_message(msg)
@@ -97,6 +98,7 @@ def build_moraes_conversation():
                 "sent_utc": note.get("sent_utc"),
                 "source_page": note["page"],
                 "source_figure": note["fig"],
+                "note": note.get("note"),
             },
         })
 
@@ -115,6 +117,7 @@ def build_moraes_conversation():
                 "view_once": msg["type"] == "image_view_once" or None,
                 "source_page": msg["page"],
                 "source_figure": msg["fig"],
+                "note": msg.get("note"),
             },
         })
 
@@ -186,6 +189,7 @@ def build_other_conversations():
                 quoted=r.get("quoted"),
                 source_page=r["page"],
                 source_figure=r["fig"],
+                note=r.get("note"),
             )
             for i, r in enumerate(rows, 1)
         ]

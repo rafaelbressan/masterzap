@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { SEALS, SEAL_ICONS, setSources, sealToMark, provenanceOf, sealDescription, conversationSealLine } from '../../src/lib/provenance.js';
+import { noteOf, SEALS, SEAL_ICONS, setSources, sealToMark, provenanceOf, sealDescription, conversationSealLine } from '../../src/lib/provenance.js';
 
 const ROOT = join(import.meta.dirname, '../..');
 
@@ -87,5 +87,15 @@ describe('conversations.json provenance', () => {
     const byId = Object.fromEntries(data.conversations.map(c => [c.id, c]));
     expect(byId['alexandre-de-moraes'].verification).toBe('verificado');
     expect(byId['martha-graeff'].verification).toBe('imprensa');
+  });
+});
+
+describe('noteOf', () => {
+  it('gives the editorial note trimmed, and null when there is none', () => {
+    expect(noteOf({ note: '  Horário estimado.\n' })).toBe('Horário estimado.');
+    expect(noteOf({ note: '   ' })).toBeNull();
+    expect(noteOf({ note: 42 })).toBeNull();
+    expect(noteOf({})).toBeNull();
+    expect(noteOf(null)).toBeNull();
   });
 });

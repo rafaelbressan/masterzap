@@ -16,6 +16,7 @@ import { writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import JSZip from 'jszip';
 import { ownerOf } from '../src/lib/participants.js';
+import { noteOf, NOTE_LABEL } from '../src/lib/provenance.js';
 
 import { getContactProfile, VORCARO_PROFILE, SOURCES } from '../src/lib/profile-content.js';
 import { SETTINGS_CONTENT } from '../src/lib/settings-content.js';
@@ -44,8 +45,15 @@ const md = (text, context) => linksToMarkdown(text, { resolve, context, hrefFor 
 
 
 
-/** One message as it reads without the app. */
+/** One message as it reads without the app, with the editorial note if any. */
 function messageBody(msg) {
+  const body = contentBody(msg);
+  const note = noteOf(msg);
+  if (!note) return body;
+  return `${body ? `${body}\n` : ''}_${NOTE_LABEL}: ${note}_`;
+}
+
+function contentBody(msg) {
   const text = (msg.content || '').trim();
   switch (msg.type) {
     case 'text':

@@ -121,3 +121,7 @@ copiar o campo como veio:
   "Geraldo Samor", não "Geraldo Brazil Journal".
   É o que sai assinando o "Compartilhar texto", a info da mensagem e o export. O nome
   salvo fica em `metadata.participants` (e `saved_as`), e o nome real no perfil do contato.
+- **`note`** (opcional): uma nota de quem montou os dados, não de quem mandou a mensagem —
+  como um horário foi estimado, o que a figura deixa de fora. No app aparece como um ⓘ
+  ao lado da hora, que abre a "Info da mensagem" com a "Nota do MasterWhats"; no export
+  vai logo depois do texto. Nas linhas do `ipj-3298613/*.jsonl`, o mesmo campo `note`.

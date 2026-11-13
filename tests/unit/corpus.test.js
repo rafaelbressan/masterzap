@@ -9,7 +9,7 @@ import { describe, it, expect } from 'vitest';
 import { SITE_URL } from '../../src/config/site.js';
 import {
   createResolver, createLocator, loadEntries, normalize, citationOf, linksToMarkdown, linksToHtml, linksToText,
-  brDate, longDate, monthOf, zonedTimestamp, contactOf, whoIs,
+  brDate, longDate, monthOf, zonedTimestamp, contactOf, whoIs, messageText,
 } from '../../scripts/lib/corpus.mjs';
 
 const entries = loadEntries();
@@ -116,3 +116,13 @@ describe('whoIs', () => {
   });
 });
 
+
+describe('messageText', () => {
+  it('puts the editorial note after the message, named as such', () => {
+    expect(messageText({ type: 'text', content: 'Oi', note: ' Hora estimada. ' }))
+      .toBe('Oi (Nota do MasterWhats: Hora estimada.)');
+    expect(messageText({ type: 'image', content: '', note: 'Figura cortada.' }))
+      .toBe('[Foto] (Nota do MasterWhats: Figura cortada.)');
+    expect(messageText({ type: 'text', content: 'Oi' })).toBe('Oi');
+  });
+});
