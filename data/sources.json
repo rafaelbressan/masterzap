@@ -15,7 +15,8 @@
       "download": "https://raw.githubusercontent.com/rafaelbressan/masterzap/main/data/source/IPJ-A-3298613-2026.pdf",
       "archive_url": null,
       "sha256": "23cfdfa410c47ab09cbb2b443965e3a3095d9bc3dc5fb266efff76d6f5192b60",
-      "pages": 218
+      "pages": 218,
+      "cita": "laudo"
     },
     {
       "id": "vazamento-martha-graeff-2026-03",
@@ -41,13 +42,14 @@
       "orgao_ou_veiculo": "Polícia Federal",
       "data": "2026-06-09",
       "made_public": "2026-09",
-      "how": "Transcrição manual dos prints da extração do celular reproduzidos no documento; cada mensagem cita a página. O PDF é a cópia pública do acervo Arkanto, com a marca d'água dele.",
+      "how": "Transcrição manual dos prints da extração do celular reproduzidos no documento; cada mensagem cita a página. O PDF é a cópia pública do acervo Arkanto (https://arkanto.company/vorcaro/), com a marca d'água dele.",
       "file": "data/source/Inq-5026-Representacao-PF-2026-06-09.pdf",
-      "url": "https://arkanto.company/vorcaro/documentos/inq5026-peticao-pf-medidas-cautelares-jaques-wagner.pdf",
+      "url": "https://github.com/rafaelbressan/masterzap/blob/main/data/source/Inq-5026-Representacao-PF-2026-06-09.pdf",
       "download": "https://raw.githubusercontent.com/rafaelbressan/masterzap/main/data/source/Inq-5026-Representacao-PF-2026-06-09.pdf",
       "archive_url": null,
       "sha256": "974533faf154a92fada9b9aa6e69fae3ee053a03261bbc7686204d235851f7af",
-      "pages": 98
+      "pages": 98,
+      "cita": "representação"
     }
   ]
 }

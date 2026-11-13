@@ -6,15 +6,15 @@
     ],
     "saved_as": "Berg",
     "phone": null,
-    "source": "Representação da PF por medidas cautelares — Inq 5.026 (Pet 16.032)",
-    "source_id": "inq-5026-representacao-pf-2026-06-09",
-    "verification": "verificado",
-    "note": "Trechos citados no documento da PF — a conversa completa não consta dele.",
     "date_range": {
       "start": "2024-09-11",
       "end": "2024-09-11"
     },
-    "total_messages": 14
+    "total_messages": 14,
+    "source": "Representação da PF por medidas cautelares — Inq 5.026 (Pet 16.032)",
+    "source_id": "inq-5026-representacao-pf-2026-06-09",
+    "verification": "verificado",
+    "note": "Trechos citados no documento da PF — a conversa completa não consta dele."
   },
   "messages": [
     {

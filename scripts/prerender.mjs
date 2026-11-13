@@ -34,7 +34,7 @@ import {
   ROOT, SITE, REPO, TIMEZONE, UTC_OFFSET,
   loadEntries, loadMessages, sourceOf, contactOf, ownerName, whoIs, createResolver, mentionsOf, createLocator, isPaged, PREVIEW_MESSAGES,
   urlsIn, linksToMarkdown, linksToText, linksToHtml, escapeHtml,
-  longDate, phonePretty, messageText, citationOf, messageUrl,
+  longDate, phonePretty, messageText, citationOf, pageOf, messageUrl,
   OFFICIAL_KINDS, VERIFICATION_LABELS, monthOf, zonedTimestamp,
 } from './lib/corpus.mjs';
 
@@ -169,7 +169,7 @@ function conversationLd(entry, who, description, { path, month, first, last, par
   return data;
 }
 
-function messagesHtml(messages) {
+function messagesHtml(messages, conversationId) {
   const out = [];
   let day = null;
   for (const msg of messages) {
@@ -177,7 +177,8 @@ function messagesHtml(messages) {
       day = msg.date;
       out.push(`<h3>${longDate(day)}</h3>`);
     }
-    const cite = msg.source_page ? ` <small>(laudo p. ${msg.source_page}${msg.source_figure ? `, fig. ${msg.source_figure}` : ''})</small>` : '';
+    const page = pageOf(msg, conversationId);
+    const cite = page ? ` <small>(${page})</small>` : '';
     const stamp = zonedTimestamp(msg);
     out.push(`<p id="msg-${msg.id}"><time${stamp ? ` datetime="${stamp}"` : ''}>${msg.time ? msg.time.slice(0, 5) : '--:--'}</time> <b>${escapeHtml(msg.sender)}</b>: ${escapeHtml(messageText(msg))}${cite}</p>`);
   }
@@ -249,7 +250,7 @@ function conversationPage(entry, messages, profile, who) {
   }
 
   out.push(`<h2>Conversa${paged ? ` (primeiras ${shown.length} mensagens)` : ''}</h2>`);
-  out.push(...messagesHtml(shown));
+  out.push(...messagesHtml(shown, entry.id));
   if (paged) {
     out.push(`<p>As outras ${messages.length - shown.length} mensagens estão nas páginas por mês acima, no <a href="/export/masterwhats-${entry.id}.md">Markdown completo</a> e <a href="/#/chat/${entry.id}">no app</a>.</p>`);
   }
@@ -281,7 +282,7 @@ function monthPage(entry, who, ym, msgs, prevYm, nextYm) {
     + `<a href="/#/chat/${entry.id}/msg/${msgs[0].id}">Abrir no MasterWhats</a> · `
     + `<a href="/export/masterwhats-${entry.id}-${ym}.md">Markdown deste mês</a> · `
     + `<a href="/export/masterwhats-${entry.id}.md">Markdown completo</a></p>`);
-  out.push(...messagesHtml(msgs));
+  out.push(...messagesHtml(msgs, entry.id));
   out.push('</article>');
 
   const description = `Conversa entre ${ownerName(entry)} e ${who} em ${longMonth(ym)}: ${msgs.length} mensagens, de ${msgs[0].date} a ${msgs.at(-1).date}.`;
@@ -349,7 +350,8 @@ ${body}
 }
 
 function mentionHtml(conversationId, msg, alias, primary) {
-  const cite = msg.source_page ? ` <small>(laudo p. ${msg.source_page}${msg.source_figure ? `, fig. ${msg.source_figure}` : ''})</small>` : '';
+  const page = pageOf(msg, conversationId);
+  const cite = page ? ` <small>(${page})</small>` : '';
   return `<div class="msg" id="m-${conversationId}-${msg.id}">`
     + `<time${zonedTimestamp(msg) ? ` datetime="${zonedTimestamp(msg)}"` : ''}>${citationOf(msg).split(' · ')[0]}</time> · <b>${escapeHtml(msg.sender)}</b>${cite}${alias !== primary ? ` <small>· por «${escapeHtml(alias)}»</small>` : ''}<br>`
     + `${escapeHtml(messageText(msg))}<br>`
@@ -423,7 +425,7 @@ function llmsFull(built, people) {
   const rest = SETTINGS_CONTENT.sections.filter(s => s !== about);
   const out = [
     '# MasterWhats — conteúdo completo', '',
-    `> Tudo que o site diz, em texto. Cada citação traz ⟨data hora · laudo p., fig.⟩ e linka a mensagem na página estática (${SITE}/chat/<id>#msg-<n>, ou a página do mês na conversa com Martha Graeff); a mesma página abre o app nessa mensagem para quem tem JavaScript. O mesmo n aparece como "msg n" no Markdown de cada conversa. ${built.length} conversas, ${total} mensagens, de ${built.at(-1)?.entry.date_range.start ?? ''} a ${built[0]?.entry.date_range.end ?? ''}. Gerado em ${today}. Código e dados: ${REPO}.`, '',
+    `> Tudo que o site diz, em texto. Cada citação traz ⟨data hora · documento p., fig.⟩ (o laudo da IPJ-A nº 3298613/2026, a representação do Inq 5.026) e linka a mensagem na página estática (${SITE}/chat/<id>#msg-<n>, ou a página do mês na conversa com Martha Graeff); a mesma página abre o app nessa mensagem para quem tem JavaScript. O mesmo n aparece como "msg n" no Markdown de cada conversa. ${built.length} conversas, ${total} mensagens, de ${built.at(-1)?.entry.date_range.start ?? ''} a ${built[0]?.entry.date_range.end ?? ''}. Gerado em ${today}. Código e dados: ${REPO}.`, '',
     '## Sobre o projeto', '',
     ...(about?.paragraphs || []).map(p => linksToMarkdown(p.text, { resolve, hrefFor: locate }) + '\n'),
     '## Quem é Daniel Vorcaro', '',

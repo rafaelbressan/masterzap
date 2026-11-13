@@ -9,7 +9,7 @@ import { describe, it, expect } from 'vitest';
 import { SITE_URL } from '../../src/config/site.js';
 import {
   createResolver, createLocator, loadEntries, normalize, citationOf, linksToMarkdown, linksToHtml, linksToText,
-  brDate, longDate, monthOf, zonedTimestamp, contactOf, whoIs, messageText,
+  brDate, longDate, monthOf, zonedTimestamp, contactOf, whoIs, messageText, pageOf,
 } from '../../scripts/lib/corpus.mjs';
 
 const entries = loadEntries();
@@ -91,7 +91,7 @@ describe('partial dates and unknown times in the build', () => {
   });
 
   it('cites a message with no time without inventing one', () => {
-    expect(citationOf({ date: '2024-07', time: null, source_page: 3 })).toBe('07/2024, horário não informado · laudo p. 3');
+    expect(citationOf({ date: '2024-07', time: null, source_page: 3 }, 'alexandre-de-moraes')).toBe('07/2024, horário não informado · laudo p. 3');
     expect(zonedTimestamp({ timestamp: null })).toBeNull();
     expect(zonedTimestamp({ timestamp: '2024-07-02T10:00:00' })).toBe('2024-07-02T10:00:00-03:00');
   });
@@ -124,5 +124,15 @@ describe('messageText', () => {
     expect(messageText({ type: 'image', content: '', note: 'Figura cortada.' }))
       .toBe('[Foto] (Nota do MasterWhats: Figura cortada.)');
     expect(messageText({ type: 'text', content: 'Oi' })).toBe('Oi');
+  });
+});
+
+describe('pageOf', () => {
+  it("names the message's document: the report's laudo, the Inq 5.026 representação", () => {
+    expect(pageOf({ source_page: 109, source_figure: 108 }, 'alexandre-de-moraes')).toBe('laudo p. 109, fig. 108');
+    expect(pageOf({ source_page: 63 }, 'berg')).toBe('representação p. 63');
+    // A message carrying its own source wins over its conversation's.
+    expect(pageOf({ source_page: 5, source_id: 'inq-5026-representacao-pf-2026-06-09' }, 'alexandre-de-moraes')).toBe('representação p. 5');
+    expect(pageOf({ source_page: null }, 'berg')).toBe('');
   });
 });

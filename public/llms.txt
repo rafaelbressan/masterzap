@@ -44,7 +44,7 @@ Daniel Vorcaro, dono do Banco Master, foi preso pela Polícia Federal em novembr
 - "O pior de ontem foi ter o bolsonaro" — Vorcaro sobre Bolsonaro — %SITE_URL%/chat/martha-graeff/2024-07#msg-12383 ⟨13/07/2024 12:17⟩
 
 ## Conteúdo completo em texto
-- %SITE_URL%/llms-full.txt — sobre, os 24 perfis com fontes, os destaques, e o link do Markdown de cada conversa
+- %SITE_URL%/llms-full.txt — sobre, os 25 perfis com fontes, os destaques, e o link do Markdown de cada conversa
 - Cada conversa tem página própria em %SITE_URL%/chat/<id>, em HTML puro: proveniência, perfil com fontes e todas as mensagens com página e figura do laudo. A conversa com Martha Graeff (65 mil mensagens) tem uma página por mês — %SITE_URL%/chat/martha-graeff/2024-12 — listadas na página principal, e um Markdown por mês: %SITE_URL%/export/masterwhats-martha-graeff-2024-12.md
 - Pessoas citadas: %SITE_URL%/quem — uma página por pessoa (ex.: %SITE_URL%/quem/paulo-gonet) com toda menção, por conversa, datada e apontando para a mensagem
 

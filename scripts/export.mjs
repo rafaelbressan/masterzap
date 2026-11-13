@@ -24,7 +24,7 @@ import { DISCLAIMER } from '../src/config/site.js';
 import {
   ROOT, SITE, REPO, TIMEZONE, UTC_OFFSET,
   loadEntries, loadMessages, sourceOf, provenanceOf, VERIFICATION_LABELS, contactOf, ownerName, whoIs, createResolver, createLocator, isPaged,
-  urlsIn, linksToMarkdown, longDate, phonePretty, MEDIA, monthOf, zonedTimestamp, loadSources,
+  urlsIn, linksToMarkdown, longDate, phonePretty, MEDIA, monthOf, zonedTimestamp, loadSources, pageOf,
 } from './lib/corpus.mjs';
 
 const OUT = join(ROOT, 'public/export');
@@ -159,7 +159,8 @@ function conversationMarkdown(entry, messages, { standalone = true, month = null
     const tags = [when, `msg ${msg.id}`];
     if (msg.is_edited) tags.push('editada');
     if (msg.view_once) tags.push('visualização única');
-    if (msg.source_page) tags.push(`laudo p. ${msg.source_page}${msg.source_figure ? `, fig. ${msg.source_figure}` : ''}`);
+    const page = pageOf(msg, entry.id);
+    if (page) tags.push(page);
     // A message whose seal is not the conversation's says so where it is read.
     const { source_id: sourceId, verification: seal } = provenanceOf(msg, entry);
     if (seal !== entry.verification) tags.push(VERIFICATION_LABELS[seal].toLowerCase());
@@ -228,7 +229,7 @@ function readme(conversations) {
     '| `masterwhats.md` / `masterwhats.json` | Tudo num arquivo só |', '',
     '## Como ler', '',
     `- Horários em ${TIMEZONE} (UTC${UTC_OFFSET}); no JSON, cada \`timestamp\` já carrega o fuso.`,
-    '- Mensagens do relatório da PF trazem `laudo p. N, fig. M` — página e figura do PDF de origem, para conferência.',
+    '- Mensagens dos documentos da PF trazem a página e a figura do PDF de origem, para conferência: `laudo p. N, fig. M` (IPJ-A nº 3298613/2026) ou `representação p. N` (Inq 5.026).',
     '- `_[Foto]_`, `_[Vídeo]_`, `_[Áudio]_`, `_[Documento]_`: a mídia não faz parte do material público; só o tipo é conhecido.',
     '- `[imagem de visualização única — conteúdo não recuperado]`: enviada em visualização única e não recuperada pela perícia.', '',
     aboutMarkdown(),

@@ -183,10 +183,25 @@ export const brDate = (iso) => (DAY.test(iso || '') ? `${iso.slice(8, 10)}/${iso
 /** The month a message belongs to, for the per-month pages: 'YYYY-MM', or the partial date itself. */
 export const monthOf = (date) => (DAY.test(date || '') || MONTH.test(date || '') ? date.slice(0, 7) : YEAR.test(date || '') ? date : 'sem-data');
 
+/**
+ * Where in its document a message is: "laudo p. 109, fig. 108",
+ * "representação p. 63", or '' when it cites no page. The word names the
+ * message's own source, else its conversation's (sources.json `cita`).
+ */
+let entriesById = null;
+export function pageOf(msg, conversationId) {
+  if (!msg.source_page) return '';
+  entriesById ??= new Map(loadEntries().map(e => [e.id, e]));
+  const sourceId = msg.source_id || entriesById.get(conversationId)?.source_id;
+  const word = loadSources().get(sourceId)?.cita || 'documento';
+  return `${word} p. ${msg.source_page}${msg.source_figure ? `, fig. ${msg.source_figure}` : ''}`;
+}
+
 /** "15/11/2025 18:22 · laudo p. 109, fig. 108" — what a quote needs to be checked. */
-export function citationOf(msg) {
+export function citationOf(msg, conversationId) {
   const parts = [msg.time ? `${brDate(msg.date)} ${msg.time.slice(0, 5)}` : `${brDate(msg.date)}, horário não informado`];
-  if (msg.source_page) parts.push(`laudo p. ${msg.source_page}${msg.source_figure ? `, fig. ${msg.source_figure}` : ''}`);
+  const page = pageOf(msg, conversationId);
+  if (page) parts.push(page);
   return parts.join(' · ');
 }
 
@@ -257,7 +272,7 @@ export function renderLinks(text, opts = {}) {
   const link = (label, href) => (mode === 'md' ? `[${label}](${href})`
     : mode === 'html' ? `<a href="${escapeHtml(href)}"${href.startsWith('http') ? ' rel="noopener"' : ''}>${escapeHtml(label)}</a>`
     : label);
-  const cite = (msg) => (mode === 'html' ? ` <small>⟨${escapeHtml(citationOf(msg))}⟩</small>` : ` ⟨${citationOf(msg)}⟩`);
+  const cite = (msg, conversationId) => (mode === 'html' ? ` <small>⟨${escapeHtml(citationOf(msg, conversationId))}⟩</small>` : ` ⟨${citationOf(msg, conversationId)}⟩`);
 
   let out = '';
   let last = 0;
@@ -274,7 +289,7 @@ export function renderLinks(text, opts = {}) {
         if (placed && mode === 'md' && placed.startsWith('/')) placed = `${SITE}${placed}`;
         const href = placed || ((mode === 'html' && opts.samePage === target.conversationId)
           ? `#msg-${target.msg.id}` : messageUrl(target.conversationId, target.msg));
-        out += link(label, href) + cite(target.msg); break;
+        out += link(label, href) + cite(target.msg, target.conversationId); break;
       }
       case 'conversation':
         out += link(label, mode === 'html' ? `/chat/${target.conversationId}` : `${SITE}/chat/${target.conversationId}`); break;
