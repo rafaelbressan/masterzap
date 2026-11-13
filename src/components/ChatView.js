@@ -55,6 +55,9 @@ function renderSealNotice(conversation, onOpen) {
   return notice;
 }
 
+// About four lines of a bubble: a longer transcript is cut, with "Ler mais".
+const TRANSCRIPT_CUT_CHARS = 180;
+const ICON_PAUSE = `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>`;
 const ICON_PLAY = `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
 const MAP_PLACEHOLDER = '/assets/map-placeholder.jpg';
 const MAP_PIN = '/assets/map-pin.jpg';
@@ -167,8 +170,17 @@ function avatarEl(src, name, size, className) {
  * with the transcript underneath. The audio itself is not in the material;
  * the play button says so by being disabled.
  */
+/**
+ * A voice note, as WhatsApp draws one: play, waveform, the sender's photo
+ * with the mic. It plays only the original recording (msg.audio_src, a file
+ * of this site) — never a voice made up for it. Without one, the play button
+ * is off and the line below says so. A transcript (the police report's, for
+ * now) is the bubble's text under the waveform, cut at a few lines with
+ * "Ler mais", as WhatsApp shows one.
+ */
 function renderAudioMessage(msg, isOutgoing) {
   const { transcript } = parseAudio(msg.content);
+  const src = playableSource(msg.audio_src);
   const el = document.createElement('div');
   el.className = 'chat-audio';
 
@@ -176,19 +188,20 @@ function renderAudioMessage(msg, isOutgoing) {
   row.className = 'chat-audio-row';
 
   const play = document.createElement('button');
+  play.type = 'button';
   play.className = 'chat-audio-play';
-  play.disabled = true;
-  play.setAttribute('aria-label', 'Áudio não disponível');
-  play.innerHTML = ICON_PLAY;
+  play.innerHTML = ICON_PLAY; // Static SVG
   row.appendChild(play);
 
   const waveform = document.createElement('div');
   waveform.className = 'chat-audio-waveform';
+  const bars = [];
   for (let i = 0; i < 34; i++) {
     const bar = document.createElement('span');
     bar.className = 'chat-audio-bar';
     bar.style.height = `${4 + ((i * 7919) % 17)}px`;
     waveform.appendChild(bar);
+    bars.push(bar);
   }
   row.appendChild(waveform);
 
@@ -203,16 +216,78 @@ function renderAudioMessage(msg, isOutgoing) {
 
   const foot = document.createElement('div');
   foot.className = 'chat-audio-foot';
-  foot.textContent = 'Áudio não recuperado · transcrição da perícia';
   el.appendChild(foot);
 
-  if (transcript) {
-    const t = document.createElement('div');
-    t.className = 'chat-audio-transcript';
-    t.textContent = `\u201C${transcript}\u201D`;
-    el.appendChild(t);
+  if (src) {
+    // The recording itself: loaded only when played.
+    const audio = new Audio();
+    audio.preload = 'none';
+    audio.src = src;
+    play.setAttribute('aria-label', 'Reproduzir áudio');
+    const time = (s) => (Number.isFinite(s) ? `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}` : '');
+    const show = () => {
+      const done = audio.duration ? audio.currentTime / audio.duration : 0;
+      bars.forEach((bar, i) => bar.classList.toggle('played', i / bars.length < done));
+      foot.textContent = time(audio.currentTime > 0 ? audio.currentTime : audio.duration);
+    };
+    audio.addEventListener('timeupdate', show);
+    audio.addEventListener('loadedmetadata', show);
+    const setPlaying = (on) => {
+      play.innerHTML = on ? ICON_PAUSE : ICON_PLAY; // Static SVG
+      play.setAttribute('aria-label', on ? 'Pausar áudio' : 'Reproduzir áudio');
+      el.classList.toggle('playing', on);
+    };
+    audio.addEventListener('play', () => setPlaying(true));
+    audio.addEventListener('pause', () => setPlaying(false));
+    audio.addEventListener('ended', () => { audio.currentTime = 0; setPlaying(false); show(); });
+    audio.addEventListener('error', () => {
+      setPlaying(false);
+      play.disabled = true;
+      foot.textContent = 'Não foi possível tocar o áudio';
+    });
+    play.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (audio.paused) audio.play().catch(() => {}); else audio.pause();
+    });
+  } else {
+    play.disabled = true;
+    play.setAttribute('aria-label', 'Áudio não disponível');
+    foot.textContent = transcript ? 'Áudio não recuperado · transcrição da perícia' : 'Áudio não recuperado';
   }
+
+  if (transcript) el.appendChild(renderTranscript(transcript));
   return el;
+}
+
+/** The recording's address, when it is a file of this site (not elsewhere). */
+function playableSource(src) {
+  return typeof src === 'string' && /^\/(?!\/)[\w./-]+\.(mp3|m4a|ogg|opus|wav)$/i.test(src) ? src : null;
+}
+
+/** A transcript cut at a few lines, with "Ler mais" when there is more. */
+function renderTranscript(transcript) {
+  const wrap = document.createElement('div');
+  wrap.className = 'chat-audio-transcript';
+  const text = document.createElement('div');
+  text.className = 'chat-audio-transcript-text';
+  text.textContent = transcript;
+  wrap.appendChild(text);
+  // Long ones are cut; the button shows the rest (and only if there is a rest).
+  if (transcript.length > TRANSCRIPT_CUT_CHARS) {
+    wrap.classList.add('clamped');
+    const more = document.createElement('button');
+    more.type = 'button';
+    more.className = 'chat-audio-transcript-more';
+    more.textContent = 'Ler mais';
+    more.setAttribute('aria-expanded', 'false');
+    more.addEventListener('click', (e) => {
+      e.stopPropagation();
+      wrap.classList.remove('clamped');
+      more.remove();
+    });
+    wrap.appendChild(more);
+  }
+  return wrap;
 }
 
 /** A shared location: the map with a pin, the place and its address; opens on Google Maps. */

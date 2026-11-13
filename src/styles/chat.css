@@ -754,10 +754,38 @@
 
 .chat-audio-transcript {
   margin-top: 8px;
-  font-size: 13.5px;
-  line-height: 1.4;
-  color: var(--WDS-content-deemphasized);
+}
+
+/* What was said: the bubble's own text, as WhatsApp shows a transcript. */
+.chat-audio-transcript-text {
+  font-size: 14.2px;
+  line-height: 19px;
+  color: var(--WDS-content-default);
   white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.chat-audio-transcript.clamped .chat-audio-transcript-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.chat-audio-transcript-more {
+  margin-top: 2px;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 14.2px;
+  color: var(--WDS-content-action-emphasized);
+  cursor: pointer;
+}
+
+/* Played part of the waveform. */
+.chat-audio-bar.played {
+  background-color: var(--WDS-accent);
 }
 
 /* ── Location: the map with a pin, the place, the address ─────────────────── */
