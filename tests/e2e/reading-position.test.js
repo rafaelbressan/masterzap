@@ -5,8 +5,9 @@ import { test, expect } from '@playwright/test';
 
 /** Scroll up a few loads and return the first message in view. */
 async function readSomewhereUp(page) {
-  await page.waitForSelector('.chat-day');
-  await page.waitForLoadState('networkidle');
+  // Open: the first days are in (the network going quiet is not that — it
+  // pauses between days while a long one renders).
+  await page.waitForSelector('.chat-messages:not([aria-busy="true"]) .chat-day');
   for (let i = 0; i < 3; i++) {
     const days = await page.locator('.chat-messages .chat-day').count();
     await page.evaluate(() => { document.querySelector('.chat-messages').scrollTop = 150; });

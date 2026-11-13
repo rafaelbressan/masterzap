@@ -208,4 +208,58 @@ describe('ScrollLoader — failures and order', () => {
     expect(container.scrollHeight).toBeGreaterThan(1200);
     expect(loader.isFullyLoaded).toBe(false);
   });
+
+  // Opening: busy until the first days are in and the view is at the end.
+  it('says it is busy while it opens, and not after, even when a day fails', async () => {
+    const container = createMockContainer();
+    document.body.appendChild(container);
+    const dateIndex = Array.from({ length: 10 }, (_, i) => ({ date: `2024-05-${String(i + 1).padStart(2, '0')}` }));
+    let release;
+    const held = new Promise((resolve) => { release = resolve; });
+    const loader = new ScrollLoader({ container, dateIndex, loadMessages: async (date) => { await held; return [{ id: 1, date }]; }, renderDay: section });
+    const opening = loader.init();
+    expect(container.getAttribute('aria-busy')).toBe('true');
+    release();
+    await opening;
+    expect(container.hasAttribute('aria-busy')).toBe(false);
+
+    const broken = createMockContainer();
+    document.body.appendChild(broken);
+    const failing = new ScrollLoader({ container: broken, dateIndex, loadMessages: (date) => Promise.resolve([{ id: 1, date }]), renderDay: () => { throw new Error('bad day'); } });
+    await expect(failing.init()).rejects.toThrow('bad day');
+    expect(broken.hasAttribute('aria-busy')).toBe(false);
+  });
+
+  it('opens at the last message when the reader did not move', async () => {
+    const container = createMockContainer();
+    document.body.appendChild(container);
+    const dateIndex = Array.from({ length: 10 }, (_, i) => ({ date: `2024-05-${String(i + 1).padStart(2, '0')}` }));
+    const loader = new ScrollLoader({ container, dateIndex, loadMessages: (date) => Promise.resolve([{ id: 1, date }]), renderDay: section });
+    await loader.init();
+    expect(container.scrollTop).toBe(container.scrollHeight);
+    expect(container.hasAttribute('aria-busy')).toBe(false);
+  });
+
+  // The observer speaks only when the top comes into view, and looks only
+  // once a frame: a jump away and back between two looks says nothing. A
+  // scroll near the top is reason enough to load, whatever it said.
+  it('loads on a scroll near the top even when the observer stays silent', async () => {
+    const container = createMockContainer();
+    Object.defineProperty(container, 'clientHeight', { value: 100, configurable: true });
+    document.body.appendChild(container);
+    const dateIndex = Array.from({ length: 20 }, (_, i) => ({ date: `2024-06-${String(i + 1).padStart(2, '0')}` }));
+    const loader = new ScrollLoader({ container, dateIndex, loadMessages: (date) => Promise.resolve([{ id: 1, date }]), renderDay: section });
+    await loader.init();
+    const before = loader.loadedCount;
+    container.scrollTop = 120;
+    container.dispatchEvent(new Event('scroll'));
+    await vi.waitFor(() => expect(loader.loadedCount).toBeGreaterThan(before));
+    // Far from the top, a scroll loads nothing.
+    const after = loader.loadedCount;
+    container.scrollTop = 5000;
+    container.dispatchEvent(new Event('scroll'));
+    await new Promise(r => setTimeout(r, 20));
+    expect(loader.loadedCount).toBe(after);
+  });
 });
+
