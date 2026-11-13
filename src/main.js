@@ -645,7 +645,10 @@ async function init() {
     conversations: store.getConversations(),
     readConversations,
     onImportant: () => openImportant(),
-    onTheme: () => showThemeDialog({ returnFocus: sidebar.querySelector('.sidebar-menu-btn') }),
+    // A browser without <dialog> (Safari before 15.4) shows the item off.
+    onTheme: typeof HTMLDialogElement === 'function'
+      ? () => showThemeDialog({ returnFocus: sidebar.querySelector('.sidebar-menu-btn') })
+      : null,
     onProfile: openProfile,
     onAbout: openSettings,
     onExportAll: () => downloadFile(EXPORT_ALL_URL),

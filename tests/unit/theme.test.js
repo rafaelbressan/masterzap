@@ -111,6 +111,11 @@ describe('the <head> script', () => {
     expect(script).toContain(`'${THEME_COLOR.dark}'`);
   });
 
+  it('the pre-paint <style> paints the same dark colour', () => {
+    const style = html.match(/<style>(html\{[\s\S]*?)<\/style>/)[1];
+    expect(style).toContain(`html[data-theme="dark"]{background:${THEME_COLOR.dark}`);
+  });
+
   it('follows the saved choice, else the device', () => {
     localStorage.setItem(THEME_KEY, 'dark');
     run();

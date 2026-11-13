@@ -1457,6 +1457,11 @@
   .contacts-sheet-item:last-child {
     margin-bottom: 0;
   }
+
+  /* The rows on the dialog's own surface (in light both are white). */
+  .contacts-sheet-item {
+    background: var(--WDS-surface-elevated-default);
+  }
 }
 
 .contacts-sheet-back .is-close { display: none; }
@@ -1640,7 +1645,9 @@
 }
 
 .theme-dialog::backdrop {
-  background-color: var(--WDS-background-dimmer);
+  /* --WDS-background-dimmer, written out: before Chrome 122 and iOS 17.4 a
+     ::backdrop sees no custom properties, and var() would leave it clear. */
+  background-color: rgba(0, 0, 0, .32);
 }
 
 .theme-dialog-form {

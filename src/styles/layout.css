@@ -493,16 +493,21 @@
   mask-image: url('/assets/whatsapp-doodle.svg');
   -webkit-mask-repeat: repeat;
   mask-repeat: repeat;
-  -webkit-mask-size: 540px 960px;
-  mask-size: 540px 960px;
+  -webkit-mask-size: var(--MW-doodle-size);
+  mask-size: var(--MW-doodle-size);
   z-index: 0;
   pointer-events: none;
 }
 
-@media (min-resolution: 2dppx) {
-  .main-area::before {
-    -webkit-mask-size: 412.5px 749.25px;
-    mask-size: 412.5px 749.25px;
+/* WhatsApp's tile sizes. A property, not a rule in the media query, so the
+   print (dom-snapshot.js), whose picture always measures 1x, can carry it. */
+:root {
+  --MW-doodle-size: 540px 960px;
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
+  :root {
+    --MW-doodle-size: 412.5px 749.25px;
   }
 }
 

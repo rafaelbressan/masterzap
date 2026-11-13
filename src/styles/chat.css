@@ -357,7 +357,7 @@
   height: 34px;
   border-radius: 50%;
   background-color: var(--WDS-accent);
-  color: var(--WDS-white);
+  color: var(--WDS-content-on-accent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -735,7 +735,7 @@
   height: 18px;
   border-radius: 50%;
   background: var(--WDS-accent);
-  color: var(--WDS-white);
+  color: var(--WDS-content-on-accent);
   display: flex;
   align-items: center;
   justify-content: center;

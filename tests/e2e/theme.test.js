@@ -185,6 +185,40 @@ test.describe('on a dark device', () => {
     expect(Math.max(...pixel.slice(0, 3))).toBeLessThan(60);
   });
 
+  test('a chosen theme stays when the device changes', async ({ page }) => {
+    await page.goto('/');
+    await page.locator('.conversation-item').first().waitFor();
+    const dialog = await openDialog(page);
+    await dialog.getByLabel('Escuro').check();
+    await dialog.getByRole('button', { name: 'OK' }).click();
+    await expect(dialog).toHaveCount(0);
+    await page.emulateMedia({ colorScheme: 'light' });
+    await page.waitForTimeout(200);
+    expect(await theme(page)).toBe('dark');
+  });
+
+  test('a choice made in another tab shows here', async ({ page, context }) => {
+    await page.goto('/');
+    await page.locator('.conversation-item').first().waitFor();
+    const other = await context.newPage();
+    await other.goto('/');
+    await other.locator('.conversation-item').first().waitFor();
+    const dialog = await openDialog(other);
+    await dialog.getByLabel('Claro').check();
+    await dialog.getByRole('button', { name: 'OK' }).click();
+    await expect.poll(() => theme(page)).toBe('light');
+  });
+
+  test('if the stylesheets never come, the page still shows after a few seconds', async ({ page }) => {
+    await page.route(/\/(base\.css|assets\/index-[^/]*\.css)/, route => route.abort());
+    await page.goto('/', { waitUntil: 'commit' });
+    await page.waitForSelector('#app', { state: 'attached' });
+    await expect.poll(
+      () => page.evaluate(() => getComputedStyle(document.getElementById('app')).visibility),
+      { timeout: 6000 },
+    ).toBe('visible');
+  });
+
   test('follows the device changing while the page is open', async ({ page }) => {
     await page.goto('/');
     await page.locator('.conversation-item').first().waitFor();

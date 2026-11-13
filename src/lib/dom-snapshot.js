@@ -354,7 +354,11 @@ export async function snapshotElement(element, { scale = 1, ignore } = {}) {
   // Inside the picture the <svg> is :root: the page's theme goes on it, so
   // the dark theme's rules (:root[data-theme="dark"]) apply there too.
   const theme = document.documentElement.dataset.theme === 'dark' ? ' data-theme="dark"' : '';
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg"${theme} width="${width}" height="${height}"><foreignObject x="0" y="0" width="100%" height="100%">${markup}</foreignObject></svg>`;
+  // The wallpaper's tile size follows the screen's density, which a media
+  // query inside the picture cannot see: it is carried as measured.
+  const doodle = getComputedStyle(document.documentElement).getPropertyValue('--MW-doodle-size').trim();
+  const doodleStyle = /^[\d.]+px [\d.]+px$/.test(doodle) ? ` style="--MW-doodle-size: ${doodle}"` : '';
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg"${theme}${doodleStyle} width="${width}" height="${height}"><foreignObject x="0" y="0" width="100%" height="100%">${markup}</foreignObject></svg>`;
 
   const img = new Image();
   img.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;

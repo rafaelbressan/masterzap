@@ -76,14 +76,18 @@ export function initTheme() {
   if (watching) return;
   watching = true;
   try {
-    window.matchMedia?.('(prefers-color-scheme: dark)').addEventListener?.('change', applyTheme);
+    const device = window.matchMedia?.('(prefers-color-scheme: dark)');
+    // Safari before 14 has only the older addListener.
+    if (device?.addEventListener) device.addEventListener('change', applyTheme);
+    else device?.addListener?.(applyTheme);
   } catch { /* no matchMedia: light */ }
   window.addEventListener('storage', (e) => {
     if (e.key === THEME_KEY || e.key === null) applyTheme();
   });
 }
 
-/** Forget the in-memory choice (for tests). */
+/** Forget the in-memory choice and the watching (for tests). */
 export function resetTheme() {
   inMemory = null;
+  watching = false;
 }

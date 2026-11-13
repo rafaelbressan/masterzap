@@ -10,6 +10,12 @@ html, body {
   overflow: hidden;
 }
 
+/* Behind the app (overscroll, safe areas): the wash, once this stylesheet is
+   here (index.html paints a stand-in before it). */
+html {
+  background-color: var(--WDS-app-wash);
+}
+
 /* index.html hides the page until this stylesheet arrives. */
 body > * {
   visibility: visible;
