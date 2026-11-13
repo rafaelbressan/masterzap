@@ -323,6 +323,13 @@ export class ScrollLoader {
 
     const msgEl = this._container.querySelector(`[data-id="${messageId}"]`);
     if (msgEl) {
+      // Landing on a voice note (a search, a link): its transcript whole, so
+      // what was looked for is not behind "Ler mais".
+      const transcript = msgEl.querySelector('.chat-audio-transcript.clamped');
+      if (transcript) {
+        transcript.classList.remove('clamped');
+        transcript.querySelector('.chat-audio-transcript-more')?.remove();
+      }
       msgEl.scrollIntoView({ block: 'center' });
       if (highlight) {
         // Remove + reflow + re-add to restart animation on repeated clicks

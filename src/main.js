@@ -6,6 +6,7 @@ import { HashRouter } from './lib/router.js';
 import { renderSidebar, setActiveConversation, conversationName } from './components/Sidebar.js';
 import { renderEmptyState } from './components/EmptyState.js';
 import { renderChatView } from './components/ChatView.js';
+import { mountVoiceNoteBar } from './components/VoiceNoteBar.js';
 import { attachContextMenu } from './components/ContextMenu.js';
 import { attachSearch } from './components/SearchPanel.js';
 import { showContactInfo } from './components/ContactInfo.js';
@@ -45,6 +46,8 @@ let activeSearch = null;
 let pendingScrollTarget = null;
 let mainAreaSavedContent = null;
 let currentConversationId = null;
+// The bar on top of the list while a voice note plays outside its chat.
+let voiceNoteBar = null;
 let activeImagePreview = null;
 
 async function init() {
@@ -133,6 +136,8 @@ async function init() {
   /** Close the chat (loader, context menu, right drawers). */
   function closeChat() {
     rememberPosition();
+    // The voice note goes on (as WhatsApp); outside its chat, the bar shows it.
+    voiceNoteBar?.setOpenConversation(null);
     clearPreparedScreenshot();
     if (activeImagePreview) { activeImagePreview.destroy(); activeImagePreview = null; }
     // The search first: it closes its own calendar along with its history.
@@ -300,6 +305,7 @@ async function init() {
     const conversation = store.getConversation(id);
     if (!conversation) { showEmptyState(); return; }
     currentConversationId = id;
+    voiceNoteBar?.setOpenConversation(id);
 
     const dateIndex = await store.getConversationIndex(id);
     // Another conversation was opened while this one's index was on its way.
@@ -666,6 +672,10 @@ async function init() {
       closeSettings();
       router.navigate('chat', id);
     },
+  });
+
+  voiceNoteBar = mountVoiceNoteBar(sidebar, {
+    onOpen: (id, messageId) => router.navigate('chat', id, messageId),
   });
 
   // Lock message link → open DV profile

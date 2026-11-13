@@ -6,6 +6,7 @@
  */
 
 import { DEFAULT_OWNER } from '../lib/participants.js';
+import { parseAudio } from '../lib/media.js';
 import { openMenu, menuClosed } from '../lib/menus.js';
 import { escapeHtml, formatDateLong, formatTime, NO_TIME_LABEL } from '../lib/utils.js';
 import { showToast } from './Toast.js';
@@ -277,7 +278,11 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
     // ("[localização] Latitude…", "[transcrição do áudio]").
     const drawnEl = row.querySelector('.chat-msg-content');
     const drawn = (drawnEl?.innerText ?? drawnEl?.textContent ?? '').trim();
-    const content = row._message?.type === 'text' ? row._message.content : drawn;
+    // A voice note's text is what was said (its transcript), not the labels
+    // and the clock drawn around it.
+    const content = row._message?.type === 'text' ? row._message.content
+      : row._message?.type === 'audio' ? parseAudio(row._message.content).transcript
+        : drawn;
     const meta = row.querySelector('.chat-msg-meta')?.textContent || '';
     const isOutgoing = row.classList.contains('outgoing');
     const isEdited = !!row.querySelector('.chat-msg-edited');
