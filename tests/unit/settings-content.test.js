@@ -91,6 +91,9 @@ describe('author links: UTM and the static files', () => {
       utm_source: 'masterwhats', utm_medium: 'referral', utm_campaign: 'creditos', utm_content: 'noscript',
     });
     expect(withUtm('https://example.com/?a=1')).toBe('https://example.com/?a=1&utm_source=masterwhats&utm_medium=referral&utm_campaign=creditos');
+    // A fragment stays last; a tag already there is replaced, not repeated.
+    expect(withUtm('https://example.com/p#readme', 'app')).toBe('https://example.com/p?utm_source=masterwhats&utm_medium=referral&utm_campaign=creditos&utm_content=app#readme');
+    expect(withUtm('https://example.com/?utm_source=x').match(/utm_source/g)).toHaveLength(1);
   });
 
   it('fills the static files: escaped in HTML, plain in text; identity without UTM', () => {
@@ -101,6 +104,11 @@ describe('author links: UTM and the static files', () => {
     expect(text['%AUTHOR_LINK%']).toBe(withUtm(AUTHOR.url, 'llms'));
     expect(text['%AUTHOR_URL%']).toBe(AUTHOR.url);
     expect(text['%AUTHOR_NAME%']).toBe(AUTHOR.name);
+    // The JSON-LD placeholders are replaced, quotes and all, by JSON strings.
+    expect(JSON.parse(html['"%AUTHOR_NAME_JSON%"'])).toBe(AUTHOR.name);
+    expect(JSON.parse(html['"%AUTHOR_URL_JSON%"'])).toBe(AUTHOR.url);
+    // Where the click came from is its own choice, apart from the escaping.
+    expect(authorPlaceholders({ html: true, where: 'quem' })['%AUTHOR_LINK%']).toContain('utm_content=quem');
   });
 
   it('index.html and llms.txt carry the placeholders, not a hand copy of the author', () => {
@@ -108,7 +116,9 @@ describe('author links: UTM and the static files', () => {
       const content = readFileSync(resolve(__dirname, '../..', file), 'utf8');
       expect(content).not.toContain(AUTHOR.name);
       expect(content).not.toContain(AUTHOR.url);
-      expect(content).toContain('%AUTHOR_NAME%');
+      expect(content).toContain('%AUTHOR_NAME');
+      // The credits link to the code is the tagged one, not a hand copy.
+      expect(content).toContain('%REPO_LINK%');
     }
   });
 });

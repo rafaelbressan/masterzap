@@ -47,14 +47,18 @@ export const AUTHOR = { name: 'Rafael Bressan', url: 'https://linkedin.com/in/ra
 export const REPO_URL = 'https://github.com/rafaelbressan/masterzap';
 
 /**
- * A credits link with the site's UTM tags, so the visit is counted as coming
- * from here; `content` says where the click was (app, noscript, llms). The
- * plain URLs stay for identity (JSON-LD) and for links to the data.
+ * A credits link with the site's UTM tags; `content` says where the click was
+ * (app, noscript, llms). The destinations' own reports may not show them, but
+ * the links say where the visit came from. The plain URLs stay for identity
+ * (JSON-LD) and for links to the data.
  */
 export function withUtm(url, content) {
-  const params = new URLSearchParams({ utm_source: 'masterwhats', utm_medium: 'referral', utm_campaign: 'creditos' });
-  if (content) params.set('utm_content', content);
-  return `${url}${url.includes('?') ? '&' : '?'}${params}`;
+  const tagged = new URL(url); // keeps a #fragment last, replaces repeated keys
+  tagged.searchParams.set('utm_source', 'masterwhats');
+  tagged.searchParams.set('utm_medium', 'referral');
+  tagged.searchParams.set('utm_campaign', 'creditos');
+  if (content) tagged.searchParams.set('utm_content', content);
+  return tagged.href;
 }
 
 /** What the site's material is, and that it takes no side. */
@@ -78,17 +82,29 @@ export const LEGAL_CHANNEL = {
   ],
 };
 
+/** For text or an attribute in HTML (src/lib/utils.js's needs a DOM; the build has none). */
+const escapeHtmlText = (text) => text.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+/** A JSON string for inside a <script>: no "</script>" can close it. */
+const jsonInScript = (value) => JSON.stringify(value).replace(/</g, '\\u003c');
+
 /**
  * The author and credits links in the static files (index.html, which the
  * pre-rendered pages copy, and public/llms.txt), filled in by the build next
- * to %SITE_URL% (vite.config.js). `html` escapes them for an attribute.
+ * to %SITE_URL% (vite.config.js).
+ *
+ * - `html`: the values escaped for HTML text and attributes; the JSON-LD
+ *   takes its own, "%AUTHOR_NAME_JSON%" and "%AUTHOR_URL_JSON%" — quotes
+ *   included, so the source is valid JSON — replaced by JSON strings.
+ * - `where`: the utm_content of the credits links.
  */
-export function authorPlaceholders({ html = false } = {}) {
-  const value = (text) => (html ? text.replaceAll('&', '&amp;') : text);
-  const where = html ? 'noscript' : 'llms';
+export function authorPlaceholders({ html = false, where = html ? 'noscript' : 'llms' } = {}) {
+  const value = (text) => (html ? escapeHtmlText(text) : text);
   return {
-    '%AUTHOR_NAME%': AUTHOR.name,
-    '%AUTHOR_URL%': AUTHOR.url,
+    '"%AUTHOR_NAME_JSON%"': jsonInScript(AUTHOR.name),
+    '"%AUTHOR_URL_JSON%"': jsonInScript(AUTHOR.url),
+    '%AUTHOR_NAME%': value(AUTHOR.name),
+    '%AUTHOR_URL%': value(AUTHOR.url),
     '%AUTHOR_LINK%': value(withUtm(AUTHOR.url, where)),
     '%REPO_LINK%': value(withUtm(REPO_URL, where)),
   };
