@@ -18,6 +18,17 @@ describe('matchConversations()', () => {
   });
 });
 
+describe('matchMessages() and the owner', () => {
+  it("marks as sent (the double tick) what the conversation owner's phone sent", () => {
+    const loaded = [
+      { conv: conv('a', 'Ana'), index: [{ id: 1, date: '2024-01-01', sender: 'DV', content: 'amor' }, { id: 2, date: '2024-01-02', sender: 'Ana', content: 'amor' }] },
+      { conv: { id: 'b', owner: 'Bia', participants: ['Bia', 'DV'] }, index: [{ id: 3, date: '2024-01-03', sender: 'Bia', content: 'amor' }, { id: 4, date: '2024-01-04', sender: 'DV', content: 'amor' }] },
+    ];
+    const sent = Object.fromEntries(matchMessages(loaded, 'amor').map(h => [h.id, h.outgoing]));
+    expect(sent).toEqual({ 1: true, 2: false, 3: true, 4: false });
+  });
+});
+
 describe('matchMessages()', () => {
   it('merges every chat, newest first, naming the contact', () => {
     const loaded = [

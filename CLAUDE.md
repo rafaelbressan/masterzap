@@ -42,7 +42,7 @@ npm run dev           # Start dev server
 - **Language**: All UI text in Brazilian Portuguese (pt-BR)
 - **Styling**: WDS (WhatsApp Design System) CSS custom properties in `wds-tokens.css`
 - **Message types**: text, image, video, audio, sticker, document, deleted, call, system
-- **Outgoing messages**: `sender === "DV"` (right-aligned, green bubble)
+- **Outgoing messages**: the phone owner's (right-aligned, green bubble). The owner is per conversation — `owner` in `conversations.json`, from the source's `metadata.owner`, "DV" by default. Ask `src/lib/participants.js` (`ownerOf`, `contactOf`, `isOutgoing`, `ownerName`); never compare with "DV" directly
 - **Conversation ID**: slugified participant name (e.g., `martha-graeff`)
 
 ## Commands

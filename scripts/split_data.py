@@ -75,10 +75,21 @@ def load_extra_conversations():
     return loaded
 
 
+# Whose phone the messages came from: their messages are the outgoing ones.
+# Every source so far is one of Daniel Vorcaro's phones; a conversation file
+# may name another owner (metadata.owner). Mirrors src/lib/participants.js.
+DEFAULT_OWNER = "DV"
+
+
+def owner_of(metadata):
+    return metadata.get("owner") or DEFAULT_OWNER
+
+
 def get_conversation_id(metadata):
-    """Derive conversation ID from participants (excluding DV)."""
+    """Derive conversation ID from participants (excluding the owner)."""
     participants = metadata["participants"]
-    other = [p for p in participants if p != "DV"]
+    owner = owner_of(metadata)
+    other = [p for p in participants if p != owner]
     if other:
         return slugify(other[0])
     return slugify("-".join(participants))
@@ -163,7 +174,7 @@ CALL_RE_PT = re.compile(
 CALL_RE_EN = re.compile(r"^(Missed )?(Voice|Video) call(?:, (\d+) (min|sec)|, (No answer)|, (Ended)|, (Tap to call back))?", re.I)
 
 
-def describe_call(msg):
+def describe_call(msg, owner=DEFAULT_OWNER):
     """One call as the calls screen needs it: direction, kind, how it ended, how long.
 
     The Martha export writes calls in English ("Voice call, 3 min", "Missed
@@ -199,7 +210,7 @@ def describe_call(msg):
         "kind": kind,
         "status": status,
         "duration": duration,
-        "outgoing": msg.get("sender") == "DV",
+        "outgoing": msg.get("sender") == owner,
     }
 
 
@@ -241,7 +252,7 @@ def split_conversation(conv_id, data, index):
     for msg in messages:
         if msg["type"] != "call":
             continue
-        call = describe_call(msg)
+        call = describe_call(msg, owner_of(metadata))
         if call:
             CALLS.append({
                 "conversation_id": conv_id,
@@ -260,12 +271,16 @@ def split_conversation(conv_id, data, index):
     # (a partial date, an unreadable clock) cannot say where it goes.
     last_msg = next((m for m in reversed(messages) if m.get("timestamp")),
                     messages[-1] if messages else None)
-    other = [p for p in metadata["participants"] if p != "DV"]
+    owner = owner_of(metadata)
+    other = [p for p in metadata["participants"] if p != owner]
     entry = {
         "id": conv_id,
         "participants": metadata["participants"],
-        # The other side, by name, so nobody has to know "the one that is not DV".
-        # A conversation file may name its contact outright (metadata.contact).
+        # Whose phone it is (their messages are the outgoing ones), and the
+        # other side by name, so nobody has to know "the one that is not DV".
+        # A conversation file may name either outright (metadata.owner,
+        # metadata.contact).
+        "owner": owner,
         "contact": metadata.get("contact") or (other[0] if other else metadata["participants"][0]),
         "date_range": normalise_date_range(metadata["date_range"]),
         "total_messages": metadata["total_messages"],

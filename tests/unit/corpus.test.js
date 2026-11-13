@@ -9,7 +9,7 @@ import { describe, it, expect } from 'vitest';
 import { SITE_URL } from '../../src/config/site.js';
 import {
   createResolver, createLocator, loadEntries, normalize, citationOf, linksToMarkdown, linksToHtml, linksToText,
-  brDate, longDate, monthOf, zonedTimestamp, contactOf,
+  brDate, longDate, monthOf, zonedTimestamp, contactOf, whoIs,
 } from '../../scripts/lib/corpus.mjs';
 
 const entries = loadEntries();
@@ -107,3 +107,12 @@ describe('partial dates and unknown times in the build', () => {
     expect(contactOf({ participants: ['DV', 'Apelido'] })).toBe('Apelido');
   });
 });
+
+describe('whoIs', () => {
+  // A conversation with no profile falls back to its contact (the binding
+  // corpus.mjs re-exports from src/lib/participants.js must exist locally).
+  it('names a conversation without a profile after its contact', () => {
+    expect(whoIs({ id: 'x', participants: ['DV', 'Fulano'] }, null)).toBe('Fulano');
+  });
+});
+

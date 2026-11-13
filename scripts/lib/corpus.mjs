@@ -88,8 +88,9 @@ export const provenanceOf = (msg, entry) => {
   return { source_id: sourceId, verification };
 };
 
-/** The other side: the name split_data.py recorded, else the participant who is not DV. */
-export const contactOf = (entry) => entry.contact || entry.participants.find(p => p !== 'DV') || entry.participants[0];
+/** The other side: the name split_data.py recorded, else the participant who is not the owner. */
+import { contactOf, ownerName } from '../../src/lib/participants.js';
+export { contactOf, ownerName };
 
 /** The person, as opposed to the name the phone saved them under. */
 export const whoIs = (entry, profile) =>

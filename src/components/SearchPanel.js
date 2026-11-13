@@ -12,6 +12,7 @@
  * (before, match, after) before wrapping the match in a <mark> tag.
  * The <mark> tag itself is a static string literal, not derived from user input.
  */
+import { isOutgoing } from '../lib/participants.js';
 import { escapeHtml, formatDateShort } from '../lib/utils.js';
 import { searchIndex, loadSearchIndex, normalize, isIndexLoaded } from '../lib/search.js';
 import { buildConversationItem, conversationName } from './Sidebar.js';
@@ -62,6 +63,7 @@ export function matchMessages(loaded, query) {
     for (const hit of searchIndex(index, query, { limit: Infinity })) {
       hit.conversationId = conv.id;
       hit.contact = contact;
+      hit.outgoing = isOutgoing(hit, conv);
       hits.push(hit);
     }
   }
@@ -141,8 +143,8 @@ export function attachSearch(sidebar, conversations, { onConversationClick, onMe
     const contentEl = document.createElement('div');
     contentEl.className = 'search-result-content';
     // All segments are escaped individually, <mark> and the ticks are static
-    // literals. DV's own messages carry the double tick, as on WhatsApp.
-    contentEl.innerHTML = (hit.sender === 'DV' ? ICON_TICKS : '')
+    // literals. The owner's own messages carry the double tick, as on WhatsApp.
+    contentEl.innerHTML = (hit.outgoing ? ICON_TICKS : '')
       + highlightMatch(hit.content, hit.matchStart, hit.matchEnd);
 
     item.append(topRow, contentEl);

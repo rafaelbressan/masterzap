@@ -9,6 +9,7 @@
  * Security note: every text is set with textContent; the only innerHTML is
  * static SVG.
  */
+import { isOutgoing as isOwnerMessage } from '../lib/participants.js';
 import { formatDateShort } from '../lib/utils.js';
 import { importantMessages, toggleImportant } from '../lib/important-messages.js';
 import { ICON_STAR, ICON_ARROW_BACK, ICON_TICKS } from '../lib/icons.js';
@@ -37,11 +38,12 @@ export function setBubbleStar(meta, on) {
  * @param {object} options
  * @param {string|null} [options.conversationId] - only this conversation's marks
  * @param {function} options.nameOf - (conversationId) => the name the list shows
+ * @param {function} [options.isOutgoing] - (mark) => whether the phone's owner sent it
  * @param {function} options.onOpen - (conversationId, messageId) => void
  * @param {function} options.onBack - () => void
  * @returns {HTMLElement}
  */
-export function renderImportantPanel({ conversationId = null, nameOf, onOpen, onBack }) {
+export function renderImportantPanel({ conversationId = null, nameOf, isOutgoing = (mark) => isOwnerMessage(mark), onOpen, onBack }) {
   const panel = document.createElement('section');
   panel.className = 'important-panel';
   panel.setAttribute('aria-label', 'Mensagens importantes');
@@ -85,8 +87,8 @@ export function renderImportantPanel({ conversationId = null, nameOf, onOpen, on
     bottom.className = 'important-item-bottom';
     const content = document.createElement('div');
     content.className = 'search-result-content';
-    // The double tick marks DV's own messages, as in the search results.
-    if (mark.sender === 'DV') content.insertAdjacentHTML('afterbegin', ICON_TICKS); // Static SVG
+    // The double tick marks the owner's own messages, as in the search results.
+    if (isOutgoing(mark)) content.insertAdjacentHTML('afterbegin', ICON_TICKS); // Static SVG
     content.append(mark.content.trim() || 'Mensagem sem texto');
 
     const unmark = document.createElement('button');

@@ -152,6 +152,24 @@ class Calls(unittest.TestCase):
             self.assertEqual((call["kind"], call["status"], call["duration"]), (kind, status, duration), text)
         self.assertIsNone(describe_call({"content": "Vou ligar", "sender": "DV"}))
 
+    def test_a_call_is_outgoing_from_the_phones_owner(self):
+        from split_data import describe_call
+        call = {"content": "Chamada de voz perdida", "sender": "Ana"}
+        self.assertFalse(describe_call(call)["outgoing"])
+        self.assertTrue(describe_call(call, owner="Ana")["outgoing"])
+
+
+class Owner(unittest.TestCase):
+    """Whose phone a conversation came from (metadata.owner, DV by default)."""
+
+    def test_the_conversation_is_named_after_whoever_is_not_the_owner(self):
+        from split_data import get_conversation_id, owner_of
+        self.assertEqual(owner_of({"participants": ["DV", "Ana"]}), "DV")
+        self.assertEqual(get_conversation_id({"participants": ["DV", "Ana Matos"]}), "ana-matos")
+        other = {"participants": ["Ana Matos", "DV"], "owner": "Ana Matos"}
+        self.assertEqual(owner_of(other), "Ana Matos")
+        self.assertEqual(get_conversation_id(other), "dv")
+
 
 if __name__ == "__main__":
     unittest.main()
