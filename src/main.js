@@ -31,7 +31,7 @@ import { closeOpenMenu } from './lib/menus.js';
 import { renderImportantPanel, setBubbleStar } from './components/ImportantPanel.js';
 import { isImportant } from './lib/important-messages.js';
 import { initTheme } from './lib/theme.js';
-import { OWNER_NAMES, ownerOf, ownerName, contactOf, otherParticipantOf, isOutgoing } from './lib/participants.js';
+import { DEFAULT_OWNER, OWNER_NAMES, ownerOf, ownerName, contactOf, otherParticipantOf, isOutgoing } from './lib/participants.js';
 import { showThemeDialog } from './components/ThemeDialog.js';
 
 // ── Active state (only one thing at a time) ──────
@@ -392,7 +392,7 @@ async function init() {
         conversations: store.getConversations(),
         avatarFor: (convId) => AVATARS[convId] || null,
         // The owner's photo when there is one (Vorcaro's, for his phones).
-      selfAvatar: ownerOf(conversation) === 'DV' ? AVATARS['dv-self'] : null,
+      selfAvatar: ownerOf(conversation) === DEFAULT_OWNER ? AVATARS['dv-self'] : null,
       selfName: ownerName(conversation),
         contactAvatar: AVATARS[conversation.id] || null,
         contactName,
