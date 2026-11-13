@@ -49,6 +49,7 @@ export function donationSections(donation = DONATION) {
   ].filter(Boolean);
   return items.length ? [{
     title: 'Apoie o MasterWhats',
+    divider: true,
     paragraphs: [{ text: 'Doe qualquer valor. A contribuição será usada para a infraestrutura e para manter o site no ar.' }],
     copyItems: items,
   }] : [];

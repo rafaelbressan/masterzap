@@ -51,12 +51,13 @@ test.describe('Settings/About Drawer', () => {
     expect(titles.filter(t => t === 'Canal Jurídico')).toHaveLength(1);
     expect(channel).toBeGreaterThan(titles.findLastIndex(t => t.startsWith('Destaques')));
     expect(titles[channel + 1]).toBe('Prazos de atendimento');
-    // A grey band sets the channel apart, edge to edge as the one under the header.
-    const band = page.locator('.settings-drawer .profile-section-divider');
-    await expect(band).toHaveCount(1);
-    const [bandBox, drawerBox] = [await band.boundingBox(), await page.locator('.settings-drawer').boundingBox()];
+    // Grey bands set the donation and the channel apart, edge to edge as the
+    // one under the header.
+    const bands = page.locator('.settings-drawer .profile-section-divider');
+    expect(await bands.evaluateAll(els => els.map(el => el.nextElementSibling?.querySelector('.profile-section-title')?.textContent)))
+      .toEqual(['Apoie o MasterWhats', 'Canal Jurídico']);
+    const [bandBox, drawerBox] = [await bands.last().boundingBox(), await page.locator('.settings-drawer').boundingBox()];
     expect(Math.abs(bandBox.width - drawerBox.width)).toBeLessThan(2);
-    expect(await band.evaluate(el => el.nextElementSibling?.textContent)).toContain('Canal Jurídico');
     // The deadlines are a list a screen reader announces as one.
     await expect(page.locator('.settings-drawer .profile-section', { hasText: 'Prazos de atendimento' }).getByRole('listitem')).toHaveCount(3);
     const form = page.locator('.settings-drawer .profile-section', { hasText: 'Canal Jurídico' }).getByRole('link', { name: 'formulário' });
