@@ -352,7 +352,7 @@
   width: 36px;
   height: 20px;
   border-radius: 10px;
-  background-color: var(--WDS-neutral-gray-300);
+  background-color: var(--MW-toggle-off);
   flex-shrink: 0;
   position: relative;
 }
@@ -651,7 +651,7 @@
 }
 
 .profile-placeholder svg {
-  color: var(--WDS-warm-gray-300);
+  color: var(--MW-placeholder-icon);
 }
 
 .profile-placeholder-text {
@@ -810,7 +810,7 @@
 
 .profile-section-text a,
 .profile-action-link {
-  color: var(--WDS-green-700);
+  color: var(--MW-link-emphasized);
   text-decoration: none;
   font-weight: 500;
   cursor: pointer;
@@ -843,7 +843,7 @@
 }
 
 .profile-sources a {
-  color: var(--WDS-green-700);
+  color: var(--MW-link-emphasized);
   text-decoration: none;
   font-size: 12.5px;
 }
@@ -972,8 +972,8 @@
 
 /* In the chat's own search drawer: the highlighted run, as before. */
 .search-highlight {
-  background-color: var(--WDS-yellow-200);
-  color: var(--WDS-content-default);
+  background-color: var(--MW-highlight);
+  color: var(--MW-on-highlight);
   border-radius: 2px;
   padding: 0 1px;
 }
@@ -1141,7 +1141,7 @@
   z-index: 70;
   display: flex;
   flex-direction: column;
-  background: var(--WDS-white);
+  background: var(--WDS-surface-default);
   color: var(--WDS-content-default);
 }
 
@@ -1171,11 +1171,11 @@
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  background: var(--WDS-warm-gray-75);
+  background: var(--WDS-surface-emphasized);
 }
 
 .contacts-sheet-item {
-  background: var(--WDS-white);
+  background: var(--WDS-surface-default);
   margin-bottom: 8px;
 }
 
@@ -1251,7 +1251,7 @@
   flex: 1;
   min-height: 0;
   flex-direction: column;
-  background: var(--WDS-white);
+  background: var(--WDS-surface-default);
 }
 
 .sidebar--panel .sidebar-panel {
@@ -1321,7 +1321,7 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: var(--WDS-warm-gray-75);
+  background: var(--WDS-surface-emphasized);
 }
 
 .calls-recent {
@@ -1383,7 +1383,7 @@
 }
 
 .calls-item.missed .calls-item-name {
-  color: #e53935;
+  color: var(--MW-negative);
 }
 
 .calls-item-meta {
@@ -1400,7 +1400,7 @@
 }
 
 .calls-item.missed .calls-item-arrow {
-  color: #e53935;
+  color: var(--MW-negative);
 }
 
 .calls-item-kind {
@@ -1439,7 +1439,7 @@
   .contacts-sheet-bar,
   .contacts-sheet-list {
     width: min(480px, calc(100vw - 48px));
-    background: var(--WDS-white);
+    background: var(--WDS-surface-elevated-default);
   }
 
   .contacts-sheet-bar {
@@ -1456,6 +1456,11 @@
 
   .contacts-sheet-item:last-child {
     margin-bottom: 0;
+  }
+
+  /* The rows on the dialog's own surface (in light both are white). */
+  .contacts-sheet-item {
+    background: var(--WDS-surface-elevated-default);
   }
 }
 
@@ -1621,4 +1626,92 @@
   .contact-info-action-item[role="button"]:hover {
     background-color: var(--WDS-surface-highlight);
   }
+}
+
+/* ── Tema (Claro / Escuro / Padrão do sistema), as WhatsApp's dialog ── */
+.theme-dialog {
+  width: min(400px, calc(100vw - 48px));
+  max-width: none;
+  /* Centred: the global reset takes away the margin: auto a dialog needs. */
+  margin: auto;
+  padding: 0;
+  border: none;
+  border-radius: 24px;
+  background-color: var(--WDS-surface-elevated-default);
+  color: var(--WDS-content-default);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, .15),
+    0 0 1px rgba(0, 0, 0, .1);
+}
+
+.theme-dialog::backdrop {
+  /* --WDS-background-dimmer, written out: before Chrome 122 and iOS 17.4 a
+     ::backdrop sees no custom properties, and var() would leave it clear. */
+  background-color: rgba(0, 0, 0, .32);
+}
+
+.theme-dialog-form {
+  padding: 24px 24px 20px;
+}
+
+.theme-dialog-title {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.theme-dialog-option {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 48px;
+  font-size: 16px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.theme-dialog-option input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--WDS-accent);
+  cursor: pointer;
+}
+
+.theme-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.theme-dialog-actions button {
+  min-height: 40px;
+  padding: 0 24px;
+  border: none;
+  border-radius: 20px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.theme-dialog-cancel {
+  background: none;
+  color: var(--WDS-content-action-emphasized);
+}
+
+.theme-dialog-cancel:hover {
+  background-color: var(--WDS-surface-highlight);
+}
+
+.theme-dialog-ok {
+  background-color: var(--WDS-accent);
+  color: var(--WDS-content-on-accent);
+}
+
+.theme-dialog-ok:hover {
+  filter: brightness(.95);
 }

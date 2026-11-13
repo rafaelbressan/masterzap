@@ -38,6 +38,12 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
   <meta name="theme-color" content="#1DAA61">
+  <!-- The theme before the first paint (src/lib/theme.js keeps it after). -->
+  <script>var t;try{t=localStorage.getItem('masterwhats:tema')}catch(e){}try{if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=t;if(t==='dark')document.querySelector('meta[name="theme-color"]').content='#161717'}catch(e){}</script>
+  <!-- Before the stylesheets arrive (Firefox paints without them): the
+       page in the theme's colour, and nothing on it unstyled. base.css shows
+       it again; should it never come, the page shows anyway after 3 s. -->
+  <style>html{background:#FFFFFF}html[data-theme="dark"]{background:#161717;color-scheme:dark}body>*{visibility:hidden;animation:mw-shown 0s 3s forwards}@keyframes mw-shown{to{visibility:visible}}</style>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <!-- Fonts -->
@@ -47,6 +53,7 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="/src/styles/wds-tokens.css">
+  <link rel="stylesheet" href="/src/styles/dark-theme.css">
   <link rel="stylesheet" href="/src/styles/base.css">
   <link rel="stylesheet" href="/src/styles/layout.css">
   <link rel="stylesheet" href="/src/styles/chat.css">

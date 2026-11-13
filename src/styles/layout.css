@@ -62,7 +62,7 @@
 
 .nav-rail-btn.active {
   color: var(--WDS-accent);
-  background-color: var(--WDS-green-50);
+  background-color: var(--MW-nav-selected);
 }
 
 .nav-rail-btn.disabled {
@@ -294,7 +294,7 @@
 }
 
 .sidebar-tag.active {
-  background-color: var(--WDS-green-50);
+  background-color: var(--MW-tag-selected);
   color: var(--WDS-accent);
   border-color: var(--WDS-accent);
   font-weight: 500;
@@ -480,17 +480,35 @@
   background-color: var(--WDS-systems-chat-background-wallpaper);
 }
 
-/* Chat wallpaper overlay (doodle pattern) */
+/* Chat wallpaper: the doodle, as WhatsApp Web draws it — the drawing is a
+   mask over the wallpaper's foreground colour at 60%, so one image serves
+   both themes (the colour is the theme's). Sizes are WhatsApp's. */
 .main-area::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url('/assets/whatsapp-background.webp');
-  background-repeat: repeat;
-  background-size: 550px;
-  opacity: 0.12;
+  background-color: var(--WDS-systems-chat-foreground-wallpaper);
+  opacity: .6;
+  -webkit-mask-image: url('/assets/whatsapp-doodle.svg');
+  mask-image: url('/assets/whatsapp-doodle.svg');
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
+  -webkit-mask-size: var(--MW-doodle-size);
+  mask-size: var(--MW-doodle-size);
   z-index: 0;
   pointer-events: none;
+}
+
+/* WhatsApp's tile sizes. A property, not a rule in the media query, so the
+   print (dom-snapshot.js), whose picture always measures 1x, can carry it. */
+:root {
+  --MW-doodle-size: 540px 960px;
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
+  :root {
+    --MW-doodle-size: 412.5px 749.25px;
+  }
 }
 
 /* Chat header */

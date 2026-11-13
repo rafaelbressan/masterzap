@@ -30,6 +30,8 @@ import { savePosition, getPosition } from './lib/reading-position.js';
 import { closeOpenMenu } from './lib/menus.js';
 import { renderImportantPanel, setBubbleStar } from './components/ImportantPanel.js';
 import { isImportant } from './lib/important-messages.js';
+import { initTheme } from './lib/theme.js';
+import { showThemeDialog } from './components/ThemeDialog.js';
 
 // ── Active state (only one thing at a time) ──────
 let activeLoader = null;
@@ -45,6 +47,9 @@ let currentConversationId = null;
 let activeImagePreview = null;
 
 async function init() {
+  // The <head> script already put the theme on; from here it follows the
+  // device and other tabs.
+  initTheme();
   const loadingScreen = document.getElementById('loading-screen');
   const app = document.getElementById('app');
   const loadStart = Date.now();
@@ -640,6 +645,10 @@ async function init() {
     conversations: store.getConversations(),
     readConversations,
     onImportant: () => openImportant(),
+    // A browser without <dialog> (Safari before 15.4) shows the item off.
+    onTheme: typeof HTMLDialogElement === 'function'
+      ? () => showThemeDialog({ returnFocus: sidebar.querySelector('.sidebar-menu-btn') })
+      : null,
     onProfile: openProfile,
     onAbout: openSettings,
     onExportAll: () => downloadFile(EXPORT_ALL_URL),

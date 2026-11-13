@@ -1,0 +1,94 @@
+/*
+ * Dark theme — WhatsApp Web's own values.
+ *
+ * Taken from WhatsApp Web's stylesheet: the prefers-color-scheme: dark block
+ * of the theme whose light values are ours (wds-tokens.css). Only the
+ * semantic tokens change; the palette (green-500, warm-gray-100 …) is the
+ * same in both themes, as there. On <html data-theme="dark">, set by
+ * src/lib/theme.js and the script in index.html's <head>.
+ */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Behind the app (overscroll, safe areas): the dark surface. */
+  --WDS-app-wash: #161717;
+  --WDS-app-wash-RGB: 22, 23, 23;
+
+  /* App tokens (see wds-tokens.css), in WhatsApp's dark colours. */
+  --MW-scrollbar: var(--WDS-white-alpha-20);
+  --MW-track: var(--WDS-lines-divider);
+  --MW-link: var(--WDS-content-read);
+  --MW-link-emphasized: var(--WDS-content-action-emphasized);
+  --MW-media-placeholder: var(--WDS-systems-bubble-surface-overlay);
+  --MW-bubble-card: var(--WDS-systems-bubble-surface-overlay);
+  --MW-audio-bar: var(--WDS-lines-outline-default);
+  --MW-toggle-off: var(--WDS-content-disabled);
+  --MW-placeholder-icon: var(--WDS-lines-outline-default);
+  --MW-highlight: var(--WDS-secondary-warning-deemphasized);
+  --MW-on-highlight: var(--WDS-secondary-warning);
+  --MW-negative: var(--WDS-secondary-negative);
+  --MW-nav-selected: var(--WDS-surface-highlight);
+  --MW-tag-selected: var(--WDS-components-filter-surface-selected);
+
+  --WDS-accent: #21C063;
+  --WDS-accent-RGB: 33, 192, 99;
+  --WDS-accent-deemphasized: #103529;
+  --WDS-accent-deemphasized-RGB: 16, 53, 41;
+  --WDS-accent-emphasized: #D9FDD3;
+  --WDS-accent-emphasized-RGB: 217, 253, 211;
+  --WDS-background-elevated-wash-inset: #1D1F1F;
+  --WDS-background-elevated-wash-inset-RGB: 29, 31, 31;
+  --WDS-background-elevated-wash-plain: #1D1F1F;
+  --WDS-background-elevated-wash-plain-RGB: 29, 31, 31;
+  --WDS-background-wash-inset: #161717;
+  --WDS-background-wash-inset-RGB: 22, 23, 23;
+  --WDS-background-wash-plain: #161717;
+  --WDS-background-wash-plain-RGB: 22, 23, 23;
+  --WDS-components-active-list-row: rgba(255, 255, 255, .1);
+  --WDS-components-filter-surface-selected: #103529;
+  --WDS-components-outline-profile-photo: rgba(255, 255, 255, .1);
+  --WDS-components-surface-nav-bar: #1D1F1F;
+  --WDS-content-action-default: #FAFAFA;
+  --WDS-content-action-emphasized: #21C063;
+  --WDS-content-deemphasized: rgba(255, 255, 255, .6);
+  --WDS-content-default: #FAFAFA;
+  --WDS-content-disabled: #424445;
+  --WDS-content-external-link: #21C063;
+  --WDS-content-inverse: #0A0A0A;
+  --WDS-content-on-accent: #0A0A0A;
+  --WDS-content-read: #53BDEB;
+  --WDS-lines-divider: rgba(255, 255, 255, .1);
+  --WDS-lines-outline-deemphasized: rgba(255, 255, 255, .1);
+  --WDS-lines-outline-default: #757778;
+  --WDS-persistent-always-branded: #21C063;
+  --WDS-secondary-negative: #FB5061;
+  --WDS-secondary-negative-deemphasized: #321622;
+  --WDS-secondary-negative-emphasized: #FA99A4;
+  --WDS-secondary-positive: #71EB85;
+  --WDS-secondary-positive-deemphasized: #103529;
+  --WDS-secondary-warning: #FFD279;
+  --WDS-secondary-warning-deemphasized: #362C1F;
+  --WDS-surface-default: #161717;
+  --WDS-surface-elevated-default: #1D1F1F;
+  --WDS-surface-elevated-emphasized: #242626;
+  --WDS-surface-emphasized: #1D1F1F;
+  --WDS-surface-highlight: rgba(255, 255, 255, .1);
+  --WDS-surface-inverse: #EEEEEE;
+  --WDS-surface-pressed: rgba(255, 255, 255, .2);
+  --WDS-systems-bubble-content-deemphasized: rgba(255, 255, 255, .6);
+  --WDS-systems-bubble-content-e2e: #FFD279;
+  --WDS-systems-bubble-surface-e2e: #1D1F1F;
+  --WDS-systems-bubble-surface-incoming: #242626;
+  --WDS-systems-bubble-surface-outgoing: #144D37;
+  --WDS-systems-bubble-surface-overlay: rgba(0, 0, 0, .2);
+  --WDS-systems-bubble-surface-system: #1D1F1F;
+  --WDS-systems-chat-background-wallpaper: #161717;
+  --WDS-systems-chat-foreground-wallpaper: rgba(255, 255, 255, .1);
+  --WDS-systems-chat-surface-composer: #242626;
+  --WDS-systems-chat-surface-tray: #161717;
+  --WDS-systems-status-seen: #757778;
+}
+
+:root {
+  color-scheme: light;
+}

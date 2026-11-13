@@ -292,7 +292,7 @@
 }
 
 .chat-msg-content a {
-  color: var(--WDS-cobalt-400);
+  color: var(--MW-link);
   text-decoration: none;
 }
 
@@ -310,7 +310,7 @@
   width: 240px;
   height: 180px;
   border-radius: 6px;
-  background-color: var(--WDS-warm-gray-100);
+  background-color: var(--MW-media-placeholder);
   color: var(--WDS-content-deemphasized);
 }
 
@@ -357,7 +357,7 @@
   height: 34px;
   border-radius: 50%;
   background-color: var(--WDS-accent);
-  color: var(--WDS-white);
+  color: var(--WDS-content-on-accent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -375,7 +375,7 @@
   width: 3px;
   min-height: 4px;
   border-radius: 1.5px;
-  background-color: var(--WDS-warm-gray-300);
+  background-color: var(--MW-audio-bar);
 }
 
 .outgoing .chat-audio-bar {
@@ -395,13 +395,13 @@
   gap: 10px;
   padding: 10px 12px;
   border-radius: 6px;
-  background-color: var(--WDS-warm-gray-75);
+  background-color: var(--MW-bubble-card);
   min-width: 200px;
 }
 
 .chat-document-icon {
   flex-shrink: 0;
-  color: var(--WDS-cobalt-400);
+  color: var(--MW-link);
 }
 
 .chat-document-info {
@@ -735,7 +735,7 @@
   height: 18px;
   border-radius: 50%;
   background: var(--WDS-accent);
-  color: var(--WDS-white);
+  color: var(--WDS-content-on-accent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -767,7 +767,7 @@
   max-width: 100%;
   border-radius: 8px;
   overflow: hidden;
-  background-color: var(--WDS-warm-gray-75);
+  background-color: var(--MW-bubble-card);
   color: inherit;
 }
 
@@ -814,7 +814,7 @@
   margin-bottom: 6px;
   border-radius: 8px;
   overflow: hidden;
-  background-color: var(--WDS-warm-gray-75);
+  background-color: var(--MW-bubble-card);
   color: inherit;
 }
 
