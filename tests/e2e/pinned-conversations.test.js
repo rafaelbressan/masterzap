@@ -81,8 +81,12 @@ test('a long press opens the row menu on a touch screen', async ({ page }, info)
   await target.dispatchEvent('click', { clientX: at.clientX, clientY: at.clientY });
   await expect(item).toBeVisible();
   await expect(page).not.toHaveURL(/#\/chat\//);
+  // A touch does not move the keyboard focus: the browser would ring the
+  // item, then the row, with its keyboard focus outline.
+  await expect(item).not.toBeFocused();
   await item.click();
   await expect(page.locator('.conversation-list > .conversation-item').first()).toHaveAttribute('data-id', 'ciro-soares');
+  expect(await page.evaluate(() => document.activeElement?.closest('.conversation-item, .context-menu') ?? null)).toBeNull();
 });
 
 test('from the keyboard: the menu key opens it by the row, and focus comes back to the row', async ({ page }, info) => {

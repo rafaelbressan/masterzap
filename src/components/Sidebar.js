@@ -146,7 +146,8 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
     chevron.addEventListener('click', (e) => {
       e.stopPropagation();
       const r = chevron.getBoundingClientRect();
-      openRowMenu(conv.id, r.left, r.bottom + 4);
+      // detail 0: Enter or Space, not a click.
+      openRowMenu(conv.id, r.left, r.bottom + 4, chevron, { keyboard: e.detail === 0 });
     });
     // Enter or Space on the chevron opens its menu, not the chat behind it;
     // other keys (Escape, shortcuts) go on as usual.
@@ -159,7 +160,7 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
       // From the keyboard (Menu key, Shift+F10) there is no pointer: under the row.
       if (!e.clientX && !e.clientY) {
         const r = item.getBoundingClientRect();
-        openRowMenu(conv.id, r.left + 16, r.bottom - 8, item);
+        openRowMenu(conv.id, r.left + 16, r.bottom - 8, item, { keyboard: true });
       } else {
         openRowMenu(conv.id, e.clientX, e.clientY, item);
       }
@@ -233,11 +234,14 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
   }
   /**
    * @param {object} [options]
+   * @param {boolean} [options.keyboard] - opened from the keyboard: the
+   *   keyboard goes into the menu. Not on a click or a touch, or the browser
+   *   rings the item (and the row after) with its keyboard focus outline.
    * @param {boolean} [options.holding] - opened by a finger still on the row:
    *   until it lifts, the row's own contextmenu and touchmove are not taken
    *   for "elsewhere" (they would close the menu at once)
    */
-  function openRowMenu(convId, x, y, opener = null, { holding = false } = {}) {
+  function openRowMenu(convId, x, y, opener = null, { keyboard = false, holding = false } = {}) {
     closeRowMenu();
     const pinned = isPinned(convId);
     rowMenu = document.createElement('div');
@@ -248,10 +252,12 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
     btn.setAttribute('role', 'menuitem');
     // Static SVG icon + static label — safe innerHTML
     btn.innerHTML = `<span class="context-menu-icon">${ICON_PIN}</span><span>${pinned ? 'Desafixar conversa' : 'Fixar conversa'}</span>`;
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
       closeRowMenu();
       if (togglePinned(convId) === 'limit') showToast(el, `Você só pode fixar até ${MAX_PINNED} conversas`);
-      // The keyboard back on the row, wherever pinning moved it.
+      // Chosen with the keyboard (detail 0): the keyboard back on the row,
+      // wherever pinning moved it.
+      if (e.detail !== 0) return;
       list.querySelector(`:scope > .conversation-item[data-id="${CSS.escape(convId)}"]`)?.focus({ preventScroll: true });
     });
     rowMenu.appendChild(btn);
@@ -264,7 +270,7 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
     const r = rowMenu.getBoundingClientRect();
     rowMenu.style.left = `${Math.max(8, Math.min(x, window.innerWidth - r.width - 8))}px`;
     rowMenu.style.top = `${Math.max(8, Math.min(y, window.innerHeight - r.height - 8))}px`;
-    btn.focus({ preventScroll: true });
+    if (keyboard) btn.focus({ preventScroll: true });
   }
 
   /** Put the rows in pinned order and show each pin. */
