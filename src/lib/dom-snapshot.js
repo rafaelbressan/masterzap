@@ -351,7 +351,10 @@ export async function snapshotElement(element, { scale = 1, ignore } = {}) {
   // Declared at CSS size: the media queries inside measure the SVG, so a
   // scaled one would get the layout of a wider screen. drawImage rasterizes
   // the vector at the size it draws to, so the picture stays sharp.
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}"><foreignObject x="0" y="0" width="100%" height="100%">${markup}</foreignObject></svg>`;
+  // Inside the picture the <svg> is :root: the page's theme goes on it, so
+  // the dark theme's rules (:root[data-theme="dark"]) apply there too.
+  const theme = document.documentElement.dataset.theme === 'dark' ? ' data-theme="dark"' : '';
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg"${theme} width="${width}" height="${height}"><foreignObject x="0" y="0" width="100%" height="100%">${markup}</foreignObject></svg>`;
 
   const img = new Image();
   img.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;

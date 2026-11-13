@@ -1,0 +1,142 @@
+/*
+ * Dark theme — WhatsApp Web's own values.
+ *
+ * Taken from WhatsApp Web's stylesheet: the prefers-color-scheme: dark block
+ * of the theme whose light values are ours (wds-tokens.css). Only the
+ * semantic tokens change; the palette (green-500, warm-gray-100 …) is the
+ * same in both themes, as there. On <html data-theme="dark">, set by
+ * src/lib/theme.js and the script in index.html's <head>.
+ */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --WDS-accent: #21C063;
+  --WDS-accent-RGB: 33, 192, 99;
+  --WDS-accent-deemphasized: #103529;
+  --WDS-accent-deemphasized-RGB: 16, 53, 41;
+  --WDS-accent-emphasized: #D9FDD3;
+  --WDS-accent-emphasized-RGB: 217, 253, 211;
+  --WDS-background-elevated-wash-inset: #1D1F1F;
+  --WDS-background-elevated-wash-inset-RGB: 29, 31, 31;
+  --WDS-background-elevated-wash-plain: #1D1F1F;
+  --WDS-background-elevated-wash-plain-RGB: 29, 31, 31;
+  --WDS-background-wash-inset: #161717;
+  --WDS-background-wash-inset-RGB: 22, 23, 23;
+  --WDS-background-wash-plain: #161717;
+  --WDS-background-wash-plain-RGB: 22, 23, 23;
+  --WDS-components-active-list-row: rgba(255, 255, 255, .1);
+  --WDS-components-filter-surface-selected: #103529;
+  --WDS-components-outline-profile-photo: rgba(255, 255, 255, .1);
+  --WDS-components-surface-nav-bar: #1D1F1F;
+  --WDS-content-action-default: #FAFAFA;
+  --WDS-content-action-emphasized: #21C063;
+  --WDS-content-deemphasized: rgba(255, 255, 255, .6);
+  --WDS-content-default: #FAFAFA;
+  --WDS-content-disabled: #424445;
+  --WDS-content-external-link: #21C063;
+  --WDS-content-inverse: #0A0A0A;
+  --WDS-content-on-accent: #0A0A0A;
+  --WDS-content-read: #53BDEB;
+  --WDS-lines-divider: rgba(255, 255, 255, .1);
+  --WDS-lines-outline-deemphasized: rgba(255, 255, 255, .1);
+  --WDS-lines-outline-default: #757778;
+  --WDS-persistent-always-branded: #21C063;
+  --WDS-secondary-negative: #FB5061;
+  --WDS-secondary-negative-deemphasized: #321622;
+  --WDS-secondary-negative-emphasized: #FA99A4;
+  --WDS-secondary-positive: #71EB85;
+  --WDS-secondary-positive-deemphasized: #103529;
+  --WDS-secondary-warning: #FFD279;
+  --WDS-secondary-warning-deemphasized: #362C1F;
+  --WDS-surface-default: #161717;
+  --WDS-surface-elevated-default: #1D1F1F;
+  --WDS-surface-elevated-emphasized: #242626;
+  --WDS-surface-emphasized: #1D1F1F;
+  --WDS-surface-highlight: rgba(255, 255, 255, .1);
+  --WDS-surface-inverse: #EEEEEE;
+  --WDS-surface-pressed: rgba(255, 255, 255, .2);
+  --WDS-systems-bubble-content-deemphasized: rgba(255, 255, 255, .6);
+  --WDS-systems-bubble-content-e2e: #FFD279;
+  --WDS-systems-bubble-surface-e2e: #1D1F1F;
+  --WDS-systems-bubble-surface-incoming: #242626;
+  --WDS-systems-bubble-surface-outgoing: #144D37;
+  --WDS-systems-bubble-surface-overlay: rgba(0, 0, 0, .2);
+  --WDS-systems-bubble-surface-system: #1D1F1F;
+  --WDS-systems-chat-background-wallpaper: #161717;
+  --WDS-systems-chat-foreground-wallpaper: rgba(255, 255, 255, .1);
+  --WDS-systems-chat-surface-composer: #242626;
+  --WDS-systems-chat-surface-tray: #161717;
+  --WDS-systems-status-seen: #757778;}
+
+:root {
+  color-scheme: light;
+}
+
+/*
+ * Where the light theme names a palette colour that has no semantic token
+ * of the same value, the dark theme names its own here.
+ */
+:root[data-theme="dark"] * {
+  scrollbar-color: var(--WDS-white-alpha-20) transparent;
+}
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background-color: var(--WDS-white-alpha-20);
+}
+
+/* The chat wallpaper: the same doodle, light lines, faint. */
+:root[data-theme="dark"] .main-area::before {
+  filter: invert(1);
+  opacity: .06;
+}
+
+/* Selected: the list's active tab, the rail's active icon. */
+:root[data-theme="dark"] .sidebar-tag.active {
+  background-color: var(--WDS-components-filter-surface-selected);
+}
+:root[data-theme="dark"] .nav-rail-btn.active {
+  background-color: var(--WDS-surface-highlight);
+}
+
+/* Inside a bubble: links, the media placeholder, document/location/link cards. */
+:root[data-theme="dark"] .chat-msg-content a,
+:root[data-theme="dark"] .chat-document-icon {
+  color: var(--WDS-content-read);
+}
+:root[data-theme="dark"] .chat-media-placeholder,
+:root[data-theme="dark"] .chat-document-card,
+:root[data-theme="dark"] .chat-location-card,
+:root[data-theme="dark"] .chat-link-card {
+  background-color: var(--WDS-systems-bubble-surface-overlay);
+}
+:root[data-theme="dark"] .chat-audio-bar {
+  background-color: var(--WDS-lines-outline-default);
+}
+
+/* The chat search's highlighted run. */
+:root[data-theme="dark"] .search-highlight {
+  background-color: var(--WDS-secondary-warning-deemphasized);
+  color: var(--WDS-secondary-warning);
+}
+
+/* Contact info and profile. */
+:root[data-theme="dark"] .contact-info-toggle {
+  background-color: var(--WDS-content-disabled);
+}
+:root[data-theme="dark"] .profile-placeholder svg {
+  color: var(--WDS-lines-outline-default);
+}
+:root[data-theme="dark"] .profile-action-link,
+:root[data-theme="dark"] .profile-sources a {
+  color: var(--WDS-content-action-emphasized);
+}
+
+/* Calls: a missed call. */
+:root[data-theme="dark"] .calls-item.missed .calls-item-name,
+:root[data-theme="dark"] .calls-item.missed .calls-item-arrow {
+  color: var(--WDS-secondary-negative);
+}
+
+/* The loading screen's bar. */
+:root[data-theme="dark"] .loading-bar-track {
+  background-color: var(--WDS-lines-divider);
+}
