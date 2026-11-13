@@ -39,6 +39,17 @@ export function renderProfileSections(container, sections, sources, credits, act
       sectionEl.appendChild(p);
     }
 
+    if (section.list?.length) {
+      const ul = document.createElement('ul');
+      ul.className = 'profile-section-list';
+      for (const item of section.list) {
+        const li = document.createElement('li');
+        li.innerHTML = parseLinks(item); // Static content, as the paragraphs
+        ul.appendChild(li);
+      }
+      sectionEl.appendChild(ul);
+    }
+
     wrapper.appendChild(sectionEl);
   }
 

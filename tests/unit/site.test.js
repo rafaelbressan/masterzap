@@ -45,6 +45,8 @@ describe('the address in the source', () => {
       const text = readFileSync(join(DIST, name), 'utf-8');
       expect(text, name).not.toContain(SITE_URL_PLACEHOLDER);
       expect(text, name).not.toContain('%DATA_BUILD_ID%');
+      // Any %NAME% the build fills in (the author's too, src/config/site.js).
+      expect(text.match(/%[A-Z][A-Z_]+%/g), name).toBeNull();
       expect(text, name).toContain(SITE_URL);
     }
   });

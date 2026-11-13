@@ -42,6 +42,32 @@ test.describe('Settings/About Drawer', () => {
     expect(count).toBeGreaterThan(5);
   });
 
+  test('the legal channel comes after the highlights, before the sources and the credits', async ({ page }) => {
+    // Opened from the list's menu, so the phone takes the same path.
+    await page.locator('.sidebar-menu-btn').click();
+    await page.locator('.sidebar-dropdown-item', { hasText: 'Sobre o MasterWhats' }).click();
+    const titles = await page.locator('.settings-drawer .profile-section-title').allTextContents();
+    const channel = titles.indexOf('Canal Jurídico');
+    expect(titles.filter(t => t === 'Canal Jurídico')).toHaveLength(1);
+    expect(channel).toBeGreaterThan(titles.findLastIndex(t => t.startsWith('Destaques')));
+    expect(titles[channel + 1]).toBe('Prazos de atendimento');
+    // The deadlines are a list a screen reader announces as one.
+    await expect(page.locator('.settings-drawer .profile-section', { hasText: 'Prazos de atendimento' }).getByRole('listitem')).toHaveCount(3);
+    const form = page.locator('.settings-drawer .profile-section', { hasText: 'Canal Jurídico' }).getByRole('link', { name: 'formulário' });
+    await expect(form).toHaveAttribute('href', /^https:\/\/app\.pipefy\.com\//);
+    await expect(form).toHaveAttribute('target', '_blank');
+    // In page order: the channel, then the sources, then the credits.
+    const order = await page.locator('.settings-drawer').evaluate((el) => {
+      const all = [...el.querySelectorAll('*')];
+      const deadlines = [...el.querySelectorAll('.profile-section')].find(s => s.textContent.includes('Prazos de atendimento'));
+      return [deadlines, el.querySelector('.profile-sources'), el.querySelector('.profile-credits')]
+        .map(node => all.indexOf(node));
+    });
+    expect(order.every(i => i >= 0)).toBe(true);
+    expect(order[0]).toBeLessThan(order[1]);
+    expect(order[1]).toBeLessThan(order[2]);
+  });
+
   test('about drawer has action links for search terms', async ({ page }) => {
     test.skip(page.viewportSize().width <= 600, 'Nav rail hidden on mobile');
     await page.locator('.nav-rail-btn[title="Sobre"]').click();

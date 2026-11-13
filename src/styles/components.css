@@ -808,6 +808,18 @@
   margin-bottom: 12px;
 }
 
+.profile-section-list {
+  margin: 0 0 12px;
+  padding-left: 20px;
+  font-size: 14px;
+  color: var(--WDS-content-default);
+  line-height: 1.65;
+}
+
+.profile-section-list li + li {
+  margin-top: 8px;
+}
+
 .profile-section-text a,
 .profile-action-link {
   color: var(--MW-link-emphasized);

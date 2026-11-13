@@ -16,7 +16,7 @@ import { SITE_URL } from '../../src/config/site.js';
 
 /** The site's address — src/config/site.js decides it, for the app and the build alike. */
 export const SITE = SITE_URL;
-export const REPO = 'https://github.com/rafaelbressan/masterzap';
+export { REPO_URL as REPO } from '../../src/config/site.js';
 
 // The phones were seized in Brazil and every timestamp in the sources is local
 // wall-clock time. Brazil has had no daylight saving since 2019, so from the

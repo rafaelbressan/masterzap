@@ -1,5 +1,8 @@
 /**
- * The site's public address, in one place.
+ * The site's own settings, in one place: its public address, who made it,
+ * where the code is, and the legal channel.
+ *
+ * ── Address ──
  *
  * Canonical links, Open Graph, the JSON-LD, the sitemap, robots.txt, llms.txt,
  * every citation the build writes and the address printed under a screenshot
@@ -35,3 +38,74 @@ export const SITE_HOST = SITE_URL.replace(/^https?:\/\//, '');
 
 /** The placeholder index.html and public/*.txt carry; the build swaps it. */
 export const SITE_URL_PLACEHOLDER = '%SITE_URL%';
+
+// ── Author, code, legal channel ──
+// The "Sobre" drawer and the contact profiles read these; links use the
+// {text}[url] format of profile-content.js.
+
+export const AUTHOR = { name: 'Rafael Bressan', url: 'https://linkedin.com/in/rafaelbressan' };
+export const REPO_URL = 'https://github.com/rafaelbressan/masterzap';
+
+/**
+ * A credits link with the site's UTM tags; `content` says where the click was
+ * (app, noscript, llms). The destinations' own reports may not show them, but
+ * the links say where the visit came from. The plain URLs stay for identity
+ * (JSON-LD) and for links to the data.
+ */
+export function withUtm(url, content) {
+  const tagged = new URL(url); // keeps a #fragment last, replaces repeated keys
+  tagged.searchParams.set('utm_source', 'masterwhats');
+  tagged.searchParams.set('utm_medium', 'referral');
+  tagged.searchParams.set('utm_campaign', 'creditos');
+  if (content) tagged.searchParams.set('utm_content', content);
+  return tagged.href;
+}
+
+/** What the site's material is, and that it takes no side. */
+export const DISCLAIMER = 'As informações aqui compiladas são de domínio público, extraídas de reportagens jornalísticas, de fontes abertas e de documentos cujo sigilo foi levantado judicialmente. '
+  + 'Este projeto não tem vinculação com nenhuma das partes envolvidas.';
+
+/** The line at the foot of the "Sobre" drawer and of every profile. */
+export const CREDITS = `Projeto feito por {${AUTHOR.name}}[${withUtm(AUTHOR.url, 'app')}] com Claude Code. {Código-fonte no GitHub}[${withUtm(REPO_URL, 'app')}]. ${DISCLAIMER}`;
+
+/**
+ * Where extrajudicial notices, court orders, official letters and summons
+ * about the site's content are received, and how fast they are answered.
+ * The "Sobre" text around them is in src/lib/settings-content.js.
+ */
+export const LEGAL_CHANNEL = {
+  formUrl: 'https://app.pipefy.com/public/form/Z9mvDoph',
+  deadlines: [
+    'Confirmação de recebimento: em até 24 horas',
+    'Análise jurídica inicial: em até 48 horas',
+    'Resposta formal ou cumprimento da medida determinada: em até 72 horas (ou no prazo estabelecido na própria decisão, caso seja inferior)',
+  ],
+};
+
+/** For text or an attribute in HTML (src/lib/utils.js's needs a DOM; the build has none). */
+const escapeHtmlText = (text) => text.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+/** A JSON string for inside a <script>: no "</script>" can close it. */
+const jsonInScript = (value) => JSON.stringify(value).replace(/</g, '\\u003c');
+
+/**
+ * The author and credits links in the static files (index.html, which the
+ * pre-rendered pages copy, and public/llms.txt), filled in by the build next
+ * to %SITE_URL% (vite.config.js).
+ *
+ * - `html`: the values escaped for HTML text and attributes; the JSON-LD
+ *   takes its own, "%AUTHOR_NAME_JSON%" and "%AUTHOR_URL_JSON%" — quotes
+ *   included, so the source is valid JSON — replaced by JSON strings.
+ * - `where`: the utm_content of the credits links.
+ */
+export function authorPlaceholders({ html = false, where = html ? 'noscript' : 'llms' } = {}) {
+  const value = (text) => (html ? escapeHtmlText(text) : text);
+  return {
+    '"%AUTHOR_NAME_JSON%"': jsonInScript(AUTHOR.name),
+    '"%AUTHOR_URL_JSON%"': jsonInScript(AUTHOR.url),
+    '%AUTHOR_NAME%': value(AUTHOR.name),
+    '%AUTHOR_URL%': value(AUTHOR.url),
+    '%AUTHOR_LINK%': value(withUtm(AUTHOR.url, where)),
+    '%REPO_LINK%': value(withUtm(REPO_URL, where)),
+  };
+}

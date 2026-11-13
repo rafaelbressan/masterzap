@@ -9,8 +9,13 @@
  *
  * Structure: the project sections come first, then one "O vazamento…" block per
  * leak, newest first, each followed by its own "Destaques" sections. A new leak
- * slots in as another block — nothing above it needs rewriting.
+ * slots in as another block — nothing above it needs rewriting. The legal
+ * channel closes the list (its form and deadlines are in src/config/site.js).
+ *
+ * A section has `paragraphs` and, optionally, a `list` of items.
  */
+
+import { LEGAL_CHANNEL } from '../config/site.js';
 
 export const SETTINGS_CONTENT = {
   sections: [
@@ -105,7 +110,22 @@ export const SETTINGS_CONTENT = {
         { text: 'Vorcaro foi ao "{hospital}[action:search@martha-graeff:hospital]" por questões emocionais, e o casal compartilhava gostos musicais como "{Gilsons}[action:search@martha-graeff:Gilsons]" e "{Rubel}[action:search@martha-graeff:Rubel]".' },
       ],
     },
+
+    // ── Canal jurídico ──
+    {
+      title: 'Canal Jurídico',
+      paragraphs: [
+        { text: 'Este canal é destinado exclusivamente ao recebimento de notificações extrajudiciais, ordens judiciais, ofícios e citações formais relacionadas a qualquer conteúdo exibido na plataforma.' },
+        { text: 'Toda solicitação recebida por este canal é tratada com prioridade e analisada juridicamente antes de qualquer resposta ou ação.' },
+        { text: `Envie sua solicitação pelo {formulário}[${LEGAL_CHANNEL.formUrl}].` },
+      ],
+    },
+    {
+      title: 'Prazos de atendimento',
+      paragraphs: [],
+      list: LEGAL_CHANNEL.deadlines,
+    },
   ],
 };
 
-export const SETTINGS_CREDITS = 'Projeto feito por {Rafael Bressan}[https://linkedin.com/in/rafaelbressan] com Claude Code. {Código-fonte no GitHub}[https://github.com/rafaelbressan/masterzap]. As informações aqui compiladas são de domínio público, extraídas de reportagens jornalísticas e de documentos cujo sigilo foi levantado judicialmente.';
+// The credits line lives in src/config/site.js (CREDITS).

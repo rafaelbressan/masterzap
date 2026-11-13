@@ -451,6 +451,7 @@ function llmsFull(built, people) {
   for (const section of rest) {
     out.push(`## ${section.title}`, '');
     for (const p of section.paragraphs) out.push(linksToMarkdown(p.text, { resolve, hrefFor: locate }), '');
+    if (section.list?.length) out.push(...section.list.map(item => `- ${linksToMarkdown(item, { resolve, hrefFor: locate })}`), '');
   }
   // One section per document in the repository (data/sources.json `file`).
   const documents = new Map();
