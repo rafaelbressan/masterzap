@@ -13,7 +13,8 @@
  * channel closes the list (its form and deadlines are in src/config/site.js).
  *
  * A section has `paragraphs` and, optionally, a `list` of items or
- * `copyItems` (a value with a button that copies it: the donation keys).
+ * `copyItems` (a value with a button that copies it: the donation keys);
+ * `divider` puts the drawer's grey band above it.
  */
 
 import { LEGAL_CHANNEL, DONATION } from '../config/site.js';
@@ -153,6 +154,8 @@ export const SETTINGS_CONTENT = {
     // ── Canal jurídico ──
     {
       title: 'Canal Jurídico',
+      // Set apart from the reading above, as the header is from the text.
+      divider: true,
       paragraphs: [
         { text: 'Este canal é destinado exclusivamente ao recebimento de notificações extrajudiciais, ordens judiciais, ofícios e citações formais relacionadas a qualquer conteúdo exibido na plataforma.' },
         { text: 'Toda solicitação recebida por este canal é tratada com prioridade e analisada juridicamente antes de qualquer resposta ou ação.' },

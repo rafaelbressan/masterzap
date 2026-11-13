@@ -51,6 +51,11 @@ export function renderProfileSections(container, sections, sources, credits, act
   wrapper.className = 'profile-sections';
 
   for (const section of sections) {
+    if (section.divider) {
+      const band = document.createElement('div');
+      band.className = 'profile-section-divider';
+      wrapper.appendChild(band);
+    }
     const sectionEl = document.createElement('div');
     sectionEl.className = 'profile-section';
 

@@ -839,6 +839,14 @@
   margin-bottom: 20px;
 }
 
+/* The drawer's grey band (.contact-info-divider) inside the sections: it
+   reaches past their 24px side padding to both edges. */
+.profile-section-divider {
+  height: 8px;
+  margin: 4px -24px 20px;
+  background-color: var(--WDS-surface-emphasized);
+}
+
 .profile-section-title {
   font-size: 16px;
   font-weight: 600;
