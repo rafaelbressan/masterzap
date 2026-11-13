@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { SETTINGS_CONTENT } from '../../src/lib/settings-content.js';
-import { CREDITS, AUTHOR, REPO_URL, DISCLAIMER, LEGAL_CHANNEL, withUtm, authorPlaceholders } from '../../src/config/site.js';
+import { SETTINGS_CONTENT, donationSections } from '../../src/lib/settings-content.js';
+import { CREDITS, AUTHOR, REPO_URL, DISCLAIMER, LEGAL_CHANNEL, DONATION, withUtm, authorPlaceholders } from '../../src/config/site.js';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { parseLinks } from '../../src/lib/profile-content.js';
@@ -120,6 +120,32 @@ describe('author links: UTM and the static files', () => {
       // The credits link to the code is the tagged one, not a hand copy.
       expect(content).toContain('%REPO_LINK%');
     }
+  });
+});
+
+describe('donation', () => {
+  it('sits right before the legal channel, with a copy row per key', () => {
+    const titles = SETTINGS_CONTENT.sections.map(s => s.title);
+    expect(titles.indexOf('Apoie o MasterWhats')).toBe(titles.indexOf('Canal Jurídico') - 1);
+    const [section] = donationSections();
+    expect(section.copyItems.map(i => i.value)).toEqual([DONATION.pix, DONATION.bitcoin]);
+    expect(section.copyItems.map(i => i.label)).toEqual(['PIX (celular)', 'Bitcoin (Lightning)']);
+    expect(section.copyItems.map(i => i.button)).toEqual(['Copiar chave PIX', 'Copiar endereço Lightning']);
+    // A phone key goes with +55, so no bank app reads it as a CPF.
+    expect(DONATION.pix).toMatch(/^\+55\d{10,11}$/);
+  });
+
+  it('names Lightning by its name@wallet form, plain Bitcoin otherwise', () => {
+    const [ln] = donationSections({ bitcoin: 'a@wallet.com' })[0].copyItems;
+    expect([ln.label, ln.button]).toEqual(['Bitcoin (Lightning)', 'Copiar endereço Lightning']);
+    const [chain] = donationSections({ bitcoin: 'bc1qexample' })[0].copyItems;
+    expect([chain.label, chain.button]).toEqual(['Bitcoin', 'Copiar endereço Bitcoin']);
+    expect(donationSections({ pix: 'chave@email.com' })[0].copyItems[0].label).toBe('PIX');
+  });
+
+  it('shows nothing without a key, and only the keys there are', () => {
+    expect(donationSections({ pix: '', bitcoin: '' })).toEqual([]);
+    expect(donationSections({ pix: 'x' })[0].copyItems).toHaveLength(1);
   });
 });
 
