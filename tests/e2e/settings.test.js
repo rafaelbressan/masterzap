@@ -42,6 +42,28 @@ test.describe('Settings/About Drawer', () => {
     expect(count).toBeGreaterThan(5);
   });
 
+  test('the legal channel comes after the highlights, before the sources and the credits', async ({ page }) => {
+    // Opened from the list's menu, so the phone takes the same path.
+    await page.locator('.sidebar-menu-btn').click();
+    await page.locator('.sidebar-dropdown-item', { hasText: 'Sobre o MasterWhats' }).click();
+    const titles = await page.locator('.settings-drawer .profile-section-title').allTextContents();
+    expect(titles.slice(-2)).toEqual(['Canal Jurídico', 'Prazos de atendimento']);
+    expect(titles.indexOf('Canal Jurídico')).toBeGreaterThan(titles.findLastIndex(t => t.startsWith('Destaques')));
+    const form = page.locator('.settings-drawer .profile-section', { hasText: 'Canal Jurídico' }).getByRole('link', { name: 'formulário' });
+    await expect(form).toHaveAttribute('href', /^https:\/\/app\.pipefy\.com\//);
+    await expect(form).toHaveAttribute('target', '_blank');
+    // In page order: the channel, then the sources, then the credits.
+    const order = await page.locator('.settings-drawer').evaluate((el) => {
+      const all = [...el.querySelectorAll('*')];
+      const sections = el.querySelectorAll('.profile-section');
+      return [sections[sections.length - 1], el.querySelector('.profile-sources'), el.querySelector('.profile-credits')]
+        .map(node => all.indexOf(node));
+    });
+    expect(order.every(i => i >= 0)).toBe(true);
+    expect(order[0]).toBeLessThan(order[1]);
+    expect(order[1]).toBeLessThan(order[2]);
+  });
+
   test('about drawer has action links for search terms', async ({ page }) => {
     test.skip(page.viewportSize().width <= 600, 'Nav rail hidden on mobile');
     await page.locator('.nav-rail-btn[title="Sobre"]').click();

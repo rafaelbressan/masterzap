@@ -108,4 +108,4 @@ export const SETTINGS_CONTENT = {
   ],
 };
 
-export const SETTINGS_CREDITS = 'Projeto feito por {Rafael Bressan}[https://linkedin.com/in/rafaelbressan] com Claude Code. {Código-fonte no GitHub}[https://github.com/rafaelbressan/masterzap]. As informações aqui compiladas são de domínio público, extraídas de reportagens jornalísticas e de documentos cujo sigilo foi levantado judicialmente.';
+// The credits line lives in src/config/site.js (CREDITS).

@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { SETTINGS_CONTENT, SETTINGS_CREDITS } from '../../src/lib/settings-content.js';
+import { SETTINGS_CONTENT } from '../../src/lib/settings-content.js';
+import { CREDITS, AUTHOR, REPO_URL, LEGAL_CHANNEL, legalChannelSections } from '../../src/config/site.js';
 import { parseLinks } from '../../src/lib/profile-content.js';
 
 describe('SETTINGS_CONTENT', () => {
@@ -20,9 +21,22 @@ describe('SETTINGS_CONTENT', () => {
     }
   });
 
-  it('has credits string', () => {
-    expect(typeof SETTINGS_CREDITS).toBe('string');
-    expect(SETTINGS_CREDITS).toContain('Rafael Bressan');
+});
+
+describe('site config: credits and legal channel', () => {
+  it('the credits name the author and link the code', () => {
+    expect(CREDITS).toContain(`{${AUTHOR.name}}[${AUTHOR.url}]`);
+    expect(CREDITS).toContain(`[${REPO_URL}]`);
+  });
+
+  it('the legal channel links its form and lists the three deadlines', () => {
+    const [channel, deadlines] = legalChannelSections();
+    expect(channel.title).toBe('Canal Jurídico');
+    expect(channel.paragraphs.map(p => p.text).join(' ')).toContain(`[${LEGAL_CHANNEL.formUrl}]`);
+    expect(LEGAL_CHANNEL.formUrl).toMatch(/^https:\/\//);
+    expect(deadlines.title).toBe('Prazos de atendimento');
+    expect(deadlines.paragraphs.map(p => p.text)).toEqual(LEGAL_CHANNEL.deadlines.map(d => `• ${d}`));
+    expect(deadlines.paragraphs.map(p => p.text).join(' ')).toMatch(/24 horas.*48 horas.*72 horas/);
   });
 });
 
