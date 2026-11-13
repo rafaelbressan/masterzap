@@ -7,6 +7,8 @@
  * The link format {text}[url] is parsed with a regex that only produces <a> tags.
  */
 import { parseLinks } from '../lib/profile-content.js';
+import { copyText } from '../lib/utils.js';
+import { showToast } from './Toast.js';
 
 /**
  * Render profile sections into a container.
@@ -16,6 +18,33 @@ import { parseLinks } from '../lib/profile-content.js';
  * @param {string} [credits]
  * @param {Record<string, function>} [actions] - handlers for action: links
  */
+/**
+ * A value to copy, as WhatsApp shows one: the label, the value (selectable),
+ * and a button that copies it, with a toast.
+ * @param {{label: string, value: string, button: string, copied: string}} item
+ */
+function copyRow(item) {
+  const row = document.createElement('div');
+  row.className = 'profile-copy-row';
+  const label = document.createElement('div');
+  label.className = 'profile-copy-label';
+  label.textContent = item.label;
+  const value = document.createElement('div');
+  value.className = 'profile-copy-value';
+  value.textContent = item.value;
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'profile-copy-button wds-button wds-button--tonal';
+  button.textContent = item.button;
+  button.addEventListener('click', async () => {
+    const ok = await copyText(item.value);
+    const host = row.closest('.profile-drawer, .contact-info-drawer') || document.body;
+    showToast(host, ok ? item.copied : 'Não foi possível copiar');
+  });
+  row.append(label, value, button);
+  return row;
+}
+
 export function renderProfileSections(container, sections, sources, credits, actions = {}) {
   const wrapper = document.createElement('div');
   wrapper.className = 'profile-sections';
@@ -38,6 +67,8 @@ export function renderProfileSections(container, sections, sources, credits, act
       p.innerHTML = parseLinks(para.text);
       sectionEl.appendChild(p);
     }
+
+    for (const item of section.copyItems ?? []) sectionEl.appendChild(copyRow(item));
 
     if (section.list?.length) {
       const ul = document.createElement('ul');

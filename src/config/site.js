@@ -69,6 +69,16 @@ export const DISCLAIMER = 'As informações aqui compiladas são de domínio pú
 export const CREDITS = `Projeto feito por {${AUTHOR.name}}[${withUtm(AUTHOR.url, 'app')}] com Claude Code. {Código-fonte no GitHub}[${withUtm(REPO_URL, 'app')}]. ${DISCLAIMER}`;
 
 /**
+ * Where a reader can chip in: a PIX key and a Bitcoin address (Lightning,
+ * name@wallet, or on-chain). Empty, the "Apoie o MasterWhats" block in the
+ * "Sobre" does not show.
+ */
+export const DONATION = {
+  pix: '84996961915',
+  bitcoin: 'fullsearch03@walletofsatoshi.com',
+};
+
+/**
  * Where extrajudicial notices, court orders, official letters and summons
  * about the site's content are received, and how fast they are answered.
  * The "Sobre" text around them is in src/lib/settings-content.js.

@@ -68,6 +68,18 @@ test.describe('Settings/About Drawer', () => {
     expect(order[1]).toBeLessThan(order[2]);
   });
 
+  test('the donation keys copy with a tap, and say so', async ({ page, context }, info) => {
+    test.skip(info.project.name !== 'desktop', 'clipboard permissions are set for the desktop project');
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+    await page.locator('.sidebar-menu-btn').click();
+    await page.locator('.sidebar-dropdown-item', { hasText: 'Sobre o MasterWhats' }).click();
+    const support = page.locator('.settings-drawer .profile-section', { hasText: 'Apoie o MasterWhats' });
+    await support.getByRole('button', { name: 'Copiar chave PIX' }).click();
+    await expect(page.locator('.search-toast')).toContainText('Chave PIX copiada');
+    const pix = await support.locator('.profile-copy-value').first().textContent();
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(pix);
+  });
+
   test('about drawer has action links for search terms', async ({ page }) => {
     test.skip(page.viewportSize().width <= 600, 'Nav rail hidden on mobile');
     await page.locator('.nav-rail-btn[title="Sobre"]').click();

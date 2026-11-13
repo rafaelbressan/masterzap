@@ -90,6 +90,69 @@
   background-color: var(--WDS-surface-pressed);
 }
 
+/* ── Buttons, as WhatsApp's (WDS) ──────────────
+   A pill, 40px (32 small, 56 large), 14px text. Filled: the action;
+   tonal: a lighter second action; outline and borderless: the rest. Values
+   from WhatsApp Web's WDSButton config. */
+.wds-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 9999px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.wds-button--small { height: 32px; padding: 0 12px; }
+.wds-button--large { height: 56px; padding: 0 20px; }
+
+.wds-button--filled { background-color: var(--WDS-accent); color: var(--WDS-content-on-accent); }
+.wds-button--tonal { background-color: var(--WDS-accent-deemphasized); color: var(--WDS-accent-emphasized); }
+.wds-button--outline { border: 1px solid var(--WDS-lines-outline-deemphasized); color: var(--WDS-content-action-emphasized); }
+.wds-button--borderless { color: var(--WDS-content-action-emphasized); }
+
+/* Over a photo or the dark media viewer. */
+.wds-button--media-outline { border: 1px solid rgba(255, 255, 255, .3); color: #fff; }
+
+.wds-button svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+/* Hover and press: a layer over the button, as WhatsApp's ::after. */
+.wds-button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-color: currentColor;
+  opacity: 0;
+  transition: opacity 80ms;
+  pointer-events: none;
+}
+@media (hover: hover) {
+  .wds-button:hover::after { opacity: .08; }
+}
+.wds-button:active::after { opacity: .14; }
+
+.wds-button:focus-visible {
+  outline: 2px solid var(--WDS-content-action-emphasized);
+  outline-offset: 2px;
+}
+
+.wds-button:disabled { cursor: default; }
+.wds-button--filled:disabled { background-color: var(--WDS-surface-highlight); color: var(--WDS-content-disabled); }
+.wds-button:disabled:not(.wds-button--filled) { opacity: .5; }
+.wds-button:disabled::after { opacity: 0; }
+
 /* ── Shared drawer base ──────────────────────── */
 /* Drawers are flex children of .main-area — they push the chat view aside */
 .msg-info-drawer,
@@ -276,22 +339,7 @@
   margin-bottom: 16px;
 }
 
-.contact-info-search-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border: 1px solid var(--WDS-lines-outline-deemphasized);
-  border-radius: 20px;
-  color: var(--WDS-accent);
-  font-size: 13px;
-  cursor: pointer;
-  transition: background-color 80ms;
-}
-
-.contact-info-search-btn:hover {
-  background-color: var(--WDS-surface-highlight);
-}
+/* The search button: a .wds-button (outline). */
 
 .contact-info-divider {
   height: 8px;
@@ -663,6 +711,7 @@
 
 /* ── Profile Drawer (DV profile, replaces sidebar) ── */
 .profile-drawer {
+  position: relative; /* the copy toast sits at its foot */
   display: flex;
   flex-direction: column;
   width: 30%;
@@ -817,6 +866,32 @@
 }
 
 .profile-section-list li + li {
+  margin-top: 8px;
+}
+
+/* A value to copy (the donation keys): label, value, button. */
+.profile-copy-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  margin-top: 16px;
+}
+
+.profile-copy-label {
+  font-size: 13px;
+  color: var(--WDS-content-deemphasized);
+}
+
+.profile-copy-value {
+  max-width: 100%;
+  font-size: 15px;
+  color: var(--WDS-content-default);
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+.profile-copy-button {
   margin-top: 8px;
 }
 
@@ -1124,26 +1199,8 @@
 }
 
 .image-preview-action {
+  /* A .wds-button: primary filled, the rest outline on the dark viewer. */
   min-width: 180px;
-  padding: 12px 20px;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  border-radius: 22px;
-  background: transparent;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 500;
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.image-preview-action.primary {
-  border-color: transparent;
-  background-color: var(--WDS-primary-strong, #1daa61);
-}
-
-.image-preview-action:disabled {
-  opacity: 0.6;
-  cursor: default;
 }
 
 /* ── Contacts sheet: the list behind "Ver todos" on a contact card ───────── */
@@ -1698,32 +1755,4 @@
   margin-top: 16px;
 }
 
-.theme-dialog-actions button {
-  min-height: 40px;
-  padding: 0 24px;
-  border: none;
-  border-radius: 20px;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.theme-dialog-cancel {
-  background: none;
-  color: var(--WDS-content-action-emphasized);
-}
-
-.theme-dialog-cancel:hover {
-  background-color: var(--WDS-surface-highlight);
-}
-
-.theme-dialog-ok {
-  background-color: var(--WDS-accent);
-  color: var(--WDS-content-on-accent);
-}
-
-.theme-dialog-ok:hover {
-  filter: brightness(.95);
-}
+/* Cancelar and OK are .wds-button (borderless and filled). */

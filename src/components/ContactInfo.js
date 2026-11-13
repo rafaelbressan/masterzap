@@ -99,9 +99,9 @@ export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onCl
   profile.appendChild(phoneEl);
 
   // Search button
-  const searchBtn = document.createElement('div');
-  searchBtn.className = 'contact-info-search-btn';
-  searchBtn.style.cursor = 'pointer';
+  const searchBtn = document.createElement('button');
+  searchBtn.type = 'button';
+  searchBtn.className = 'contact-info-search-btn wds-button wds-button--outline';
   // Static SVG icon — safe innerHTML
   searchBtn.innerHTML = `${ICON_SEARCH} <span>Pesquisar</span>`;
   if (onSearch) searchBtn.addEventListener('click', onSearch);

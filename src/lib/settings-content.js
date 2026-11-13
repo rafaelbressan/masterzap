@@ -12,10 +12,32 @@
  * slots in as another block — nothing above it needs rewriting. The legal
  * channel closes the list (its form and deadlines are in src/config/site.js).
  *
- * A section has `paragraphs` and, optionally, a `list` of items.
+ * A section has `paragraphs` and, optionally, a `list` of items or
+ * `copyItems` (a value with a button that copies it: the donation keys).
  */
 
-import { LEGAL_CHANNEL } from '../config/site.js';
+import { LEGAL_CHANNEL, DONATION } from '../config/site.js';
+
+/**
+ * "Apoie o MasterWhats": one row per way to donate that has a key — the key
+ * and a button that copies it. None without a key.
+ */
+export function donationSections(donation = DONATION) {
+  const items = [
+    donation.pix && { label: 'PIX', value: donation.pix, button: 'Copiar chave PIX', copied: 'Chave PIX copiada' },
+    donation.bitcoin && {
+      label: donation.bitcoin.includes('@') ? 'Bitcoin (Lightning)' : 'Bitcoin',
+      value: donation.bitcoin,
+      button: 'Copiar endereço Bitcoin',
+      copied: 'Endereço Bitcoin copiado',
+    },
+  ].filter(Boolean);
+  return items.length ? [{
+    title: 'Apoie o MasterWhats',
+    paragraphs: [{ text: 'Doe qualquer valor. A contribuição será usada para a infraestrutura e para manter o site no ar.' }],
+    copyItems: items,
+  }] : [];
+}
 
 export const SETTINGS_CONTENT = {
   sections: [
@@ -110,6 +132,9 @@ export const SETTINGS_CONTENT = {
         { text: 'Vorcaro foi ao "{hospital}[action:search@martha-graeff:hospital]" por questões emocionais, e o casal compartilhava gostos musicais como "{Gilsons}[action:search@martha-graeff:Gilsons]" e "{Rubel}[action:search@martha-graeff:Rubel]".' },
       ],
     },
+
+    // ── Apoio (only with a key in src/config/site.js) ──
+    ...donationSections(),
 
     // ── Canal jurídico ──
     {
