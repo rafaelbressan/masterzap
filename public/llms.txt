@@ -1,6 +1,6 @@
 # MasterWhats
 
-> Visualizador interativo das 66.387 mensagens de WhatsApp extraídas dos celulares apreendidos de Daniel Vorcaro (Banco Master), em 24 conversas — das trocas com Martha Graeff ao relatório da Polícia Federal sobre os contatos com o ministro Alexandre de Moraes.
+> Visualizador interativo das 66.401 mensagens de WhatsApp extraídas dos celulares apreendidos de Daniel Vorcaro (Banco Master), em 25 conversas — das trocas com Martha Graeff ao relatório da Polícia Federal sobre os contatos com o ministro Alexandre de Moraes.
 
 ## O que é
 MasterWhats é um projeto web que replica a interface do WhatsApp Web para permitir a navegação pelas conversas que vieram a público no escândalo do Banco Master. O projeto foi criado por %AUTHOR_NAME% com Claude Code. Cada contato tem um perfil que explica quem é a pessoa, o que o material revela e de onde vem a informação, com fontes.
@@ -14,7 +14,7 @@ O conteúdo vem dos celulares apreendidos de Vorcaro na Operação Compliance Ze
 Se outros vazamentos vierem a público, entram como mais uma conversa.
 
 ## Funcionalidades
-- 24 conversas, de dezembro de 2023 a novembro de 2025
+- 25 conversas, de dezembro de 2023 a novembro de 2025
 - Busca com suporte a acentos (pesquisa "voce" encontra "você"), isolada por conversa
 - Navegação por data com calendário
 - Compartilhamento de trechos via link direto — quem clica cai na mensagem exata
@@ -44,7 +44,7 @@ Daniel Vorcaro, dono do Banco Master, foi preso pela Polícia Federal em novembr
 - "O pior de ontem foi ter o bolsonaro" — Vorcaro sobre Bolsonaro — %SITE_URL%/chat/martha-graeff/2024-07#msg-12383 ⟨13/07/2024 12:17⟩
 
 ## Conteúdo completo em texto
-- %SITE_URL%/llms-full.txt — sobre, os 24 perfis com fontes, os destaques, e o link do Markdown de cada conversa
+- %SITE_URL%/llms-full.txt — sobre, os 25 perfis com fontes, os destaques, e o link do Markdown de cada conversa
 - Cada conversa tem página própria em %SITE_URL%/chat/<id>, em HTML puro: proveniência, perfil com fontes e todas as mensagens com página e figura do laudo. A conversa com Martha Graeff (65 mil mensagens) tem uma página por mês — %SITE_URL%/chat/martha-graeff/2024-12 — listadas na página principal, e um Markdown por mês: %SITE_URL%/export/masterwhats-martha-graeff-2024-12.md
 - Pessoas citadas: %SITE_URL%/quem — uma página por pessoa (ex.: %SITE_URL%/quem/paulo-gonet) com toda menção, por conversa, datada e apontando para a mensagem
 

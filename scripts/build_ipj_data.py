@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
-"""Build conversation JSON from the IPJ-A 3298613/2026 extraction.
+"""Build conversation JSON from the Federal Police documents.
 
-Source: data/ipj-3298613/*.jsonl — transcription of the Federal Police report
-on Daniel Vorcaro's seized iPhone (Operação Compliance Zero). The message
-content in the PDF lives inside page images, so the JSONL files are a manual
-transcription, not a parser output.
+Sources:
+- data/ipj-3298613/*.jsonl — transcription of the IPJ-A 3298613/2026 report
+  on Daniel Vorcaro's seized iPhone (Operação Compliance Zero);
+- data/<document>/mensagens.jsonl for the other documents in DOCUMENTS, each
+  line with its own fixed id.
+The message content in the PDFs lives inside page images, so the JSONL files
+are a manual transcription, not a parser output.
 
 Output: data/conversations/<conv-id>.json in the same shape as
 data/messages.json (metadata + messages), consumable by scripts/split_data.py.
@@ -21,7 +24,7 @@ SRC_DIR = ROOT / "data" / "ipj-3298613"
 OUT_DIR = ROOT / "data" / "conversations"
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from message_schema import date_sort_key, normalise_message  # noqa: E402
+from message_schema import date_sort_key, normalise_message, sort_key  # noqa: E402
 
 SOURCE_DOC = "IPJ-A nº 3298613/2026 — NADIP/DFIN/CGRC/DICOR/PF"
 # The report's record in data/sources.json. Every message built here comes from
@@ -159,6 +162,8 @@ CONTACT_DISPLAY_NAMES = {
     "thatiane-prime": "Thatiane Garcia",
     # Produtor dos eventos; cavaleiro de hipismo.
     "leo-serrano": "Leandro Serrano Giunchetti",
+    # Inq 5.026: identificado pela PF; salvo no celular como "Berg".
+    "berg": "José Alfredo Berg Filho",
 }
 
 # The report also quotes the DV <-> Martha Graeff chat, but that conversation is
@@ -166,6 +171,38 @@ CONTACT_DISPLAY_NAMES = {
 # same dates). Emitting the excerpts would collide with it under the same
 # conversation id, so they stay in mensagens.jsonl as source only.
 SKIP_CONVERSATIONS = {"martha-graeff"}
+
+
+def row_message(mid, row, **extra):
+    """One transcribed line (mensagens.jsonl) as a message."""
+    return make_message(
+        mid, row["ts"], row["sender"], row["content"], row["type"],
+        attachment=row.get("attachment"),
+        forwarded=row.get("forwarded"),
+        quoted=row.get("quoted"),
+        duration=row.get("duration"),
+        source_page=row["page"],
+        source_figure=row.get("fig"),
+        note=row.get("note"),
+        **extra,
+    )
+
+
+def contact_metadata(rows, peer, saved_as, messages, source_label, source_id, note):
+    """A conversation with one contact, every message from one document."""
+    return {
+        "participants": ["DV", peer],
+        # How the contact was filed in Vorcaro's phone, when that differs
+        # from the person's name.
+        "saved_as": saved_as if saved_as != peer else None,
+        "phone": rows[0].get("phone"),
+        "date_range": {"start": messages[0]["date"], "end": messages[-1]["date"]},
+        "total_messages": len(messages),
+        "source": source_label,
+        "source_id": source_id,
+        "verification": VERIFICATION,
+        "note": note,
+    }
 
 
 def build_other_conversations():
@@ -181,38 +218,57 @@ def build_other_conversations():
         rows.sort(key=lambda m: m["ts"])
         saved_as = rows[0]["peer"]
         peer = CONTACT_DISPLAY_NAMES.get(conv_id, saved_as)
-        messages = [
-            make_message(
-                i, r["ts"], r["sender"], r["content"], r["type"],
-                attachment=r.get("attachment"),
-                forwarded=r.get("forwarded"),
-                quoted=r.get("quoted"),
-                source_page=r["page"],
-                source_figure=r["fig"],
-                note=r.get("note"),
-            )
-            for i, r in enumerate(rows, 1)
-        ]
+        messages = [row_message(i, r) for i, r in enumerate(rows, 1)]
         built[conv_id] = {
-            "metadata": {
-                "participants": ["DV", peer],
-                # How the contact was filed in Vorcaro's phone, when that differs
-                # from the person's name.
-                "saved_as": saved_as if saved_as != peer else None,
-                "phone": rows[0].get("phone"),
-                "date_range": {"start": messages[0]["date"], "end": messages[-1]["date"]},
-                "total_messages": len(messages),
-                "source": SOURCE_DOC,
-                "source_id": SOURCE_ID,
-                "verification": VERIFICATION,
-                "note": (
-                    "Trechos citados no relatório policial — a conversa completa "
-                    "não consta do documento."
-                ),
-            },
+            "metadata": contact_metadata(
+                rows, peer, saved_as, messages, SOURCE_DOC, SOURCE_ID,
+                "Trechos citados no relatório policial — a conversa completa "
+                "não consta do documento."),
             "messages": messages,
         }
     return built
+
+
+# Other police documents that reproduce Vorcaro's chats, each in
+# data/<dir>/mensagens.jsonl. Their lines carry the message id, fixed for good.
+DOCUMENTS = [
+    {
+        "dir": "inq-5026",
+        "source_id": "inq-5026-representacao-pf-2026-06-09",
+        "label": "Representação da PF por medidas cautelares — Inq 5.026 (Pet 16.032)",
+    },
+]
+
+
+def add_document_conversations(conversations):
+    """The chats the other documents quote, one new conversation per contact.
+
+    Adding to a conversation that already exists is refused for now: a new
+    message keeps the next id even when it is older (data/README.md), and the
+    per-day index (first/last id of each day, src/lib/data-store.js) assumes
+    each day holds a contiguous run of ids, so an older message with a high id
+    would send its links to the wrong day.
+    """
+    for doc in DOCUMENTS:
+        by_conv = defaultdict(list)
+        for row in read_jsonl(ROOT / "data" / doc["dir"] / "mensagens.jsonl"):
+            if row["conv"] not in SKIP_CONVERSATIONS:
+                by_conv[row["conv"]].append(row)
+
+        for conv_id, rows in by_conv.items():
+            if conv_id in conversations:
+                sys.exit(f"{doc['dir']}: {conv_id} já existe; acrescentar mensagens a "
+                         "uma conversa existente ainda não é suportado (ver a docstring).")
+            saved_as = rows[0]["peer"]
+            peer = CONTACT_DISPLAY_NAMES.get(conv_id, saved_as)
+            messages = sorted((row_message(r["id"], r) for r in rows), key=sort_key)
+            conversations[conv_id] = {
+                "metadata": contact_metadata(
+                    rows, peer, saved_as, messages, doc["label"], doc["source_id"],
+                    "Trechos citados no documento da PF — a conversa completa "
+                    "não consta dele."),
+                "messages": messages,
+            }
 
 
 def build_index(messages):
@@ -239,6 +295,7 @@ def main():
 
     conversations = dict([build_moraes_conversation()])
     conversations.update(build_other_conversations())
+    add_document_conversations(conversations)
 
     for conv_id, payload in sorted(conversations.items()):
         payload["index"] = build_index(payload["messages"])

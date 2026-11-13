@@ -155,3 +155,38 @@ describe('the police report as a document', () => {
     expect(conversations.find(c => c.id === 'martha-graeff').source_document).toBeUndefined();
   });
 });
+
+// The totals the site states in prose ("66.401 mensagens em 25 conversas",
+// "66 mil mensagens … em 25 conversas") are written by hand: each data import
+// must update them, and this says where one was missed.
+describe('totals written in the text', () => {
+  const total = conversations.reduce((n, c) => n + c.total_messages, 0);
+  const FILES = [
+    'index.html', 'README.md', 'CLAUDE.md', 'public/llms.txt', 'public/site.webmanifest',
+    'src/lib/settings-content.js', 'src/components/SettingsDrawer.js',
+  ];
+  const digits = (s) => Number(s.replace(/[.,]/g, ''));
+
+  it.each(FILES)('%s states the same totals as the data', (file) => {
+    // Tags out first: a link's URL has dots that would end the sentence.
+    const text = readFileSync(join(ROOT, file), 'utf-8').replace(/<[^>]*>/g, '');
+    const found = [];
+    // An exact count and a conversation count in the same sentence.
+    for (const m of text.matchAll(/(\d{1,3}(?:[.,]\d{3})+) (?:WhatsApp )?(?:mensagens|messages)[^.\n]{0,160}?\b(\d+) (?:conversas|conversations)\b/g)) {
+      found.push(m[0]);
+      expect(digits(m[1]), `${file}: «${m[0]}»`).toBe(total);
+      expect(Number(m[2]), `${file}: «${m[0]}»`).toBe(conversations.length);
+    }
+    // The rounded one: "66 mil mensagens".
+    for (const m of text.matchAll(/(\d+) mil mensagens[^.\n]{0,160}?\b(\d+) conversas\b/g)) {
+      found.push(m[0]);
+      expect(Number(m[1]), `${file}: «${m[0]}»`).toBe(Math.floor(total / 1000));
+      expect(Number(m[2]), `${file}: «${m[0]}»`).toBe(conversations.length);
+    }
+    // One profile and one .md/.json pair per conversation.
+    for (const m of text.matchAll(/\b(\d+) (perfis|pares)\b/g)) {
+      expect(Number(m[1]), `${file}: «${m[0]}»`).toBe(conversations.length);
+    }
+    expect(found.length, `${file} should state the totals somewhere`).toBeGreaterThan(0);
+  });
+});
