@@ -158,6 +158,7 @@ function conversationMarkdown(entry, messages, { standalone = true, month = null
     const when = msg.time ? `${msg.date} ${msg.time}` : `${msg.date === 'sem-data' ? 'data e horário não informados' : `${msg.date}, horário não informado`}`;
     const tags = [when, `msg ${msg.id}`];
     if (msg.is_edited) tags.push('editada');
+    if (msg.forwarded) tags.push('encaminhada');
     if (msg.view_once) tags.push('visualização única');
     if (msg.source_page) tags.push(`laudo p. ${msg.source_page}${msg.source_figure ? `, fig. ${msg.source_figure}` : ''}`);
     // A message whose seal is not the conversation's says so where it is read.

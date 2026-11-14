@@ -228,6 +228,7 @@
   color: var(--WDS-content-default);
   line-height: 1.4;
   word-break: break-word;
+  white-space: pre-wrap;
 }
 
 .msg-info-preview-meta {
