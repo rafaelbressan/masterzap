@@ -10,9 +10,9 @@
  */
 import { currentVoiceNote, isCurrent, playVoiceNote, pauseVoiceNote, durationOf, hasFailed, clock } from '../lib/voice-notes.js';
 import { contactOf, isOutgoing as isOwnerMessage } from '../lib/participants.js';
-import { escapeHtml, formatTime, formatDateLong, linkify, NO_TIME_LABEL } from '../lib/utils.js';
+import { escapeHtml, formatTime, formatDateLong, linkify, NO_TIME_LABEL, showsForwarded } from '../lib/utils.js';
 import { ScrollLoader } from '../lib/scroll-loader.js';
-import { ICON_INFO, ICON_SEARCH, ICON_CHECKEMPTY, ICON_BELL, ICON_TIMER, ICON_DOWNLOAD, ICON_CLOSE_CIRCULAR, ICON_MASTERZAP_LOGO, ICON_MEETBALL, ICON_CHEVRON_DW, ICON_SCREENSHOT } from '../lib/icons.js';
+import { ICON_FORWARDED, ICON_INFO, ICON_SEARCH, ICON_CHECKEMPTY, ICON_BELL, ICON_TIMER, ICON_DOWNLOAD, ICON_CLOSE_CIRCULAR, ICON_MASTERZAP_LOGO, ICON_MEETBALL, ICON_CHEVRON_DW, ICON_SCREENSHOT } from '../lib/icons.js';
 
 import { defaultAvatarSvg } from '../lib/avatar.js';
 import { parseContacts, parseLocation, mapsUrl, parseLink, parseAudio, parseImage, conversationForPhone } from '../lib/media.js';
@@ -558,6 +558,15 @@ function renderDeletedMessage() {
   return el;
 }
 
+/** "Encaminhada" with its arrow, over a forwarded message (and its info). */
+export function forwardedLabel() {
+  const tag = document.createElement('div');
+  tag.className = 'chat-msg-forwarded';
+  tag.innerHTML = ICON_FORWARDED; // Static SVG
+  tag.append('Encaminhada');
+  return tag;
+}
+
 /**
  * Render a single message bubble.
  * @param {object} msg
@@ -627,6 +636,8 @@ function renderMessage(msg, conversation) {
       // Text: escapeHtml first (neutralizes ALL HTML), then linkify wraps URLs in <a>
       const escaped = escapeHtml(msg.content || '');
       content.innerHTML = linkify(escaped);
+      // Line breaks as written (a list of names, one per line).
+      content.classList.add('chat-msg-text');
       // Vorcaro's notes to Moraes were screenshots sent to vanish; the text
       // exists because the forensics recovered them. Say so, quietly.
       if (msg.view_once) {
@@ -637,6 +648,11 @@ function renderMessage(msg, conversation) {
       }
       break;
     }
+  }
+
+  // Forwarded: "Encaminhada" over the content, as WhatsApp marks it.
+  if (showsForwarded(msg)) {
+    bubble.appendChild(forwardedLabel());
   }
 
   bubble.appendChild(content);

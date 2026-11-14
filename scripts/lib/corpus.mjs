@@ -13,6 +13,7 @@ export const DATA_DIR = join(ROOT, 'data');
 export const PUBLIC_DATA = join(ROOT, 'public/data');
 
 import { SITE_URL } from '../../src/config/site.js';
+import { showsForwarded } from '../../src/lib/utils.js';
 
 /** The site's address — src/config/site.js decides it, for the app and the build alike. */
 export const SITE = SITE_URL;
@@ -310,6 +311,12 @@ export const MEDIA = {
   image: 'Foto', video: 'Vídeo', audio: 'Áudio', sticker: 'Sticker',
   document: 'Documento', call: 'Chamada', deleted: 'Mensagem apagada', system: 'Sistema',
 };
+
+/** One message in a static page: escaped, its line breaks kept, "Encaminhada" first if it was. */
+export function messageHtml(msg) {
+  const text = escapeHtml(messageText(msg)).replace(/\n/g, '<br>');
+  return showsForwarded(msg) ? `<i>Encaminhada</i> ${text}` : text;
+}
 
 /** One message as plain text, media and system events in brackets, and the editorial note after. */
 export function messageText(msg) {
