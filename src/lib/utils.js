@@ -100,8 +100,15 @@ export function linkify(text) {
 export function escapeHtml(str) {
   const div = document.createElement('div');
   div.textContent = str;
-  return div.innerHTML;
+  // innerHTML leaves quotes alone; linkify puts text inside href="…".
+  return div.innerHTML.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
+
+/**
+ * Whether the bubble says "Encaminhada": a forwarded message, unless it was
+ * deleted (WhatsApp drops the label then).
+ */
+export const showsForwarded = (msg) => !!msg?.forwarded && msg.type !== 'deleted';
 
 /**
  * Classify a message type for rendering.

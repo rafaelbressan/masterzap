@@ -10,7 +10,7 @@
  */
 import { currentVoiceNote, isCurrent, playVoiceNote, pauseVoiceNote, durationOf, hasFailed, clock } from '../lib/voice-notes.js';
 import { contactOf, isOutgoing as isOwnerMessage } from '../lib/participants.js';
-import { escapeHtml, formatTime, formatDateLong, linkify, NO_TIME_LABEL } from '../lib/utils.js';
+import { escapeHtml, formatTime, formatDateLong, linkify, NO_TIME_LABEL, showsForwarded } from '../lib/utils.js';
 import { ScrollLoader } from '../lib/scroll-loader.js';
 import { ICON_FORWARDED, ICON_INFO, ICON_SEARCH, ICON_CHECKEMPTY, ICON_BELL, ICON_TIMER, ICON_DOWNLOAD, ICON_CLOSE_CIRCULAR, ICON_MASTERZAP_LOGO, ICON_MEETBALL, ICON_CHEVRON_DW, ICON_SCREENSHOT } from '../lib/icons.js';
 
@@ -558,6 +558,15 @@ function renderDeletedMessage() {
   return el;
 }
 
+/** "Encaminhada" with its arrow, over a forwarded message (and its info). */
+export function forwardedLabel() {
+  const tag = document.createElement('div');
+  tag.className = 'chat-msg-forwarded';
+  tag.innerHTML = ICON_FORWARDED; // Static SVG
+  tag.append('Encaminhada');
+  return tag;
+}
+
 /**
  * Render a single message bubble.
  * @param {object} msg
@@ -642,12 +651,8 @@ function renderMessage(msg, conversation) {
   }
 
   // Forwarded: "Encaminhada" over the content, as WhatsApp marks it.
-  if (msg.forwarded) {
-    const tag = document.createElement('div');
-    tag.className = 'chat-msg-forwarded';
-    tag.innerHTML = ICON_FORWARDED; // Static SVG
-    tag.append('Encaminhada');
-    bubble.appendChild(tag);
+  if (showsForwarded(msg)) {
+    bubble.appendChild(forwardedLabel());
   }
 
   bubble.appendChild(content);

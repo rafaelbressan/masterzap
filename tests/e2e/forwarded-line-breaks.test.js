@@ -23,7 +23,8 @@ test('a forwarded message says "Encaminhada" over its text', async ({ page }) =>
 
 test('a message written in lines keeps them', async ({ page }) => {
   const text = page.locator('.chat-msg-row[data-id="5"] .chat-msg-content');
-  await expect(text).toHaveText('Range Rover Vogue\nRSB7C37');
+  // innerText follows the layout: the break is there only if it is drawn.
+  expect(await text.evaluate(el => el.innerText)).toBe('Range Rover Vogue\nRSB7C37');
   // Two lines on screen, not one run together.
   const lines = await text.evaluate((el) => {
     const range = document.createRange();
@@ -31,4 +32,20 @@ test('a message written in lines keeps them', async ({ page }) => {
     return new Set([...range.getClientRects()].map(r => Math.round(r.top))).size;
   });
   expect(lines).toBe(2);
+});
+
+test("a deleted message does not say it was forwarded, as on WhatsApp", async ({ page }) => {
+  // Message 10 was forwarded, then deleted.
+  const row = page.locator('.chat-msg-row[data-id="10"]');
+  await row.scrollIntoViewIfNeeded();
+  await expect(row.locator('.chat-msg-content')).toContainText('apagada');
+  await expect(row.locator('.chat-msg-forwarded')).toHaveCount(0);
+});
+
+test('the message info shows "Encaminhada" and the line breaks too', async ({ page }) => {
+  await page.locator('.chat-msg-row[data-id="5"] .chat-msg-bubble').click({ button: 'right' });
+  await page.locator('.context-menu-item', { hasText: 'Info da mensagem' }).click();
+  const preview = page.locator('.msg-info-preview');
+  await expect(preview.locator('.chat-msg-forwarded')).toHaveText('Encaminhada');
+  expect(await preview.locator('.msg-info-preview-content').evaluate(el => el.innerText)).toBe('Range Rover Vogue\nRSB7C37');
 });

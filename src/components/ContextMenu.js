@@ -9,8 +9,9 @@ import { DEFAULT_OWNER } from '../lib/participants.js';
 import { noteOf, NOTE_LABEL } from '../lib/provenance.js';
 import { parseAudio } from '../lib/media.js';
 import { openMenu, menuClosed } from '../lib/menus.js';
-import { escapeHtml, formatDateLong, formatTime, NO_TIME_LABEL } from '../lib/utils.js';
+import { escapeHtml, formatDateLong, formatTime, NO_TIME_LABEL, showsForwarded } from '../lib/utils.js';
 import { showToast } from './Toast.js';
+import { forwardedLabel } from './ChatView.js';
 import { ICON_COPY, ICON_SEND, ICON_INFO, ICON_STAR } from '../lib/icons.js';
 import { isImportant, toggleImportant } from '../lib/important-messages.js';
 
@@ -199,8 +200,11 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
     // In the colour of who sent it: green only for the phone's owner.
     preview.className = `msg-info-preview ${msg.outgoing ? 'outgoing' : 'incoming'}`;
 
+    // As the bubble: "Encaminhada" over a forwarded one.
+    if (msg.forwarded) preview.appendChild(forwardedLabel());
+
     const previewContent = document.createElement('div');
-    previewContent.className = 'msg-info-preview-content';
+    previewContent.className = `msg-info-preview-content${msg.isText ? ' text' : ''}`;
     previewContent.textContent = msg.content || '(sem conteúdo)';
     preview.appendChild(previewContent);
 
@@ -337,6 +341,9 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
       outgoing: isOutgoing,
       // A note from whoever put the data together, if any (msg.note).
       note: noteOf(message),
+      forwarded: showsForwarded(message),
+      // Its own text, line breaks and all; a card's text is what it drew.
+      isText: !message || message.type === 'text',
       sender: message?.sender ?? (isOutgoing ? outgoingSender : incomingSender),
       date: message?.date ?? date,
       // "--:--" is how the bubble draws an unknown time; it is not a time.

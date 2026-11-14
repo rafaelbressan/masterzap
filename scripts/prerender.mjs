@@ -34,7 +34,7 @@ import {
   ROOT, SITE, REPO, TIMEZONE, UTC_OFFSET,
   loadEntries, loadMessages, sourceOf, contactOf, ownerName, whoIs, createResolver, mentionsOf, createLocator, isPaged, PREVIEW_MESSAGES,
   urlsIn, linksToMarkdown, linksToText, linksToHtml, escapeHtml,
-  longDate, phonePretty, messageText, citationOf, messageUrl,
+  longDate, phonePretty, messageText, messageHtml, citationOf, messageUrl,
   OFFICIAL_KINDS, VERIFICATION_LABELS, monthOf, zonedTimestamp,
 } from './lib/corpus.mjs';
 
@@ -179,7 +179,7 @@ function messagesHtml(messages) {
     }
     const cite = msg.source_page ? ` <small>(laudo p. ${msg.source_page}${msg.source_figure ? `, fig. ${msg.source_figure}` : ''})</small>` : '';
     const stamp = zonedTimestamp(msg);
-    out.push(`<p id="msg-${msg.id}"><time${stamp ? ` datetime="${stamp}"` : ''}>${msg.time ? msg.time.slice(0, 5) : '--:--'}</time> <b>${escapeHtml(msg.sender)}</b>: ${escapeHtml(messageText(msg))}${cite}</p>`);
+    out.push(`<p id="msg-${msg.id}"><time${stamp ? ` datetime="${stamp}"` : ''}>${msg.time ? msg.time.slice(0, 5) : '--:--'}</time> <b>${escapeHtml(msg.sender)}</b>: ${messageHtml(msg)}${cite}</p>`);
   }
   return out;
 }
@@ -352,7 +352,7 @@ function mentionHtml(conversationId, msg, alias, primary) {
   const cite = msg.source_page ? ` <small>(laudo p. ${msg.source_page}${msg.source_figure ? `, fig. ${msg.source_figure}` : ''})</small>` : '';
   return `<div class="msg" id="m-${conversationId}-${msg.id}">`
     + `<time${zonedTimestamp(msg) ? ` datetime="${zonedTimestamp(msg)}"` : ''}>${citationOf(msg).split(' · ')[0]}</time> · <b>${escapeHtml(msg.sender)}</b>${cite}${alias !== primary ? ` <small>· por «${escapeHtml(alias)}»</small>` : ''}<br>`
-    + `${escapeHtml(messageText(msg))}<br>`
+    + `${messageHtml(msg)}<br>`
     + `<span class="links"><a href="${locate(conversationId, msg)}">ver na conversa</a> · <a href="${messageUrl(conversationId, msg)}">no app</a> · msg ${msg.id}</span>`
     + `</div>`;
 }

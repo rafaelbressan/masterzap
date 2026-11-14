@@ -16,6 +16,7 @@ import { writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import JSZip from 'jszip';
 import { ownerOf } from '../src/lib/participants.js';
+import { showsForwarded } from '../src/lib/utils.js';
 import { noteOf, NOTE_LABEL } from '../src/lib/provenance.js';
 
 import { getContactProfile, VORCARO_PROFILE, SOURCES } from '../src/lib/profile-content.js';
@@ -158,7 +159,7 @@ function conversationMarkdown(entry, messages, { standalone = true, month = null
     const when = msg.time ? `${msg.date} ${msg.time}` : `${msg.date === 'sem-data' ? 'data e horário não informados' : `${msg.date}, horário não informado`}`;
     const tags = [when, `msg ${msg.id}`];
     if (msg.is_edited) tags.push('editada');
-    if (msg.forwarded) tags.push('encaminhada');
+    if (showsForwarded(msg)) tags.push('encaminhada');
     if (msg.view_once) tags.push('visualização única');
     if (msg.source_page) tags.push(`laudo p. ${msg.source_page}${msg.source_figure ? `, fig. ${msg.source_figure}` : ''}`);
     // A message whose seal is not the conversation's says so where it is read.
@@ -169,7 +170,8 @@ function conversationMarkdown(entry, messages, { standalone = true, month = null
     for (const id of msg.also_in || []) tags.push(`também em ${loadSources().get(id)?.titulo || id}`);
     out.push(`**${msg.sender}** · ${tags.join(' · ')}`);
     const body = messageBody(msg);
-    if (body) out.push(...body.split('\n').map(escapeLine));
+    // A line break in the message is a hard break in Markdown (two spaces).
+    if (body) out.push(body.split('\n').map(escapeLine).join('  \n'));
     out.push('');
   }
 
