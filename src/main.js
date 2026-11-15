@@ -403,6 +403,13 @@ async function init() {
         contactAvatar: AVATARS[conversation.id] || null,
         contactName,
         onOpenChat: (convId) => router.navigate('chat', convId),
+        // The quote on a reply: to the message it answers, in this chat,
+        // without reopening it.
+        onOpenMessage: async (messageId) => {
+          const date = await store.findDateForMessage(conversation.id, messageId).catch(() => null);
+          // Still in this chat: the reader may have moved on while it looked.
+          if (date && currentConversationId === conversation.id && activeLoader) activeLoader.scrollToMessage(messageId, date);
+        },
         onCopy: (text, label) => copyText(text).then(ok => showToast(mainArea, ok ? label : 'Não foi possível copiar')),
       },
       // Only the library: drawing the chat here froze the phone for seconds,
@@ -439,6 +446,8 @@ async function init() {
         incomingSender: otherParticipantOf(conversation),
         outgoingSender: ownerOf(conversation),
         conversationId: id,
+        // Who is who, for the quote a reply carries in its info.
+        conversation,
       });
     }
     // A link to a message goes to that message; otherwise, back where the

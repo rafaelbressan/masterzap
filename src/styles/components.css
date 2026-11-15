@@ -223,6 +223,12 @@
   background-color: var(--WDS-systems-bubble-surface-outgoing);
 }
 
+/* The quote, 3px in from the preview's edges as from the bubble's. */
+.msg-info-preview .chat-msg-quote {
+  width: calc(100% + 14px);
+  margin: -5px -7px 5px;
+}
+
 .msg-info-preview-content {
   font-size: 14px;
   color: var(--WDS-content-default);

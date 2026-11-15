@@ -113,6 +113,7 @@
       "attachment": null,
       "urls": [],
       "quoted": "Leonardo me retornou a ligação de ontem, e falou que já matou a pendência dele com vc, e vai fazer os ajustes combinados entre vcs, e vamos nos reunir amanhã para vermos os ajustes finais das 2 cotas da P1 para eles. Te mantenho atualizado!!",
+      "quoted_sender": "Marcos Prime",
       "source_page": 168,
       "source_figure": 167
     },
@@ -143,7 +144,9 @@
       "urls": [],
       "quoted": "Poxa mas ja era pra ter resolvido",
       "source_page": 168,
-      "source_figure": 167
+      "source_figure": 167,
+      "quoted_id": 7,
+      "quoted_sender": "DV"
     },
     {
       "id": 10,
@@ -158,7 +161,9 @@
       "urls": [],
       "quoted": "Eles nao estao usando?",
       "source_page": 168,
-      "source_figure": 167
+      "source_figure": 167,
+      "quoted_id": 8,
+      "quoted_sender": "DV"
     },
     {
       "id": 11,
@@ -187,7 +192,9 @@
       "urls": [],
       "quoted": "Sim mas usso tem 3 meses",
       "source_page": 168,
-      "source_figure": 167
+      "source_figure": 167,
+      "quoted_id": 11,
+      "quoted_sender": "DV"
     },
     {
       "id": 13,
@@ -258,7 +265,9 @@
       "urls": [],
       "quoted": "Otimo, vai cobrando da prime2 ate resolver",
       "source_page": 168,
-      "source_figure": 167
+      "source_figure": 167,
+      "quoted_id": 14,
+      "quoted_sender": "DV"
     },
     {
       "id": 18,
@@ -287,7 +296,9 @@
       "urls": [],
       "quoted": "Teve algum problema voo deles de heli?",
       "source_page": 169,
-      "source_figure": 168
+      "source_figure": 168,
+      "quoted_id": 18,
+      "quoted_sender": "DV"
     },
     {
       "id": 20,

@@ -11,7 +11,7 @@ import { parseAudio } from '../lib/media.js';
 import { openMenu, menuClosed } from '../lib/menus.js';
 import { escapeHtml, formatDateLong, formatTime, NO_TIME_LABEL, showsForwarded } from '../lib/utils.js';
 import { showToast } from './Toast.js';
-import { forwardedLabel } from './ChatView.js';
+import { forwardedLabel, renderQuote } from './ChatView.js';
 import { ICON_COPY, ICON_SEND, ICON_INFO, ICON_STAR } from '../lib/icons.js';
 import { isImportant, toggleImportant } from '../lib/important-messages.js';
 
@@ -21,9 +21,10 @@ import { isImportant, toggleImportant } from '../lib/important-messages.js';
  * @param {object} [options]
  * @param {Record<string,string>} [options.senderNames] - map short names to full names
  * @param {string} [options.outgoingSender] - the phone owner's sender id
+ * @param {object} [options.conversation] - the open conversation (a reply's quote names its author)
  * @returns {{ destroy: function }}
  */
-export function attachContextMenu(chatContainer, { senderNames = {}, incomingSender = '', outgoingSender = DEFAULT_OWNER, conversationId = '' } = {}) {
+export function attachContextMenu(chatContainer, { senderNames = {}, incomingSender = '', outgoingSender = DEFAULT_OWNER, conversationId = '', conversation = null } = {}) {
   let menuEl = null;
   let drawerEl = null;
 
@@ -202,6 +203,9 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
 
     // As the bubble: "Encaminhada" over a forwarded one.
     if (msg.forwarded) preview.appendChild(forwardedLabel());
+    // And a reply's quote on top (here it goes nowhere: the info is over the chat).
+    const quote = msg.message && renderQuote(msg.message, conversation, { interactive: false });
+    if (quote) preview.appendChild(quote);
 
     const previewContent = document.createElement('div');
     previewContent.className = `msg-info-preview-content${msg.isText ? ' text' : ''}`;
@@ -342,6 +346,7 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
       // A note from whoever put the data together, if any (msg.note).
       note: noteOf(message),
       forwarded: showsForwarded(message),
+      message,
       // Its own text, line breaks and all; a card's text is what it drew.
       isText: !message || message.type === 'text',
       sender: message?.sender ?? (isOutgoing ? outgoingSender : incomingSender),

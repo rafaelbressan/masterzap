@@ -122,6 +122,10 @@
   --WDS-neutral-gray-900: #161717;
   --WDS-neutral-gray-1000: #0A0A0A;
 
+  /* Purple */
+  --WDS-purple-300: #A791FF;
+  --WDS-purple-400: #7F66FF;
+
   /* Warm Gray */
   --WDS-warm-gray-50: #FBFAF9;
   --WDS-warm-gray-75: #F7F5F3;
@@ -249,4 +253,8 @@
   --MW-negative: #e53935;
   --MW-nav-selected: var(--WDS-green-50);
   --MW-tag-selected: var(--WDS-green-50);
+  /* The quote on a reply: its bar and author, green for the phone's owner
+     ("Você"), purple for the contact, as WhatsApp colours them. */
+  --MW-quote-owner: var(--WDS-green-500);
+  --MW-quote-contact: var(--WDS-purple-400);
 }

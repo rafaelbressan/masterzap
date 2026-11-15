@@ -129,7 +129,9 @@
       "urls": [],
       "quoted": "O cara largou?",
       "source_page": 204,
-      "source_figure": 214
+      "source_figure": 214,
+      "quoted_id": 7,
+      "quoted_sender": "DV"
     },
     {
       "id": 9,
@@ -456,7 +458,9 @@
       "urls": [],
       "quoted": "Agora vai ter que ter plantação de charuto e barril de macalan rsrs",
       "source_page": 207,
-      "source_figure": 218
+      "source_figure": 218,
+      "quoted_id": 30,
+      "quoted_sender": "DV"
     },
     {
       "id": 32,
@@ -542,7 +546,9 @@
       "urls": [],
       "quoted": "Você é uma máquina kkkkkkk",
       "source_page": 208,
-      "source_figure": 220
+      "source_figure": 220,
+      "quoted_id": 36,
+      "quoted_sender": "Ciro Soares"
     },
     {
       "id": 38,
@@ -697,7 +703,9 @@
       "urls": [],
       "quoted": "Otto tem que ir",
       "source_page": 211,
-      "source_figure": 223
+      "source_figure": 223,
+      "quoted_id": 46,
+      "quoted_sender": "DV"
     },
     {
       "id": 49,
@@ -726,7 +734,9 @@
       "urls": [],
       "quoted": "Colocar ele no painel mais legal com primeiro ministro",
       "source_page": 211,
-      "source_figure": 223
+      "source_figure": 223,
+      "quoted_id": 47,
+      "quoted_sender": "DV"
     },
     {
       "id": 51,
@@ -741,7 +751,9 @@
       "urls": [],
       "quoted": "O Pedrinho filho do PG pode ir com a gente né?",
       "source_page": 211,
-      "source_figure": 223
+      "source_figure": 223,
+      "quoted_id": 49,
+      "quoted_sender": "Ciro Soares"
     }
   ],
   "index": {

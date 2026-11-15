@@ -173,3 +173,19 @@ class Owner(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Quotes(unittest.TestCase):
+    def conv(self, **reply):
+        return [msg(id=1, sender="DV", content="Otto"), msg(id=2, sender="Ana", content="Sim", **reply)]
+
+    def test_a_reply_with_its_author_and_message_is_fine(self):
+        self.assertEqual(validate_messages(self.conv(quoted="Otto", quoted_sender="DV", quoted_id=1), "c"), [])
+
+    def test_a_reply_without_its_author_fails(self):
+        self.assertTrue(any("quoted_sender" in p for p in validate_messages(self.conv(quoted="Otto"), "c")))
+
+    def test_the_quoted_message_must_be_earlier_and_by_that_author(self):
+        self.assertTrue(validate_messages(self.conv(quoted="Otto", quoted_sender="DV", quoted_id=9), "c"))
+        self.assertTrue(validate_messages(self.conv(quoted="Otto", quoted_sender="Ana", quoted_id=1), "c"))
+        self.assertTrue(validate_messages(self.conv(quoted="Otto", quoted_sender="Ninguém"), "c"))

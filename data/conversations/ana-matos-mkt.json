@@ -85,6 +85,7 @@
       "attachment": null,
       "urls": [],
       "quoted": "Oi\nO Blair amanhã chega 9 e começa a falar - sem chance de atraso - 9h30\nPensei de colocar no roteiro da MC que amanhã começa 8h30. Café etc e começamos\nChegando, ele gostaria de te conhecer brevemente antes do painel. Ele já aprovou todas as perguntas. Vc pode levar até 4 pessoas contigo tb.",
+      "quoted_sender": "Ana Matos",
       "source_page": 186,
       "source_figure": 193
     },
@@ -453,7 +454,9 @@
       "urls": [],
       "quoted": "Alexandre reclamou agora que varias pessoas nao receberam convite londres",
       "source_page": 190,
-      "source_figure": 198
+      "source_figure": 198,
+      "quoted_id": 29,
+      "quoted_sender": "DV"
     },
     {
       "id": 32,
@@ -482,7 +485,9 @@
       "urls": [],
       "quoted": "Ana preciso que essas meninas trabalhem e zerem isso HOJE ainda",
       "source_page": 190,
-      "source_figure": 198
+      "source_figure": 198,
+      "quoted_id": 30,
+      "quoted_sender": "DV"
     },
     {
       "id": 34,
@@ -595,7 +600,9 @@
       "urls": [],
       "quoted": "E eu vou de apresentador e entrevistador",
       "source_page": 191,
-      "source_figure": 199
+      "source_figure": 199,
+      "quoted_id": 38,
+      "quoted_sender": "DV"
     },
     {
       "id": 42,
@@ -637,6 +644,7 @@
       "attachment": null,
       "urls": [],
       "quoted": "Eu sei so nao quero deixar",
+      "quoted_sender": "DV",
       "source_page": 191,
       "source_figure": 200
     },
@@ -989,7 +997,10 @@
       "urls": [],
       "quoted": "[contato] Vivi Moraes +55 11 98344-5794",
       "source_page": 192,
-      "source_figure": 201
+      "source_figure": 201,
+      "quoted_id": 67,
+      "quoted_sender": "DV",
+      "quoted_type": "contact"
     },
     {
       "id": 70,
@@ -1033,6 +1044,7 @@
       "attachment": null,
       "urls": [],
       "quoted": "Oi. Rueda seria um cara pra eu colocar na programação como moderador de painel? O Marcos Pereira, dep fed que faria esse papel em um dos painéis declinou",
+      "quoted_sender": "Ana Matos",
       "source_page": 193,
       "source_figure": 202
     },
