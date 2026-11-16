@@ -6,7 +6,8 @@ test.describe('Provenance seal', () => {
   test('a police-report conversation says where it came from', async ({ page }) => {
     // A chat with only the report's messages (Geraldo's now has the fork's too).
     await page.goto('/#/chat/motorista-brasilia-sidney');
-    await expect(page.locator('.chat-header-info')).toHaveText(/8 mensagens · Verificado/);
+    await expect(page.locator('.chat-header-info-count')).toHaveText(/8 mensagens/);
+    await expect(page.locator('.chat-header-info-seal')).toHaveAttribute('aria-label', 'Verificado');
 
     // One day only, so the oldest day — and its notice — is on screen.
     const notice = page.locator('.chat-seal-notice');
@@ -32,7 +33,8 @@ test.describe('Provenance seal', () => {
   test('a chat most of whose messages came from elsewhere reads their seal, and marks the source\'s own', async ({ page }) => {
     // Geraldo: 12 messages of the report, 24 from prints with no outlet.
     await page.goto('/#/chat/geraldo-brazil-journal');
-    await expect(page.locator('.chat-header-info')).toHaveText(/36 mensagens · Não verificado/);
+    await expect(page.locator('.chat-header-info-count')).toHaveText(/36 mensagens/);
+    await expect(page.locator('.chat-header-info-seal')).toHaveAttribute('aria-label', 'Não verificado');
     // The notice leads with the majority and names the report's source.
     await expect(page.locator('.chat-seal-notice')).toContainText('Na maior parte, Não verificado · 12 mensagens marcadas como Verificado (IPJ-A nº 3298613/2026, Polícia Federal)');
     // All 36 on screen (three days, loaded at once): each bubble says its seal.
@@ -43,7 +45,8 @@ test.describe('Provenance seal', () => {
   test('a press majority stays plain; the report\'s own are marked', async ({ page }) => {
     // Ciro Soares: 60 press lines (O Globo, Noites Húngaras, Poder360), 51 of the report.
     await page.goto('/#/chat/ciro-soares/msg/52');
-    await expect(page.locator('.chat-header-info')).toHaveText(/116 mensagens · Imprensa/);
+    await expect(page.locator('.chat-header-info-count')).toHaveText(/116 mensagens/);
+    await expect(page.locator('.chat-header-info-seal')).toHaveAttribute('aria-label', 'Imprensa');
     await expect(page.locator('.chat-seal-notice')).toContainText('Na maior parte, Imprensa · 51 mensagens marcadas como Verificado (IPJ-A nº 3298613/2026, Polícia Federal)');
     // 31/01/2024: seven press lines, no glyph.
     const press = page.locator('[data-date="2024-01-31"]');
@@ -83,7 +86,8 @@ test.describe('Provenance seal', () => {
   test('the leak is labelled press, without marking every bubble', async ({ page }) => {
     await page.goto('/');
     await page.locator('.conversation-item[data-id="martha-graeff"]').click();
-    await expect(page.locator('.chat-header-info')).toHaveText(/65\.772 mensagens · Imprensa/);
+    await expect(page.locator('.chat-header-info-count')).toHaveText(/65\.772 mensagens/);
+    await expect(page.locator('.chat-header-info-seal')).toHaveAttribute('aria-label', 'Imprensa');
     await expect(page.locator('.chat-msg-bubble').first()).toBeVisible({ timeout: 10000 });
     await expect(page.locator('.chat-msg-seal')).toHaveCount(0);
   });

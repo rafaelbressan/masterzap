@@ -124,7 +124,7 @@
     {
       "id": "fork-trecho-sem-fonte",
       "kind": "fornecido",
-      "titulo": "Reportagem sem veículo identificado, fornecida ao fork 1uc4sm4theus/masterzap",
+      "titulo": "Reportagem sem veículo identificado, de fonte anônima",
       "orgao_ou_veiculo": "Veículo não identificado",
       "data": "2026",
       "how": "O fork registra o trecho como \"fornecido pelo usuário\", de uma reportagem cujo veículo não foi identificado; não há link nem documento. Entra para a paridade com o fork, com o selo que diz isso.",
@@ -178,7 +178,7 @@
     {
       "id": "fork-amiga-anonima-01",
       "kind": "fornecido",
-      "titulo": "Texto apresentado ao fork como publicado; referência bibliográfica não informada.",
+      "titulo": "Texto apresentado como publicado; referência bibliográfica não informada.",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Texto apresentado pelo usuário como publicado; referência bibliográfica não informada.».",
@@ -191,7 +191,7 @@
     {
       "id": "fork-amiga-anonima-01-texto-apresentado-pelo-usuario-como-publ",
       "kind": "fornecido",
-      "titulo": "Texto apresentado ao fork como publicado; publicação não identificada.",
+      "titulo": "Texto apresentado como publicado; publicação não identificada.",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Texto apresentado pelo usuário como publicado; publicação não identificada.».",
@@ -204,7 +204,7 @@
     {
       "id": "fork-andre-esteves",
       "kind": "fornecido",
-      "titulo": "Captura de tela (registros #963124 a #963712) enviada ao fork — origem do documento não identificada",
+      "titulo": "Captura de tela (registros #963124 a #963712) de fonte anônima — origem do documento não identificada",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Captura de tela (registros #963124 a #963712) enviada pelo usuário — origem do documento não identificada».",
@@ -256,7 +256,7 @@
     {
       "id": "fork-assessor-anonimo",
       "kind": "fornecido",
-      "titulo": "Trechos literais citados em matéria enviada ao fork (veículo e data de publicação não informados)",
+      "titulo": "Trechos literais citados em matéria de fonte anônima (veículo e data de publicação não informados)",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Trechos literais citados em matéria colada pelo usuário (veículo e data de publicação não informados)».",
@@ -282,7 +282,7 @@
     {
       "id": "fork-chiquinho-feitosa",
       "kind": "fornecido",
-      "titulo": "Capturas de tela de conversa do WhatsApp fornecidas ao fork",
+      "titulo": "Capturas de tela de conversa do WhatsApp de fonte anônima",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Capturas de tela de conversa do WhatsApp fornecidas pelo usuário».",
@@ -295,7 +295,7 @@
     {
       "id": "fork-ciro-gomes",
       "kind": "fornecido",
-      "titulo": "Imagem da conversa fornecida ao fork",
+      "titulo": "Imagem da conversa de fonte anônima",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Imagem da conversa fornecida pelo usuário».",
@@ -516,7 +516,7 @@
     {
       "id": "fork-guilherme-barros",
       "kind": "fornecido",
-      "titulo": "7 arquivos de capturas de tela de WhatsApp fornecidas ao fork: printcorrigido__1_.jpg, folha01.webp, folha03.webp, folha04.webp, printcorrigido.jpg, folha0",
+      "titulo": "7 arquivos de capturas de tela de WhatsApp de fonte anônima: printcorrigido__1_.jpg, folha01.webp, folha03.webp, folha04.webp, printcorrigido.jpg, folha0",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2024-09-25",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «7 arquivos de capturas de tela de WhatsApp fornecidas pelo usuário: printcorrigido__1_.jpg, folha01.webp, folha03.webp, folha04.webp, printcorrigido.jpg, folha01.jpg, folha05.jpg (07/08 a 25/09/2024)».",
@@ -620,7 +620,7 @@
     {
       "id": "fork-julio-anonimo",
       "kind": "fornecido",
-      "titulo": "Origem não registrada pelo fork",
+      "titulo": "Fonte anônima",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que não registra a origem destas mensagens.",
@@ -633,7 +633,7 @@
     {
       "id": "fork-kiko-sobrinho",
       "kind": "imprensa",
-      "titulo": "Capturas de tela com marca d'água 'piauí' e texto fornecido ao fork. Documento de origem não informado.",
+      "titulo": "Capturas de tela com marca d'água 'piauí' e texto de fonte anônima. Documento de origem não informado.",
       "orgao_ou_veiculo": "piauí",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Capturas de tela com marca d'água 'piauí' e texto fornecido pelo usuário. Documento de origem não informado.».",
@@ -750,7 +750,7 @@
     {
       "id": "fork-nelson-willians",
       "kind": "fornecido",
-      "titulo": "Trechos literais citados em matéria enviada ao fork (veículo e data de publicação não informados)",
+      "titulo": "Trechos literais citados em matéria de fonte anônima (veículo e data de publicação não informados)",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Trechos literais citados em matéria colada pelo usuário (veículo e data de publicação não informados)».",
@@ -841,7 +841,7 @@
     {
       "id": "fork-olavo-noletto-ministerio-padilha",
       "kind": "fornecido",
-      "titulo": "Origem não registrada pelo fork",
+      "titulo": "Fonte anônima",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que não registra a origem destas mensagens.",
@@ -880,7 +880,7 @@
     {
       "id": "fork-ricardo-lewandowski",
       "kind": "fornecido",
-      "titulo": "Imagens fornecidas ao fork",
+      "titulo": "Imagens de fonte anônima",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Imagens fornecidas pelo usuário».",
@@ -919,7 +919,7 @@
     {
       "id": "fork-rodrigo-fux",
       "kind": "fornecido",
-      "titulo": "Conteúdo fornecido ao fork",
+      "titulo": "Conteúdo de fonte anônima",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Conteúdo fornecido pelo usuário».",
@@ -932,7 +932,7 @@
     {
       "id": "fork-ronaldo-fenomeno",
       "kind": "fornecido",
-      "titulo": "Texto fornecido ao fork, sem print; o texto atribui a transcrição à VEJA. Reportagens posteriores da imprensa, consultadas apenas para situar o período, re",
+      "titulo": "Texto de fonte anônima, sem print; o texto atribui a transcrição à VEJA. Reportagens posteriores da imprensa, consultadas apenas para situar o período, re",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Texto fornecido pelo usuário, sem print; o texto atribui a transcrição à VEJA. Reportagens posteriores da imprensa, consultadas apenas para situar o período, repetem as mesmas falas.».",
@@ -945,7 +945,7 @@
     {
       "id": "fork-selma-empregada",
       "kind": "imprensa",
-      "titulo": "Captura de tela com marca d'água 'piauí', enviada ao fork. Documento de origem não informado.",
+      "titulo": "Captura de tela com marca d'água 'piauí' de fonte anônima. Documento de origem não informado.",
       "orgao_ou_veiculo": "piauí",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Captura de tela com marca d'água 'piauí', enviada pelo usuário. Documento de origem não informado.».",
@@ -984,7 +984,7 @@
     {
       "id": "fork-thiago-miranda-capturas-de-tela-whatsapp-chat-thiago-mi",
       "kind": "fornecido",
-      "titulo": "Capturas de tela (WhatsApp Chat – Thiago Miranda - Leo Dias, 2025-04-06) enviadas ao fork — origem do documento não identificada",
+      "titulo": "Capturas de tela (WhatsApp Chat – Thiago Miranda - Leo Dias, 2025-04-06) de fonte anônima — origem do documento não identificada",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2025",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Capturas de tela (WhatsApp Chat – Thiago Miranda - Leo Dias, 2025-04-06) enviadas pelo usuário — origem do documento não identificada».",
@@ -997,7 +997,7 @@
     {
       "id": "fork-walfrido-mares",
       "kind": "fornecido",
-      "titulo": "Origem não registrada pelo fork",
+      "titulo": "Fonte anônima",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que não registra a origem destas mensagens.",
@@ -1010,7 +1010,7 @@
     {
       "id": "fork-walfrido-warde-new",
       "kind": "fornecido",
-      "titulo": "Capturas de tela de conversa do WhatsApp e transcrições de áudios fornecidas ao fork; captura de tela publicada pela Veja (22/01/2025)",
+      "titulo": "Capturas de tela de conversa do WhatsApp e transcrições de áudios de fonte anônima; captura de tela publicada pela Veja (22/01/2025)",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2025-01-22",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Capturas de tela de conversa do WhatsApp e transcrições de áudios fornecidas pelo usuário; captura de tela publicada pela Veja (22/01/2025)».",
@@ -1036,7 +1036,7 @@
     {
       "id": "fork-yasmin-brunet",
       "kind": "fornecido",
-      "titulo": "Texto fornecido ao fork, sem print; veículo de origem não informado.",
+      "titulo": "Texto de fonte anônima, sem print; veículo de origem não informado.",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Texto fornecido pelo usuário, sem print; veículo de origem não informado.».",
@@ -1049,7 +1049,7 @@
     {
       "id": "fork-ze-maria",
       "kind": "fornecido",
-      "titulo": "Print enviado ao fork (arquivo HTdteX0XQAA-S6E.jpg); veículo de origem não identificado na imagem. Título do chat: 'WhatsApp Chat - Ze Maria Chef Iate Club",
+      "titulo": "Print de fonte anônima (arquivo HTdteX0XQAA-S6E.jpg); veículo de origem não identificado na imagem. Título do chat: 'WhatsApp Chat - Ze Maria Chef Iate Club",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Print enviado pelo usuário (arquivo HTdteX0XQAA-S6E.jpg); veículo de origem não identificado na imagem. Título do chat: 'WhatsApp Chat - Ze Maria Chef Iate Clube'.».",
@@ -1140,7 +1140,7 @@
     {
       "id": "fork-fabiano-zettel-capturas-de-tela-sem-origem-registrada",
       "kind": "fornecido",
-      "titulo": "Capturas de tela sem origem registrada no fork",
+      "titulo": "Capturas de tela de fonte anônima",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «IPJ-A nº 3298613/2026 — NADIP/DFIN/CGRC/DICOR/PF Mensagens 1–14: trechos citados no relatório policial — a conversa completa não consta do documento. Mensagens 15–18: transcritas de captura de tela de WhatsApp (HUw-9nOXUAE25N_.jpg); ano 2024 inferido (30/12 caiu numa segunda-feira em 2024 e o texto menciona 'março/24'); horário só com precisão de minuto. ATUALIZAÇÃO 2: acrescentadas 33 mensagens (ids 19-51 na numeração anterior), de 09/01/2025 a 12/03/2025, da exportação do site (masterwhats-fabiano-zettel.json, que traz 47 mensagens), a partir de prints da extração do celular publicados pelo Metrópoles (caso Dark Horse, Inq 5070; 12/09/2026 e 21/09/2026), cada uma com o seu 'source_cite'. As mensagens 1-14 da exportação coincidem com as 1-14 deste arquivo; as mensagens 15-18 (30/12/2024) não constam da exportação e foram mantidas. Por isso os ids da exportação a partir do 15 foram renumerados (+4), e os ids são sequenciais de 1 a 60 em ordem cronológica no array: por exemplo, 'Filme vc pagou?' passou do id 19 da exportação para o id 23, e 'Esse e o mais importante disparado' do 23 para o 27. Os carimbos foram mantidos sem offset (a exportação traz -03:00), como no restante do projeto. O bloco 'profile' da exportação não faz parte deste formato e não foi incluído (os links #msg-N dele usam a numeração da exportação). ATUALIZAÇÃO 3: acrescentadas 9 mensagens (ids 29-37), de 31/01/2025 e 03/02/2025, transcritas de captura de tela com dois painéis (painel esquerdo: 31/01/2025; painel direito: 03/02/2025), incluindo as mensagens de DV visíveis no painel esquerdo. Foram inseridas em ordem cronológica entre 28/01 e 05/02, de modo que os ids das mensagens seguintes foram deslocados em +9 (antigos 29–51 viraram 38–60). A última mensagem de 31/01 (id 35) aparece cortada na captura e termina em reticências ('truncated': true).».",
@@ -1218,7 +1218,7 @@
     {
       "id": "fork-fabio-faria-captura-de-tela-anexada-pelo-usuario",
       "kind": "fornecido",
-      "titulo": "Captura de tela enviada ao fork",
+      "titulo": "Captura de tela de fonte anônima",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Captura de tela anexada pelo usuário».",
@@ -1244,7 +1244,7 @@
     {
       "id": "fork-geraldo-brazil-journal-capturas-de-tela-sem-origem-registrada",
       "kind": "fornecido",
-      "titulo": "Capturas de tela sem origem registrada no fork",
+      "titulo": "Capturas de tela de fonte anônima",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «2 capturas de tela de conversa de WhatsApp (05/02/2024 a 06/02/2024 e 26/04/2024), transcritas exclusivamente a partir das imagens; combinadas com os trechos citados no IPJ-A nº 3298613/2026 — NADIP/DFIN/CGRC/DICOR/PF (p. 187, fig. 194). Fusão de duas fontes da mesma conversa. Das 36 mensagens: 24 vêm só dos prints (ids 1-24), 11 vêm dos prints e do relatório (ids 25-31 e 33-36; source 'screenshot+pf_report') e 1 vem só do relatório (id 32, chamada de voz perdida às 15:01:25, source 'pf_report', verified false). Nas 11 mensagens em comum, o texto dos prints coincide com o do relatório e foram usados os segundos do relatório; as demais mensagens têm horário só até o minuto, porque os prints não mostram segundos. Sem fuso exibido em nenhuma das fontes, então 'timestamp' não traz offset. O relatório informa que cita apenas trechos e que a conversa completa não consta do documento; os prints também são recortes, e pode haver mensagens fora de ambos. Nome do outro participante: 'Geraldo Brazil Journal' (metadados do relatório), 'Geraldo Samor' (cabeçalho dos prints) e 'Geraldo' (remetente no relatório); padronizado como 'Geraldo Brazil Journal'. Remetente 'DV' padronizado (nos prints o nome exibido é 'Daniel Vorcaro'). Onde o print não rotula o remetente, a atribuição segue o bloco (balão branco = Geraldo; verde = DV). Texto transcrito literalmente, com a grafia dos prints. Mensagens em ordem cronológica. Nenhuma mensagem aparece como resposta citada, então reply_to_id é null em todas.».",
@@ -1257,7 +1257,7 @@
     {
       "id": "fork-gustavo-motorista-capturas-de-tela-sem-origem-registrada",
       "kind": "fornecido",
-      "titulo": "Capturas de tela sem origem registrada no fork",
+      "titulo": "Capturas de tela de fonte anônima",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «IPJ-A nº 3298613/2026 — NADIP/DFIN/CGRC/DICOR/PF Trechos citados no relatório policial — a conversa completa não consta do documento. Mensagens 1 a 6 (2023-12-21) vêm do texto fornecido, com página e figura do relatório. Mensagens 7 a 19 (2025-02-28) foram transcritas de uma imagem de baixa resolução com 2 painéis; o painel direito repete as mensagens 13 a 17 do esquerdo e foi deduplicado. Mensagens à direita atribuídas a DV, à esquerda a Gustavo Motorista. O sobrenome e o telefone estão ocultos por tarja cinza no cabeçalho da imagem. Os horários de 2025 estão no fuso -03:00.».",
@@ -1283,7 +1283,7 @@
     {
       "id": "fork-leo-serrano-capturas-de-tela-sem-origem-registrada",
       "kind": "fornecido",
-      "titulo": "Capturas de tela sem origem registrada no fork",
+      "titulo": "Capturas de tela de fonte anônima",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «IPJ-A nº 3298613/2026 — NADIP/DFIN/CGRC/DICOR/PF; capturas de tela publicadas pela Veja (29/10/2024) Trechos citados em documentos da PF — a conversa completa não é pública. Mensagens adicionais recebidas separadamente foram incorporadas ao conjunto.».",
@@ -1296,7 +1296,7 @@
     {
       "id": "fork-luiz-renno-print-anexado-pelo-usuario-veiculo-nao",
       "kind": "fornecido",
-      "titulo": "Print enviado ao fork (veículo não informado)",
+      "titulo": "Print de fonte anônima (veículo não informado)",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Print anexado pelo usuário (veículo não informado)».",
@@ -1309,7 +1309,7 @@
     {
       "id": "fork-luiz-renno-trechos-literais-citados-em-materia",
       "kind": "fornecido",
-      "titulo": "Trechos literais citados em matéria enviada ao fork (veículo e data de publicação não informados)",
+      "titulo": "Trechos literais citados em matéria de fonte anônima (veículo e data de publicação não informados)",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Trechos literais citados em matéria colada pelo usuário (veículo e data de publicação não informados)».",
@@ -1387,7 +1387,7 @@
     {
       "id": "fork-michael-capturas-de-tela-sem-origem-registrada",
       "kind": "fornecido",
-      "titulo": "Capturas de tela sem origem registrada no fork",
+      "titulo": "Capturas de tela de fonte anônima",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «IPJ-A nº 3298613/2026 — NADIP/DFIN/CGRC/DICOR/PF Trechos citados no relatório policial — a conversa completa não consta do documento. Mensagens 1 a 16 (2023-12-30) vêm do texto fornecido, com página e figura do relatório. Mensagens 17 a 30 (2025-02-28) foram transcritas de 2 imagens de baixa resolução; mensagens à direita atribuídas a DV, à esquerda a Michael. O sobrenome está oculto por tarja cinza no cabeçalho das imagens. Os horários de 2025 estão no fuso -03:00.».",
@@ -1400,10 +1400,75 @@
     {
       "id": "fork-thatiane-prime-capturas-de-tela-sem-origem-registrada",
       "kind": "fornecido",
-      "titulo": "Capturas de tela sem origem registrada no fork",
+      "titulo": "Capturas de tela de fonte anônima",
       "orgao_ou_veiculo": "Fonte anônima",
       "data": "2026",
       "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «IPJ-A nº 3298613/2026 — NADIP/DFIN/CGRC/DICOR/PF Trechos citados no relatório policial — a conversa completa não consta do documento. Mensagens de 2024-05-29 a 2024-05-31 transcritas de capturas de tela (campo source_image; horários originais com fuso -03:00; página/figura do relatório não identificadas).».",
+      "file": null,
+      "url": null,
+      "download": null,
+      "archive_url": null,
+      "sha256": null
+    },
+    {
+      "id": "iped-flavio-carneiro",
+      "kind": "iped",
+      "titulo": "Exportação forense (IPED) do celular de Vorcaro",
+      "orgao_ou_veiculo": "Fonte anônima",
+      "data": "2026",
+      "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Export completo da conversa de WhatsApp entre DV e Flávio Carneiro (relatório HTML 'WhatsApp Chat - Flavio Carneiro - 553188399198', gerado por ferramenta de análise forense tipo IPED), com horário completo (segundos e fuso -03:00), citações, encaminhamentos, reações, chamadas, localizações e contatos. Substitui a versão anterior, montada a partir de 5 capturas de tela e de 4 mensagens citadas pela BBC News Brasil (19/12/2023); todas elas foram localizadas no export e ficaram marcadas com 'legacy_id' e em 'notes'.». Fonte anônima: não se sabe quem obteve a exportação nem onde foi publicada.",
+      "file": null,
+      "url": null,
+      "download": null,
+      "archive_url": null,
+      "sha256": null
+    },
+    {
+      "id": "fork-flavio-carneiro-bbc-news-brasil",
+      "kind": "imprensa",
+      "titulo": "BBC News Brasil — mensagens de Vorcaro extraídas pela PF",
+      "orgao_ou_veiculo": "BBC News Brasil",
+      "data": "2026",
+      "how": "Citadas pela BBC News Brasil, segundo o fork 1uc4sm4theus/masterzap: «ATUALIZAÇÃO 2: acrescentadas as 4 mensagens de 19/12/2023 (ids 1-4), citadas em reportagem da BBC News Brasil (https://www.bbc.com/portuguese/articles/ck4g18721rv2o) sobre mensagens de WhatsApp extraídas pela Polícia Federal do celular de Daniel Vorcaro (source 'news_report', com 'source_ref' e 'quo…».",
+      "file": null,
+      "url": "https://www.bbc.com/portuguese/articles/ck4g18721rv2o",
+      "download": null,
+      "archive_url": null,
+      "sha256": null
+    },
+    {
+      "id": "iped-fred-kachar",
+      "kind": "iped",
+      "titulo": "Exportação forense (IPED) do celular de Vorcaro",
+      "orgao_ou_veiculo": "Fonte anônima",
+      "data": "2026",
+      "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Conversão do relatório HTML 'WhatsApp Chat - Fred Kachar Globo - 5511991470008' (IPED) para o esquema das demais conversas.». Fonte anônima: não se sabe quem obteve a exportação nem onde foi publicada.",
+      "file": null,
+      "url": null,
+      "download": null,
+      "archive_url": null,
+      "sha256": null
+    },
+    {
+      "id": "iped-lilian-tahan",
+      "kind": "iped",
+      "titulo": "Exportação forense (IPED) do celular de Vorcaro",
+      "orgao_ou_veiculo": "Fonte anônima",
+      "data": "2026",
+      "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Exportação HTML do WhatsApp (WhatsApp Chat - Lilian Tahan Editora Chefe Metropoles - 556181320162)». Fonte anônima: não se sabe quem obteve a exportação nem onde foi publicada.",
+      "file": null,
+      "url": null,
+      "download": null,
+      "archive_url": null,
+      "sha256": null
+    },
+    {
+      "id": "iped-ana-matos-mkt",
+      "kind": "iped",
+      "titulo": "Exportação forense (IPED) do celular de Vorcaro",
+      "orgao_ou_veiculo": "Fonte anônima",
+      "data": "2026",
+      "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Exportação HTML (IPED) 'WhatsApp Chat - Ana Matos Mkt - 5511943290909' — conversa completa DV x Ana Matos». Fonte anônima: não se sabe quem obteve a exportação nem onde foi publicada.",
       "file": null,
       "url": null,
       "download": null,

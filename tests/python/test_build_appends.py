@@ -80,6 +80,36 @@ class AppendMessages(unittest.TestCase):
             append_messages(base(), {"ana": [row(4, 4, "x", "2024-01-01 12:00:00")]})
         self.assertIn("própria linha", str(caught.exception))
 
+    def test_refuses_a_line_that_repeats_one_already_there(self):
+        # "b" by Ana at 11:00 is message 2: an anchor that missed it would
+        # show it twice.
+        with self.assertRaises(SystemExit) as caught:
+            append_messages(base(), {"ana": [row(4, 2, "b", "2024-01-01 11:00:00")]})
+        self.assertIn("mesma mensagem", str(caught.exception))
+        # Two added alike are the source's own (a file sent twice): kept.
+        convs = base()
+        append_messages(convs, {"ana": [row(4, 2, "z", "2024-01-01 12:00:00"),
+                                        row(5, 4, "z", "2024-01-01 12:00:00")]})
+        self.assertEqual(len(convs["ana"]["messages"]), 5)
+
+    def test_the_same_line_from_two_files_is_refused(self):
+        a = row(4, 2, "z", "2024-01-01 12:00:00")
+        b = {**row(5, 4, "Z", "2024-01-01 12:00:00"), "_where": "outro"}
+        with self.assertRaises(SystemExit):
+            append_messages(base(), {"ana": [a, b]})
+
+    def test_a_day_the_source_printed_out_of_time_is_not_refused(self):
+        convs = base()
+        convs["ana"]["messages"][1].update(time="09:00:00", timestamp="2024-01-01T09:00:00")
+        append_messages(convs, {"ana": [row(4, 1, "x", "2024-01-01 10:30:00")]})
+        self.assertEqual([m["id"] for m in convs["ana"]["messages"]], [1, 4, 2, 3])
+
+    def test_refuses_an_anchor_that_puts_a_day_out_of_time(self):
+        # 09:00 placed after the 11:00 message.
+        with self.assertRaises(SystemExit) as caught:
+            append_messages(base(), {"ana": [row(4, 2, "cedo", "2024-01-01 09:00:00")]})
+        self.assertIn("vem depois", str(caught.exception))
+
     def test_refuses_two_lines_at_one_spot(self):
         # They would come out in reverse; the converter chains them instead.
         for pair in ([row(4, 1, "x", "2024-01-01 10:30:00"), row(5, 1, "y", "2024-01-01 10:31:00")],
@@ -130,6 +160,11 @@ class Routing(unittest.TestCase):
         # Its own seal stays.
         added = self.run_docs(self.doc_rows(verification="reconstruido"))["ana"][0]
         self.assertEqual(added["verification"], "reconstruido")
+
+    def test_a_document_line_must_say_its_page(self):
+        no_page = {k: v for k, v in self.doc_rows()[0].items() if k != "page"}
+        with self.assertRaises(SystemExit):
+            self.run_docs([no_page])
 
     def test_a_document_line_with_its_own_source_needs_its_own_seal(self):
         with self.assertRaises(SystemExit):
