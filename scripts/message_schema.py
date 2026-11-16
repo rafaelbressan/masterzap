@@ -292,7 +292,7 @@ def validate_provenance(metadata, messages, sources, where):
         problems.append(f"{where}: verification da conversa inválida {metadata.get('verification')!r}")
     if problems:
         return problems
-    unofficial = 0
+    unofficial = unfiled = 0
     for msg in messages:
         if "source_id" in msg and msg["source_id"] not in sources:
             problems.append(f"{where} msg {msg.get('id')}: source_id inválido {msg['source_id']!r}")
@@ -304,7 +304,12 @@ def validate_provenance(metadata, messages, sources, where):
         source_id, seal = provenance_of(msg, metadata)
         if seal == "verificado" and sources[source_id].get("kind") not in OFFICIAL_KINDS:
             unofficial += 1
+        elif seal == "verificado" and not sources[source_id].get("file"):
+            unfiled += 1
     if unofficial:
         problems.append(f"{where}: {unofficial} mensagens 'verificado' sem documento oficial como fonte "
                         f"(kind precisa ser {' ou '.join(OFFICIAL_KINDS)})")
+    if unfiled:
+        problems.append(f"{where}: {unfiled} mensagens 'verificado' cuja fonte não tem o PDF no repositório "
+                        "(file); sem o documento, o selo é outro")
     return problems

@@ -1,0 +1,118 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "Marcelo Terra Firme"
+    ],
+    "saved_as": null,
+    "phone": "557196791894",
+    "date_range": {
+      "start": "2024-04-22",
+      "end": "2024-04-22"
+    },
+    "total_messages": 6,
+    "source": "Representação da PF — RioPrevidência e Cláudio Castro (Pet 15.497)",
+    "source_id": "pet-15497-representacao-pf-rioprevidencia",
+    "verification": "nao-verificado",
+    "note": "Trechos citados no documento da PF — a conversa completa não consta dele."
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": "2024-04-22T16:23:29",
+      "date": "2024-04-22",
+      "time": "16:23:29",
+      "sender": "DV",
+      "content": "Tudo bem?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_page": 45,
+      "note": "A mesma mensagem aparece também na p. 109 da representação."
+    },
+    {
+      "id": 2,
+      "timestamp": "2024-04-22T16:23:34",
+      "date": "2024-04-22",
+      "time": "16:23:34",
+      "sender": "DV",
+      "content": "Midias promotora 8 pau?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_page": 45,
+      "note": "A mesma mensagem aparece também na p. 109 da representação."
+    },
+    {
+      "id": 3,
+      "timestamp": "2024-04-22T16:24:59",
+      "date": "2024-04-22",
+      "time": "16:24:59",
+      "sender": "Marcelo Terra Firme",
+      "content": "Fala irmão",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_page": 45,
+      "note": "A mesma mensagem aparece também na p. 109 da representação."
+    },
+    {
+      "id": 4,
+      "timestamp": "2024-04-22T16:25:23",
+      "date": "2024-04-22",
+      "time": "16:25:23",
+      "sender": "Marcelo Terra Firme",
+      "content": "Bati com Félix hj de manhã. Ele disse q validou na sexta e pediu pra pagar hj somente",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "quoted": "Midias promotora 8 pau?",
+      "source_page": 45,
+      "note": "A mesma mensagem aparece também na p. 109 da representação.",
+      "quoted_id": 2,
+      "quoted_sender": "DV"
+    },
+    {
+      "id": 5,
+      "timestamp": "2024-04-22T16:28:15",
+      "date": "2024-04-22",
+      "time": "16:28:15",
+      "sender": "Marcelo Terra Firme",
+      "content": "O valor eh esse mesmo.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_page": 45,
+      "note": "A mesma mensagem aparece também na p. 109 da representação."
+    },
+    {
+      "id": 6,
+      "timestamp": "2024-04-22T16:28:28",
+      "date": "2024-04-22",
+      "time": "16:28:28",
+      "sender": "Marcelo Terra Firme",
+      "content": "Se quiser posso te ligar pra alinhar",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_page": 45,
+      "note": "A mesma mensagem aparece também na p. 109 da representação."
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "2024-04-22",
+        "message_count": 6,
+        "first_message_id": 1,
+        "last_message_id": 6
+      }
+    ]
+  }
+}

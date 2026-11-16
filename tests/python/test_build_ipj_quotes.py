@@ -63,6 +63,18 @@ class ResolveQuotes(unittest.TestCase):
         self.assertEqual(msgs[2]["quoted_id"], 1)
         self.assertNotIn("quoted_type", msgs[2])
 
+    def test_a_quoted_link_is_the_message_with_that_address(self):
+        msgs = [m(1, "Ric", "https://o.globo/x?a=1\n[Título]\nTexto longo da prévia", "link"),
+                m(2, "Ric", "muito bom", quoted="https://o.globo/x?a=1 [Título]")]
+        resolve_quotes("c", msgs)
+        self.assertEqual(msgs[1]["quoted_id"], 1)
+
+    def test_a_document_without_a_name_is_quoted_by_its_caption(self):
+        msgs = [m(1, "Ric", "[documento — PDF; nome do arquivo não exibido] Banco Master S.A", "document"),
+                m(2, "Ric", "parabens", quoted="Banco Master S.A")]
+        resolve_quotes("c", msgs)
+        self.assertEqual((msgs[1]["quoted_id"], msgs[1]["quoted_type"]), (1, "document"))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -373,6 +373,49 @@ export const OTHER_PROFILES = {
       ],
     }],
   },
+  'mauricio-quadrado': {
+    about: 'Letras financeiras e o RioPrevidência',
+    sections: [{
+      title: 'Maurício Quadrado',
+      paragraphs: [
+        { text: 'No celular de Vorcaro, salvo como "Mauricio Quadrado". Em 12 de março de 2024, os dois falam de uma letra financeira oferecida ao RioPrevidência, e Vorcaro recua: "{Melhor nao mexer nesses negocios do rio}[action:search@mauricio-quadrado:negocios do rio]".' },
+        { text: 'Segundo a coluna de Natália Portinari no UOL, de 13 de novembro de 2026, em fevereiro de 2024 Quadrado acompanhou com Vorcaro um julgamento no STF: "{No STF está 3 a 3}[action:search@mauricio-quadrado:3 a 3]".' },
+        { text: 'As mensagens de março são da representação da PF sobre o RioPrevidência (Pet 15.497), na transcrição de outro projeto; o documento não foi localizado, e por isso levam o selo "não verificado".' },
+      ],
+    }],
+  },
+  'marcelo-terra-firme': {
+    about: 'Pagamento de 22/04/2024',
+    sections: [{
+      title: 'Marcelo Terra Firme',
+      paragraphs: [
+        { text: 'Seis mensagens de 22 de abril de 2024. Vorcaro pergunta sobre um pagamento — "{Midias promotora 8 pau?}[action:search@marcelo-terra-firme:Midias promotora]" — e Marcelo responde que o valor foi validado por "{Félix}[action:search@marcelo-terra-firme:Félix]".' },
+        { text: 'As mensagens são da representação da PF sobre o RioPrevidência (Pet 15.497), na transcrição de outro projeto; o documento não foi localizado, e por isso levam o selo "não verificado".' },
+      ],
+    }],
+  },
+  'ricardo-gordo-siqueira-rodrigues': {
+    about: 'Captação com RPPS',
+    sections: [{
+      title: 'Ricardo Siqueira Rodrigues',
+      paragraphs: [
+        { text: 'No celular de Vorcaro, salvo como "Ricardo Gordo Siqueira rodrigues". As conversas, de dezembro de 2023 a outubro de 2024, tratam da captação de letras financeiras com fundos de previdência de estados e municípios: "{RPPS, não eh fdp de pensao}[action:search@ricardo-gordo-siqueira-rodrigues:RPPS]".' },
+        { text: 'Em junho de 2024, ele manda uma planilha de captações e conta "{1,2bi até agora}[action:search@ricardo-gordo-siqueira-rodrigues:1,2bi]". Em outubro, comemora com Vorcaro uma notícia sobre o banco: "{Esfregar na cara da turma}[action:search@ricardo-gordo-siqueira-rodrigues:Esfregar na cara]".' },
+        { text: 'As mensagens são da representação da PF sobre o RioPrevidência (Pet 15.497), na transcrição de outro projeto; o documento não foi localizado, e por isso levam o selo "não verificado".' },
+      ],
+    }],
+  },
+  'augusto-lima': {
+    about: 'RioPrevidência e a nota da Fitch',
+    sections: [{
+      title: 'Augusto Lima',
+      paragraphs: [
+        { text: 'No celular de Vorcaro, salvo como "Augusto Ebal". Em 1º de outubro de 2024, Vorcaro pede ajuda contra a repercussão de uma denúncia sobre a aplicação do RioPrevidência no Master: "{A noticia conseguimos tirar do ar}[action:search@augusto-lima:tirar do ar]", e "{Agora precisa tirar o instagram do cara}[action:search@augusto-lima:instagram do cara]".' },
+        { text: 'No dia seguinte, comemora a nota da Fitch: "{Subimos dois niveis}[action:search@augusto-lima:dois niveis]". Em abril de 2025, pergunta a Augusto sobre uma fatia da taxa de um empréstimo que ficaria com o RioPrevidência.' },
+        { text: 'As mensagens de outubro de 2024 e de abril de 2025 são da representação da PF sobre o RioPrevidência (Pet 15.497), na transcrição de outro projeto; o documento não foi localizado, e por isso levam o selo "não verificado". As de dezembro de 2024 a 3 de abril de 2025 vêm de matérias citadas por aquele projeto (selo "imprensa") e de um trecho sem veículo identificado; cada uma diz de onde veio.' },
+      ],
+    }],
+  },
 
   'gustavo-motorista': {
     about: 'Motorista — São Paulo',

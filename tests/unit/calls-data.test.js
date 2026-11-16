@@ -18,7 +18,8 @@ describe('calls.json', () => {
   });
 
   it('is newest first', () => {
-    const stamps = calls.map(c => c.timestamp);
+    // A call with no known time sorts by its date, as split_data.py does.
+    const stamps = calls.map(c => c.timestamp || c.date);
     expect(stamps).toEqual([...stamps].sort().reverse());
   });
 
