@@ -6,6 +6,7 @@ esquema abaixo.
 
 | Arquivo | Conteúdo |
 |---|---|
+| `aliases.json` | O tesauro da busca: `{conversa: [outros nomes]}`. A busca da lista acha a conversa também por eles (e pelo nome salvo no celular), e mostra embaixo do nome qual casou. Um id que não existe para a build |
 | `sources.json` | Um registro por documento de origem. Toda mensagem aponta para um deles |
 | `messages.json` | A conversa com Martha Graeff (export de WhatsApp) |
 | `conversations/*.json` | Uma conversa por arquivo, geradas por `scripts/build_ipj_data.py` a partir de `ipj-3298613/` |

@@ -5,6 +5,16 @@ import { matchConversations, matchMessages } from '../../src/components/SearchPa
 const conv = (id, name) => ({ id, participants: ['DV', name] });
 
 describe('matchConversations()', () => {
+  it('finds a chat by another name, after the names that match, saying which', () => {
+    const sicario = { ...conv('sicario-master', 'Sicário'), aliases: ['Felipe Mourão', 'sicario master'] };
+    const list = [sicario, conv('m', 'Mourão Filho')];
+    const found = matchConversations(list, 'mourao');
+    expect(found.map(m => m.conv.id)).toEqual(['m', 'sicario-master']);
+    expect(found[1]).toMatchObject({ name: 'Sicário', alias: 'Felipe Mourão', start: 7, end: 13 });
+    // A name match is not repeated by an alias.
+    expect(matchConversations([sicario], 'sicario').map(m => m.alias)).toEqual([undefined]);
+  });
+
   const list = [conv('vivi', 'Vivi Moraes'), conv('ale', 'Alexandre de Moraes'), conv('mor', 'Moraes Filho'), conv('x', 'Outro')];
 
   it('finds by any part of the name, without accents, names that start with it first', () => {

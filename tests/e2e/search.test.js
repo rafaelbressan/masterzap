@@ -131,6 +131,15 @@ test.describe('Search across conversations', () => {
     await expect(page.locator('.search-result-item').first()).toBeVisible();
   });
 
+  test('another name of a contact finds the chat, and says which name matched', async ({ page }) => {
+    // The thesaurus (data/aliases.json): "Sicário" is Felipe Mourão.
+    await page.locator('.sidebar-search-input').fill('Felipe Mourão');
+    const chat = page.locator('.search-results .conversation-item[data-id="sicario-master"]');
+    await expect(chat).toBeVisible({ timeout: 10000 });
+    await expect(chat.locator('.conversation-item-name')).toHaveText('Sicário');
+    await expect(chat.locator('.conversation-item-preview .search-highlight')).toHaveText('Felipe Mourão');
+  });
+
   test('messages come from every conversation, newest first', async ({ page }) => {
     await page.locator('.sidebar-search-input').fill('moraes');
     await page.locator('.search-result-item').first().waitFor({ timeout: 10000 });

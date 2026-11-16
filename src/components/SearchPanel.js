@@ -35,20 +35,32 @@ function highlightMatch(content, start, end) {
   return `${before}<mark class="search-highlight">${match}</mark>${after}`;
 }
 
-/** The chats whose name matches, those starting with the query first. */
+/**
+ * The chats whose name matches, those starting with the query first; then
+ * those found by another name (`aliases`: the thesaurus and how the contact
+ * was saved), which say which name matched.
+ */
 export function matchConversations(conversations, query) {
   const q = normalize(query);
   const matches = [];
   for (const conv of conversations) {
     const name = conversationName(conv);
     const start = normalize(name).indexOf(q);
-    if (start === -1) continue;
-    // Offsets into the normalized name, which for the names here (composed
-    // characters) line up with the name itself.
-    matches.push({ conv, name, start, end: start + q.length });
+    if (start !== -1) {
+      // Offsets into the normalized name, which for the names here (composed
+      // characters) line up with the name itself.
+      matches.push({ conv, name, start, end: start + q.length });
+      continue;
+    }
+    for (const alias of conv.aliases || []) {
+      const at = normalize(alias).indexOf(q);
+      if (at === -1) continue;
+      matches.push({ conv, name, alias, start: at, end: at + q.length });
+      break;
+    }
   }
-  return matches.sort((a, b) => (a.start === 0 ? 0 : 1) - (b.start === 0 ? 0 : 1)
-    || a.name.localeCompare(b.name, 'pt-BR'));
+  const rank = (m) => (m.alias ? 2 : m.start === 0 ? 0 : 1);
+  return matches.sort((a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name, 'pt-BR'));
 }
 
 /**
@@ -214,8 +226,11 @@ export function attachSearch(sidebar, conversations, { onConversationClick, onMe
       const chatsSection = section('Conversas');
       const list = document.createElement('div');
       list.setAttribute('role', 'list');
-      for (const { conv, name, start, end } of chats) {
-        const item = buildConversationItem(conv, { nameHtml: highlightMatch(name, start, end) });
+      for (const { conv, name, alias, start, end } of chats) {
+        // Found by another name: the name as it is, and that name under it.
+        const item = alias
+          ? buildConversationItem(conv, { previewHtml: highlightMatch(alias, start, end) })
+          : buildConversationItem(conv, { nameHtml: highlightMatch(name, start, end) });
         // The open chat is marked as in the list.
         item.classList.toggle('active', conv.id === activeId());
         onKeyActivate(item, () => onConversationClick(conv.id));
