@@ -1,0 +1,46 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "interlocutor-nao-identificado-01"
+    ],
+    "saved_as": null,
+    "phone": null,
+    "date_range": {
+      "start": "sem-data",
+      "end": "sem-data"
+    },
+    "total_messages": 1,
+    "source": "Reportagem da Veja sobre os negócios e festas de Daniel Vorcaro com Anitta.",
+    "source_id": "fork-interlocutor-nao-identificado-01",
+    "verification": "imprensa",
+    "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": null,
+      "date": "sem-data",
+      "time": null,
+      "sender": "DV",
+      "content": "Cara, essa Anitta tem alguma coisa diferente. Ela ficou dançando comigo. Foi por um triz. Se eu não tivesse apaixonado…",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_id": "fork-interlocutor-nao-identificado-01-reportagem-da-veja-data-nao-divulgada-e-",
+      "verification": "imprensa",
+      "date_precision": "none"
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "sem-data",
+        "message_count": 1,
+        "first_message_id": 1,
+        "last_message_id": 1
+      }
+    ]
+  }
+}

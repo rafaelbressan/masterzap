@@ -59,7 +59,8 @@ describe('the JSON', () => {
   });
 
   it('keeps the page and figure of the police report on every message that has one', () => {
-    const fromReport = conversations.filter(c => c.source?.startsWith('IPJ-A'));
+    // Verified ones: a report without its PDF here (IPJ-A 270/276) carries no page.
+    const fromReport = conversations.filter(c => c.source?.startsWith('IPJ-A') && c.verification === 'verificado');
     expect(fromReport.length).toBeGreaterThan(0);
     for (const conv of fromReport) {
       for (const msg of json(conv.id).messages) {

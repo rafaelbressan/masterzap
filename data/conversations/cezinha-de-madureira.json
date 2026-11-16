@@ -1,0 +1,151 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "Cezinha de Madureira"
+    ],
+    "saved_as": "cezinha-de-madureira",
+    "phone": null,
+    "date_range": {
+      "start": "2025-03-13",
+      "end": "2025-03-14"
+    },
+    "total_messages": 9,
+    "source": "1 captura de tela de conversa de WhatsApp com marca d'água 'arkanto company' (arquivos 1791815573038_image.png e 1791815578364_image.png, idênticos; transcrito ",
+    "source_id": "fork-cezinha-de-madureira",
+    "verification": "imprensa",
+    "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": null,
+      "date": "2025-03-13",
+      "time": null,
+      "sender": "DV",
+      "content": "Show",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Balão cortado na borda superior do print; texto 'Show' legível. Data 2025-03-13 inferida: a mensagem está acima do separador '14 De Março De 2025' e a id 4 diz 'Amanhã sexta dia 14'; o separador do dia anterior não aparece no recorte."
+    },
+    {
+      "id": 2,
+      "timestamp": null,
+      "date": "2025-03-13",
+      "time": null,
+      "sender": "DV",
+      "content": "Marcado",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Data 2025-03-13 inferida: a mensagem está acima do separador '14 De Março De 2025' e a id 4 diz 'Amanhã sexta dia 14'; o separador do dia anterior não aparece no recorte."
+    },
+    {
+      "id": 3,
+      "timestamp": null,
+      "date": "2025-03-13",
+      "time": null,
+      "sender": "Cezinha de Madureira",
+      "content": "Estarei lá lara te receber",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Grafia preservada. 'lara' pode ser erro de digitação ou nome próprio; não resolvido. Data 2025-03-13 inferida: a mensagem está acima do separador '14 De Março De 2025' e a id 4 diz 'Amanhã sexta dia 14'; o separador do dia anterior não aparece no recorte."
+    },
+    {
+      "id": 4,
+      "timestamp": null,
+      "date": "2025-03-13",
+      "time": null,
+      "sender": "Cezinha de Madureira",
+      "content": "Amanhã sexta dia 14 às 17:00",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Data 2025-03-13 inferida: a mensagem está acima do separador '14 De Março De 2025' e a id 4 diz 'Amanhã sexta dia 14'; o separador do dia anterior não aparece no recorte."
+    },
+    {
+      "id": 5,
+      "timestamp": null,
+      "date": "2025-03-13",
+      "time": null,
+      "sender": "DV",
+      "content": "Chamada de voz perdida",
+      "type": "call",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Balão verde à direita (lado do titular); o print mostra o rótulo 'sem hora' no lugar do horário. Posição entre a id 4 e o separador do dia 14. Data 2025-03-13 inferida: a mensagem está acima do separador '14 De Março De 2025' e a id 4 diz 'Amanhã sexta dia 14'; o separador do dia anterior não aparece no recorte."
+    },
+    {
+      "id": 6,
+      "timestamp": null,
+      "date": "2025-03-14",
+      "time": null,
+      "sender": "DV",
+      "content": "Fala amigo",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 7,
+      "timestamp": null,
+      "date": "2025-03-14",
+      "time": null,
+      "sender": "DV",
+      "content": "Estou a caminho",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 8,
+      "timestamp": null,
+      "date": "2025-03-14",
+      "time": null,
+      "sender": "Cezinha de Madureira",
+      "content": "Chamada de voz — duração 00:20",
+      "type": "call",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Registro de chamada de voz com duração 00:20, exibido no lado do contato (balão branco à esquerda)."
+    },
+    {
+      "id": 9,
+      "timestamp": null,
+      "date": "2025-03-14",
+      "time": null,
+      "sender": "Cezinha de Madureira",
+      "content": "Ministro já está te esperando",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "2025-03-13",
+        "message_count": 5,
+        "first_message_id": 1,
+        "last_message_id": 5
+      },
+      {
+        "date": "2025-03-14",
+        "message_count": 4,
+        "first_message_id": 6,
+        "last_message_id": 9
+      }
+    ]
+  }
+}

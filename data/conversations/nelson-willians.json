@@ -1,0 +1,105 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "Nelson Wilians"
+    ],
+    "saved_as": null,
+    "phone": null,
+    "date_range": {
+      "start": "2024-10-11",
+      "end": "2024-10-27"
+    },
+    "total_messages": 5,
+    "source": "Trechos literais citados em matéria colada pelo usuário (veículo e data de publicação não informados)",
+    "source_id": "fork-nelson-willians",
+    "verification": "nao-verificado",
+    "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": null,
+      "date": "2024-10-11",
+      "time": null,
+      "sender": "Nelson Wilians",
+      "content": "Te interessa entrar no negócio de BET? Pergunto porque temos algumas para serem vendidas e relativamente regularizadas.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 2,
+      "timestamp": null,
+      "date": "2024-10-11",
+      "time": null,
+      "sender": "DV",
+      "content": "Interesse total.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 3,
+      "timestamp": null,
+      "date": "2024-10-11",
+      "time": null,
+      "sender": "Nelson Wilians",
+      "content": "[fala em] \"duas nas mãos\", uma \"grande que você sabe qual é\" e outra \"pequena\"; diz para \"afiasse o machado\" e amarrar um \"eventual parceiro do exterior\"",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Paráfrase: o texto da mensagem não foi publicado; o que está aqui descreve o que ela dizia.",
+      "verification": "reconstruido"
+    },
+    {
+      "id": 4,
+      "timestamp": null,
+      "date": "2024-10-25",
+      "time": null,
+      "sender": "Nelson Wilians",
+      "content": "Não esqueças daquele nosso assunto e se não houver interesse me fale. Somos amigos independe disso.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 5,
+      "timestamp": null,
+      "date": "2024-10-27",
+      "time": null,
+      "sender": "Nelson Wilians",
+      "content": "PIXBET é uma que está no ponto para venda.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "2024-10-11",
+        "message_count": 3,
+        "first_message_id": 1,
+        "last_message_id": 3
+      },
+      {
+        "date": "2024-10-25",
+        "message_count": 1,
+        "first_message_id": 4,
+        "last_message_id": 4
+      },
+      {
+        "date": "2024-10-27",
+        "message_count": 1,
+        "first_message_id": 5,
+        "last_message_id": 5
+      }
+    ]
+  }
+}

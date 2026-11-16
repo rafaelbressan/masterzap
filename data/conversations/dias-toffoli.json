@@ -1,0 +1,142 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "Dias Toffoli"
+    ],
+    "saved_as": "dias-toffoli",
+    "phone": null,
+    "date_range": {
+      "start": "2023-10-30",
+      "end": "2024-08-14"
+    },
+    "total_messages": 6,
+    "source": "piauí: infográfico 'O WhatsApp de Vorcaro' (bloco 'Dias Toffoli') e reportagem sobre o relatório da PF (Informação de Polícia Judiciária de Análise nº 893171/20",
+    "source_id": "fork-dias-toffoli",
+    "verification": "imprensa",
+    "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": null,
+      "date": "2023-10-30",
+      "time": null,
+      "sender": "Dias Toffoli",
+      "content": "[Convite para a celebração dos 56 anos do ministro, em 19/11/2023, no Bar dos Arcos, em São Paulo — texto da mensagem não reproduzido]",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "CONTEÚDO DESCRITO PELA MATÉRIA, não transcrito. Segundo a piauí, é a primeira mensagem trocada entre os dois. Horário não informado. Não há confirmação de que Vorcaro foi à festa; dois dias antes ele escreveu a uma terceira pessoa 'Vou para SP domingo' e 'Aniversário do Toffoli'.",
+      "source_id": "fork-dias-toffoli-piaui-reportagem-sobre-o-relatorio-da-pf",
+      "verification": "imprensa"
+    },
+    {
+      "id": 2,
+      "timestamp": null,
+      "date": "2024-03-06",
+      "time": null,
+      "sender": "Dias Toffoli",
+      "content": "9h da manhã",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Enviada 23 segundos depois da mensagem com o endereço (id 2). O segundo exato do id 2 não é informado, então o horário (20:28 ou 20:29) ficou vazio.",
+      "source_id": "fork-dias-toffoli-piaui-reportagem-sobre-o-relatorio-da-pf",
+      "verification": "imprensa"
+    },
+    {
+      "id": 3,
+      "timestamp": "2024-03-06T20:28:00",
+      "date": "2024-03-06",
+      "time": "20:28:00",
+      "sender": "Dias Toffoli",
+      "content": "[Endereço residencial no Lago Norte, Brasília — endereço não reproduzido]",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "CONTEÚDO DESCRITO PELA MATÉRIA, não transcrito. Enviada depois de duas chamadas telefônicas entre os dois, segundo a PF. A PF considera o endereço compatível com a região de residência do ministro segundo fontes abertas e vê como plausível que Vorcaro o tenha visitado em casa no dia seguinte.",
+      "source_id": "fork-dias-toffoli-piaui-reportagem-sobre-o-relatorio-da-pf",
+      "verification": "imprensa"
+    },
+    {
+      "id": 4,
+      "timestamp": null,
+      "date": "2024-03-07",
+      "time": null,
+      "sender": "Dias Toffoli",
+      "content": "Tranquilo",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "quoted": "Bom dia tudo bem? A caminho, Pelo waze devo me atrasar uns 15 minutos",
+      "quoted_sender": "DV",
+      "note": "Resposta de Toffoli à mensagem anterior. Horário não informado.",
+      "source_id": "fork-dias-toffoli-piaui-reportagem-sobre-o-relatorio-da-pf",
+      "verification": "imprensa"
+    },
+    {
+      "id": 5,
+      "timestamp": "2024-03-07T08:39:00",
+      "date": "2024-03-07",
+      "time": "08:39:00",
+      "sender": "DV",
+      "content": "Bom dia tudo bem? A caminho, Pelo waze devo me atrasar uns 15 minutos",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Contexto: encontro das 9h combinado na noite anterior (ids 2 e 3).",
+      "source_id": "fork-dias-toffoli-piaui-reportagem-sobre-o-relatorio-da-pf",
+      "verification": "imprensa"
+    },
+    {
+      "id": 6,
+      "timestamp": "2024-08-14T08:42:00",
+      "date": "2024-08-14",
+      "time": "08:42:00",
+      "sender": "DV",
+      "content": "Oi tudo bem? Gostaria de te ver rapidamente, voce teria algum horário hoje?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_figure": "infográfico 'O WhatsApp de Vorcaro' (piauí), bloco 'Dias Toffoli'",
+      "note": "Texto e horário conforme o infográfico (grafia 'voce'; a reportagem traz 'você'). O infográfico não mostra data; 14/08/2024 vem da reportagem, cuja cronologia bate com os horários do infográfico. Enviada 35 segundos depois de Vorcaro avisar Fábio Faria 'Vou mandar uma mensagem pro Toffoli' (08:41). Segundo a piauí, aparentemente para dar explicações sobre o atraso nos aportes ligados ao Tayayá/Arleen. O relatório não registra resposta do ministro.",
+      "source_id": "fork-dias-toffoli-piaui-infografico-o-whatsapp-de-vorcaro-",
+      "verification": "imprensa"
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "2023-10-30",
+        "message_count": 1,
+        "first_message_id": 1,
+        "last_message_id": 1
+      },
+      {
+        "date": "2024-03-06",
+        "message_count": 2,
+        "first_message_id": 2,
+        "last_message_id": 3
+      },
+      {
+        "date": "2024-03-07",
+        "message_count": 2,
+        "first_message_id": 4,
+        "last_message_id": 5
+      },
+      {
+        "date": "2024-08-14",
+        "message_count": 1,
+        "first_message_id": 6,
+        "last_message_id": 6
+      }
+    ]
+  }
+}

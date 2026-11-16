@@ -1,0 +1,67 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "Selma"
+    ],
+    "saved_as": "Selma (empregada)",
+    "phone": null,
+    "date_range": {
+      "start": "2025-03-01",
+      "end": "2025-03-01"
+    },
+    "total_messages": 3,
+    "source": "Captura de tela com marca d'água 'piauí', enviada pelo usuário. Documento de origem não informado.",
+    "source_id": "fork-selma-empregada",
+    "verification": "imprensa",
+    "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": "2025-03-01T08:41:00",
+      "date": "2025-03-01",
+      "time": "08:41:00",
+      "sender": "Selma",
+      "content": "Bom dia tudo bem?\nEu posso folgar segunda e terça?\nQualquer coisa eu vou hoje sar uma organizada aí",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 2,
+      "timestamp": "2025-03-01T08:44:00",
+      "date": "2025-03-01",
+      "time": "08:44:00",
+      "sender": "DV",
+      "content": "Nao precisa vir hoje",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 3,
+      "timestamp": "2025-03-01T08:46:00",
+      "date": "2025-03-01",
+      "time": "08:46:00",
+      "sender": "Selma",
+      "content": "Eu esqueci de avisar ontem sua carteira deixei dentro da gaveta e a porta do quarto de hospede masculino eu fechei a chave está naquele livro em frente ao seu quarto ok",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "2025-03-01",
+        "message_count": 3,
+        "first_message_id": 1,
+        "last_message_id": 3
+      }
+    ]
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "Andre Esteves"
+    ],
+    "saved_as": null,
+    "phone": "5511950793482",
+    "date_range": {
+      "start": "2025-04-23",
+      "end": "2025-04-23"
+    },
+    "total_messages": 7,
+    "source": "Captura de tela (registros #963124 a #963712) enviada pelo usuário — origem do documento não identificada",
+    "source_id": "fork-andre-esteves",
+    "verification": "nao-verificado",
+    "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": "2025-04-23T16:03:35",
+      "date": "2025-04-23",
+      "time": "16:03:35",
+      "sender": "Andre Esteves",
+      "content": "Sim, o tom da cobertura mudou bastante. Por outro lado, ela (Adriana) acabou de nos mandar um pedido que estávamos discutindo aqui internamente…\n\nGostaria de ouvir o BTG sobre a proposta de aumento da CSLL para os grandes bancos do senador Ciro Nogueira como compensação da desoneração da faixa de isenção. A reportagem da Folha apurou que por trás da emenda do senador está uma tentativa de retaliação ao chaiman do BTG, André Esteves, em razão da sua atuação no caso Master.\n\nGostaria de ouvir o BTG sobre a emenda de Nogueira que foi apresentada ao relator do PL, deputado Arthur Lira.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "forwarded": true,
+      "note": "Registro #963125. Mensagem encaminhada; trecho após a reticência em itálico no print. Grafia 'chaiman' conforme o original."
+    },
+    {
+      "id": 2,
+      "timestamp": "2025-04-23T16:04:02",
+      "date": "2025-04-23",
+      "time": "16:04:02",
+      "sender": "Andre Esteves",
+      "content": "Tenta matar isso que não acho legal pra ninguém…👆",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Registro #963124 (numeração anterior à da mensagem 1 no print, com timestamp posterior)."
+    },
+    {
+      "id": 3,
+      "timestamp": "2025-04-23T16:36:54",
+      "date": "2025-04-23",
+      "time": "16:36:54",
+      "sender": "DV",
+      "content": "Eu nem tava sabendo disso!\nE é um contrasenso né, retaliação com arthur lira?\nDe toda forma vou atras agora e te falo",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Registro #963205. Duplo check azul (lida)."
+    },
+    {
+      "id": 4,
+      "timestamp": "2025-04-23T16:38:01",
+      "date": "2025-04-23",
+      "time": "16:38:01",
+      "sender": "Andre Esteves",
+      "content": "E aquela Adriana da Folha…",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Registro #963219."
+    },
+    {
+      "id": 5,
+      "timestamp": "2025-04-23T16:41:31",
+      "date": "2025-04-23",
+      "time": "16:41:31",
+      "sender": "DV",
+      "content": "Te dou noticia",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Registro #963248. Duplo check azul (lida)."
+    },
+    {
+      "id": 6,
+      "timestamp": "2025-04-23T19:16:22",
+      "date": "2025-04-23",
+      "time": "19:16:22",
+      "sender": "Andre Esteves",
+      "content": "Amanhã não, ainda hoje te ligo!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Registro #963647. Cabeçalho do relatório antes desta mensagem: '19H16 E 20H23 | PROMESSA DE CONTATO E LIGAÇÃO DE 17MIN015' (grafia conforme o print)."
+    },
+    {
+      "id": 7,
+      "timestamp": "2025-04-23T20:23:50",
+      "date": "2025-04-23",
+      "time": "20:23:50",
+      "sender": "DV",
+      "content": "Chamada de voz — duração 17:01",
+      "type": "call",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Registro #963712. Balão de chamada do lado de DV (remetente na direita do print)."
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "2025-04-23",
+        "message_count": 7,
+        "first_message_id": 1,
+        "last_message_id": 7
+      }
+    ]
+  }
+}

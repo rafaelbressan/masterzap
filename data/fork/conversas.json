@@ -1,0 +1,370 @@
+{
+  "acm-neto": {
+    "name": "ACM Neto",
+    "saved_as": "acm-neto",
+    "phone": null,
+    "source_id": "fork-acm-neto",
+    "verification": "imprensa",
+    "fork_note": "Trechos citados, não o chat integral. Grafia conforme publicada. Nas mensagens identificadas apenas por mês, o primeiro dia é um marcador técnico de ordenação; o dia e o horário reais não foram informados."
+  },
+  "amiga-anonima-01": {
+    "name": "amiga-anonima-01",
+    "saved_as": "amiga-anonima-01",
+    "phone": null,
+    "source_id": "fork-amiga-anonima-01",
+    "verification": "nao-verificado",
+    "fork_note": "O mês de julho de 2024 foi informado pelo usuário; dia e horário não foram fornecidos. A destinatária é descrita como uma amiga não identificada publicamente. O contexto de festa na noite anterior e o teor do texto são apresentados como relato atribuído a Daniel Vorcaro, sem referência da publicação ou confirmação independente."
+  },
+  "andre-esteves": {
+    "name": "Andre Esteves",
+    "saved_as": "Andre Esteves",
+    "phone": "5511950793482",
+    "source_id": "fork-andre-esteves",
+    "verification": "nao-verificado",
+    "fork_note": "Transcrição manual de um único print. Horários exibidos com fuso -03:00 (removido dos timestamps). Cabeçalhos em azul entre mensagens são anotações do relatório de origem, não datas de WhatsApp."
+  },
+  "andre-valadao": {
+    "name": "André Valadão",
+    "saved_as": "andre-valadao",
+    "phone": "14078202598",
+    "source_id": "fork-andre-valadao",
+    "verification": "nao-verificado",
+    "fork_note": "Trechos citados em documentos da PF — a conversa completa não é pública. Ids de 27/04/2024 (source 'press', verified false): hora não informada, por isso timestamp traz só a data e time é null; citação de ICL Notícias, 03/09/2026, sem print correspondente. Demais mensagens (source 'screenshot', verified true): transcritas literalmente de capturas de tela com data, hora e fuso -03:00 (08/04, 16/04, 29/04, 23/07 e 31/07/2024); o nome aparece como 'Andre Valadao' nos prints e o cabeçalho de um deles mostra o número 14078202598. 'quoted' traz o texto da mensagem citada quando o print mostra uma resposta; reply_to_id só é preenchido quando a mensagem citada está no arquivo. IDs renumerados em ordem cronológica. Arquivo convertido do formato de exportação do site (export/conversation/profile/messages) para o formato metadata/messages/index; os blocos 'export' e 'profile' não foram mantidos. O áudio de 16/04/2024 15:33:50 e o vídeo encaminhado de 23/07/2024 12:02:06 aparecem nos prints só como arquivos sem reprodução; não foram transcritos."
+  },
+  "antonio-rueda-g003-contexto": {
+    "name": "Antonio Rueda",
+    "saved_as": "Antonio Rueda",
+    "phone": null,
+    "source_id": "fork-antonio-rueda-g003-contexto",
+    "verification": "imprensa",
+    "fork_note": "Conversa privada relacionada ao grupo Reunião semanal. A reportagem informa que o encontro foi transferido para terça-feira."
+  },
+  "assessor-anonimo": {
+    "name": "Assessor (sem nome)",
+    "saved_as": "Assessor (sem nome)",
+    "phone": null,
+    "source_id": "fork-assessor-anonimo",
+    "verification": "nao-verificado",
+    "fork_note": "Interlocutor não identificado pela matéria ('assessor sem nome'). Apenas um trecho citado; horário não informado."
+  },
+  "cezinha-de-madureira": {
+    "name": "Cezinha de Madureira",
+    "saved_as": "cezinha-de-madureira",
+    "phone": null,
+    "source_id": "fork-cezinha-de-madureira",
+    "verification": "imprensa",
+    "fork_note": "Texto transcrito literalmente, preservando grafia e pontuação como aparecem no print. O print não mostra nome do contato, cabeçalho nem telefone: o nome 'Cezinha de Madureira' foi informado pelo usuário para esta conversa e o titular do aparelho (balões verdes, à direita) foi rotulado 'DV' seguindo as demais conversas do conjunto; ambos os rótulos devem ser confirmados. O print mostra apenas hora e minuto, sem segundos nem fuso; por isso 'timestamp' é null em todos os registros e 'date' e 'time' trazem o que está visível. A data 2025-03-13 das ids 1 a 5 é inferida (ver notes). Inclui 2 registros de chamada de voz (type 'call'): 1 perdida (sem hora) e 1 com duração 00:20. Todos os horários aparecem sem seus separadores de data originais, exceto '14 De Março De 2025'. O print é um recorte: há mensagens antes e depois fora do quadro."
+  },
+  "chiquinho-feitosa": {
+    "name": "Chiquinho Feitosa",
+    "saved_as": "Chiquinho Feitosa",
+    "phone": null,
+    "source_id": "fork-chiquinho-feitosa",
+    "verification": "nao-verificado",
+    "fork_note": "Transcrição dos eventos visíveis nas duas capturas. A conversa completa não está disponível. Números de telefone e outros dados foram ocultados nas imagens. Horários conforme exibidos nas capturas, fuso UTC-03:00."
+  },
+  "ciro-gomes": {
+    "name": "Ciro Gomes",
+    "saved_as": "Ciro Gomes",
+    "phone": null,
+    "source_id": "fork-ciro-gomes",
+    "verification": "nao-verificado",
+    "fork_note": "Mensagens atribuídas a Daniel Vorcaro e Ciro Gomes. Datas e horários conforme aparecem na captura de tela, incluindo o fuso -03:00."
+  },
+  "dani-alves": {
+    "name": "Daniel Alves",
+    "saved_as": "daniel-alves",
+    "phone": null,
+    "source_id": "fork-dani-alves",
+    "verification": "imprensa",
+    "fork_note": "Texto transcrito literalmente, preservando grafia, pontuação, emojis e ausência de acentos como aparecem nos prints. Trechos tarjados de preto não são legíveis. Remetente 'DV' conforme exibido; o contato aparece como 'Daniel Alves' nos prints de 2019 e 'Dani Alves' nos de 2024, padronizado como 'Daniel Alves'. Fusos conforme exibido (-02:00 em 2019, -03:00 em 2024). Os prints são recortes: há lacunas entre os blocos e entre 2019 e 2024. O nome de um dos arquivos de print indica 25/03/2025, mas os carimbos mostram 2024-07-11. Nenhuma mensagem aparece como resposta citada, então reply_to_id é null em todas."
+  },
+  "davi-acolumbre": {
+    "name": "Davi Alcolumbre Presidente",
+    "saved_as": "Davi Alcolumbre Presidente",
+    "phone": null,
+    "source_id": "fork-davi-acolumbre",
+    "verification": "imprensa",
+    "fork_note": "Trechos informados pelo usuário, atribuídos a Daniel Vorcaro e Davi Alcolumbre Presidente. Datas e horários conforme a transcrição fornecida; segundos preenchidos com :00 quando a fonte informa apenas o minuto."
+  },
+  "dias-toffoli": {
+    "name": "Dias Toffoli",
+    "saved_as": "dias-toffoli",
+    "phone": null,
+    "source_id": "fork-dias-toffoli",
+    "verification": "imprensa",
+    "fork_note": "Reconstituição parcial: reúne apenas as mensagens diretas entre Vorcaro e o número atribuído a Toffoli (DDD 61, Brasília) que a piauí reproduz ou descreve; não é a conversa integral. O infográfico traz uma única mensagem (id 6); as demais vêm do texto da reportagem. Os ids 1 e 2 são descrições feitas pela matéria (texto da mensagem não reproduzido). Fora deste arquivo: a PF registra 17 chamadas de voz por WhatsApp entre as duas linhas (5/3/2024 a dez/2024), 8 atendidas, com 6min52s somados. A PF diz que o caso demanda aprofundamento e não permite conclusões definitivas. Em nota à piauí, o gabinete de Toffoli nega amizade ou intimidade com Vorcaro e nega ter recebido valores dele ou do cunhado dele."
+  },
+  "diogo-batista-vorcaro": {
+    "name": "Diogo Batista",
+    "saved_as": "diogo-batista-vorcaro",
+    "phone": null,
+    "source_id": "fork-diogo-batista-vorcaro",
+    "verification": "imprensa",
+    "fork_note": "Texto transcrito literalmente, preservando grafia, pontuação e ausência de acentos como aparecem nos prints (ids 1-24) e na matéria (ids 25-48). Remetente 'DV' corresponde a 'Daniel Vorcaro', nome exibido nos prints. Trechos tarjados aparecem como [nome tarjado]; nenhuma identificação foi tentada. Ids 1-24 (source 'screenshot', verified true): os prints mostram apenas HH:MM, então os segundos foram preenchidos com :00 e o fuso -03:00 foi assumido (não aparece nos prints). Prints de origem: mensagens 1-8 (03 e 05/11/2023), 9-19 (07/11/2023) e 20-24 (14/12/2023). Nenhuma mensagem aparece como resposta citada, então reply_to_id é null em todas. Ids 25-48 (source 'press_uol', verified false): são citações da matéria, não transcrições de print. Têm timestamp e time null. Só 28, 29 e 37 têm data completa (15/04/2024; 29 e 37 inferidas da narrativa). Nas demais, o campo date NÃO é uma data completa: traz o rótulo parcial que a matéria permite ('2023-11' para 36, '2024-01' para 25, 26, 38 e 39, '2024-03' para 27, '2024' para 34) ou 'sem-data' (30-33, 35 e 40-48, sem nenhuma data na matéria). Os rótulos existem só para que o campo nunca seja null; não representam um dia. A ordem dos ids 25-34 segue a ordem de aparição na matéria, e a dos ids 35-48 segue a ordem em que foram incorporados; nenhuma é uma cronologia comprovada. Os ids 35, 36, 37, 42, 43, 44, 47 e 48 são fragmentos ou trechos truncados, não mensagens completas. Ids 35 e 47 têm sender 'indeterminado' porque a matéria não informa o autor (no 47, provavelmente a própria jovem, que não é participante da conversa). Os 48 registros são 35 de Diogo Batista, 11 de DV e 2 de remetente indeterminado. Citações da matéria que já coincidem com mensagens dos prints (ids 14, 17, 19, 23 e 24) não foram duplicadas. Paráfrases da matéria (aviso sobre hotel e voo, passaporte, contrato, parcela de R$ 500 mil) não foram incluídas como mensagens. Detalhes e conferências no arquivo complementar diogo-batista-vorcaro_imprensa.json. Atualização: ids 49-72 (source 'screenshot', verified true) transcritos literalmente dos prints; segundos preenchidos com :00 e fuso -03:00 assumido por consistência com os ids 1-24 (os prints mostram só HH:MM e os cabeçalhos citam 'Lisboa' e 'Trancoso' sem fuso). Os cabeçalhos ('conversa com Daniel Vorcaro (mês/ano)') parecem rótulos editoriais, não da interface original. Atualização 25/10/2026: ids 73-74 (source 'press_oglobo', verified false) são citações da coluna de Lauro Jardim (O Globo, out/2026) sobre mensagens de Vorcaro a Diogo a respeito de uma festa em Roma, no final de 2024; sem print, sem dia ou hora (date traz o rótulo parcial '2024'). A menção de Diogo à funkeira Jojo Todynho aparece só como paráfrase na coluna e não foi incluída. O date_range.end continua em 2024-09-15 porque os ids 73-74 não têm data completa. Total: 49 de Diogo Batista, 23 de DV e 2 indeterminado."
+  },
+  "erika-schneider": {
+    "name": "Erika Schneider",
+    "saved_as": "erika-schneider",
+    "phone": null,
+    "source_id": "fork-erika-schneider",
+    "verification": "imprensa",
+    "fork_note": "Trechos citados, não o chat integral. Grafia conforme publicada. A ordem das mensagens segue a ordem narrativa da matéria. Os marcadores 2025-07-01 a 2025-07-04 servem só para ordenação e agrupamento; o dia e o horário reais não foram informados. Mensagens com content null são respostas apenas parafraseadas pela matéria."
+  },
+  "fabiano-medina": {
+    "name": "Fábio Medina Osório",
+    "saved_as": "fabio-medina-osorio",
+    "phone": null,
+    "source_id": "fork-fabiano-medina",
+    "verification": "imprensa",
+    "fork_note": "Trechos de mensagens de WhatsApp extraídas pela PF do celular de Vorcaro, conforme reproduzidos pela matéria; não é a conversa integral. Fábio Medina Osório é advogado e ex-ministro da AGU (governo Temer). Em nota, Osório afirmou que travou os diálogos 'na condição de advogado', que estão registrados em ata notarial, e que não tem 'nenhum receio em divulgá-las'. Datas de out/2024 e mai/2025 aparecem apenas com mês/ano na matéria: o campo date está em texto parcial (AAAA-MM) e time vazio, para não inventar precisão. Ajustar quando houver o print/arquivo original."
+  },
+  "flavio-bolsonaro": {
+    "name": "Flávio Bolsonaro",
+    "saved_as": "Flávio Bolsonaro",
+    "phone": null,
+    "source_id": "fork-flavio-bolsonaro",
+    "verification": "imprensa",
+    "fork_note": "Áudio de 08/09/2025 é o pedido de parcelas do filme Dark Horse. Mensagens de visualização única e ligações não têm conteúdo textual integral. Trechos publicados — a conversa completa não é pública; o WhatsApp de Flávio apagava mensagens após 90 dias e a perícia só recuperou de 20/08 a 16/11/2025. Horários com segundos e as mensagens com campo source_cite foram incorporados do Arkanto; mensagens com time_unknown têm data conhecida mas horário não publicado (ordem conforme a fonte). Campo time_refined marca horários que antes eram aproximados (ex.: áudio de 08/09, antes 00:00:00)."
+  },
+  "guilherme-barros": {
+    "name": "Guilherme Barros Assessor",
+    "saved_as": "guilherme-barros",
+    "phone": null,
+    "source_id": "fork-guilherme-barros",
+    "verification": "nao-verificado",
+    "fork_note": "Texto transcrito literalmente, preservando grafia, pontuação e abreviações como aparecem nos prints. Remetente 'DV' conforme exibido; o outro participante aparece como 'Guilherme Barros Assessor' seguido de número de telefone borrado; foi normalizado para 'Guilherme Barros' e o número foi omitido (phone null). O cabeçalho do chat exibe 'Guilherme-Barros'. Fuso -03:00 conforme exibido em cada mensagem. Foram enviados 7 arquivos, mas 2 pares são imagens idênticas (09/2024 e a manhã de 09/08/2024), transcritos uma vez cada; os arquivos foram associados pela ordem de envio e não por nome. Marcações editoriais nos prints (destaque amarelo em mensagens, destaque verde em uma chamada, bolhas ampliadas com sombra, botão de compartilhar e botão 'X' do celular sobrepostos) não fazem parte da conversa. Bolhas com fundo azul são registros de chamada; alinhadas à direita são do lado do DV e à esquerda do lado de Guilherme Barros, mas o print não rotula quem ligou (type 'call', sender null). Os ids seguem ordem cronológica. Mensagens sem carimbo legível ficam com timestamp e time null e a data vem do cabeçalho ou da posição. Os 2 registros de imagem mostram só o marcador de mídia (type 'image'). Não foram transcritos, por estarem cortados ou ilegíveis: a bolha cortada no topo do print de 07/08/2024, a bolha de 2024-08-08 22:42:57 no topo do print de 09/08/2024 (manhã), os fragmentos no topo do print de 09/08/2024 (tarde: 'Impressionante…' e uma chamada às 10:01:47), o fragmento 'Vai, sim' de 2024-08-11 12:15:05 e a bolha de DV cortada na base do print de 25/09/2024. Os prints são recortes; pode haver mensagens fora deles. Os 65 registros são 35 de Guilherme Barros, 21 de DV e 9 de chamadas sem remetente identificado."
+  },
+  "gustavo-lima": {
+    "name": "Gustavo Lima",
+    "saved_as": "gustavo-lima",
+    "phone": null,
+    "source_id": "fork-gustavo-lima",
+    "verification": "imprensa",
+    "fork_note": "Texto transcrito literalmente, preservando grafia, pontuação, abreviações e espaços irregulares como aparecem nos prints. Os registros estão em ordem cronológica, que difere da numeração das páginas. Trechos tarjados de preto (complemento do nome do contato, após 'Gustavo Lima (' e no cabeçalho) não são legíveis. Remetente 'DV' conforme exibido. Fuso -03:00 conforme exibido em cada mensagem. Os 40 registros incluem 1 chamada de voz perdida (type 'call', id 15, sem remetente identificado). As mensagens de DV de 2024-09-18 aparecem marcadas como 'Encaminhada' (is_forwarded true). Os prints são recortes: há lacunas entre os blocos (2024-09-18, 2024-11-25, 2025-01-13, 2025-03-12) e mensagens fora dos recortes não estão aqui. Nenhuma mensagem aparece como resposta citada, então reply_to_id é null em todas. O separador de data só aparece no print de 2024-11-25 ('2024-11-25')."
+  },
+  "hamilton-buzelin": {
+    "name": "Hamilton Buzelin",
+    "saved_as": "Hamilton Buzelin",
+    "phone": null,
+    "source_id": "fork-hamilton-buzelin",
+    "verification": "imprensa",
+    "fork_note": "Cabeçalho dos prints indica 76 mensagens na conversa; apenas 12 itens estão visíveis e transcritos (1 aviso de sistema + 11 mensagens), então há mensagens fora dos recortes, inclusive entre 2024-02-27 11:26:23 e 2024-02-28 19:13:51. Nome do contato no cabeçalho está tarjado e o sobrenome do remetente aparece parcialmente tarjado ('Hamilton Buse...'); a grafia 'Buzelin' vem da apresentação dele na id 2. Os prints exibem o fuso -03:00; por consistência com os demais JSONs, 'timestamp' não traz offset. Remetente 'DV' padronizado. Texto transcrito literalmente, com a grafia dos prints. Nenhuma mensagem aparece como resposta citada, então reply_to_id é null em todas."
+  },
+  "hugo-motta": {
+    "name": "Hugo Motta",
+    "saved_as": "hugo-motta",
+    "phone": null,
+    "source_id": "fork-hugo-motta",
+    "verification": "imprensa",
+    "fork_note": "Apenas a conversa entre DV (Daniel Vorcaro) e Hugo Motta; a conversa de DV com o motorista Sidney foi removida. 'original_id' aponta para o id no JSON completo. Mensagens com source='screenshot' foram transcritas literalmente dos prints (grafia e pontuação originais preservadas; horários em -03:00). Mensagens com source='press' vêm de trechos publicados pela imprensa, sem print disponível, e não foram verificadas contra imagem; as marcadas type='summary' são resumos jornalísticos, não citações. Números de telefone e parte dos nomes de contato estão tarjados nos prints originais. Atualização 18/10/2026: foram inseridas 15 mensagens de 15/05/2024 (ids 23-37, original_id null, pois não constam do JSON completo de origem). Por isso os ids das mensagens seguintes foram renumerados (+15; antigos 23-54 viraram 38-69) e os reply_to_id foram remapeados; original_id foi preservado. Os ids 1-22 não mudaram. No print novo só aparece HH:MM (segundos :00) e o fuso -03:00 foi assumido, embora o cabeçalho cite Nova York."
+  },
+  "interlocutor-nao-identificado-01": {
+    "name": "interlocutor-nao-identificado-01",
+    "saved_as": "interlocutor-nao-identificado-01",
+    "phone": null,
+    "source_id": "fork-interlocutor-nao-identificado-01",
+    "verification": "imprensa",
+    "fork_note": "Data não divulgada na reportagem. O destinatário não é identificado. O texto publicado omite a continuação da mensagem, que não foi completada nesta transcrição. O contexto da festa é atribuído à reportagem."
+  },
+  "joao-doria": {
+    "name": "João Doria",
+    "saved_as": "João Doria",
+    "phone": null,
+    "source_id": "fork-joao-doria",
+    "verification": "imprensa",
+    "fork_note": "Mensagens publicadas pela CNN Brasil, em reportagem de Gustavo Uribe. A matéria informa a conversa entre João Doria e Daniel Vorcaro. O horário de 14:15 foi informado para a mensagem de João Doria."
+  },
+  "julio-anonimo": {
+    "name": "Julio",
+    "saved_as": "Julio",
+    "phone": null,
+    "source_id": "fork-julio-anonimo",
+    "verification": "nao-verificado",
+    "fork_note": "Mensagens 12 a 19, 27 a 35 e 43 a 50 vêm do JSON fornecido (horários sem fuso e com segundos zerados, mantidos como vieram). Mensagens 1 a 11, 20 a 26 e 36 a 42 foram transcritas de 4 capturas de tela legíveis (as 3 imagens de 2024-04-19 são idênticas e foram contadas uma vez); horários com fuso -03:00 e time_confidence 'alta'. Mensagens à direita atribuídas a DV, à esquerda a Julio. Sobrenome e telefone de Julio estão ocultos por tarja preta nas imagens."
+  },
+  "kiko-sobrinho": {
+    "name": "Kiko Sobrinho",
+    "saved_as": "Kiko Sobrinho (arquiteto)",
+    "phone": null,
+    "source_id": "fork-kiko-sobrinho",
+    "verification": "imprensa",
+    "fork_note": "O texto de todas as mensagens vem do texto fornecido pelo usuário. Os horários vêm das capturas de tela, que mostram hora e minuto, sem segundos; por isso os timestamps usam ':00' nos segundos e o campo 'time' traz '??'. Só as mensagens 1 a 5 e 30 a 38 têm horário visível. As mensagens 6 a 29 (28/02) não têm horário informado; pela ordem do texto, ficariam entre 10h19 e 13h56, mas essa ordem não foi confirmada. As mensagens 8 e 36 são respostas com citação; a mensagem citada aparece no campo 'quoted' e o id dela no campo 'reply_to', e não foi contada como mensagem separada. Nas capturas, o remetente da direita é 'Vorcaro' e o da esquerda é 'Kiko Sobrinho (arquiteto)'; aqui os rótulos são DV e Kiko Sobrinho, para manter o estilo do JSON da conversa com Rayanna. Nas mensagens de DV, Kiko é chamado de 'leo' (ids 7 e 21). A mensagem 6 aparece cortada na captura ('Cara essas automacoes vao me...'); o texto completo vem do texto fornecido."
+  },
+  "luciano-huck": {
+    "name": "Luciano Huck",
+    "saved_as": "luciano-huck",
+    "phone": null,
+    "source_id": "fork-luciano-huck",
+    "verification": "imprensa",
+    "fork_note": "Texto transcrito literalmente, preservando grafia, abreviações e ausência de acentos como aparecem nos prints. Trechos tarjados de preto nas imagens (complemento do nome do contato) não são legíveis. Remetente 'DV' conforme exibido nos prints. Fuso -03:00 conforme exibido em cada mensagem. O aviso de criptografia de ponta a ponta (2023-11-05 21:00:13) não foi incluído como mensagem. Reações (emoji) aparecem sob a mensagem no print, sem identificar quem reagiu. Os prints são recortes: há lacunas entre os blocos e mensagens fora dos recortes não estão aqui."
+  },
+  "mario-frias": {
+    "name": "Mário Frias",
+    "saved_as": "Mario Frias",
+    "phone": null,
+    "source_id": "fork-mario-frias",
+    "verification": "imprensa",
+    "fork_note": "Trechos citados em documentos da PF — a conversa completa não é pública."
+  },
+  "ministro-benedito": {
+    "name": "Ministro Benedito",
+    "saved_as": "ministro-benedito",
+    "phone": null,
+    "source_id": "fork-ministro-benedito",
+    "verification": "nao-verificado",
+    "fork_note": "Interlocutor identificado apenas pelo rótulo 'Ministro Benedito' exibido nos prints; nome completo e cargo não constam nas imagens. A imagem 2 não tem cabeçalho de data: foi tratada como continuação de 2 de julho de 2024 (o conteúdo responde diretamente ao pedido de encontro em Brasília feito às 10:10 desse dia). Uma mensagem de DV (id 5) aparece sem horário visível, por isso 'time' está vazio e 'timestamp' só tem a data."
+  },
+  "mkt-aninomo": {
+    "name": "Mkt-aninomo",
+    "saved_as": "Mkt-aninomo",
+    "phone": null,
+    "source_id": "fork-mkt-aninomo",
+    "verification": "imprensa",
+    "fork_note": "Texto transcrito literalmente, preservando grafia, pontuação, abreviações e ausência de acentos como aparecem nos prints. Nomes tarjados de preto foram registrados como 'Anônimo Marketing' (a tarja pode ocultar mais de uma pessoa); trechos tarjados dentro do texto aparecem como [TARJA]. Remetente 'DV' conforme exibido. Fuso -03:00 conforme exibido em cada mensagem. Os 14 registros incluem 1 mensagem (id 2) que aparece apenas como citação dentro da id 3, sem data/hora visíveis (timestamp, date e time null). Os prints são recortes de uma conversa de 14.544 mensagens: há lacunas entre os blocos e mensagens fora dos recortes não estão aqui. Apenas a id 3 aparece como resposta citada (reply_to_id = 2). Display label Mkt-aninomo was set at the user's request; message bubbles retain the transcribed sender Anonimo Marketing. The supplied transcript metadata also had saved_as=mkt-prioli, but it is not treated as a confirmed identity because the visible contact name is redacted."
+  },
+  "nelson-tanure": {
+    "name": "Nelson Tanure",
+    "saved_as": "Nelson Tanure",
+    "phone": null,
+    "source_id": "fork-nelson-tanure",
+    "verification": "nao-verificado",
+    "fork_note": "Trechos citados na imprensa — a conversa completa não é pública. Ids 1-8 são citações de reportagem (source 'press', verified false): hora não informada, por isso timestamp traz só a data e time é null; sem prints correspondentes. Datas aproximadas estão marcadas em date_precision. Grafias preservadas como publicadas. Nelson Tanure é descrito pela reportagem como sócio de Vorcaro em vários negócios. Ids 9-17 (source 'screenshot', verified true): transcritos literalmente de duas capturas de iPhone com o contato salvo como 'Nelson Tanure' (balões verdes = DV, brancos = Tanure). Os prints mostram só HH:MM e rótulos relativos ('Friday', 'Today'), sem data absoluta nem fuso: por isso date = 'sem-data', timestamp null, os segundos foram preenchidos com :00 e o rótulo original está em date_label. A ordem dentro de cada captura é a do print; não há como encaixar as capturas na cronologia dos ids 1-8, nem uma em relação à outra. O ponto de partida dos horários de cada captura é a barra de status do print (22:12 na captura A; 15:38 na B), indicando que as mensagens 'Today' foram enviadas no mesmo dia da captura."
+  },
+  "nelson-willians": {
+    "name": "Nelson Wilians",
+    "saved_as": "Nelson Wilians",
+    "phone": null,
+    "source_id": "fork-nelson-willians",
+    "verification": "nao-verificado",
+    "fork_note": "Trechos citados em matéria; a conversa completa não é pública. Horários não informados (time_unknown), exceto o intervalo de nove minutos entre ids 1 e 2. Id 3 reúne fragmentos citados e não é transcrição integral. Grafia 'Wilians' conforme a matéria; o nome de arquivo pedido era 'willans'. Id 5: 'PIXBET' em caixa alta como na fonte."
+  },
+  "newton-ramos": {
+    "name": "Newton Ramos",
+    "saved_as": "Newton Ramos",
+    "phone": null,
+    "source_id": "fork-newton-ramos",
+    "verification": "imprensa",
+    "fork_note": "Trechos publicados — a conversa completa não é pública. Segundo a piauí, Ramos e Vorcaro trocaram 463 mensagens e fizeram 40 chamadas no WhatsApp entre março de 2024 e abril de 2025; em dezembro de 2024 Ramos configurou a conversa para apagar mensagens após 24 horas e ao menos 282 foram apagadas. Aqui constam só as mensagens cujo texto foi reproduzido nas reportagens. Mensagens com time_unknown têm data conhecida mas horário não publicado (ordem conforme as reportagens). paraphrased = conteúdo descrito sem o texto; partial_quote = só um trecho foi citado; date_precision 'month' = só o mês foi informado. Respostas genéricas de Vorcaro a pedidos de Ramos (ex.: 'Claro.', 'Deixa comigo.', 'O que quiser meu caro.') foram citadas sem data e não foram incluídas. VERSÃO SÓ DIÁLOGO: removidas paráfrases entre colchetes, anexos sem texto, contatos, chamadas e eventos de sistema; a versão completa está em masterwhats-newton-ramos-completo.json."
+  },
+  "nikolas-ferreira": {
+    "name": "Nikolas Ferreira",
+    "saved_as": "Nikolas Ferreira",
+    "phone": null,
+    "source_id": "fork-nikolas-ferreira",
+    "verification": "imprensa",
+    "fork_note": "Trechos citados em documentos da PF — a conversa completa não é pública. ATUALIZAÇÃO 2: o arquivo, que tinha uma única mensagem (id 1, áudio de Nikolas Ferreira com data 30/03/2025 informada pelo usuário, horário não informado e audio_src '/assets/audio-nikolas-ferreira.mp3'), foi substituído pelas 17 mensagens da exportação do site (masterwhats-nikolas-ferreira.json, gerada em 25/09/2026), baseadas em prints e trechos publicados por ICL, CartaCapital, piauí, Fatos Online e Jornal de Brasília (2026). O áudio de Nikolas passou a ser o id 3 (17:56:56), com a transcrição em 'content' (texto da versão de 07/09, conforme source_cite), mantendo audio_src e attachment do arquivo anterior; o horário 00:00:00 do arquivo anterior era apenas um valor provisório. Os carimbos foram mantidos sem offset (a exportação traz -03:00), como no restante do projeto. Os ids 1-17 seguem a numeração da exportação e estão em ordem sequencial no array; a exportação do site os lista por horário e por isso mostra o id 15 antes do id 7 (ver context_note do id 15). Ids 1-2: mensagens de sistema do WhatsApp (type 'system'). Id 4: áudio de visualização única enviado por DV, sem conteúdo (view_once). Id 7: contato 'Thiago Rodrigues BH', transcrito entre colchetes como na exportação. Ids 9, 11 e 16: emojis ilegíveis ou descritos nos prints, também entre colchetes. Id 17 (02/04/2025): horário não informado (time_unknown). O id 15 cita o texto do id 12 (campo 'quoted'). O bloco 'profile' (resumo editorial) da exportação não faz parte deste formato e não foi incluído."
+  },
+  "olavo-noletto-ministerio-padilha": {
+    "name": "Olavo Noletto Ministerio Padilha",
+    "saved_as": "Olavo Noletto Ministerio Padilha",
+    "phone": null,
+    "source_id": "fork-olavo-noletto-ministerio-padilha",
+    "verification": "nao-verificado",
+    "fork_note": null
+  },
+  "pablo-marcal": {
+    "name": "Pablo Marçal",
+    "saved_as": "Pablo Marçal",
+    "phone": null,
+    "source_id": "fork-pablo-marcal",
+    "verification": "imprensa",
+    "fork_note": "Conversa curta, informada como completa por quem enviou o print (só esse trecho existe). Não é print de WhatsApp: é uma transcrição reproduzida pela reportagem de O Globo, sem horários, balões ou tiques, então 'time' é null e 'timestamp' traz só a data. A mensagem de Pablo Marçal aparece em balão verde com a legenda 'Pablo Marçal · 2 de setembro de 2025'. A resposta de Vorcaro aparece como três linhas empilhadas ('Fala', 'Irmão', 'Acho que sim, dificilmente cenário diferente') sob a legenda 'Daniel Vorcaro · resposta minutos depois'; foram registradas como três mensagens, mas o print não mostra balões, então podem ser uma só com quebras de linha (leitura menos segura). A data da resposta (2025-09-02) é assumida a partir de 'minutos depois'. Remetente 'DV' padronizado (no print o nome exibido é 'Daniel Vorcaro'); nome do outro participante grafado 'Pablo Marçal', como no print. Texto transcrito literalmente, com a grafia do print. reply_to_id é null em todas."
+  },
+  "rayanna": {
+    "name": "Rayanna",
+    "saved_as": "Rayanna",
+    "phone": "+55 11 95769-XXXX",
+    "source_id": "ipj-a-3298613-2026",
+    "verification": "nao-verificado",
+    "fork_note": "Trechos citados no relatório policial — a conversa completa não consta do documento. Mensagens 1 a 20, 24 a 32 e parte da 34 foram transcritas de 4 capturas de tela de baixa resolução; as mensagens 21 a 23 (2025-02-28), 33 e 34 (2025-03-07) vêm do texto fornecido pelo usuário, sem horário informado. Onde o texto fornecido e o print coincidem, foi mantida a grafia do texto fornecido. Mensagens à esquerda atribuídas a Rayanna, à direita a DV. Trechos ocultos por mão na tela ou cortados na borda do print estão marcados como parciais. Número de telefone mascarado. O material informa que Kassio negou o encontro e não participa deste chat."
+  },
+  "ricardo-lewandowski": {
+    "name": "Ricardo Lewandowski",
+    "saved_as": "Ricardo Lewandowski",
+    "phone": null,
+    "source_id": "fork-ricardo-lewandowski",
+    "verification": "nao-verificado",
+    "fork_note": "Trechos transcritos das imagens fornecidas pelo usuário (jan/fev 2024). Datas e horários conforme exibidos nas capturas; segundos preservados quando visíveis. A mensagem id 9 está incompleta no print (corte na base da imagem). Números de telefone e nomes de arquivo redigidos conforme as capturas."
+  },
+  "roberto-justus": {
+    "name": "Roberto Justus",
+    "saved_as": "roberto-justus",
+    "phone": null,
+    "source_id": "fork-roberto-justus",
+    "verification": "imprensa",
+    "fork_note": "Texto transcrito literalmente, preservando grafia, pontuação, abreviações e ausência de acentos como aparecem nos prints. Trechos tarjados de preto (complemento do nome do contato) não são legíveis. Remetente 'DV' conforme exibido nos prints; nas mensagens de reportagem, o destinatário é Daniel Vorcaro e Justus o chama de 'Daniel'. Fuso -03:00 conforme exibido em cada mensagem dos prints; as mensagens da reportagem não trazem horário (timestamp e time nulos). Os 43 registros incluem 3 chamadas de voz perdidas (type 'call'), 2 mensagens apagadas pelo remetente (type 'deleted') e 2 arquivos de áudio (type 'audio'). Os prints são recortes: há lacunas entre os blocos e mensagens fora dos recortes não estão aqui. Nenhuma mensagem aparece como resposta citada, então reply_to_id é null em todas. Ids renumerados em ordem cronológica: a mensagem de 21/12/2024 (reportagem) é o id 1, os 41 registros dos prints são os ids 2 a 42 (id anterior + 1) e a mensagem de 17/11/2025 (reportagem) é o id 43. '(João Carlos)' no id 1 é inserção editorial do veículo."
+  },
+  "rodrigo-fux": {
+    "name": "Rodrigo Fux",
+    "saved_as": "Rodrigo Fux",
+    "phone": null,
+    "source_id": "fork-rodrigo-fux",
+    "verification": "nao-verificado",
+    "fork_note": "Transcrição fornecida pelo usuário; o número de telefone foi ocultado no material."
+  },
+  "ronaldo-fenomeno": {
+    "name": "Ronaldo",
+    "saved_as": "ronaldo-fenomeno",
+    "phone": null,
+    "source_id": "fork-ronaldo-fenomeno",
+    "verification": "nao-verificado",
+    "fork_note": "Compilação a partir de texto fornecido pelo usuário; nenhuma mensagem foi verificada contra imagem. Falas transcritas conforme o texto recebido, sem as aspas de citação e preservando grafia. Remetente 'Vorcaro' padronizado como 'DV'. Nenhuma data ou horário foi informado no texto. Todas as mensagens têm date/timestamp aproximados (date_approx=true) e time null, só para manter datas válidas no formato YYYY-MM-DD exigido pelo pipeline: mensagens 1 a 7 = 2024-04-01 (abril de 2024, mês em que reportagens situam a viagem a Londres) e 8 a 11 = 2024-07-01 (meses depois, verão de 2024); os dias reais são desconhecidos. As seções do texto (empréstimo ao Cruzeiro, Inter Miami/Beckham/Messi, Ibiza) estão indicadas nas notas de cada mensagem. Entradas com type='summary' são resumos narrativos, não citações. O texto de apuração de veículos não é mensagem e está em editorial_notes."
+  },
+  "selma-empregada": {
+    "name": "Selma",
+    "saved_as": "Selma (empregada)",
+    "phone": null,
+    "source_id": "fork-selma-empregada",
+    "verification": "imprensa",
+    "fork_note": "O texto foi transcrito da captura de tela, que mostra hora e minuto, sem segundos; por isso os timestamps usam ':00' nos segundos e o campo 'time' traz '??'. Na captura, o remetente da direita é 'Vorcaro' e o da esquerda é 'Selma (empregada)'; aqui os rótulos são DV e Selma, para manter o estilo dos outros JSONs. A grafia original foi mantida, inclusive 'sar' na mensagem 1. A captura mostra apenas este trecho do dia 01/03/2025; a conversa completa não foi enviada."
+  },
+  "sicario-master": {
+    "name": "sicario master",
+    "saved_as": "sicario-master",
+    "phone": null,
+    "source_id": "fork-sicario-master",
+    "verification": "nao-verificado",
+    "fork_note": "Luiz Phillipi Machado de Moraes Mourão (vulgo Sicário / Felipe Mourão). Mensagens sem timestamp na fonte ficam com timestamp null. Trechos entre colchetes são paráfrase da PF ou da BBC quando o texto integral não foi reproduzido (campo paraphrased; partial_quote = só um trecho foi citado). Mensagens sem data/hora na fonte recebem data e hora de placeholder (00:00:00) e date_placeholder/timestamp_placeholder = true. Mensagens com source_cite vêm da BBC News Brasil; forwarded = encaminhadas por Mourão como relato de terceiros ('os meninos'). A BBC examinou mais de 11 mil registros da conversa e identificou 189 publicações, páginas e contas mencionadas em pedidos ou relatos de retirada (nov/2023 a nov/2025), e Mourão afirma ter derrubado ao menos 17 perfis no Instagram; aqui constam só as mensagens cujo texto foi reproduzido. VERSÃO SÓ DIÁLOGO: removidas paráfrases entre colchetes, anexos sem texto, contatos, chamadas e eventos de sistema; a versão completa está em masterwhats-sicario-master-completo.json."
+  },
+  "thiago-miranda": {
+    "name": "Thiago Miranda - Leo Dias",
+    "saved_as": "Thiago Miranda - Leo Dias",
+    "phone": "5511956699395",
+    "source_id": "ipj-a-270-276-2026",
+    "verification": "nao-verificado",
+    "fork_note": "Trechos citados nos relatórios policiais — a conversa completa não consta dos documentos. Capturas de conversas com terceiros foram mantidas como mensagens de imagem dentro desta conversa. Fonte tornada pública em 2026-09-01; Transcrição manual das imagens do laudo; cada mensagem cita a página e a figura de origem. Mensagens ordenadas cronologicamente; ids originais do export Turma do Master preservados (podem não ser sequenciais). Mensagens de 06/04/2025 (ids 175–191) acrescentadas a partir de duas capturas de tela adicionais, de origem não identificada."
+  },
+  "walfrido-mares": {
+    "name": "Walfrido Mares Guia",
+    "saved_as": "Walfrido Mares Guia",
+    "phone": null,
+    "source_id": "fork-walfrido-mares",
+    "verification": "nao-verificado",
+    "fork_note": null
+  },
+  "walfrido-warde-new": {
+    "name": "Walfrido Warde New",
+    "saved_as": "walfrido-warde-new",
+    "phone": null,
+    "source_id": "fork-walfrido-warde-new",
+    "verification": "nao-verificado",
+    "fork_note": "Transcrição atualizada com capturas de 17 e 23/07/2025, um áudio enviado em 30/03/2025 sem horário informado e outros trechos de áudio sem data; 54 registros."
+  },
+  "yasmin-brunet": {
+    "name": "Yasmin Brunet",
+    "saved_as": "yasmin-brunet",
+    "phone": null,
+    "source_id": "fork-yasmin-brunet",
+    "verification": "nao-verificado",
+    "fork_note": "Compilação a partir de texto fornecido pelo usuário; nenhuma mensagem foi verificada contra imagem. Falas transcritas conforme o texto recebido, sem as aspas de citação e preservando grafia e reticências (inclusive 'f…' e 'm…', que já vinham truncadas). Remetente 'Vorcaro' padronizado como 'DV'. Nenhum horário individual foi informado. Marcadores como 'Depois do BBB 24' e 'Meados de 2024' foram mantidos como 'date_label', sem conversão para data exata; 'date_range.end' (2024-06-15) é aproximação para 'meados de 2024'. Entradas com type='summary' são resumos narrativos do texto original, não citações. A ordem das mensagens segue a ordem do texto fornecido. Para compatibilidade com scripts que ordenam por data, as mensagens sem data exata receberam uma data aproximada em formato YYYY-MM (date_approx=true): 'Depois do BBB 24' -> 2024-04-17 e 'Meados de 2024' -> 2024-06-15. O valor real informado está em date_label. As mensagens 18 a 24 (episódio sobre sair do apartamento e prazo de 60 dias) foram adicionadas depois, sem data informada; receberam a data provisória 2024-06-15 apenas para ordenação (date_approx=true). Os rótulos 'Data não informada' e 'Dias depois' vêm do texto ou da ausência de data."
+  },
+  "ze-maria": {
+    "name": "Ze Maria Chef Iate Clube",
+    "saved_as": "ze-maria",
+    "phone": null,
+    "source_id": "fork-ze-maria",
+    "verification": "nao-verificado",
+    "fork_note": "Transcrição literal do print (grafia e pontuação preservadas; horários em -03:00). A última mensagem está cortada na borda inferior e sem horário visível. Imagem em baixa resolução."
+  }
+}

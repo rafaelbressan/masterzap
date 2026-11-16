@@ -1,0 +1,178 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "Ministro Benedito"
+    ],
+    "saved_as": "ministro-benedito",
+    "phone": null,
+    "date_range": {
+      "start": "2024-05-07",
+      "end": "2024-07-02"
+    },
+    "total_messages": 10,
+    "source": "Dois prints de conversa de WhatsApp em formato de infográfico (veículo não identificado nas imagens); transcrição manual a partir das imagens.",
+    "source_id": "fork-ministro-benedito",
+    "verification": "nao-verificado",
+    "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": null,
+      "date": "2024-05-07",
+      "time": null,
+      "sender": "DV",
+      "content": "Se puder na próxima quarta",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_figure": "imagem 1",
+      "note": "Horário não aparece no print. Pela sequência, é posterior ou igual a 19:45."
+    },
+    {
+      "id": 2,
+      "timestamp": "2024-05-07T19:36:00",
+      "date": "2024-05-07",
+      "time": "19:36:00",
+      "sender": "Ministro Benedito",
+      "content": "Boa noite feliz em rever o amigo. Festa bonita ! Parabéns!\nAb Benedito",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_figure": "imagem 1",
+      "note": "Assinatura 'Ab Benedito' na segunda linha, como aparece no print. Pontuação e espaçamento ('Festa bonita !') mantidos como na imagem."
+    },
+    {
+      "id": 3,
+      "timestamp": "2024-05-07T19:44:00",
+      "date": "2024-05-07",
+      "time": "19:44:00",
+      "sender": "DV",
+      "content": "Caro amigo",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_figure": "imagem 1"
+    },
+    {
+      "id": 4,
+      "timestamp": "2024-05-07T19:45:00",
+      "date": "2024-05-07",
+      "time": "19:45:00",
+      "sender": "DV",
+      "content": "Obrigado pelo carinho",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_figure": "imagem 1"
+    },
+    {
+      "id": 5,
+      "timestamp": "2024-05-07T19:45:00",
+      "date": "2024-05-07",
+      "time": "19:45:00",
+      "sender": "DV",
+      "content": "Vamos marcar o charuto em brasília",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_figure": "imagem 1",
+      "note": "'brasília' em minúscula, como no print."
+    },
+    {
+      "id": 6,
+      "timestamp": "2024-07-02T10:10:00",
+      "date": "2024-07-02",
+      "time": "10:10:00",
+      "sender": "DV",
+      "content": "Grande amigo tudo bem? Vamos marcar encontro em brasília, no seu retorno do rio!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_figure": "imagem 1"
+    },
+    {
+      "id": 7,
+      "timestamp": "2024-07-02T10:11:00",
+      "date": "2024-07-02",
+      "time": "10:11:00",
+      "sender": "Ministro Benedito",
+      "content": "Chego dia 29/7 e ligarei em seguida",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_figure": "imagem 2",
+      "note": "Data (2024-07-02) inferida: a imagem 2 não tem cabeçalho de data. Ver metadata.note."
+    },
+    {
+      "id": 8,
+      "timestamp": "2024-07-02T10:11:00",
+      "date": "2024-07-02",
+      "time": "10:11:00",
+      "sender": "Ministro Benedito",
+      "content": "E aqui sempre a disposição",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_figure": "imagem 2",
+      "note": "Data inferida, como no id 7."
+    },
+    {
+      "id": 9,
+      "timestamp": "2024-07-02T10:11:00",
+      "date": "2024-07-02",
+      "time": "10:11:00",
+      "sender": "Ministro Benedito",
+      "content": "Ab",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_figure": "imagem 2",
+      "note": "Data inferida, como no id 7."
+    },
+    {
+      "id": 10,
+      "timestamp": "2024-07-02T10:18:00",
+      "date": "2024-07-02",
+      "time": "10:18:00",
+      "sender": "Ministro Benedito",
+      "content": "TAMO JUNTO SEMPRE",
+      "type": "sticker",
+      "is_edited": false,
+      "attachment": {
+        "type": "sticker",
+        "filename": null,
+        "description": "Figurinha com imagem de dois braços em aperto de mãos (braço de ferro) e a legenda 'TAMO JUNTO SEMPRE'."
+      },
+      "urls": [],
+      "source_figure": "imagem 2",
+      "note": "O campo content traz o texto que aparece dentro da figurinha. Data inferida, como no id 7."
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "2024-05-07",
+        "message_count": 5,
+        "first_message_id": 1,
+        "last_message_id": 5
+      },
+      {
+        "date": "2024-07-02",
+        "message_count": 5,
+        "first_message_id": 6,
+        "last_message_id": 10
+      }
+    ]
+  }
+}

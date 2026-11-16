@@ -13,10 +13,17 @@ test.describe('Calls screen', () => {
   test('lists the calls, newest first, with who called whom', async ({ page }) => {
     await openCalls(page);
     expect(await page.locator('.calls-item').count()).toBeGreaterThan(500);
+    // The newest call in the data, whoever it was with.
+    const { newest, contact } = await page.evaluate(async () => {
+      const [{ calls }, { conversations }] = await Promise.all(
+        ['/data/calls.json', '/data/conversations.json'].map(u => fetch(u).then(r => r.json())));
+      const c = conversations.find(x => x.id === calls[0].conversation_id);
+      return { newest: calls[0], contact: c.contact };
+    });
     const first = page.locator('.calls-item').first();
-    await expect(first.locator('.calls-item-name')).toContainText('Martha Graeff');
+    await expect(first.locator('.calls-item-name')).toContainText(contact);
     await expect(first.locator('.calls-item-arrow')).toHaveAttribute('aria-label', /Chamada (feita|recebida)/);
-    await expect(first.locator('.calls-item-meta')).toContainText('2025');
+    await expect(first.locator('.calls-item-meta')).toContainText(newest.date.slice(0, 4));
   });
 
   test('draws a missed incoming call in red', async ({ page }) => {

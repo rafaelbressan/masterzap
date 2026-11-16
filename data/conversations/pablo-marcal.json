@@ -1,0 +1,91 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "Pablo Marçal"
+    ],
+    "saved_as": null,
+    "phone": null,
+    "date_range": {
+      "start": "2025-09-02",
+      "end": "2025-09-02"
+    },
+    "total_messages": 4,
+    "source": "1 captura de tela (trecho de conversa com a legenda 'Transcrição reproduzida pela reportagem de O Globo', rótulo 'Linproxy' no print), transcrita exclusivamente",
+    "source_id": "fork-pablo-marcal",
+    "verification": "imprensa",
+    "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": null,
+      "date": "2025-09-02",
+      "time": null,
+      "sender": "Pablo Marçal",
+      "content": "E aí irmão. Bolsonaro vai puxar cadeia mesmo?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Data conforme a legenda do print ('Pablo Marçal · 2 de setembro de 2025'). Sem horário exibido.",
+      "source_id": "fork-pablo-marcal-o-globo-transcricao-reproduzida-na-repor",
+      "verification": "imprensa"
+    },
+    {
+      "id": 2,
+      "timestamp": null,
+      "date": "2025-09-02",
+      "time": null,
+      "sender": "DV",
+      "content": "Fala",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Legenda do print: 'Daniel Vorcaro · resposta minutos depois'. Data 2025-09-02 assumida a partir de 'minutos depois'; o print não mostra data nem horário da resposta.",
+      "source_id": "fork-pablo-marcal-o-globo-transcricao-reproduzida-na-repor",
+      "verification": "imprensa"
+    },
+    {
+      "id": 3,
+      "timestamp": null,
+      "date": "2025-09-02",
+      "time": null,
+      "sender": "DV",
+      "content": "Irmão",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Ver nota da id 2.",
+      "source_id": "fork-pablo-marcal-o-globo-transcricao-reproduzida-na-repor",
+      "verification": "imprensa"
+    },
+    {
+      "id": 4,
+      "timestamp": null,
+      "date": "2025-09-02",
+      "time": null,
+      "sender": "DV",
+      "content": "Acho que sim, dificilmente cenário diferente",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Ver nota da id 2.",
+      "source_id": "fork-pablo-marcal-o-globo-transcricao-reproduzida-na-repor",
+      "verification": "imprensa"
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "2025-09-02",
+        "message_count": 4,
+        "first_message_id": 1,
+        "last_message_id": 4
+      }
+    ]
+  }
+}

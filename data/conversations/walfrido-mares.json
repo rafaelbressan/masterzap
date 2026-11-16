@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "Walfrido Mares Guia"
+    ],
+    "saved_as": null,
+    "phone": null,
+    "date_range": {
+      "start": "2024-03-01",
+      "end": "2024-03-01"
+    },
+    "total_messages": 4,
+    "source": "Origem não registrada pelo fork",
+    "source_id": "fork-walfrido-mares",
+    "verification": "nao-verificado",
+    "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": "2024-03-01T19:52:00",
+      "date": "2024-03-01",
+      "time": "19:52:00",
+      "sender": "Walfrido Mares Guia",
+      "content": "Chamada de voz perdida",
+      "type": "call",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 2,
+      "timestamp": "2024-03-01T19:56:00",
+      "date": "2024-03-01",
+      "time": "19:56:00",
+      "sender": "Walfrido Mares Guia",
+      "content": "Ola Daniel\nOlavo Noletto , bra?o direito do min Padilha, me enviou mensagem falando que gostou muito de voce",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 3,
+      "timestamp": "2024-03-01T19:59:00",
+      "date": "2024-03-01",
+      "time": "19:59:00",
+      "sender": "DV",
+      "content": "Grande amigo",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 4,
+      "timestamp": "2024-03-01T20:00:00",
+      "date": "2024-03-01",
+      "time": "20:00:00",
+      "sender": "DV",
+      "content": "Ja te chamo em seguida",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "2024-03-01",
+        "message_count": 4,
+        "first_message_id": 1,
+        "last_message_id": 4
+      }
+    ]
+  }
+}

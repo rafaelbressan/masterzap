@@ -1,0 +1,163 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "Davi Alcolumbre Presidente"
+    ],
+    "saved_as": null,
+    "phone": null,
+    "date_range": {
+      "start": "2025-02-01",
+      "end": "2025-03-30"
+    },
+    "total_messages": 10,
+    "source": "VEJA, 24–25/09/2026; Poder360 e CNN Brasil, 25/09/2026",
+    "source_id": "fork-davi-acolumbre",
+    "verification": "imprensa",
+    "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": "2025-02-01T15:25:00",
+      "date": "2025-02-01",
+      "time": "15:25:00",
+      "sender": "DV",
+      "content": "Parabéns meu amigo! 👏👏 Que venham seus melhores anos! Que Deus te abençoe nessa empreitada! Desejo muito sucesso ❤️❤️",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 2,
+      "timestamp": "2025-02-02T14:09:00",
+      "date": "2025-02-02",
+      "time": "14:09:00",
+      "sender": "Davi Alcolumbre Presidente",
+      "content": "Fala meu amor!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 3,
+      "timestamp": "2025-02-02T14:09:00",
+      "date": "2025-02-02",
+      "time": "14:09:00",
+      "sender": "Davi Alcolumbre Presidente",
+      "content": "Muito obrigado por tudo, em especial pelo seu carinho e amizade fraterna!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 4,
+      "timestamp": "2025-02-02T14:09:00",
+      "date": "2025-02-02",
+      "time": "14:09:00",
+      "sender": "Davi Alcolumbre Presidente",
+      "content": "Gratidão!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 5,
+      "timestamp": "2025-02-02T14:09:00",
+      "date": "2025-02-02",
+      "time": "14:09:00",
+      "sender": "Davi Alcolumbre Presidente",
+      "content": "Anexo",
+      "type": "document",
+      "is_edited": false,
+      "attachment": "Anexo",
+      "urls": []
+    },
+    {
+      "id": 6,
+      "timestamp": "2025-03-30T17:52:00",
+      "date": "2025-03-30",
+      "time": "17:52:00",
+      "sender": "Davi Alcolumbre Presidente",
+      "content": "Sou seu irmão!!!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 7,
+      "timestamp": "2025-03-30T17:52:00",
+      "date": "2025-03-30",
+      "time": "17:52:00",
+      "sender": "Davi Alcolumbre Presidente",
+      "content": "Pra vida toda!!!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 8,
+      "timestamp": "2025-03-30T17:52:00",
+      "date": "2025-03-30",
+      "time": "17:52:00",
+      "sender": "DV",
+      "content": "❤️❤️❤️❤️❤️",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 9,
+      "timestamp": "2025-03-30T17:52:00",
+      "date": "2025-03-30",
+      "time": "17:52:00",
+      "sender": "DV",
+      "content": "E eu seu. A qualquer tempo pra qualquer coisa",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 10,
+      "timestamp": "2025-03-30T17:52:00",
+      "date": "2025-03-30",
+      "time": "17:52:00",
+      "sender": "DV",
+      "content": "Nunca vou esquecer",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "2025-02-01",
+        "message_count": 1,
+        "first_message_id": 1,
+        "last_message_id": 1
+      },
+      {
+        "date": "2025-02-02",
+        "message_count": 4,
+        "first_message_id": 2,
+        "last_message_id": 5
+      },
+      {
+        "date": "2025-03-30",
+        "message_count": 5,
+        "first_message_id": 6,
+        "last_message_id": 10
+      }
+    ]
+  }
+}

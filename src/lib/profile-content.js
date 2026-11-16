@@ -459,6 +459,485 @@ export const OTHER_PROFILES = {
  * renders no investigation section.
  */
 export const CONTACT_PROFILES = {
+  // Conversas do fork 1uc4sm4theus/masterzap (data/fork/): perfis dele, como estão.
+  'acm-neto': {
+    sections: [{
+      title: 'ACM Neto',
+      paragraphs: [
+        { text: 'Trechos citados por Lauro Jardim, de O Globo, em 2 de outubro de 2026, com origem atribuída à Polícia Federal e ao celular de Daniel Vorcaro. O material não corresponde ao chat integral; parte das datas foi informada apenas por mês.' },
+      ],
+    }],
+  },
+  'amiga-anonima-01': {
+    about: 'Amiga não identificada publicamente',
+    sections: [{
+      title: 'Sobre o registro',
+      paragraphs: [
+        { text: 'Esta conversa contém um único texto apresentado pelo usuário como publicado e situado em julho de 2024. A destinatária é descrita como uma amiga não identificada publicamente; esse rótulo não confirma sua identidade.' },
+        { text: 'A referência da publicação, a data exata, a autenticidade da mensagem e o contexto não foram fornecidos para conferência. O texto é um relato atribuído a Daniel Vorcaro sobre uma festa na noite anterior; não constitui, por si só, comprovação independente do ocorrido.' },
+      ],
+    }],
+  },
+  'cezinha-de-madureira': {
+    sections: [{
+      title: 'Sobre a conversa',
+      paragraphs: [
+        { text: '“Cezinha de Madureira” é o nome informado para exibição; o print não mostra o cabeçalho, nome do contato nem telefone. “DV” é o rótulo usado para os balões verdes por consistência com o conjunto, não uma identificação confirmada pelo cabeçalho.' },
+        { text: 'A transcrição fornecida contém nove registros de um recorte de conversa com marca d’água “arkanto company”. A data de 13 de março de 2025 é inferida; a imagem mostra somente horas e minutos, sem segundos ou fuso horário. Há dois registros de chamada, mas o áudio não foi fornecido.' },
+      ],
+    }],
+  },
+  'diogo-batista-vorcaro': {
+    about: 'Conversa entre Diogo Batista e Daniel Vorcaro',
+    sections: [{
+      title: 'Diogo Batista',
+      paragraphs: [
+        { text: 'Conversa adicionada a partir dos três prints fornecidos pelo usuário e da matéria atribuída a Daniel Vorcaro. O registro reproduz apenas os trechos visíveis nos prints, com nomes e dados pessoais mascarados conforme o material original.' },
+        { text: 'No trecho disponível, Diogo Batista fala em “segurar umas gringas” para a agência, menciona “sobrou uma ucraniana” e as “3 refugiadas aqui”, além de dizer que uma jovem havia vindo da Ucrânia e que a mãe dela mandou áudio dos bombardeios. O material foi incluído como conversa de referência e não como confirmação de fatos.' },
+      ],
+    }],
+  },
+  'flavio-bolsonaro': {
+    sections: [{
+      title: 'Flávio Bolsonaro',
+      paragraphs: [
+        { text: 'Esta conversa foi adicionada a partir do conteúdo fornecido para o MasterWhats. Os horários originais não foram informados.' },
+      ],
+    }],
+  },
+  'interlocutor-nao-identificado-01': {
+    about: 'Destinatário não identificado',
+    sections: [{
+      title: 'Sobre o registro',
+      paragraphs: [
+        { text: 'Trecho atribuído a Daniel Vorcaro em uma reportagem da Veja sobre seus negócios e festas com Anitta. A reportagem, conforme descrita, não identifica o destinatário nem divulga a data da mensagem.' },
+        { text: 'O texto publicado termina em reticências; a continuação foi omitida pela reportagem e não foi completada aqui. O contexto de que Anitta teria dançado com Vorcaro também é apresentado como relato da publicação, não como fato verificado independentemente neste projeto. O link exato da reportagem não foi fornecido.' },
+      ],
+    }],
+  },
+  'joao-doria': {
+    sections: [
+      {
+        title: 'Sobre João Doria',
+        paragraphs: [
+          { text: 'João Agripino da Costa Doria Junior, nascido em 16 de dezembro de 1957 em São Paulo, é empresário, jornalista e ex-político. Fundou o Grupo Lide, foi prefeito de São Paulo (2017–2018) e governador do estado (2019–2022). Após desistir da pré-candidatura à Presidência em 2022, anunciou que deixaria a vida pública e voltaria à iniciativa privada.' },
+        ],
+      },
+      {
+        title: 'A mensagem a Daniel Vorcaro',
+        paragraphs: [
+          { text: 'Reportagens do {Poder360}[https://www.poder360.com.br/poder-gente/foi-apenas-um-gesto-cordial-diz-doria-sobre-mensagem-a-vorcaro/] e do {Metrópoles}[https://www.metropoles.com/colunas/paulo-cappelli/doria-se-pronuncia-sobre-troca-de-mensagens-com-vorcaro] publicaram uma mensagem atribuída a Doria, enviada em maio de 2025. Nela, ele diz estar preocupado com Vorcaro, afirma ter ouvido coisas que exigiriam uma reação e propõe um café. Na sequência, segundo as reportagens, menciona Vorcaro, o então sócio Maurício Quadrado e o banco, acrescentando que gostaria de conversar reservadamente. As publicações informam que a conversa não esclarece a que fatos Doria se referia.' },
+          { text: 'A assessoria de Doria afirmou que, quando a mensagem foi enviada, ainda não havia tema público de gravidade imputado ao Banco Master e a descreveu como “apenas um gesto cordial”.' },
+          { text: 'A conversa disponível neste acervo é um recorte publicado pela CNN Brasil e não contém todos os trechos reproduzidos nas reportagens.' },
+        ],
+      },
+    ],
+  },
+  'julio-anonimo': {
+    sections: [{
+      title: 'Julio Anônimo',
+      paragraphs: [
+        { text: 'Conversa adicionada a partir das capturas fornecidas pelo usuário. O contato aparece no app como "Julio" e foi registrado neste projeto como "Julio Anônimo" para preservar o nome do personagem.' },
+      ],
+    }],
+  },
+  'luciano-huck': {
+    sections: [
+      {
+        title: 'Sobre Luciano Huck',
+        paragraphs: [
+          { text: 'Luciano Grostein Huck, nascido em 3 de setembro de 1971 em São Paulo, é apresentador de televisão e empresário. Formado em Jornalismo pela Universidade de São Paulo, apresentou programas de auditório como Caldeirão do Huck e Domingão com Huck.' },
+        ],
+      },
+      {
+        title: 'Relação com Daniel Vorcaro',
+        paragraphs: [
+          { text: 'Reportagem da {Veja}[https://veja.abril.com.br/brasil/mensagens-da-pf-revelam-que-luciano-huck-foi-amigo-e-conselheiro-de-daniel-vorcaro/] relata que mensagens encontradas pela Polícia Federal no celular de Daniel Vorcaro registram uma relação pessoal e tratativas comerciais entre os dois. Entre os assuntos estão o patrocínio do Will Bank ao Domingão com Huck, conversas sobre uma aeronave e favores pessoais. A Veja afirma que as mensagens não indicam ilegalidades.' },
+          { text: 'A conversa publicada neste acervo é formada por capturas de tela, não corresponde ao chat integral e contém lacunas entre os trechos disponíveis.' },
+        ],
+      },
+      {
+        title: 'Esclarecimentos',
+        paragraphs: [
+          { text: 'Após a divulgação, a assessoria de Huck negou que ele e Vorcaro fossem sócios. Segundo a nota reproduzida pelo {Hugo Gloss}[https://hugogloss.uol.com.br/brasil/luciano-huck-esclarece-relacao-com-vorcaro-apos-vazamento-de-mensagens/], o contato esteve relacionado à negociação e à gestão do patrocínio do Will Bank ao programa; a assessoria afirmou que o acordo tinha contrato, notas fiscais, impostos recolhidos e serviços prestados, e que os contratos de imagem e publicidade foram rescindidos antes da intervenção do Banco Central no Will Bank.' },
+        ],
+      },
+    ],
+  },
+  'mario-frias': {
+    about: 'Deputado federal (PL-SP)',
+    sections: [{
+      title: 'Mário Frias',
+      paragraphs: [
+        { text: 'Deputado federal e idealizador do filme Dark Horse, segundo a PF. Em 11 de dezembro de 2024, no dia do encontro com Flávio Bolsonaro na casa de Vorcaro, envia um áudio dizendo que vão “mexer com o {coração}[action:search@mario-frias:coração] de muita gente”. O trecho foi publicado pelo Metrópoles em 12 de setembro de 2026; o conteúdo do áudio não está disponível nesta conversa.' },
+      ],
+    }],
+  },
+  'mkt-aninomo': {
+    sections: [{
+      title: 'Sobre a conversa',
+      paragraphs: [
+        { text: 'O rótulo “Mkt-aninomo” foi definido para exibição no catálogo. Nas mensagens, o remetente aparece como “Anônimo Marketing”; as tarjas podem ocultar mais de uma pessoa e não permitem confirmar sua identidade.' },
+        { text: 'A transcrição fornecida contém 14 registros de três capturas de tela com marca d’água “PODER 360”, entre 5 e 18 de abril de 2025. Ela cobre apenas os trechos visíveis, não a conversa completa. Um registro aparece somente como citação, sem data ou horário próprios.' },
+      ],
+    }],
+  },
+  'nikolas-ferreira': {
+    sections: [
+      {
+        title: 'Sobre Nikolas Ferreira',
+        paragraphs: [
+          { text: 'Nikolas Ferreira de Oliveira, nascido em 30 de maio de 1996 em Belo Horizonte, é advogado e político. Eleito deputado federal por Minas Gerais em 2022, foi o candidato a deputado federal mais votado do país naquela eleição e tornou-se uma das principais vozes da direita nas redes sociais e no Congresso.' },
+        ],
+      },
+      {
+        title: 'Áudio e pedido de ajuda',
+        paragraphs: [
+          { text: 'Em setembro de 2026, o {Jornal NH}[https://www.facebook.com/watch/?v=1867100414673831], citando reportagem do ICL Notícias, informou que um áudio enviado por Nikolas a Daniel Vorcaro em março de 2025 foi obtido no âmbito de investigações da Polícia Federal. Segundo o relato, Nikolas pediu ajuda para intermediar a liberação de um ativo de minério em favor de Thiago Rodrigues de Faria, descrito pela publicação como advogado e ex-assessor de seu gabinete.' },
+          { text: 'No mesmo áudio, segundo o Jornal NH, Nikolas pediu desculpas por críticas que havia feito em 2024 ao Fórum Jurídico Brasil de Ideias, em Londres. Ele teria dito que não sabia que o Banco Master era ligado a Vorcaro e atribuiu a André Valadão a informação que o levou a fazer esse esclarecimento. A publicação relata também que Nikolas sugeriu que os dois se encontrassem.' },
+          { text: 'O áudio exibido nesta conversa foi fornecido ao projeto e está registrado com a data de 30 de março de 2025, informada pelo usuário; o horário original não foi informado. Não há confirmação de que seja a mesma gravação descrita pela imprensa.' },
+        ],
+      },
+      {
+        title: 'Outras menções nas reportagens',
+        paragraphs: [
+          { text: 'Em artigo do {Le Monde diplomatique Brasil}[https://diplomatique.org.br/o-sugar-daddy-vorcaro-e-a-anatomia-de-seu-esquema-com-a-republica/], o autor atribui a Vorcaro, em mensagem de abril de 2024, a frase: “Esse Nikolas eu banquei todos os voos dele”. O artigo não apresenta, nesse trecho, detalhes que permitam verificar quais voos estariam em questão.' },
+        ],
+      },
+    ],
+  },
+  'olavo-noletto-ministerio-padilha': {
+    sections: [{
+      title: 'Olavo Noletto',
+      paragraphs: [
+        { text: 'Conversa adicionada a partir das capturas fornecidas pelo usuário. O contato aparece no app como “Olavo Noletto Ministerio Padilha”.' },
+      ],
+    }],
+  },
+  'rayanna': {
+    sections: [{
+      title: 'Rayanna',
+      paragraphs: [
+        { text: 'Conversa fornecida pelo usuário, identificada no material como um diálogo entre Daniel Vorcaro e Rayanna. O chat trata de um encontro em fevereiro de 2025 e de uma cobrança posterior.' },
+        { text: 'O material informa que Kassio negou o encontro e não há mensagem publicada em que ele participe desta conversa.' },
+      ],
+    }],
+  },
+  'rodrigo-fux': {
+    sections: [{
+      title: 'Rodrigo Fux',
+      paragraphs: [
+        { text: 'Conversa fornecida pelo usuário, identificada no material como um diálogo entre Daniel Vorcaro e Rodrigo Fux.' },
+      ],
+    }],
+  },
+  'walfrido-mares': {
+    sections: [{
+      title: 'Walfrido Mares',
+      paragraphs: [
+        { text: 'Conversa adicionada a partir da captura de tela fornecida pelo usuário. O contato aparece no app como “Walfrido Mares Guia”.' },
+      ],
+    }],
+  },
+  'walfrido-warde-new': {
+    sections: [{
+      title: 'Walfrido Warde New',
+      paragraphs: [
+        { text: 'Esta conversa foi adicionada a partir de capturas de tela do WhatsApp, transcrições e um áudio fornecidos pelo usuário. O material contém mensagens e chamadas dos dias 15 e 16 de maio de 2025, além de trechos sem data; um deles inclui o áudio original e sua transcrição.' },
+      ],
+    }],
+  },
+  // Conversas do fork sem perfil lá: o que as mensagens e a fonte dizem.
+  'andre-esteves': {
+    about: 'Fonte anônima',
+    sections: [{
+      title: 'Andre Esteves',
+      paragraphs: [
+        { text: '7 mensagens, em 23 de abril de 2025.' },
+        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'andre-valadao': {
+    about: 'Fonte anônima',
+    sections: [{
+      title: 'André Valadão',
+      paragraphs: [
+        { text: 'No celular de Vorcaro, salvo como "andre-valadao". 31 mensagens, de 8 de abril de 2024 a 31 de julho de 2024.' },
+        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'antonio-rueda-g003-contexto': {
+    about: 'Publicado por UOL',
+    sections: [{
+      title: 'Antonio Rueda',
+      paragraphs: [
+        { text: '1 mensagem, em junho de 2024.' },
+        { text: 'Trechos publicados pela imprensa (UOL), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'assessor-anonimo': {
+    about: 'Fonte anônima',
+    sections: [{
+      title: 'Assessor (sem nome)',
+      paragraphs: [
+        { text: '1 mensagem, em 4 de outubro de 2024.' },
+        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'chiquinho-feitosa': {
+    about: 'Fonte anônima',
+    sections: [{
+      title: 'Chiquinho Feitosa',
+      paragraphs: [
+        { text: '24 mensagens, de 11 de abril de 2024 a 28 de maio de 2024.' },
+        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'ciro-gomes': {
+    about: 'Fonte anônima',
+    sections: [{
+      title: 'Ciro Gomes',
+      paragraphs: [
+        { text: '2 mensagens, em 23 de julho de 2024.' },
+        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'dani-alves': {
+    about: 'Publicado por Poder360',
+    sections: [{
+      title: 'Daniel Alves',
+      paragraphs: [
+        { text: 'No celular de Vorcaro, salvo como "daniel-alves". 24 mensagens, de 11 de janeiro de 2019 a 11 de julho de 2024.' },
+        { text: 'Trechos publicados pela imprensa (Poder360), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'davi-acolumbre': {
+    about: 'Publicado por Poder360 / Veja / CNN Brasil',
+    sections: [{
+      title: 'Davi Alcolumbre Presidente',
+      paragraphs: [
+        { text: '10 mensagens, de 1 de fevereiro de 2025 a 30 de março de 2025.' },
+        { text: 'Trechos publicados pela imprensa (Poder360 / Veja / CNN Brasil), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'dias-toffoli': {
+    about: 'Publicado por piauí',
+    sections: [{
+      title: 'Dias Toffoli',
+      paragraphs: [
+        { text: 'No celular de Vorcaro, salvo como "dias-toffoli". 6 mensagens, de 30 de outubro de 2023 a 14 de agosto de 2024.' },
+        { text: 'Trechos publicados pela imprensa (piauí), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'erika-schneider': {
+    about: 'Publicado por Veja / UOL',
+    sections: [{
+      title: 'Erika Schneider',
+      paragraphs: [
+        { text: 'No celular de Vorcaro, salvo como "erika-schneider". 14 mensagens, em julho de 2025.' },
+        { text: 'Trechos publicados pela imprensa (Veja / UOL), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'fabiano-medina': {
+    about: 'Publicado por O Globo',
+    sections: [{
+      title: 'Fábio Medina Osório',
+      paragraphs: [
+        { text: 'No celular de Vorcaro, salvo como "fabio-medina-osorio". 6 mensagens, de 13 de agosto de 2024 a maio de 2025.' },
+        { text: 'Trechos publicados pela imprensa (O Globo), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'guilherme-barros': {
+    about: 'Fonte anônima',
+    sections: [{
+      title: 'Guilherme Barros Assessor',
+      paragraphs: [
+        { text: 'No celular de Vorcaro, salvo como "guilherme-barros". 65 mensagens, de 7 de agosto de 2024 a 25 de setembro de 2024.' },
+        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'gustavo-lima': {
+    about: 'Publicado por Poder360',
+    sections: [{
+      title: 'Gustavo Lima',
+      paragraphs: [
+        { text: 'No celular de Vorcaro, salvo como "gustavo-lima". 40 mensagens, de 18 de setembro de 2024 a 12 de março de 2025.' },
+        { text: 'Trechos publicados pela imprensa (Poder360), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'hamilton-buzelin': {
+    about: 'Publicado por Poder360',
+    sections: [{
+      title: 'Hamilton Buzelin',
+      paragraphs: [
+        { text: '12 mensagens, de 27 de fevereiro de 2024 a 28 de fevereiro de 2024.' },
+        { text: 'Trechos publicados pela imprensa (Poder360), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'hugo-motta': {
+    about: 'Publicado por Poder360 / O Globo / Folha de S.Paulo / CNN Brasil',
+    sections: [{
+      title: 'Hugo Motta',
+      paragraphs: [
+        { text: 'No celular de Vorcaro, salvo como "hugo-motta". 69 mensagens, de 9 de março de 2024 a agosto de 2025.' },
+        { text: 'Trechos publicados pela imprensa (Poder360 / O Globo / Folha de S.Paulo / CNN Brasil), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'kiko-sobrinho': {
+    about: 'Publicado por piauí',
+    sections: [{
+      title: 'Kiko Sobrinho',
+      paragraphs: [
+        { text: 'No celular de Vorcaro, salvo como "Kiko Sobrinho (arquiteto)". 38 mensagens, de 26 de fevereiro de 2025 a 28 de fevereiro de 2025.' },
+        { text: 'Trechos publicados pela imprensa (piauí), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'ministro-benedito': {
+    about: 'Fonte anônima',
+    sections: [{
+      title: 'Ministro Benedito',
+      paragraphs: [
+        { text: 'No celular de Vorcaro, salvo como "ministro-benedito". 10 mensagens, de 7 de maio de 2024 a 2 de julho de 2024.' },
+        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'nelson-tanure': {
+    about: 'Fonte anônima',
+    sections: [{
+      title: 'Nelson Tanure',
+      paragraphs: [
+        { text: '17 mensagens, de 12 de setembro de 2024 a 18 de fevereiro de 2025.' },
+        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'nelson-willians': {
+    about: 'Fonte anônima',
+    sections: [{
+      title: 'Nelson Wilians',
+      paragraphs: [
+        { text: '5 mensagens, de 11 de outubro de 2024 a 27 de outubro de 2024.' },
+        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'newton-ramos': {
+    about: 'Publicado por piauí / BBC News Brasil',
+    sections: [{
+      title: 'Newton Ramos',
+      paragraphs: [
+        { text: '35 mensagens, de 6 de março de 2024 a 2 de dezembro de 2024.' },
+        { text: 'Trechos publicados pela imprensa (piauí / BBC News Brasil), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'pablo-marcal': {
+    about: 'Publicado por O Globo',
+    sections: [{
+      title: 'Pablo Marçal',
+      paragraphs: [
+        { text: '4 mensagens, em 2 de setembro de 2025.' },
+        { text: 'Trechos publicados pela imprensa (O Globo), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'ricardo-lewandowski': {
+    about: 'Fonte anônima',
+    sections: [{
+      title: 'Ricardo Lewandowski',
+      paragraphs: [
+        { text: '13 mensagens, de 15 de janeiro de 2024 a 2 de fevereiro de 2024.' },
+        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'roberto-justus': {
+    about: 'Publicado por Poder360 / O Globo',
+    sections: [{
+      title: 'Roberto Justus',
+      paragraphs: [
+        { text: 'No celular de Vorcaro, salvo como "roberto-justus". 43 mensagens, de 21 de dezembro de 2024 a 17 de novembro de 2025.' },
+        { text: 'Trechos publicados pela imprensa (Poder360 / O Globo), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'ronaldo-fenomeno': {
+    about: 'Fonte anônima',
+    sections: [{
+      title: 'Ronaldo',
+      paragraphs: [
+        { text: 'No celular de Vorcaro, salvo como "ronaldo-fenomeno". 11 mensagens, de abril de 2024 a julho de 2024.' },
+        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'selma-empregada': {
+    about: 'Publicado por piauí',
+    sections: [{
+      title: 'Selma',
+      paragraphs: [
+        { text: 'No celular de Vorcaro, salvo como "Selma (empregada)". 3 mensagens, em 1 de março de 2025.' },
+        { text: 'Trechos publicados pela imprensa (piauí), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'sicario-master': {
+    about: 'Relatório da PF e BBC News Brasil',
+    sections: [{
+      title: 'sicario master',
+      paragraphs: [
+        { text: 'No celular de Vorcaro, salvo como "sicario-master". 46 mensagens, de 19 de outubro de 2023 a 24 de outubro de 2025.' },
+        { text: 'Trechos que outro projeto atribui ao relatório policial e à decisão do STF no caso Master, sem o documento (selo "não verificado"), e trechos publicados pela BBC News Brasil (selo "imprensa").' },
+      ],
+    }],
+  },
+  'thiago-miranda': {
+    about: 'IPJ-A 270/276 da PF',
+    sections: [{
+      title: 'Thiago Miranda - Leo Dias',
+      paragraphs: [
+        { text: '191 mensagens, de 8 de dezembro de 2024 a 12 de novembro de 2025.' },
+        { text: 'A maior parte vem das IPJ-A 270/2026 e 276/2026 da Polícia Federal, na transcrição de outro projeto; sem o PDF, levam o selo "não verificado". Dezessete vêm de capturas de tela sem origem identificada.' },
+      ],
+    }],
+  },
+  'yasmin-brunet': {
+    about: 'Fonte anônima',
+    sections: [{
+      title: 'Yasmin Brunet',
+      paragraphs: [
+        { text: 'No celular de Vorcaro, salvo como "yasmin-brunet". 24 mensagens, de 31 de dezembro de 2023 a junho de 2024.' },
+        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+      ],
+    }],
+  },
+  'ze-maria': {
+    about: 'Fonte anônima',
+    sections: [{
+      title: 'Ze Maria Chef Iate Clube',
+      paragraphs: [
+        { text: 'No celular de Vorcaro, salvo como "ze-maria". 7 mensagens, em 27 de dezembro de 2023.' },
+        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+      ],
+    }],
+  },
   'martha-graeff': MARTHA_PROFILE,
   'alexandre-de-moraes': MORAES_PROFILE,
   ...OTHER_PROFILES,
