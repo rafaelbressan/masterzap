@@ -95,6 +95,33 @@ export function normalize(str) {
     .replace(/[\u0300-\u036f]/g, '');
 }
 
+/** A search starts at the third character: one or two match almost anything. */
+export const MIN_QUERY_LENGTH = 3;
+
+/**
+ * Where a name matches a query, as [start, end] ranges of the name, or null.
+ * The query whole anywhere in the name ("serg" in "João Sérgio"); or else
+ * each of its words at the start of a word of the name, in any order ("ana
+ * mkt" in "Ana Matos Mkt", "luiz mourao" in "Luiz Phillipi … Mourão"). Case
+ * and accents aside; offsets line up with the name (composed characters).
+ */
+export function nameMatch(name, query) {
+  const n = normalize(name);
+  const q = normalize(query).trim();
+  if (!q) return null;
+  const whole = n.indexOf(q);
+  if (whole !== -1) return [[whole, whole + q.length]];
+  const words = q.split(/[^a-z0-9]+/).filter(Boolean);
+  const ranges = [];
+  for (const word of words) {
+    const at = n.search(new RegExp(`(^|[^a-z0-9])${word}`));
+    if (at === -1) return null;
+    const start = at === 0 && n.startsWith(word) ? 0 : at + 1;
+    ranges.push([start, start + word.length]);
+  }
+  return ranges.sort((a, b) => a[0] - b[0]);
+}
+
 /** How much text to keep before a match, and in all. */
 const EXCERPT_LEAD = 20;
 const EXCERPT_LENGTH = 110;
@@ -158,9 +185,9 @@ function entriesOf(index) {
  */
 export function searchIndex(index, query, { limit = 50, sender } = {}) {
   const entries = entriesOf(index);
-  // Two letters at least, counted after accents go (a lone accent is nothing).
+  // Three letters at least (MIN_QUERY_LENGTH), counted after accents go.
   const normalizedQuery = normalize(query || '');
-  if (!entries || normalizedQuery.length < 2) return [];
+  if (!entries || normalizedQuery.length < MIN_QUERY_LENGTH) return [];
 
   const normalized = normalizedOf(entries);
   const results = [];

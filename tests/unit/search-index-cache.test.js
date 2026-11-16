@@ -137,10 +137,10 @@ describe('searching an index', () => {
     expect(searchIndex(entries, 'amor', { sender: 'DV' }).map(r => r.id)).toEqual([1, 3]);
   });
 
-  it('needs two letters once accents are gone', () => {
-    expect(searchIndex(entries, '\u0301\u0301')).toEqual([]);
-    expect(searchIndex(entries, 'á')).toEqual([]);
-    expect(searchIndex(entries, 'am').length).toBe(3);
+  it('needs three letters once accents are gone', () => {
+    expect(searchIndex(entries, '\u0301\u0301\u0301')).toEqual([]);
+    expect(searchIndex(entries, 'ám')).toEqual([]);
+    expect(searchIndex(entries, 'amo').length).toBe(3);
   });
 });
 

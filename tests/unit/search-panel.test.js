@@ -5,6 +5,16 @@ import { matchConversations, matchMessages } from '../../src/components/SearchPa
 const conv = (id, name) => ({ id, participants: ['DV', name] });
 
 describe('matchConversations()', () => {
+  it('finds a chat by another name, after the names that match, saying which', () => {
+    const sicario = { ...conv('sicario-master', 'Sicário'), aliases: ['Felipe Mourão', 'sicario master'] };
+    const list = [sicario, conv('m', 'Mourão Filho')];
+    const found = matchConversations(list, 'mourao');
+    expect(found.map(m => m.conv.id)).toEqual(['m', 'sicario-master']);
+    expect(found[1]).toMatchObject({ name: 'Sicário', alias: 'Felipe Mourão', ranges: [[7, 13]] });
+    // A name match is not repeated by an alias.
+    expect(matchConversations([sicario], 'sicario').map(m => m.alias)).toEqual([undefined]);
+  });
+
   const list = [conv('vivi', 'Vivi Moraes'), conv('ale', 'Alexandre de Moraes'), conv('mor', 'Moraes Filho'), conv('x', 'Outro')];
 
   it('finds by any part of the name, without accents, names that start with it first', () => {
@@ -14,7 +24,18 @@ describe('matchConversations()', () => {
 
   it('marks where the name matches', () => {
     const [m] = matchConversations([conv('j', 'João Sérgio')], 'serg');
-    expect(m.name.slice(m.start, m.end)).toBe('Sérg');
+    expect(m.ranges.map(([a, b]) => m.name.slice(a, b))).toEqual(['Sérg']);
+  });
+
+  it('finds by the words of the name in any order, each one marked', () => {
+    const [m] = matchConversations([conv('a', 'Ana Matos Mkt')], 'MKT ana');
+    expect(m.ranges.map(([a, b]) => m.name.slice(a, b))).toEqual(['Ana', 'Mkt']);
+    const long = conv('s', 'Luiz Phillipi Machado de Moraes Mourão');
+    expect(matchConversations([long], 'luiz mourao')).toHaveLength(1);
+    expect(matchConversations([long], 'moraes luiz')).toHaveLength(1);
+    // Every word has to be there, at the start of a word of the name.
+    expect(matchConversations([long], 'luiz silva')).toHaveLength(0);
+    expect(matchConversations([long], 'uiz ourao')).toHaveLength(0);
   });
 });
 

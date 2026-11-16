@@ -32,9 +32,11 @@ export function conversationName(conv) {
  * @param {object} [options]
  * @param {string} [options.nameHtml] - the name, already escaped (the search
  *   passes it with the match marked)
+ * @param {string} [options.previewHtml] - the second line, already escaped (the
+ *   search shows there the other name a chat was found by)
  * @returns {HTMLElement}
  */
-export function buildConversationItem(conv, { nameHtml } = {}) {
+export function buildConversationItem(conv, { nameHtml, previewHtml } = {}) {
   const item = document.createElement('div');
   item.className = 'conversation-item';
   item.setAttribute('role', 'listitem');
@@ -65,7 +67,7 @@ export function buildConversationItem(conv, { nameHtml } = {}) {
         <span class="conversation-item-time">${lastTimeLabel}</span>
       </div>
       <div class="conversation-item-bottom">
-        <span class="conversation-item-preview">${lastPreview}</span>
+        <span class="conversation-item-preview">${previewHtml ?? lastPreview}</span>
         <span class="conversation-item-unread" data-conv-id="${conv.id}">${msgCount}</span>
         <span class="conversation-item-pin" role="img" aria-label="Conversa fixada" title="Conversa fixada"${isPinned(conv.id) ? '' : ' hidden'}>${ICON_PIN}</span>
       </div>

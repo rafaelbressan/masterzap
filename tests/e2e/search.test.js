@@ -131,6 +131,26 @@ test.describe('Search across conversations', () => {
     await expect(page.locator('.search-result-item').first()).toBeVisible();
   });
 
+  test('another name of a contact finds the chat, and says which name matched', async ({ page }) => {
+    // The thesaurus (data/aliases.json): "Sicário" is Felipe Mourão.
+    await page.locator('.sidebar-search-input').fill('Felipe Mourão');
+    const chat = page.locator('.search-results .conversation-item[data-id="sicario-master"]');
+    await expect(chat).toBeVisible({ timeout: 10000 });
+    await expect(chat.locator('.conversation-item-name')).toHaveText('Sicário');
+    await expect(chat.locator('.conversation-item-preview .search-highlight')).toHaveText('Felipe Mourão');
+  });
+
+  test('words of a name in any order find the chat; two letters find nothing', async ({ page }) => {
+    const input = page.locator('.sidebar-search-input');
+    await input.fill('mkt ana');
+    await expect(page.locator('.search-results .conversation-item[data-id="ana-matos-mkt"]')).toBeVisible({ timeout: 10000 });
+    // Below three characters the list stays as it was.
+    await input.fill('an');
+    await page.waitForTimeout(600);
+    await expect(page.locator('.search-results .conversation-item')).toHaveCount(0);
+    await expect(page.locator('.conversation-list .conversation-item').first()).toBeVisible();
+  });
+
   test('messages come from every conversation, newest first', async ({ page }) => {
     await page.locator('.sidebar-search-input').fill('moraes');
     await page.locator('.search-result-item').first().waitFor({ timeout: 10000 });

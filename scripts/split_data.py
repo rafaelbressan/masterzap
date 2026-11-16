@@ -214,6 +214,18 @@ def describe_call(msg, owner=DEFAULT_OWNER):
     }
 
 
+def load_aliases():
+    """data/aliases.json: {conversation id: [other names]} — the search's thesaurus."""
+    path = DATA_DIR / "aliases.json"
+    if not path.exists():
+        return {}
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+ALIASES = load_aliases()
+
+
 def normalise_date_range(date_range):
     """Always {"start": ..., "end": ...}.
 
@@ -298,6 +310,17 @@ def split_conversation(conv_id, data, index):
             "sender": last_msg["sender"],
         } if last_msg else None,
     }
+    # Other names the chat is found by in the list's search: the thesaurus
+    # (data/aliases.json), how the contact was saved in the phone, and every
+    # name the data gives them (the participant, the sender of their
+    # messages: "Ana Matos" for the chat listed as "Ana Matos Mkt").
+    names = ALIASES.get(conv_id, []) + [metadata.get("saved_as") or ""] + other \
+        + sorted({m["sender"] for m in messages
+                  if m.get("sender") and m["sender"] != owner and m.get("type") != "system"})
+    shown = entry.get("contact") or (other[0] if other else "")
+    aliases = [n for n in dict.fromkeys(names) if n and n != shown]
+    if aliases:
+        entry["aliases"] = aliases
     for key in ("phone", "saved_as", "note"):
         if metadata.get(key):
             entry[key] = metadata[key]
@@ -343,6 +366,9 @@ def main():
     for conv_id, payload, _ in sources:
         check(validate_messages(payload["messages"], conv_id)
               + validate_provenance(payload["metadata"], payload["messages"], SOURCES, conv_id))
+    # A thesaurus entry for a chat that is not here would never be found.
+    known = {conv_id for conv_id, _, _ in sources}
+    check([f"data/aliases.json: conversa desconhecida {cid!r}" for cid in ALIASES if cid not in known])
 
     # Two sources sharing an id would overwrite each other's chunks in
     # public/data/<id>/ and produce a duplicate entry in conversations.json.

@@ -14,7 +14,7 @@
  */
 import { isOutgoing } from '../lib/participants.js';
 import { escapeHtml, formatDateShort } from '../lib/utils.js';
-import { searchIndex, loadSearchIndex, normalize, isIndexLoaded } from '../lib/search.js';
+import { searchIndex, loadSearchIndex, normalize, isIndexLoaded, nameMatch, MIN_QUERY_LENGTH } from '../lib/search.js';
 import { buildConversationItem, conversationName } from './Sidebar.js';
 import { ICON_TICKS } from '../lib/icons.js';
 
@@ -28,6 +28,18 @@ const NEAR_END_PX = 400;
  * Highlight the matched substring with a <mark> tag.
  * Each segment is independently escaped before concatenation.
  */
+/** The name with every matched range marked; each piece escaped. */
+function highlightRanges(content, ranges) {
+  let html = '';
+  let at = 0;
+  for (const [start, end] of ranges) {
+    if (start < at) continue;
+    html += escapeHtml(content.slice(at, start)) + `<mark class="search-highlight">${escapeHtml(content.slice(start, end))}</mark>`;
+    at = end;
+  }
+  return html + escapeHtml(content.slice(at));
+}
+
 function highlightMatch(content, start, end) {
   const before = escapeHtml(content.slice(0, start));
   const match = escapeHtml(content.slice(start, end));
@@ -35,20 +47,30 @@ function highlightMatch(content, start, end) {
   return `${before}<mark class="search-highlight">${match}</mark>${after}`;
 }
 
-/** The chats whose name matches, those starting with the query first. */
+/**
+ * The chats whose name matches (nameMatch: the query whole, or its words in
+ * any order), those starting with it first; then those found by another name
+ * (`aliases`: the thesaurus, how the contact was saved, the names the data
+ * gives them), which say which name matched.
+ */
 export function matchConversations(conversations, query) {
-  const q = normalize(query);
   const matches = [];
   for (const conv of conversations) {
     const name = conversationName(conv);
-    const start = normalize(name).indexOf(q);
-    if (start === -1) continue;
-    // Offsets into the normalized name, which for the names here (composed
-    // characters) line up with the name itself.
-    matches.push({ conv, name, start, end: start + q.length });
+    const ranges = nameMatch(name, query);
+    if (ranges) {
+      matches.push({ conv, name, ranges });
+      continue;
+    }
+    for (const alias of conv.aliases || []) {
+      const hit = nameMatch(alias, query);
+      if (!hit) continue;
+      matches.push({ conv, name, alias, ranges: hit });
+      break;
+    }
   }
-  return matches.sort((a, b) => (a.start === 0 ? 0 : 1) - (b.start === 0 ? 0 : 1)
-    || a.name.localeCompare(b.name, 'pt-BR'));
+  const rank = (m) => (m.alias ? 2 : m.ranges[0][0] === 0 ? 0 : 1);
+  return matches.sort((a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name, 'pt-BR'));
 }
 
 /**
@@ -214,8 +236,11 @@ export function attachSearch(sidebar, conversations, { onConversationClick, onMe
       const chatsSection = section('Conversas');
       const list = document.createElement('div');
       list.setAttribute('role', 'list');
-      for (const { conv, name, start, end } of chats) {
-        const item = buildConversationItem(conv, { nameHtml: highlightMatch(name, start, end) });
+      for (const { conv, name, alias, ranges } of chats) {
+        // Found by another name: the name as it is, and that name under it.
+        const item = alias
+          ? buildConversationItem(conv, { previewHtml: highlightRanges(alias, ranges) })
+          : buildConversationItem(conv, { nameHtml: highlightRanges(name, ranges) });
         // The open chat is marked as in the list.
         item.classList.toggle('active', conv.id === activeId());
         onKeyActivate(item, () => onConversationClick(conv.id));
@@ -265,7 +290,7 @@ export function attachSearch(sidebar, conversations, { onConversationClick, onMe
     const query = input.value.trim();
 
     // Two letters at least, counted after accents go (a lone accent is nothing).
-    if (normalize(query).length < 2) {
+    if (normalize(query).length < MIN_QUERY_LENGTH) {
       hideResults();
       cancelSearch();
       return;

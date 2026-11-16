@@ -147,10 +147,11 @@ test.describe('on a dark device', () => {
     await page.goto('/');
     await page.locator('.conversation-item').first().waitFor();
     await page.locator('.sidebar-search-input').fill('amor');
+    // The results draw twice (the chats, then the messages): assertions that
+    // wait, not one read in between.
     const match = page.locator('.search-results .search-highlight').first();
-    await expect(match).toBeVisible();
-    expect(await match.evaluate(el => getComputedStyle(el).color)).toBe('rgb(33, 192, 99)');
-    expect(await match.evaluate(el => getComputedStyle(el).backgroundColor)).toBe('rgba(0, 0, 0, 0)');
+    await expect(match).toHaveCSS('color', 'rgb(33, 192, 99)');
+    await expect(match).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
   });
 
   test('the chat print comes out dark, as the screen', async ({ page }) => {
