@@ -39,6 +39,7 @@ npm run dev           # Start dev server
 
 ## Key Conventions
 
+- **Scope: the Banco Master case only.** Data comes in only when it concerns Daniel Vorcaro and the Master case: his conversations, the documents of the investigation, press reports about it. Material that only reached the same compilations (other people's wiretaps, audios of other politicians, old conversations with no tie to Vorcaro) stays out, even when a fork or a third-party compilation carries it. When importing from such a compilation, leave those conversations and files behind rather than importing and hiding them
 - **Language**: All UI text in Brazilian Portuguese (pt-BR)
 - **Styling**: WDS (WhatsApp Design System) CSS custom properties in `wds-tokens.css`
 - **Message types**: text, image, video, audio, sticker, document, deleted, call, system
