@@ -103,7 +103,8 @@ export class DataStore {
   /**
    * Load the date index for a conversation.
    * @param {string} conversationId
-   * @returns {Promise<Array>} Array of { date, message_count, first_message_id, last_message_id }
+   * @returns {Promise<Array>} Array of { date, message_count, first_message_id, last_message_id, id_runs? }
+   *   (id_runs: [[first, last], …], only on a day that is not one run of ids)
    */
   async getConversationIndex(conversationId) {
     if (this._indexes.has(conversationId)) {

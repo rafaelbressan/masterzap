@@ -363,6 +363,15 @@ def document_seal(source_id):
     return VERIFICATION if source.get("file") else "nao-verificado"
 
 
+def refuse_anchors(where, conv_id, rows):
+    """`after` places a line added to a conversation that already exists; on a
+    line that starts one it would be ignored, so it is refused."""
+    anchored = [r["id"] for r in rows if "after" in r]
+    if anchored:
+        sys.exit(f"{where}: {conv_id} msgs {anchored} têm \"after\", mas a conversa é nova "
+                 "(after só vale para acréscimo a uma conversa que já existe)")
+
+
 def add_document_conversations(conversations, appends):
     """The chats the other documents quote, one new conversation per contact.
 
@@ -388,6 +397,7 @@ def add_document_conversations(conversations, appends):
                         {**r, "source_id": r.get("source_id") or doc["source_id"],
                          "verification": r.get("verification") or seal, "_where": doc["dir"]})
                 continue
+            refuse_anchors(doc["dir"], conv_id, rows)
             saved_as = rows[0]["peer"]
             peer = CONTACT_DISPLAY_NAMES.get(conv_id, saved_as)
             messages = sorted((row_message(r["id"], r) for r in rows), key=sort_key)
@@ -432,6 +442,7 @@ def add_fork_conversations(conversations, appends):
             sys.exit(f"data/fork: {conv_id} já existe; uma conversa nova do fork não pode ter "
                      "o id de uma que já existe (os acréscimos ficam fora de conversas.json).")
         rows = by_conv[conv_id]
+        refuse_anchors("data/fork", conv_id, rows)
         # In the file's order: the converter put each day in the fork's order.
         messages = [row_message(r["id"], r) for r in rows]
         resolve_quotes(conv_id, messages)
@@ -457,7 +468,9 @@ def append_messages(conversations, appends):
     id is an address, never reused or renumbered), so ids alone cannot place
     it. Each line says where it goes: ``after``, the id of the message right
     before it on the same day (null: the first of its day). Lines are applied
-    in id order, so an anchor can be a line added in the same run.
+    in id order, so an anchor can be a line added in the same run only when
+    its id is lower (the converter numbers lines in the fork's order, so the
+    line before always has the lower id).
     """
     for conv_id, rows in appends.items():
         if conv_id not in conversations:
@@ -465,21 +478,22 @@ def append_messages(conversations, appends):
                      "uma conversa a que se acrescentar")
         messages = conversations[conv_id]["messages"]
         by_id = {m["id"]: m for m in messages}
+        where = lambda r: f"{r['_where']}: {conv_id} msg {r['id']}"
+        for r in rows:
+            if "after" not in r:
+                sys.exit(f"{where(r)}: a conversa já existe; o acréscimo precisa de \"after\"")
         # Two lines at one spot would come out in reverse: each anchor once
         # (and one first line per day), so the order is never a guess.
         spots = defaultdict(list)
         for r in rows:
-            spots[r.get("after") if r.get("after") is not None else ("first", r.get("date") or (r.get("ts") or "")[:10])].append(r["id"])
-        for spot, ids in spots.items():
-            if len(ids) > 1:
-                sys.exit(f"{rows[0]['_where']}: {conv_id} msgs {ids} entram no mesmo lugar ({spot}); "
+            spots[r["after"] if r["after"] is not None else ("first", r.get("date") or (r.get("ts") or "")[:10])].append(r)
+        for spot, same in spots.items():
+            if len(same) > 1:
+                sys.exit(f"{'; '.join(where(r) for r in same)}: entram no mesmo lugar ({spot}); "
                          "encadeie: cada uma depois da anterior")
         for row in sorted(rows, key=lambda r: r["id"]):
-            where = f"{row['_where']}: {conv_id} msg {row['id']}"
-            if "after" not in row:
-                sys.exit(f"{where}: a conversa já existe; o acréscimo precisa de \"after\"")
             if row["id"] in by_id:
-                sys.exit(f"{where}: id já usado na conversa")
+                sys.exit(f"{where(row)}: id já usado na conversa")
             msg = row_message(row["id"], row)
             anchor = row["after"]
             if anchor is None:
@@ -490,9 +504,9 @@ def append_messages(conversations, appends):
                             if date_sort_key(m["date"]) >= key), len(messages))
             else:
                 if anchor not in by_id:
-                    sys.exit(f"{where}: after {anchor} não está na conversa")
+                    sys.exit(f"{where(row)}: after {anchor} não está na conversa")
                 if by_id[anchor]["date"] != msg["date"]:
-                    sys.exit(f"{where}: after {anchor} é de {by_id[anchor]['date']}, "
+                    sys.exit(f"{where(row)}: after {anchor} é de {by_id[anchor]['date']}, "
                              f"não de {msg['date']}")
                 pos = messages.index(by_id[anchor]) + 1
             messages.insert(pos, msg)

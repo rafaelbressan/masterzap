@@ -84,6 +84,31 @@ export function sourceOf(entry) {
   };
 }
 
+/**
+ * The conversation's seal and, when some messages carry another, how many:
+ * "Verificado · 76 mensagens marcadas como Não verificado e 30 …" — the line
+ * the app draws (conversationSealLine in src/lib/provenance.js).
+ */
+export function sealSummary(entry) {
+  const others = Object.entries(entry.verification_counts || {})
+    .filter(([v]) => v !== entry.verification && SEALS[v]);
+  const parts = others.map(([v, n]) => `${n.toLocaleString('pt-BR')} ${n === 1 ? 'mensagem marcada' : 'mensagens marcadas'} como ${SEALS[v].label}`);
+  const label = VERIFICATION_LABELS[entry.verification];
+  return parts.length ? `${label} · ${new Intl.ListFormat('pt-BR', { type: 'conjunction' }).format(parts)}` : label;
+}
+
+/**
+ * What a message from another source than its conversation's says beside it,
+ * as the Markdown export does: its seal and that source. Empty otherwise.
+ */
+export function messageProvenanceTags(msg, entry) {
+  const { source_id: sourceId, verification: seal } = provenanceOf(msg, entry);
+  const tags = [];
+  if (seal !== entry.verification) tags.push(VERIFICATION_LABELS[seal].toLowerCase());
+  if (sourceId !== entry.source_id) tags.push(`fonte: ${loadSources().get(sourceId)?.titulo || sourceId}`);
+  return tags;
+}
+
 /** A message's own source and seal, falling back to its conversation's (src/lib/provenance.js). */
 export const provenanceOf = (msg, entry) => {
   const { sourceId, verification } = appProvenanceOf(msg, entry);

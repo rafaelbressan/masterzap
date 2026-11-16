@@ -4,8 +4,9 @@ import { test, expect } from '@playwright/test';
 // and as a "Fonte" row in the contact drawer.
 test.describe('Provenance seal', () => {
   test('a police-report conversation says where it came from', async ({ page }) => {
-    await page.goto('/#/chat/geraldo-brazil-journal');
-    await expect(page.locator('.chat-header-info')).toHaveText(/12 mensagens · Verificado/);
+    // A chat with only the report's messages (Geraldo's now has the fork's too).
+    await page.goto('/#/chat/motorista-brasilia-sidney');
+    await expect(page.locator('.chat-header-info')).toHaveText(/8 mensagens · Verificado/);
 
     // One day only, so the oldest day — and its notice — is on screen.
     const notice = page.locator('.chat-seal-notice');

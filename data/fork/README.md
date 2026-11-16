@@ -57,9 +57,10 @@ citação: o build acha a mensagem citada na conversa ou usa o autor que o fork 
 ## Acréscimos a conversas que já existiam
 
 O fork também acrescentou mensagens a 11 conversas que já tínhamos de outras
-fontes (Moraes, Ciro Soares, Fábio Faria, Luiz Rennó e outras). Elas estão em
-`mensagens.jsonl`, com o `conv` da conversa existente, que não aparece em
-`conversas.json`. Cada linha traz `source_id` e `verification` próprios e
+fontes (Moraes, Ciro Soares, Fábio Faria, Luiz Rennó e outras). As de 10 delas
+estão em `mensagens.jsonl`, com o `conv` da conversa existente, que não aparece
+em `conversas.json`; as da Romy vêm todas da Pet 15.497 e estão só em
+`data/pet-15497/`. Cada linha traz `source_id` e `verification` próprios e
 `after`, a mensagem que vem antes dela no mesmo dia, na ordem do fork (ver
 "Acréscimos" em `data/README.md`). As que citam a representação da Pet 15.497
 estão em `data/pet-15497/`.

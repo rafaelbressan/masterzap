@@ -25,8 +25,9 @@ import { SETTINGS_CONTENT } from '../src/lib/settings-content.js';
 import { DISCLAIMER } from '../src/config/site.js';
 import {
   ROOT, SITE, REPO, TIMEZONE, UTC_OFFSET,
-  loadEntries, loadMessages, sourceOf, provenanceOf, VERIFICATION_LABELS, contactOf, ownerName, whoIs, createResolver, createLocator, isPaged,
+  loadEntries, loadMessages, sourceOf, provenanceOf, contactOf, ownerName, whoIs, createResolver, createLocator, isPaged,
   urlsIn, linksToMarkdown, longDate, phonePretty, MEDIA, monthOf, zonedTimestamp, loadSources, pageOf, periodOf,
+  sealSummary, messageProvenanceTags,
 } from './lib/corpus.mjs';
 
 const OUT = join(ROOT, 'public/export');
@@ -132,7 +133,7 @@ function conversationMarkdown(entry, messages, { standalone = true, month = null
 
   out.push(`${sub} Proveniência`, '', '| | |', '|---|---|');
   out.push(`| Fonte | ${source.label} |`);
-  out.push(`| Selo | ${VERIFICATION_LABELS[source.verification]} |`);
+  out.push(`| Selo | ${sealSummary(entry)} |`);
   if (!source.document && source.document_url) out.push(`| Referência | [${source.document_url}](${source.document_url}) |`);
   if (source.archive_url) out.push(`| Cópia arquivada | [${source.archive_url}](${source.archive_url}) |`);
   if (source.document) out.push(`| Documento | \`${source.document}\`${source.document_pages ? `, ${source.document_pages} páginas` : ''}${source.document_url ? ` — [no repositório](${source.document_url})` : ''} (sha256 \`${source.document_sha256 || 'n/d'}\`) |`);
@@ -167,9 +168,7 @@ function conversationMarkdown(entry, messages, { standalone = true, month = null
     const page = pageOf(msg, entry.id);
     if (page) tags.push(page);
     // A message whose seal is not the conversation's says so where it is read.
-    const { source_id: sourceId, verification: seal } = provenanceOf(msg, entry);
-    if (seal !== entry.verification) tags.push(VERIFICATION_LABELS[seal].toLowerCase());
-    if (sourceId !== entry.source_id) tags.push(`fonte: ${loadSources().get(sourceId)?.titulo || sourceId}`);
+    tags.push(...messageProvenanceTags(msg, entry));
     // The same message, quoted in another document too.
     for (const id of msg.also_in || []) tags.push(`também em ${loadSources().get(id)?.titulo || id}`);
     out.push(`**${msg.sender}** · ${tags.join(' · ')}`);

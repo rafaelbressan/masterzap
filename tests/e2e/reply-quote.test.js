@@ -35,8 +35,10 @@ test('tapping the quote goes to the quoted message', async ({ page }) => {
 });
 
 test('a quote of a message the report did not print still names its author', async ({ page }) => {
+  // Its own link: the fork's messages put days between it and 104.
+  await page.goto('/#/chat/fabio-faria/msg/77');
   const row = page.locator('.chat-msg-row[data-id="77"]');
-  await row.scrollIntoViewIfNeeded();
+  await row.waitFor();
   const quote = row.locator('.chat-msg-quote');
   await expect(quote.locator('.chat-msg-quote-author')).toHaveText('Você');
   await expect(quote).toHaveClass(/from-owner/);

@@ -112,7 +112,8 @@ describe('the Markdown', () => {
 
   it('cites the page of the report on every message from it, and the source of the others', () => {
     const text = md('alexandre-de-moraes');
-    const headers = text.split('\n').filter(l => /^\*\*.+\*\* · \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} · msg \d+/.test(l));
+    // Every message header, with its time or saying it is not known.
+    const headers = text.split('\n').filter(l => /^\*\*.+\*\* · \d{4}-\d{2}-\d{2}[ ,].* · msg \d+/.test(l));
     const added = headers.filter(l => / · fonte: /.test(l));
     expect(headers.length - added.length).toBe(62);
     for (const line of headers.filter(l => !added.includes(l))) expect(line).toMatch(/laudo p\. \d+/);

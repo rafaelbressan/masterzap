@@ -114,7 +114,10 @@ copiar o campo como veio:
   `scripts/build_ipj_data.py`) insere na ordem dos ids e recusa âncora que não
   existe ou é de outro dia. Um dia que ganhou mensagem assim deixa de ser uma
   faixa contínua de ids: o índice lista as faixas em `id_runs`, que
-  `findDateForMessage` usa para achar o dia de um link.
+  `findDateForMessage` usa para achar o dia de um link. Nesses dias,
+  `first_message_id`..`last_message_id` cobre ids de outros dias: quem lê o
+  índice deve usar `id_runs` quando existir. `after` numa linha que abre uma
+  conversa nova é recusado.
 - **Horário**: hora local de Brasília, **sem offset** (`2024-02-10T11:12:08`, nunca
   `…-03:00`). O export acrescenta o fuso. Um importador que receba `-03:00` ou UTC
   passa a mensagem por `normalise_message()`.

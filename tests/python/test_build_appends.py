@@ -1,12 +1,21 @@
 """Messages added later to a conversation that already exists."""
 
+import contextlib
+import io
+import json
 import sys
+import tempfile
 import unittest
+from collections import defaultdict
 from pathlib import Path
+from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 
+import build_ipj_data  # noqa: E402
 from build_ipj_data import append_messages, build_index, id_runs  # noqa: E402
+
+ROOT = Path(__file__).resolve().parents[2]
 
 
 def base():
@@ -76,6 +85,82 @@ class AppendMessages(unittest.TestCase):
         old.update(quoted="a", quoted_id=1, quoted_sender="DV")
         append_messages(convs, {"ana": [row(4, 2, "a", "2024-01-01 12:00:00", sender="DV")]})
         self.assertEqual(old["quoted_id"], 1)
+
+
+    def test_an_added_reply_is_resolved_and_the_range_grows(self):
+        convs = base()
+        append_messages(convs, {"ana": [
+            row(4, 2, "resp", "2024-01-01 12:00:00", quoted="a", quoted_sender="DV"),
+            row(5, None, "late", "2024-01-05 09:00:00"),
+        ]})
+        msgs = {m["id"]: m for m in convs["ana"]["messages"]}
+        self.assertEqual(msgs[4]["quoted_id"], 1)
+        self.assertEqual(convs["ana"]["metadata"]["date_range"], {"start": "2024-01-01", "end": "2024-01-05"})
+
+
+class Routing(unittest.TestCase):
+    """Which lines become additions, and with what source and seal."""
+
+    DOC = {"dir": "doc", "source_id": "doc-src", "label": "Doc"}
+
+    def doc_rows(self, **extra):
+        return [{"id": 4, "conv": "ana", "peer": "Ana", "ts": "2024-01-01 12:00:00", "sender": "Ana",
+                 "type": "text", "content": "z", "page": 9, "after": 2, **extra}]
+
+    def run_docs(self, rows):
+        appends = defaultdict(list)
+        with mock.patch.object(build_ipj_data, "DOCUMENTS", [self.DOC]), \
+                mock.patch.object(build_ipj_data, "read_jsonl", return_value=rows), \
+                mock.patch.object(build_ipj_data, "document_seal", return_value="nao-verificado"):
+            build_ipj_data.add_document_conversations(base(), appends)
+        return appends
+
+    def test_a_document_line_for_an_existing_chat_takes_the_document_source_and_seal(self):
+        added = self.run_docs(self.doc_rows())["ana"][0]
+        self.assertEqual((added["source_id"], added["verification"]), ("doc-src", "nao-verificado"))
+        # Its own seal stays.
+        added = self.run_docs(self.doc_rows(verification="reconstruido"))["ana"][0]
+        self.assertEqual(added["verification"], "reconstruido")
+
+    def test_a_document_line_with_its_own_source_needs_its_own_seal(self):
+        with self.assertRaises(SystemExit):
+            self.run_docs(self.doc_rows(source_id="uol"))
+
+    def test_after_on_a_line_that_starts_a_chat_is_refused(self):
+        with self.assertRaises(SystemExit):
+            self.run_docs([{**self.doc_rows()[0], "conv": "nova"}])
+
+    def test_a_fork_line_for_an_existing_chat_needs_its_own_source_and_seal(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fork = Path(tmp) / "data" / "fork"
+            fork.mkdir(parents=True)
+            (fork / "conversas.json").write_text("{}")
+            (Path(tmp) / "data" / "sources.json").write_text('{"sources": []}')
+            line = {"id": 4, "conv": "ana", "ts": "2024-01-01 12:00:00", "sender": "Ana",
+                    "type": "text", "content": "z", "after": 2}
+            (fork / "mensagens.jsonl").write_text(json.dumps(line))
+            with mock.patch.object(build_ipj_data, "ROOT", Path(tmp)), self.assertRaises(SystemExit):
+                build_ipj_data.add_fork_conversations(base(), defaultdict(list))
+            (fork / "mensagens.jsonl").write_text(json.dumps({**line, "source_id": "s", "verification": "imprensa"}))
+            appends = defaultdict(list)
+            with mock.patch.object(build_ipj_data, "ROOT", Path(tmp)):
+                build_ipj_data.add_fork_conversations(base(), appends)
+            self.assertEqual([r["id"] for r in appends["ana"]], [4])
+
+
+class CommittedConversations(unittest.TestCase):
+    def test_data_conversations_is_what_the_build_writes(self):
+        # Three sources feed the appends: a line edited and never rebuilt
+        # would ship stale. Run `python3 scripts/build_ipj_data.py` to fix.
+        committed = ROOT / "data" / "conversations"
+        with tempfile.TemporaryDirectory() as tmp:
+            with mock.patch.object(build_ipj_data, "OUT_DIR", Path(tmp)), \
+                    contextlib.redirect_stdout(io.StringIO()):
+                build_ipj_data.main()
+            built = {p.name: p.read_bytes() for p in Path(tmp).glob("*.json")}
+        self.assertEqual(sorted(built), sorted(p.name for p in committed.glob("*.json")))
+        stale = [name for name, data in built.items() if (committed / name).read_bytes() != data]
+        self.assertEqual(stale, [], "data/conversations desatualizado: rode scripts/build_ipj_data.py")
 
 
 class IdRuns(unittest.TestCase):
