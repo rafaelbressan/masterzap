@@ -208,6 +208,9 @@ function conversationJson(entry, messages) {
       media_counts: entry.media_counts,
       source: source.label,
       source_detail: source,
+      // The seal more than half the messages carry, when not the source's
+      // (what the site's header shows); each message has its own below.
+      majority_verification: entry.majority_verification || null,
       note: entry.note || null,
     },
     profile: profileJson(getContactProfile(entry.id), entry.id),

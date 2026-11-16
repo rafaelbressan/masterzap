@@ -37,6 +37,20 @@ describe('sealToMark', () => {
     expect(headerSeal(verified)).toBe('verificado');
     expect(sealToMark({}, mixed)).toBe('verificado');
     expect(sealToMark({ source_id: 'print', verification: 'nao-verificado' }, mixed)).toBe('nao-verificado');
+    // A press majority from several outlets stays plain: only the report's
+    // and the weak ones are marked.
+    const press = { ...verified, majority_verification: 'imprensa' };
+    expect(sealToMark({ source_id: 'globo', verification: 'imprensa' }, press)).toBeNull();
+    expect(sealToMark({}, press)).toBe('verificado');
+    // A seal it does not know falls back to the source's.
+    expect(headerSeal({ ...verified, majority_verification: 'talvez' })).toBe('verificado');
+  });
+
+  it('leads the notice with the majority and names the source of the rest', () => {
+    setSources({ pf: { titulo: 'IPJ-A nº 1/2026 — PF', orgao_ou_veiculo: 'Polícia Federal' } });
+    const conv = { source_id: 'pf', verification: 'verificado', majority_verification: 'nao-verificado',
+      verification_counts: { verificado: 12, 'nao-verificado': 24 } };
+    expect(conversationSealLine(conv)).toBe('Na maior parte, Não verificado · 12 mensagens marcadas como Verificado (IPJ-A nº 1/2026, Polícia Federal)');
   });
 
   it('has a label, an explanation and an icon for every seal', () => {

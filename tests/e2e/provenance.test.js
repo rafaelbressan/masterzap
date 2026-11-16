@@ -33,11 +33,18 @@ test.describe('Provenance seal', () => {
     // Geraldo: 12 messages of the report, 24 from prints with no outlet.
     await page.goto('/#/chat/geraldo-brazil-journal');
     await expect(page.locator('.chat-header-info')).toHaveText(/36 mensagens · Não verificado/);
-    // The notice still names the source and its document, with the count.
-    await expect(page.locator('.chat-seal-notice')).toContainText('Fonte: IPJ-A nº 3298613/2026 (Polícia Federal) · Verificado · 24 mensagens marcadas como Não verificado');
+    // The notice leads with the majority and names the report's source.
+    await expect(page.locator('.chat-seal-notice')).toContainText('Na maior parte, Não verificado · 12 mensagens marcadas como Verificado (IPJ-A nº 3298613/2026, Polícia Federal)');
     // All 36 on screen (three days, loaded at once): each bubble says its seal.
     await expect(page.locator('.chat-msg-row')).toHaveCount(36);
     await expect(page.locator('.chat-msg-seal')).toHaveCount(36);
+  });
+
+  test('a press majority from several outlets stays plain; the report\'s are marked', async ({ page }) => {
+    // Fabiano Zettel: 33 press (Metrópoles), 14 of the report, 13 with no outlet.
+    await page.goto('/#/chat/fabiano-zettel/msg/1'); // its first: the notice sits atop the oldest day
+    await expect(page.locator('.chat-header-info')).toHaveText(/60 mensagens · Imprensa/);
+    await expect(page.locator('.chat-seal-notice')).toContainText('Na maior parte, Imprensa');
   });
 
   test('the leak is labelled press, without marking every bubble', async ({ page }) => {

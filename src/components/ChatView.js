@@ -46,7 +46,7 @@ function renderSealNotice(conversation, onOpen) {
   const icon = document.createElement('span');
   icon.className = 'chat-seal-notice-icon';
   // Static SVG literal — safe innerHTML
-  icon.innerHTML = SEAL_ICONS[conversation.verification] || '';
+  icon.innerHTML = SEAL_ICONS[headerSeal(conversation)] || '';
   notice.appendChild(icon);
   const text = document.createElement('span');
   // "Clique" with a mouse, "Toque" on a touchscreen, as WhatsApp words it.

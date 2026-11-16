@@ -57,16 +57,19 @@ export function provenanceOf(msg, conversation) {
 }
 
 /**
- * Whether a bubble carries the seal glyph: weak seals always, a message whose
- * seal or source differs from the conversation's, and nothing else — 65k
- * messages of a conversation whose default is "Imprensa" stay as WhatsApp
- * draws them.
+ * Whether a bubble carries the seal glyph. The reference is the seal the
+ * header shows (headerSeal): weak seals always, a message whose seal differs
+ * from it, and — when the header shows the source's own seal — one from
+ * another source. Nothing else: 65k messages of a conversation whose default
+ * is "Imprensa" stay as WhatsApp draws them, and in a chat most of which came
+ * from elsewhere, the majority stays plain and the source's own are marked.
  */
 export function sealToMark(msg, conversation) {
   const { sourceId, verification } = provenanceOf(msg, conversation);
   if (!SEALS[verification]) return null;
-  if (WEAK.has(verification) || verification !== headerSeal(conversation)
-    || sourceId !== conversation?.source_id) return verification;
+  const header = headerSeal(conversation);
+  if (WEAK.has(verification) || verification !== header) return verification;
+  if (header === conversation?.verification && sourceId !== conversation?.source_id) return verification;
   return null;
 }
 
@@ -77,7 +80,7 @@ export function sealToMark(msg, conversation) {
  * and the report's own messages are then marked "Verificado" one by one.
  */
 export const headerSeal = (conversation) =>
-  conversation?.majority_verification || conversation?.verification;
+  (SEALS[conversation?.majority_verification] ? conversation.majority_verification : conversation?.verification);
 
 /** "Não verificado: print sem origem conhecida" — what a screen reader says. */
 export function sealDescription(verification, source) {
@@ -89,28 +92,49 @@ export function sealDescription(verification, source) {
 
 /**
  * One line for the notice at the top of the chat:
- * "Fonte: IPJ-A nº 3298613/2026 (Polícia Federal) · Verificado".
- * A conversation with messages under other seals says how many.
+ * "Fonte: IPJ-A nº 3298613/2026 (Polícia Federal) · Verificado", and how many
+ * messages carry another seal. When most came from elsewhere it leads with
+ * that: "Na maior parte, Não verificado · 12 mensagens marcadas como
+ * Verificado (IPJ-A nº 3298613/2026, Polícia Federal)".
  */
 export function conversationSealLine(conversation) {
-  const seal = SEALS[conversation?.verification];
-  if (!seal) return '';
+  if (!SEALS[conversation?.verification]) return '';
   const source = sourceById(conversation.source_id);
-  const title = source?.titulo ? source.titulo.replace(/\s+—\s+.*$/, '') : conversation.source;
-  const outlet = source?.orgao_ou_veiculo ? ` (${source.orgao_ou_veiculo})` : '';
-  const others = otherSealsText(conversation);
-  return `Fonte: ${title || 'não informada'}${outlet} · ${seal.label}${others ? ` · ${others}` : ''}`;
+  const title = (source?.titulo ? source.titulo.replace(/\s+—\s+.*$/, '') : conversation.source) || 'não informada';
+  const outlet = source?.orgao_ou_veiculo || '';
+  if (headerSeal(conversation) !== conversation.verification) {
+    return sealCountsText(conversation, outlet ? `${title}, ${outlet}` : title);
+  }
+  return `Fonte: ${title}${outlet ? ` (${outlet})` : ''} · ${sealCountsText(conversation)}`;
 }
 
 /**
- * How many messages carry another seal than the conversation's:
- * "4 mensagens marcadas como Imprensa", "1 …, 2 … e 1 …"; empty when none.
- * The app's seal line and the static pages (scripts/lib/corpus.mjs) say it alike.
+ * The seal the header shows and how many messages carry another:
+ * "Verificado · 4 mensagens marcadas como Imprensa", or "Na maior parte,
+ * Não verificado · 12 mensagens marcadas como Verificado (<sourceName>)".
+ * The app's notice and the static pages (scripts/lib/corpus.mjs) say it alike.
  */
-export function otherSealsText(conversation) {
+export function sealCountsText(conversation, sourceName = '') {
+  const header = headerSeal(conversation);
+  const lead = header === conversation.verification ? SEALS[header].label : `Na maior parte, ${SEALS[header].label}`;
+  const others = otherSealsText(conversation, sourceName);
+  return others ? `${lead} · ${others}` : lead;
+}
+
+/**
+ * How many messages carry another seal than the header's:
+ * "4 mensagens marcadas como Imprensa", "1 …, 2 … e 1 …"; empty when none.
+ * When the header is not the source's seal, the source's own are named by
+ * `sourceName`.
+ */
+export function otherSealsText(conversation, sourceName = '') {
+  const header = headerSeal(conversation);
   const others = Object.entries(conversation?.verification_counts || {})
-    .filter(([v]) => v !== conversation.verification && SEALS[v]);
-  const parts = others.map(([v, n]) => `${n.toLocaleString('pt-BR')} ${n === 1 ? 'mensagem marcada' : 'mensagens marcadas'} como ${SEALS[v].label}`);
+    .filter(([v]) => v !== header && SEALS[v]);
+  const parts = others.map(([v, n]) => {
+    const named = sourceName && v === conversation.verification ? ` (${sourceName})` : '';
+    return `${n.toLocaleString('pt-BR')} ${n === 1 ? 'mensagem marcada' : 'mensagens marcadas'} como ${SEALS[v].label}${named}`;
+  });
   return parts.length ? new Intl.ListFormat('pt-BR', { type: 'conjunction' }).format(parts) : '';
 }
 

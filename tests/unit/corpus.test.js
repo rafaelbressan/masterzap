@@ -172,11 +172,15 @@ describe('seals out of the app', () => {
   };
 
   it("states the conversation's seal and how many messages carry another", () => {
+    // Most of Luiz Rennó's are not verified: that leads, and the report's are
+    // counted with their source named.
     const summary = sealSummary(entry('luiz-renno'));
-    expect(summary).toMatch(/^Verificado · /);
-    for (const seal of ['Não verificado', 'Imprensa', 'Reconstruído']) {
+    expect(summary).toMatch(/^Na maior parte, Não verificado · /);
+    expect(summary).toMatch(/\d+ mensagens marcadas como Verificado \(IPJ-A nº 3298613\/2026, Polícia Federal\)/);
+    for (const seal of ['Imprensa', 'Reconstruído']) {
       expect(summary).toMatch(new RegExp(`\\d+ mensagens? marcadas? como ${seal}`));
     }
+    expect(sealSummary(entry('alexandre-de-moraes'))).toMatch(/^Verificado · 17 mensagens marcadas como Reconstruído$/);
     expect(sealSummary(entry('motorista-brasilia-sidney'))).toBe('Verificado');
   });
 

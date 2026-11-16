@@ -335,8 +335,8 @@ def split_conversation(conv_id, data, index):
     # The seal the header shows: another seal than the source's when more than
     # half the messages carry it (the fork added more to a report chat). The
     # source, its document and the per-message seals stay as they are.
-    top, count = seals.most_common(1)[0]
-    if top != metadata["verification"] and count * 2 > len(messages):
+    top, count = seals.most_common(1)[0] if seals else (None, 0)
+    if top and top != metadata["verification"] and count * 2 > len(messages):
         entry["majority_verification"] = top
     document = document_of(source)
     if document:

@@ -4,7 +4,7 @@
  */
 
 import { readFileSync, existsSync } from 'node:fs';
-import { SEALS, provenanceOf as appProvenanceOf, noteOf, NOTE_LABEL, otherSealsText, headerSeal } from '../../src/lib/provenance.js';
+import { SEALS, provenanceOf as appProvenanceOf, noteOf, NOTE_LABEL, sealCountsText, headerSeal } from '../../src/lib/provenance.js';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -85,14 +85,15 @@ export function sourceOf(entry) {
 }
 
 /**
- * The conversation's seal and, when some messages carry another, how many:
- * "Verificado · 76 mensagens marcadas como Não verificado e 30 …" — the line
- * the app draws (conversationSealLine in src/lib/provenance.js).
+ * The seal the header shows and how many messages carry another — the
+ * app's notice without its "Fonte:" (sealCountsText in src/lib/provenance.js):
+ * "Verificado · 4 mensagens marcadas como Imprensa", or "Na maior parte, Não
+ * verificado · 9 mensagens marcadas como Verificado (IPJ-A …, Polícia Federal), …".
  */
 export function sealSummary(entry) {
-  const others = otherSealsText(entry);
-  const most = headerSeal(entry) !== entry.verification ? ` · na maior parte, ${VERIFICATION_LABELS[headerSeal(entry)]}` : '';
-  return `${VERIFICATION_LABELS[entry.verification]}${others ? ` · ${others}` : ''}${most}`;
+  const src = loadSources().get(entry.source_id);
+  const name = src ? [src.titulo.replace(/\s+—\s+.*$/, ''), src.orgao_ou_veiculo].filter(Boolean).join(', ') : '';
+  return sealCountsText(entry, name);
 }
 
 /**
