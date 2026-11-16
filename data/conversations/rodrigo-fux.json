@@ -1,0 +1,217 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "Rodrigo Fux"
+    ],
+    "saved_as": null,
+    "phone": null,
+    "date_range": {
+      "start": "2024-12-04",
+      "end": "2025-03-12"
+    },
+    "total_messages": 15,
+    "source": "Conteúdo fornecido pelo usuário",
+    "source_id": "fork-rodrigo-fux",
+    "verification": "nao-verificado",
+    "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": "2024-12-04T08:33:44",
+      "date": "2024-12-04",
+      "time": "08:33:44",
+      "sender": "DV",
+      "content": "Puxa , eu tenhoque ir embora as 16 pra sp.\nEu conseguiria 14",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 2,
+      "timestamp": "2024-12-04T08:33:55",
+      "date": "2024-12-04",
+      "time": "08:33:55",
+      "sender": "Rodrigo Fux",
+      "content": "Deixa eu ver",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 3,
+      "timestamp": "2024-12-04T08:34:23",
+      "date": "2024-12-04",
+      "time": "08:34:23",
+      "sender": "Rodrigo Fux",
+      "content": "Beleza. Vou remarcar uma aqui pra te atender",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 4,
+      "timestamp": "2024-12-04T08:34:35",
+      "date": "2024-12-04",
+      "time": "08:34:35",
+      "sender": "Rodrigo Fux",
+      "content": "14hs. Marcado",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 5,
+      "timestamp": "2024-12-04T08:35:19",
+      "date": "2024-12-04",
+      "time": "08:35:19",
+      "sender": "Rodrigo Fux",
+      "content": "Tapete vermelho irmão",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 6,
+      "timestamp": "2024-12-04T08:37:03",
+      "date": "2024-12-04",
+      "time": "08:37:03",
+      "sender": "DV",
+      "content": "Valeu irmao!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 7,
+      "timestamp": "2024-12-04T10:43:30",
+      "date": "2024-12-04",
+      "time": "10:43:30",
+      "sender": "Rodrigo Fux",
+      "content": "Irmão. Me chamaram no TJ. Funciona pra vc amanhã de manhã, por volta das 11 ou 11:30hs ?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 8,
+      "timestamp": "2024-12-04T11:44:38",
+      "date": "2024-12-04",
+      "time": "11:44:38",
+      "sender": "Rodrigo Fux",
+      "content": "Vc consegue ?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 9,
+      "timestamp": "2024-12-04T18:26:48",
+      "date": "2024-12-04",
+      "time": "18:26:48",
+      "sender": "Rodrigo Fux",
+      "content": "Irmão",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 10,
+      "timestamp": "2025-03-12T10:12:37",
+      "date": "2025-03-12",
+      "time": "10:12:37",
+      "sender": "Rodrigo Fux",
+      "content": "Bom dia. 10:30hs tô aí",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 11,
+      "timestamp": "2025-03-12T12:12:37",
+      "date": "2025-03-12",
+      "time": "12:12:37",
+      "sender": "Rodrigo Fux",
+      "content": "Qual a data de Londres mesmo?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 12,
+      "timestamp": "2025-03-12T13:30:29",
+      "date": "2025-03-12",
+      "time": "13:30:29",
+      "sender": "Rodrigo Fux",
+      "content": "Pode pra mandarem o e-mail para",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 13,
+      "timestamp": "2025-03-12T13:30:41",
+      "date": "2025-03-12",
+      "time": "13:30:41",
+      "sender": "Rodrigo Fux",
+      "content": "Esse é o meu",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 14,
+      "timestamp": "2025-03-12T13:31:01",
+      "date": "2025-03-12",
+      "time": "13:31:01",
+      "sender": "Rodrigo Fux",
+      "content": "E para a Secretária do meu pai. Com cópia pra mim.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 15,
+      "timestamp": "2025-03-12T13:34:06",
+      "date": "2025-03-12",
+      "time": "13:34:06",
+      "sender": "DV",
+      "content": "Vou pedir!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "2024-12-04",
+        "message_count": 9,
+        "first_message_id": 1,
+        "last_message_id": 9
+      },
+      {
+        "date": "2025-03-12",
+        "message_count": 6,
+        "first_message_id": 10,
+        "last_message_id": 15
+      }
+    ]
+  }
+}

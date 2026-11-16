@@ -1,0 +1,475 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "Rayanna"
+    ],
+    "saved_as": null,
+    "phone": "+55 11 95769-XXXX",
+    "date_range": {
+      "start": "2025-02-25",
+      "end": "2025-03-07"
+    },
+    "total_messages": 34,
+    "source": "IPJ-A nº 3298613/2026 — NADIP/DFIN/CGRC/DICOR/PF",
+    "source_id": "ipj-a-3298613-2026",
+    "verification": "nao-verificado",
+    "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": null,
+      "date": "2025-02-25",
+      "time": null,
+      "sender": "DV",
+      "content": "Sim",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 2,
+      "timestamp": "2025-02-25T15:42:36",
+      "date": "2025-02-25",
+      "time": "15:42:36",
+      "sender": "DV",
+      "content": "Oi tudo bem?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "O horário é de leitura incerta, segundo a transcrição do fork."
+    },
+    {
+      "id": 3,
+      "timestamp": "2025-02-25T15:42:36",
+      "date": "2025-02-25",
+      "time": "15:42:36",
+      "sender": "DV",
+      "content": "Pode sexta a tarde?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "O horário é de leitura incerta, segundo a transcrição do fork."
+    },
+    {
+      "id": 4,
+      "timestamp": "2025-02-25T15:42:45",
+      "date": "2025-02-25",
+      "time": "15:42:45",
+      "sender": "Rayanna",
+      "content": "Oie",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "O horário é de leitura incerta, segundo a transcrição do fork."
+    },
+    {
+      "id": 5,
+      "timestamp": "2025-02-25T15:42:47",
+      "date": "2025-02-25",
+      "time": "15:42:47",
+      "sender": "Rayanna",
+      "content": "Posso sim",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "O horário é de leitura incerta, segundo a transcrição do fork."
+    },
+    {
+      "id": 6,
+      "timestamp": "2025-02-25T15:42:56",
+      "date": "2025-02-25",
+      "time": "15:42:56",
+      "sender": "DV",
+      "content": "Arruma mais 1",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "O horário é de leitura incerta, segundo a transcrição do fork."
+    },
+    {
+      "id": 7,
+      "timestamp": "2025-02-25T15:43:04",
+      "date": "2025-02-25",
+      "time": "15:43:04",
+      "sender": "Rayanna",
+      "content": "Chamo sim",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "O horário é de leitura incerta, segundo a transcrição do fork."
+    },
+    {
+      "id": 8,
+      "timestamp": "2025-02-25T15:43:37",
+      "date": "2025-02-25",
+      "time": "15:43:37",
+      "sender": "Rayanna",
+      "content": "Vai ser aqui sp?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "O horário é de leitura incerta, segundo a transcrição do fork."
+    },
+    {
+      "id": 9,
+      "timestamp": null,
+      "date": "2025-02-28",
+      "time": null,
+      "sender": "Rayanna",
+      "content": "Qual o endereço, Dani?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Do texto fornecido; horário não informado e posição na sequência do dia desconhecida"
+    },
+    {
+      "id": 10,
+      "timestamp": null,
+      "date": "2025-02-28",
+      "time": null,
+      "sender": "Rayanna",
+      "content": "As meninas estão prontas.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Do texto fornecido; horário não informado e posição na sequência do dia desconhecida"
+    },
+    {
+      "id": 11,
+      "timestamp": null,
+      "date": "2025-02-28",
+      "time": null,
+      "sender": "DV",
+      "content": "Endereço: Rua Leopoldo Couto de Magalhães Júnior, Itaim Bibi, São Paulo.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Do texto fornecido; horário não informado e posição na sequência do dia desconhecida"
+    },
+    {
+      "id": 12,
+      "timestamp": "2025-02-28T11:30:47",
+      "date": "2025-02-28",
+      "time": "11:30:47",
+      "sender": "Rayanna",
+      "content": "Oi",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 13,
+      "timestamp": "2025-02-28T11:30:51",
+      "date": "2025-02-28",
+      "time": "11:30:51",
+      "sender": "Rayanna",
+      "content": "Bom dia Dani",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 14,
+      "timestamp": "2025-02-28T11:30:54",
+      "date": "2025-02-28",
+      "time": "11:30:54",
+      "sender": "Rayanna",
+      "content": "Ta certo?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 15,
+      "timestamp": "2025-02-28T11:32:23",
+      "date": "2025-02-28",
+      "time": "11:32:23",
+      "sender": "DV",
+      "content": "Sim ue, mas quem vai trazer",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 16,
+      "timestamp": "2025-02-28T11:33:22",
+      "date": "2025-02-28",
+      "time": "11:33:22",
+      "sender": "Rayanna",
+      "content": "",
+      "type": "image",
+      "is_edited": false,
+      "attachment": {
+        "kind": "image",
+        "description": "Miniatura de foto de uma pessoa (sem legenda)"
+      },
+      "urls": []
+    },
+    {
+      "id": 17,
+      "timestamp": "2025-02-28T11:33:44",
+      "date": "2025-02-28",
+      "time": "11:33:44",
+      "sender": "Rayanna",
+      "content": "Ia chamar a Fernanda, e a outra amiga que foi comigo da última vez",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 18,
+      "timestamp": "2025-02-28T11:34:00",
+      "date": "2025-02-28",
+      "time": "11:34:00",
+      "sender": "DV",
+      "content": "Venha com ela",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 19,
+      "timestamp": "2025-02-28T11:34:25",
+      "date": "2025-02-28",
+      "time": "11:34:25",
+      "sender": "DV",
+      "content": "Ok",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 20,
+      "timestamp": "2025-02-28T11:34:44",
+      "date": "2025-02-28",
+      "time": "11:34:44",
+      "sender": "Rayanna",
+      "content": "",
+      "type": "video",
+      "is_edited": false,
+      "attachment": {
+        "kind": "video",
+        "description": "Arquivo de mensagem de vídeo (duração 0:00, conteúdo não visível)"
+      },
+      "urls": []
+    },
+    {
+      "id": 21,
+      "timestamp": "2025-02-28T11:35:55",
+      "date": "2025-02-28",
+      "time": "11:35:55",
+      "sender": "DV",
+      "content": "Bem bonita",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 22,
+      "timestamp": "2025-02-28T11:36:29",
+      "date": "2025-02-28",
+      "time": "11:36:29",
+      "sender": "Rayanna",
+      "content": "Sim",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 23,
+      "timestamp": "2025-02-28T11:36:50",
+      "date": "2025-02-28",
+      "time": "11:36:50",
+      "sender": "Rayanna",
+      "content": "Vou confirmar aqui",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 24,
+      "timestamp": null,
+      "date": "2025-03-03",
+      "time": null,
+      "sender": "Rayanna",
+      "content": "Dani bom [trecho oculto por mão na tela] ?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 25,
+      "timestamp": null,
+      "date": "2025-03-07",
+      "time": null,
+      "sender": "Rayanna",
+      "content": "10 né!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 26,
+      "timestamp": null,
+      "date": "2025-03-07",
+      "time": null,
+      "sender": "Rayanna",
+      "content": "Ela ficou com ele",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Do texto fornecido; não aparece nos prints"
+    },
+    {
+      "id": 27,
+      "timestamp": null,
+      "date": "2025-03-07",
+      "time": null,
+      "sender": "Rayanna",
+      "content": "[e-mail / dados para pagamento]",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Do texto fornecido; não aparece nos prints"
+    },
+    {
+      "id": 28,
+      "timestamp": "2025-03-07T13:20:36",
+      "date": "2025-03-07",
+      "time": "13:20:36",
+      "sender": "Rayanna",
+      "content": "Boa tarde Dani tudo bem?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 29,
+      "timestamp": "2025-03-07T13:20:53",
+      "date": "2025-03-07",
+      "time": "13:20:53",
+      "sender": "Rayanna",
+      "content": "A minha amiga lá aquele dia! Deu certo né?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 30,
+      "timestamp": "2025-03-07T13:21:06",
+      "date": "2025-03-07",
+      "time": "13:21:06",
+      "sender": "Rayanna",
+      "content": "Ela disse que ficou com o kassio.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 31,
+      "timestamp": "2025-03-07T13:21:14",
+      "date": "2025-03-07",
+      "time": "13:21:14",
+      "sender": "Rayanna",
+      "content": "Ela tá me cobrando aqui.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 32,
+      "timestamp": "2025-03-07T13:21:16",
+      "date": "2025-03-07",
+      "time": "13:21:16",
+      "sender": "Rayanna",
+      "content": "[emoji laranja/circular]",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 33,
+      "timestamp": "2025-03-07T13:21:20",
+      "date": "2025-03-07",
+      "time": "13:21:20",
+      "sender": "DV",
+      "content": "Me manda aqui",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 34,
+      "timestamp": "2025-03-07T13:21:22",
+      "date": "2025-03-07",
+      "time": "13:21:22",
+      "sender": "DV",
+      "content": "Dados e valor.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "2025-02-25",
+        "message_count": 8,
+        "first_message_id": 1,
+        "last_message_id": 8
+      },
+      {
+        "date": "2025-02-28",
+        "message_count": 15,
+        "first_message_id": 9,
+        "last_message_id": 23
+      },
+      {
+        "date": "2025-03-03",
+        "message_count": 1,
+        "first_message_id": 24,
+        "last_message_id": 24
+      },
+      {
+        "date": "2025-03-07",
+        "message_count": 10,
+        "first_message_id": 25,
+        "last_message_id": 34
+      }
+    ]
+  }
+}

@@ -1,0 +1,218 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "Ricardo Lewandowski"
+    ],
+    "saved_as": null,
+    "phone": null,
+    "date_range": {
+      "start": "2024-01-15",
+      "end": "2024-02-02"
+    },
+    "total_messages": 13,
+    "source": "Imagens fornecidas pelo usuário",
+    "source_id": "fork-ricardo-lewandowski",
+    "verification": "nao-verificado",
+    "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": "2024-01-15T13:57:46",
+      "date": "2024-01-15",
+      "time": "13:57:46",
+      "sender": "Ricardo Lewandowski",
+      "content": "Boa tarde! Gostaria de encontrá-lo pessoalmente esta semana. Seria possível? Abraço!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 2,
+      "timestamp": "2024-01-15T14:04:15",
+      "date": "2024-01-15",
+      "time": "14:04:15",
+      "sender": "DV",
+      "content": "Caro amigo tudo bem?\nEstou em viagem para França com minha familia, retorno no meio da semana que vem!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 3,
+      "timestamp": "2024-01-15T14:06:06",
+      "date": "2024-01-15",
+      "time": "14:06:06",
+      "sender": "Ricardo Lewandowski",
+      "content": "Que bom! Descanse com a família e aproveite! Falamos na sua volta. Abraço forte!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 4,
+      "timestamp": "2024-01-15T14:08:41",
+      "date": "2024-01-15",
+      "time": "14:08:41",
+      "sender": "DV",
+      "content": "Te chamo na semana que vem pra agendarmos se puder!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 5,
+      "timestamp": "2024-01-15T14:32:24",
+      "date": "2024-01-15",
+      "time": "14:32:24",
+      "sender": "Ricardo Lewandowski",
+      "content": "Com muito gosto. Estarei em BSB fazendo a transição. Conto com vc e o Agusto em minha posse no dia 1/2 !!!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 6,
+      "timestamp": "2024-01-17T17:15:30",
+      "date": "2024-01-17",
+      "time": "17:15:30",
+      "sender": "Ricardo Lewandowski",
+      "content": "Já está em SP?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 7,
+      "timestamp": "2024-01-17T17:19:00",
+      "date": "2024-01-17",
+      "time": "17:19:00",
+      "sender": "DV",
+      "content": "Grande amigo, chego na quarta que vem!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 8,
+      "timestamp": "2024-01-17T17:31:18",
+      "date": "2024-01-17",
+      "time": "17:31:18",
+      "sender": "Ricardo Lewandowski",
+      "content": "Falamos! Abraço!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 9,
+      "timestamp": null,
+      "date": "2024-01-23",
+      "time": null,
+      "sender": "DV",
+      "content": "Grande Mestre, tudo bem?\nVamos marcar nosso encontro?\nEstarei 29 e 30 em Sao Paulo, e dia 31 em Brasilia. E no dia 01 irei com",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Horário não visível no print. Conteúdo cortado na base da imagem."
+    },
+    {
+      "id": 10,
+      "timestamp": "2024-01-31T14:39:33",
+      "date": "2024-01-31",
+      "time": "14:39:33",
+      "sender": "Ricardo Lewandowski",
+      "content": "Encaminhada",
+      "type": "image",
+      "is_edited": false,
+      "attachment": "Convite/coquetel em homenagem ao Ministro da Justiça e Segurança Pública Ricardo Lewandowski (imagem encaminhada)",
+      "urls": []
+    },
+    {
+      "id": 11,
+      "timestamp": "2024-01-31T14:48:21",
+      "date": "2024-01-31",
+      "time": "14:48:21",
+      "sender": "DV",
+      "content": "Muito obrigado pelo convite 🙏",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 12,
+      "timestamp": "2024-02-01T15:51:23",
+      "date": "2024-02-01",
+      "time": "15:51:23",
+      "sender": "DV",
+      "content": "Caro Ministro,\nParabéns! Não consegui te dar um abraço após a cerimônia, mas estive lá com muita honra acompanhando esse momento histórico para nosso país.\nDesejo muito sucesso na nova jornada!\nForte abraço,",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 13,
+      "timestamp": "2024-02-02T14:19:26",
+      "date": "2024-02-02",
+      "time": "14:19:26",
+      "sender": "Ricardo Lewandowski",
+      "content": "Que bom! Muitíssimo obrigado. Espero reencontrá-lo em breve. Abraço cordial!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "2024-01-15",
+        "message_count": 5,
+        "first_message_id": 1,
+        "last_message_id": 5
+      },
+      {
+        "date": "2024-01-17",
+        "message_count": 3,
+        "first_message_id": 6,
+        "last_message_id": 8
+      },
+      {
+        "date": "2024-01-23",
+        "message_count": 1,
+        "first_message_id": 9,
+        "last_message_id": 9
+      },
+      {
+        "date": "2024-01-31",
+        "message_count": 2,
+        "first_message_id": 10,
+        "last_message_id": 11
+      },
+      {
+        "date": "2024-02-01",
+        "message_count": 1,
+        "first_message_id": 12,
+        "last_message_id": 12
+      },
+      {
+        "date": "2024-02-02",
+        "message_count": 1,
+        "first_message_id": 13,
+        "last_message_id": 13
+      }
+    ]
+  }
+}

@@ -1,0 +1,204 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "Ronaldo"
+    ],
+    "saved_as": "ronaldo-fenomeno",
+    "phone": null,
+    "date_range": {
+      "start": "2024-04",
+      "end": "2024-07"
+    },
+    "total_messages": 11,
+    "source": "Texto fornecido pelo usuário, sem print; o texto atribui a transcrição à VEJA. Reportagens posteriores da imprensa, consultadas apenas para situar o período, re",
+    "source_id": "fork-ronaldo-fenomeno",
+    "verification": "nao-verificado",
+    "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": null,
+      "date": "2024-04",
+      "time": null,
+      "sender": "Ronaldo",
+      "content": "Irmão, tudo bem? Tá indo amanhã para Londres, né? Pena não poder ir. Tô indo para Miami. Tenho trampo lá com Itaú no Miami Open. Preciso de uma ajuda tua. Como fomos eliminados da Copa do Brasil, deixamos de ter um dinheiro que contávamos e estamos apertados para fluxo de caixa. Gabriel Lima (CEO Cruzeiro) tá indo para Londres. Ele pode te encontrar e explicar melhor essa operação.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Data aproximada: o fork não tem o dia exato. Contexto: pedido de ajuda para o Cruzeiro. Data aproximada, não informada no texto. '2024-04-01' é só um marcador para abril de 2024, mês em que reportagens situam a viagem a Londres citada; o dia é desconhecido.",
+      "date_precision": "month"
+    },
+    {
+      "id": 2,
+      "timestamp": null,
+      "date": "2024-04",
+      "time": null,
+      "sender": "DV",
+      "content": "Fala, irmão. Deixa comigo que falo com ele. Conte comigo.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "quoted": "Irmão, tudo bem? Tá indo amanhã para Londres, né? Pena não poder ir. Tô indo para Miami. Tenho trampo lá com Itaú no Miami Open. Preciso de uma ajuda tua. Como fomos eliminados da Copa do Brasil, deixamos de ter um dinheiro que contávamos e estamos apertados para fluxo de caixa. Gabriel Lima (CEO Cruzeiro) tá indo para Londres. Ele pode te encontrar e explicar melhor essa operação.",
+      "quoted_sender": "Ronaldo",
+      "note": "Data aproximada: o fork não tem o dia exato. Data aproximada, não informada no texto. '2024-04-01' é só um marcador para abril de 2024, mês em que reportagens situam a viagem a Londres citada; o dia é desconhecido.",
+      "date_precision": "month",
+      "quoted_id": 1
+    },
+    {
+      "id": 3,
+      "timestamp": null,
+      "date": "2024-04",
+      "time": null,
+      "sender": "Ronaldo",
+      "content": "Vontade de tá aí com vocês em Londres. Mandem foto lá no grupo.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Data aproximada: o fork não tem o dia exato. Data aproximada, não informada no texto. '2024-04-01' é só um marcador para abril de 2024, mês em que reportagens situam a viagem a Londres citada; o dia é desconhecido.",
+      "date_precision": "month"
+    },
+    {
+      "id": 4,
+      "timestamp": null,
+      "date": "2024-04",
+      "time": null,
+      "sender": "DV",
+      "content": "Sim! Você podia ir! Vai fazer falta, mas vamos ter outras esse ano. Vamos encaixar essa agenda.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "quoted": "Vontade de tá aí com vocês em Londres. Mandem foto lá no grupo.",
+      "quoted_sender": "Ronaldo",
+      "note": "Data aproximada: o fork não tem o dia exato. Data aproximada, não informada no texto. '2024-04-01' é só um marcador para abril de 2024, mês em que reportagens situam a viagem a Londres citada; o dia é desconhecido.",
+      "date_precision": "month",
+      "quoted_id": 3
+    },
+    {
+      "id": 5,
+      "timestamp": null,
+      "date": "2024-04",
+      "time": null,
+      "sender": "Ronaldo",
+      "content": "Amigo, o empréstimo saiu lá para o Cruzeiro! Muito obrigado, irmão!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Data aproximada: o fork não tem o dia exato. A VEJA não informa o valor (ver metadata.editorial_notes). Valor citado por outro veículo não consta das mensagens publicadas. Data aproximada, não informada no texto. '2024-04-01' é só um marcador para abril de 2024, mês em que reportagens situam a viagem a Londres citada; o dia é desconhecido.",
+      "date_precision": "month"
+    },
+    {
+      "id": 6,
+      "timestamp": null,
+      "date": "2024-04",
+      "time": null,
+      "sender": "Ronaldo",
+      "content": "Irmão, falei como David Beckham. Ele tá conseguindo as coisas para vocês. Me manda aí quem vai lá para o jogo, quantas pessoas são, para ele organizar. Eu preciso mandar isso ainda hoje, tá, porque está sold out o jogo, mas ele vai conseguir lá.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Data aproximada: o fork não tem o dia exato. Seção do texto: Inter Miami / Beckham / Messi. Grafia conforme o texto fornecido ('falei como'). Data aproximada, não informada no texto. Reportagens situam esta troca no mesmo período do empréstimo; usado o mesmo marcador '2024-04-01'; o dia é desconhecido.",
+      "date_precision": "month"
+    },
+    {
+      "id": 7,
+      "timestamp": null,
+      "date": "2024-04",
+      "time": null,
+      "sender": "Ronaldo",
+      "content": "Pedi para ele te atender e apresentar o Messi depois do jogo.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Data aproximada: o fork não tem o dia exato. Seção do texto: Inter Miami / Beckham / Messi. A VEJA não transcreve a resposta de Vorcaro. Data aproximada, não informada no texto. Reportagens situam esta troca no mesmo período do empréstimo; usado o mesmo marcador '2024-04-01'; o dia é desconhecido.",
+      "date_precision": "month"
+    },
+    {
+      "id": 8,
+      "timestamp": null,
+      "date": "2024-07",
+      "time": null,
+      "sender": "Ronaldo",
+      "content": "Irmão, saudades. Tá sumidinho.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Data aproximada: o fork não tem o dia exato. Seção do texto: Ibiza. Data aproximada, não informada no texto. Reportagens situam esta troca meses depois do empréstimo e a fala menciona 'nesse verão'; '2024-07-01' é só um marcador para o verão de 2024; o dia é desconhecido.",
+      "date_precision": "month"
+    },
+    {
+      "id": 9,
+      "timestamp": null,
+      "date": "2024-07",
+      "time": null,
+      "sender": "DV",
+      "content": "Também, pô! Vamos trombar nesse verão em algum lugar! Final de semana que vem devo passar na região de Ibiza. Se tiver um canal para arrumar barco ou vila top em Ibiza, me passa? Tô procurando e você é o Rei de lá rs.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "quoted": "Irmão, saudades. Tá sumidinho.",
+      "quoted_sender": "Ronaldo",
+      "note": "Data aproximada: o fork não tem o dia exato. Data aproximada, não informada no texto. Reportagens situam esta troca meses depois do empréstimo e a fala menciona 'nesse verão'; '2024-07-01' é só um marcador para o verão de 2024; o dia é desconhecido.",
+      "date_precision": "month",
+      "quoted_id": 8
+    },
+    {
+      "id": 10,
+      "timestamp": null,
+      "date": "2024-07",
+      "time": null,
+      "sender": "Ronaldo",
+      "content": "Meu brother acha tudo lá para você em Ibiza. Vou avisar que você vai chamar ele.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "quoted": "Também, pô! Vamos trombar nesse verão em algum lugar! Final de semana que vem devo passar na região de Ibiza. Se tiver um canal para arrumar barco ou vila top em Ibiza, me passa? Tô procurando e você é o Rei de lá rs.",
+      "quoted_sender": "DV",
+      "note": "Data aproximada: o fork não tem o dia exato. Data aproximada, não informada no texto. Reportagens situam esta troca meses depois do empréstimo e a fala menciona 'nesse verão'; '2024-07-01' é só um marcador para o verão de 2024; o dia é desconhecido.",
+      "date_precision": "month",
+      "quoted_id": 9
+    },
+    {
+      "id": 11,
+      "timestamp": null,
+      "date": "2024-07",
+      "time": null,
+      "sender": "Ronaldo",
+      "content": "Ele encaminha o contato.",
+      "type": "system",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Resumo feito pelo fork, não é uma mensagem. Data aproximada: o fork não tem o dia exato. Resumo narrativo do texto original, não é citação literal. Indica que o contato foi encaminhado; o conteúdo do contato não consta. Data aproximada, não informada no texto. Reportagens situam esta troca meses depois do empréstimo e a fala menciona 'nesse verão'; '2024-07-01' é só um marcador para o verão de 2024; o dia é desconhecido.",
+      "verification": "reconstruido",
+      "date_precision": "month"
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "2024-04",
+        "message_count": 7,
+        "first_message_id": 1,
+        "last_message_id": 7
+      },
+      {
+        "date": "2024-07",
+        "message_count": 4,
+        "first_message_id": 8,
+        "last_message_id": 11
+      }
+    ]
+  }
+}

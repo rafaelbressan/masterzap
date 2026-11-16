@@ -1,0 +1,46 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "amiga-anonima-01"
+    ],
+    "saved_as": null,
+    "phone": null,
+    "date_range": {
+      "start": "2024-07",
+      "end": "2024-07"
+    },
+    "total_messages": 1,
+    "source": "Texto apresentado pelo usuário como publicado; referência bibliográfica não informada.",
+    "source_id": "fork-amiga-anonima-01",
+    "verification": "nao-verificado",
+    "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": null,
+      "date": "2024-07",
+      "time": null,
+      "sender": "DV",
+      "content": "Ontem fui parar na festa da Anitta. Ela quase me estuprou. Saí correndo",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_id": "fork-amiga-anonima-01-texto-apresentado-pelo-usuario-como-publ",
+      "verification": "nao-verificado",
+      "date_precision": "month"
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "2024-07",
+        "message_count": 1,
+        "first_message_id": 1,
+        "last_message_id": 1
+      }
+    ]
+  }
+}

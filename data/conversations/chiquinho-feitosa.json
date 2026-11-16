@@ -1,0 +1,354 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "Chiquinho Feitosa"
+    ],
+    "saved_as": null,
+    "phone": null,
+    "date_range": {
+      "start": "2024-04-11",
+      "end": "2024-05-28"
+    },
+    "total_messages": 24,
+    "source": "Capturas de tela de conversa do WhatsApp fornecidas pelo usuário",
+    "source_id": "fork-chiquinho-feitosa",
+    "verification": "nao-verificado",
+    "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": "2024-04-11T13:20:18",
+      "date": "2024-04-11",
+      "time": "13:20:18",
+      "sender": "DV",
+      "content": "Grande Comandante",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 2,
+      "timestamp": "2024-04-11T13:20:36",
+      "date": "2024-04-11",
+      "time": "13:20:36",
+      "sender": "Chiquinho Feitosa",
+      "content": "👍👍",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 3,
+      "timestamp": "2024-04-11T13:46:33",
+      "date": "2024-04-11",
+      "time": "13:46:33",
+      "sender": "Chiquinho Feitosa",
+      "content": "Contato: Carla Gilmar; Nome formatado: Carla Gilmar; Nome: Carla Gilmar; Telefone: [oculto na captura]",
+      "type": "contact",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 4,
+      "timestamp": "2024-04-11T14:51:18",
+      "date": "2024-04-11",
+      "time": "14:51:18",
+      "sender": "DV",
+      "content": "Chamada de voz perdida",
+      "type": "call",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 5,
+      "timestamp": "2024-04-11T14:52:00",
+      "date": "2024-04-11",
+      "time": "14:52:00",
+      "sender": "Chiquinho Feitosa",
+      "content": "Me liga quando puder",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 6,
+      "timestamp": "2024-04-11T14:52:15",
+      "date": "2024-04-11",
+      "time": "14:52:15",
+      "sender": "DV",
+      "content": "Chamada de voz — duração: 00:46",
+      "type": "call",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "duration": "00:46"
+    },
+    {
+      "id": 7,
+      "timestamp": "2024-04-11T17:25:11",
+      "date": "2024-04-11",
+      "time": "17:25:11",
+      "sender": "Chiquinho Feitosa",
+      "content": "Não sei quanto tempo o Ministro terá, mas se for possível o roteiro abaixo seria ótimo: Eu iria sozinho de 18 até 18:30 e de 18:30 até 19, entrariam duas pessoas para se juntarem à reunião. Andre Krutchevsky - diretor jurídico banco master. Bruno Bianco- assessor jurídico WTL",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "forwarded": true
+    },
+    {
+      "id": 8,
+      "timestamp": "2024-04-11T17:25:35",
+      "date": "2024-04-11",
+      "time": "17:25:35",
+      "sender": "Chiquinho Feitosa",
+      "content": "Pousamos agora",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 9,
+      "timestamp": "2024-04-11T17:25:40",
+      "date": "2024-04-11",
+      "time": "17:25:40",
+      "sender": "Chiquinho Feitosa",
+      "content": "Me liga",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 10,
+      "timestamp": "2024-04-11T17:35:29",
+      "date": "2024-04-11",
+      "time": "17:35:29",
+      "sender": "DV",
+      "content": "Chamada de voz — duração: 01:15",
+      "type": "call",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "duration": "01:15"
+    },
+    {
+      "id": 11,
+      "timestamp": "2024-04-11T20:25:59",
+      "date": "2024-04-11",
+      "time": "20:25:59",
+      "sender": "DV",
+      "content": "Chamada de voz perdida",
+      "type": "call",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 12,
+      "timestamp": "2024-04-11T20:26:34",
+      "date": "2024-04-11",
+      "time": "20:26:34",
+      "sender": "Chiquinho Feitosa",
+      "content": "Me liga quando puder",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 13,
+      "timestamp": "2024-04-11T21:49:48",
+      "date": "2024-04-11",
+      "time": "21:49:48",
+      "sender": "DV",
+      "content": "Chamada de voz — duração: 03:43",
+      "type": "call",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "duration": "03:43"
+    },
+    {
+      "id": 14,
+      "timestamp": "2024-05-21T09:18:31",
+      "date": "2024-05-21",
+      "time": "09:18:31",
+      "sender": "Chiquinho Feitosa",
+      "content": "Combinado!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 15,
+      "timestamp": "2024-05-22T14:33:27",
+      "date": "2024-05-22",
+      "time": "14:33:27",
+      "sender": "Chiquinho Feitosa",
+      "content": "Tenho que falar com você em particular assim que chegar.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 16,
+      "timestamp": "2024-05-22T17:18:56",
+      "date": "2024-05-22",
+      "time": "17:18:56",
+      "sender": "Chiquinho Feitosa",
+      "content": "[imagem: logotipo ou documento com a inscrição POD]",
+      "type": "image",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 17,
+      "timestamp": "2024-05-22T20:23:45",
+      "date": "2024-05-22",
+      "time": "20:23:45",
+      "sender": "DV",
+      "content": "[imagem encaminhada; conteúdo não legível na captura]",
+      "type": "image",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "forwarded": true
+    },
+    {
+      "id": 18,
+      "timestamp": "2024-05-22T20:33:24",
+      "date": "2024-05-22",
+      "time": "20:33:24",
+      "sender": "Chiquinho Feitosa",
+      "content": "Obg",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 19,
+      "timestamp": "2024-05-24T11:37:04",
+      "date": "2024-05-24",
+      "time": "11:37:04",
+      "sender": "Chiquinho Feitosa",
+      "content": "Bom dia amigo. Saindo agora do hotel, foi tudo ótimo! Obrigado e bom fim de semana. Abraço",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 20,
+      "timestamp": "2024-05-27T15:16:16",
+      "date": "2024-05-27",
+      "time": "15:16:16",
+      "sender": "Chiquinho Feitosa",
+      "content": "Oi, Daniel! Boa tarde, amigo! Chefe, estou em bs e devo ficar até quarta às 13:00h. Pois tenho que retornar a Fortaleza para ser padrinho de um casamento. Conforme combinamos, falaríamos na quarta. É possível até esse horário? Você confirma? Abs",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 21,
+      "timestamp": "2024-05-28T20:55:43",
+      "date": "2024-05-28",
+      "time": "20:55:43",
+      "sender": "Chiquinho Feitosa",
+      "content": "Querido amigo, estou aqui jantando com Gilmar, Zanin e as esposas. Conversei alguns assuntos de nosso interesse e passei as informações que o Fernando me deu. Se for por aqui, me fala!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 22,
+      "timestamp": "2024-05-28T21:03:25",
+      "date": "2024-05-28",
+      "time": "21:03:25",
+      "sender": "DV",
+      "content": "Otimo",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 23,
+      "timestamp": "2024-05-28T21:03:28",
+      "date": "2024-05-28",
+      "time": "21:03:28",
+      "sender": "DV",
+      "content": "Vou estar",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 24,
+      "timestamp": "2024-05-28T21:03:30",
+      "date": "2024-05-28",
+      "time": "21:03:30",
+      "sender": "DV",
+      "content": "Vamos nos ver amanha",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "2024-04-11",
+        "message_count": 13,
+        "first_message_id": 1,
+        "last_message_id": 13
+      },
+      {
+        "date": "2024-05-21",
+        "message_count": 1,
+        "first_message_id": 14,
+        "last_message_id": 14
+      },
+      {
+        "date": "2024-05-22",
+        "message_count": 4,
+        "first_message_id": 15,
+        "last_message_id": 18
+      },
+      {
+        "date": "2024-05-24",
+        "message_count": 1,
+        "first_message_id": 19,
+        "last_message_id": 19
+      },
+      {
+        "date": "2024-05-27",
+        "message_count": 1,
+        "first_message_id": 20,
+        "last_message_id": 20
+      },
+      {
+        "date": "2024-05-28",
+        "message_count": 4,
+        "first_message_id": 21,
+        "last_message_id": 24
+      }
+    ]
+  }
+}

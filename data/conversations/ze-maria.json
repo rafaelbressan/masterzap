@@ -1,0 +1,118 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "Ze Maria Chef Iate Clube"
+    ],
+    "saved_as": "ze-maria",
+    "phone": null,
+    "date_range": {
+      "start": "2023-12-27",
+      "end": "2023-12-27"
+    },
+    "total_messages": 7,
+    "source": "Print enviado pelo usuário (arquivo HTdteX0XQAA-S6E.jpg); veículo de origem não identificado na imagem. Título do chat: 'WhatsApp Chat - Ze Maria Chef Iate Club",
+    "source_id": "fork-ze-maria",
+    "verification": "nao-verificado",
+    "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": null,
+      "date": "2023-12-27",
+      "time": null,
+      "sender": "Ze Maria Chef Iate Clube",
+      "content": "Perfeito !!!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "quoted": "Meu convidado mais importante ate hoje",
+      "quoted_sender": "DV",
+      "note": "Horário cortado no print; data presumida pela sequência da conversa (27/12/2023). Responde à mensagem de DV 'Meu convidado mais importante ate hoje'."
+    },
+    {
+      "id": 2,
+      "timestamp": "2023-12-27T19:46:44",
+      "date": "2023-12-27",
+      "time": "19:46:44",
+      "sender": "DV",
+      "content": "Dia 30",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 3,
+      "timestamp": "2023-12-27T19:46:47",
+      "date": "2023-12-27",
+      "time": "19:46:47",
+      "sender": "DV",
+      "content": "Almoço",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 4,
+      "timestamp": "2023-12-27T19:46:48",
+      "date": "2023-12-27",
+      "time": "19:46:48",
+      "sender": "DV",
+      "content": "Campos",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 5,
+      "timestamp": "2023-12-27T19:46:57",
+      "date": "2023-12-27",
+      "time": "19:46:57",
+      "sender": "DV",
+      "content": "Meu convidado mais importante ate hoje",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 6,
+      "timestamp": "2023-12-27T19:48:35",
+      "date": "2023-12-27",
+      "time": "19:48:35",
+      "sender": "DV",
+      "content": "9 paxs e 4 segurancas",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 7,
+      "timestamp": "2023-12-27T19:48:47",
+      "date": "2023-12-27",
+      "time": "19:48:47",
+      "sender": "DV",
+      "content": "Mando te pegar e levar rs",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "2023-12-27",
+        "message_count": 7,
+        "first_message_id": 1,
+        "last_message_id": 7
+      }
+    ]
+  }
+}

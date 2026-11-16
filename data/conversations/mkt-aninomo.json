@@ -1,0 +1,221 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "Mkt-aninomo"
+    ],
+    "saved_as": null,
+    "phone": null,
+    "date_range": {
+      "start": "sem-data",
+      "end": "2025-04-18"
+    },
+    "total_messages": 14,
+    "source": "3 capturas de tela de conversa de WhatsApp (conversa 'Mkt', 14.544 mensagens declaradas, selo 'original isolado') com marca d'água 'PODER 360'. Transcrição feit",
+    "source_id": "fork-mkt-aninomo",
+    "verification": "imprensa",
+    "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
+  },
+  "messages": [
+    {
+      "id": 14,
+      "timestamp": null,
+      "date": "sem-data",
+      "time": null,
+      "sender": "DV",
+      "content": "Ela vai ser bombardeada por gente mercado, tem que cuidar de perto",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Mensagem de DV exibida apenas como citação dentro da mensagem id 3 (rótulo no print: 'Mensagem citada em particular através de grupo'). Data e hora originais não aparecem; não há balão próprio no print.",
+      "date_precision": "none"
+    },
+    {
+      "id": 1,
+      "timestamp": "2025-04-05T15:03:57",
+      "date": "2025-04-05",
+      "time": "15:03:57",
+      "sender": "Mkt-aninomo",
+      "content": "Oi\nA conversa com a Prioli foi excelente. Estamos finalizando o roteiro do post que irá ao ar — ela é firme, tem opiniões claras. Tbm sou. Foi uma reunião boa.\nDe forma prática: o contrato está assinado por 12 meses.\nAlém disso, por três meses (renováveis ou não), teremos cerca de 15 influenciadores com alto engajamento. Estou avaliando os perfis disponíveis e incluindo gradualmente.\nOs conteúdos desses influenciadores seguirão o formato “Marcal”, como o que compartilhei ontem no grupo. Abaixo, exemplos:\nDireita:\n“Eu fico pasmo como o PT quer politizar tudo. Um banco privado fecha um acordo com outro banco (público), dentro da lei, e já vem esquerda correndo pro Judiciário. É por isso que o país não anda. Menos ideologia, mais mercado funcionando!”\nEsquerda:\n“Nem toda operação no mercado financeiro é malandra. Se a compra do BRB pelo Master ampliar o acesso ao crédito e baratear taxas pra pequenos negócios, vale a pena discutir com calma antes de condenar turma!”\nMercado:\n“A operação BRB-Master pode sim gerar sinergias positivas. Um banco com alta capacidade de originação se conectando a outro com solidez institucional. É uma equação que o mercado precisa olhar com seriedade.”\nTudo bem assim?\nFora isso, sigo nas extras judiciais. Tem muita coisa pra limpar. E tem muito robô trabalhando…",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Mensagem longa, com quebras de linha conforme o print. A palavra 'Oi' aparece parcialmente coberta pela tarja do nome do remetente; leitura 'Oi' é a melhor possível. Grafia 'Prioli' conforme exibido."
+    },
+    {
+      "id": 2,
+      "timestamp": "2025-04-05T17:14:22",
+      "date": "2025-04-05",
+      "time": "17:14:22",
+      "sender": "Mkt-aninomo",
+      "content": "disse estar acostumada. Onque ela não quer eh contato direto com o banco. Por que não fechamos publi. Eh uma opinião dela. Tanto que o contrato fechamos via uma agência pra não ter master",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "quoted": "Ela vai ser bombardeada por gente mercado, tem que cuidar de perto",
+      "quoted_sender": "DV",
+      "note": "Resposta com citação da mensagem id 2.",
+      "quoted_id": 14
+    },
+    {
+      "id": 3,
+      "timestamp": "2025-04-05T17:15:46",
+      "date": "2025-04-05",
+      "time": "17:15:46",
+      "sender": "DV",
+      "content": "Achei otima",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 4,
+      "timestamp": "2025-04-05T17:16:01",
+      "date": "2025-04-05",
+      "time": "17:16:01",
+      "sender": "DV",
+      "content": "Grande estrategia [TARJA]",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Reação: 🙏. Trecho curto tarjado ao final do texto. O emoji 🙏 aparece no canto do balão; autor da reação não identificado no print."
+    },
+    {
+      "id": 5,
+      "timestamp": "2025-04-05T17:16:04",
+      "date": "2025-04-05",
+      "time": "17:16:04",
+      "sender": "DV",
+      "content": "Essa pegou na veia",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 6,
+      "timestamp": "2025-04-05T17:16:31",
+      "date": "2025-04-05",
+      "time": "17:16:31",
+      "sender": "Mkt-aninomo",
+      "content": "Bora!!!!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 7,
+      "timestamp": "2025-04-05T17:17:30",
+      "date": "2025-04-05",
+      "time": "17:17:30",
+      "sender": "DV",
+      "content": "Nao vamos falar ninguém",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 8,
+      "timestamp": "2025-04-05T17:18:00",
+      "date": "2025-04-05",
+      "time": "17:18:00",
+      "sender": "Mkt-aninomo",
+      "content": "Nem em casa!!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 9,
+      "timestamp": "2025-04-18T14:25:32",
+      "date": "2025-04-18",
+      "time": "14:25:32",
+      "sender": "DV",
+      "content": "[TARJA], agora acho que podiamos ter um video da prioli falando da questao dos cdbs , que pessoal vendendo com desagio e perdendo dinheiro a toa. Que alem do banco estar bem, ainda que em caso de problema tudo continua garantido pelo fgc. Que boatos midias e informacoes nao precisas no final dondia fazem quem nao tem conhecimento perder dinheiro e espertos do mercado comprando e se aproveitando pra ganhar dinheiro",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Nome (vocativo) tarjado no início da mensagem. Grafia preservada ('prioli', 'dondia', espaço antes da vírgula em 'cdbs ,')."
+    },
+    {
+      "id": 10,
+      "timestamp": "2025-04-18T14:25:34",
+      "date": "2025-04-18",
+      "time": "14:25:34",
+      "sender": "DV",
+      "content": "Onque acha",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 11,
+      "timestamp": "2025-04-18T14:49:46",
+      "date": "2025-04-18",
+      "time": "14:49:46",
+      "sender": "Mkt-aninomo",
+      "content": "Oi. Tudo bem? Falei com ela quarta. Conversamos, a princípio, sobre fazer o próximo de fake news e como isso eh devastador. “Olha o caso do Master, certeza de que alguns de vcs podem ter pensando em resgatar seu CDB etc. deixa eu explicar isso… e ai ela falaria sobre não tomar decisão baseada na mídia\nSeria uma abordagem na linha que vc colocou acima, mas pelo gancho da desinformação. Funciona? O que vc acha?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Aspas de abertura “Olha o caso do Master…” não são fechadas no print. Grafia preservada ('pensando em resgatar')."
+    },
+    {
+      "id": 12,
+      "timestamp": "2025-04-18T14:55:40",
+      "date": "2025-04-18",
+      "time": "14:55:40",
+      "sender": "DV",
+      "content": "Sim",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 13,
+      "timestamp": "2025-04-18T14:55:53",
+      "date": "2025-04-18",
+      "time": "14:55:53",
+      "sender": "Mkt-aninomo",
+      "content": "Blz",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "sem-data",
+        "message_count": 1,
+        "first_message_id": 14,
+        "last_message_id": 14
+      },
+      {
+        "date": "2025-04-05",
+        "message_count": 8,
+        "first_message_id": 1,
+        "last_message_id": 8
+      },
+      {
+        "date": "2025-04-18",
+        "message_count": 5,
+        "first_message_id": 9,
+        "last_message_id": 13
+      }
+    ]
+  }
+}

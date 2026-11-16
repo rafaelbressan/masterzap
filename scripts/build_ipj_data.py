@@ -387,6 +387,42 @@ def add_document_conversations(conversations):
             }
 
 
+def add_fork_conversations(conversations):
+    """The fork's new conversations (data/fork/), one source per conversation.
+
+    data/fork/conversas.json gives each conversation's contact, its default
+    source and seal (the fork's own description of where the messages came
+    from); a line from elsewhere carries its own source_id and verification.
+    As with the documents, adding to an existing conversation is refused.
+    """
+    meta_path = ROOT / "data" / "fork" / "conversas.json"
+    if not meta_path.exists():
+        return
+    with open(meta_path, encoding="utf-8") as f:
+        convs = json.load(f)
+    with open(ROOT / "data" / "sources.json", encoding="utf-8") as f:
+        titles = {s["id"]: s["titulo"] for s in json.load(f)["sources"]}
+    by_conv = defaultdict(list)
+    for row in read_jsonl(ROOT / "data" / "fork" / "mensagens.jsonl"):
+        by_conv[row["conv"]].append(row)
+    for conv_id, info in convs.items():
+        if conv_id in conversations:
+            sys.exit(f"data/fork: {conv_id} já existe; acrescentar mensagens a uma conversa "
+                     "existente ainda não é suportado (ver add_document_conversations).")
+        rows = by_conv[conv_id]
+        messages = sorted((row_message(r["id"], r) for r in rows), key=sort_key)
+        resolve_quotes(conv_id, messages)
+        conversations[conv_id] = {
+            "metadata": contact_metadata(
+                rows, info["name"], info["saved_as"], messages,
+                titles[info["source_id"]], info["source_id"],
+                "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. "
+                "A conversa completa não é pública.",
+                verification=info["verification"]),
+            "messages": messages,
+        }
+
+
 def build_index(messages):
     by_date = defaultdict(list)
     for msg in messages:
@@ -412,6 +448,7 @@ def main():
     conversations = dict([build_moraes_conversation()])
     conversations.update(build_other_conversations())
     add_document_conversations(conversations)
+    add_fork_conversations(conversations)
 
     for conv_id, payload in sorted(conversations.items()):
         payload["index"] = build_index(payload["messages"])

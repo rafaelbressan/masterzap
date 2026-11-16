@@ -1,0 +1,189 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "Hamilton Buzelin"
+    ],
+    "saved_as": null,
+    "phone": null,
+    "date_range": {
+      "start": "2024-02-27",
+      "end": "2024-02-28"
+    },
+    "total_messages": 12,
+    "source": "2 capturas de tela de conversa de WhatsApp (Poder360, 'original isolado'), transcritas exclusivamente a partir das imagens.",
+    "source_id": "fork-hamilton-buzelin",
+    "verification": "imprensa",
+    "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": "2024-02-27T11:17:32",
+      "date": "2024-02-27",
+      "time": "11:17:32",
+      "sender": "Hamilton Buzelin",
+      "content": "As mensagens e chamadas desta conversa estão protegidas com a criptografia de ponta a ponta. Toque para mais informações.",
+      "type": "system",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Aviso padrão do WhatsApp."
+    },
+    {
+      "id": 2,
+      "timestamp": "2024-02-27T11:17:32",
+      "date": "2024-02-27",
+      "time": "11:17:32",
+      "sender": "Hamilton Buzelin",
+      "content": "Salve Daniel, aqui Hamilton Buzelin, ex Diretor de Finanças Corporativas do Máxima, há muito não nos falamos.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Hamilton se dirige ao interlocutor como 'Daniel'."
+    },
+    {
+      "id": 3,
+      "timestamp": "2024-02-27T11:20:20",
+      "date": "2024-02-27",
+      "time": "11:20:20",
+      "sender": "Hamilton Buzelin",
+      "content": "Estou com uma demanda de falar com você com uma certa urgência.\n\nO assunto é referente a reunião da última Quinta-feira, no Rio de Janeiro que foi cancelada e está para ser re-agendada.\n\nSe pudermos fale seria ótimo, mas preciso que seja pessoalmente.\n\nComo estou no Rio demando um tempo para chegar até você.\n\nVocê poderia me receber?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Grafia conforme o print ('Se pudermos fale')."
+    },
+    {
+      "id": 4,
+      "timestamp": "2024-02-27T11:23:56",
+      "date": "2024-02-27",
+      "time": "11:23:56",
+      "sender": "DV",
+      "content": "Oi tudo bem hamilton?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Dois tiques azuis no print."
+    },
+    {
+      "id": 5,
+      "timestamp": "2024-02-27T11:24:09",
+      "date": "2024-02-27",
+      "time": "11:24:09",
+      "sender": "DV",
+      "content": "Nao sei de que tema estamos falando e nem dessa reuniao de quinta",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Dois tiques azuis no print."
+    },
+    {
+      "id": 6,
+      "timestamp": "2024-02-27T11:24:31",
+      "date": "2024-02-27",
+      "time": "11:24:31",
+      "sender": "Hamilton Buzelin",
+      "content": "Podemos falar?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 7,
+      "timestamp": "2024-02-27T11:26:23",
+      "date": "2024-02-27",
+      "time": "11:26:23",
+      "sender": "Hamilton Buzelin",
+      "content": "Mas adiantando foi uma reunião na Petrus, no Rio de Janeiro que seria na quinta.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 8,
+      "timestamp": "2024-02-28T19:13:51",
+      "date": "2024-02-28",
+      "time": "19:13:51",
+      "sender": "Hamilton Buzelin",
+      "content": "Salve Daniel, obrigado por me receber, já está confirmado sexta-feira às 14:00h.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Há lacuna de mensagens não visíveis nos prints entre as ids 7 e 8."
+    },
+    {
+      "id": 9,
+      "timestamp": "2024-02-28T19:15:30",
+      "date": "2024-02-28",
+      "time": "19:15:30",
+      "sender": "DV",
+      "content": "Depois me passe endereço",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Dois tiques azuis no print."
+    },
+    {
+      "id": 10,
+      "timestamp": "2024-02-28T19:20:07",
+      "date": "2024-02-28",
+      "time": "19:20:07",
+      "sender": "Hamilton Buzelin",
+      "content": "Passo sim, mas preciso que você e o Júlio se encontrem antes da reunião para que ele possa expor os detalhes que não pudemos conversar hoje. Ok?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 11,
+      "timestamp": "2024-02-28T19:21:55",
+      "date": "2024-02-28",
+      "time": "19:21:55",
+      "sender": "Hamilton Buzelin",
+      "content": "Vcs precisam se conhecer.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 12,
+      "timestamp": "2024-02-28T19:24:02",
+      "date": "2024-02-28",
+      "time": "19:24:02",
+      "sender": "DV",
+      "content": "Ok",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Dois tiques azuis no print."
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "2024-02-27",
+        "message_count": 7,
+        "first_message_id": 1,
+        "last_message_id": 7
+      },
+      {
+        "date": "2024-02-28",
+        "message_count": 5,
+        "first_message_id": 8,
+        "last_message_id": 12
+      }
+    ]
+  }
+}

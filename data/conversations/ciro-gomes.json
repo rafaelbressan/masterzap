@@ -1,0 +1,55 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "Ciro Gomes"
+    ],
+    "saved_as": null,
+    "phone": null,
+    "date_range": {
+      "start": "2024-07-23",
+      "end": "2024-07-23"
+    },
+    "total_messages": 2,
+    "source": "Imagem da conversa fornecida pelo usuário",
+    "source_id": "fork-ciro-gomes",
+    "verification": "nao-verificado",
+    "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": "2024-07-23T08:11:07",
+      "date": "2024-07-23",
+      "time": "08:11:07",
+      "sender": "DV",
+      "content": "Caro Ciro,\nGrande prazer te conhecer Muito obrigado pelo tempo e atenção.\nForte abraço!\nDaniel Vorcaro",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 2,
+      "timestamp": "2024-07-23T08:28:50",
+      "date": "2024-07-23",
+      "time": "08:28:50",
+      "sender": "Ciro Gomes",
+      "content": "Também tive muito prazer em conhecê-lo . Abraço\nCiro",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "2024-07-23",
+        "message_count": 2,
+        "first_message_id": 1,
+        "last_message_id": 2
+      }
+    ]
+  }
+}

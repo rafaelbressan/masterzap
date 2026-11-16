@@ -1,0 +1,89 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "Mário Frias"
+    ],
+    "saved_as": "Mario Frias",
+    "phone": null,
+    "date_range": {
+      "start": "2024-12-11",
+      "end": "2024-12-11"
+    },
+    "total_messages": 4,
+    "source": "Trechos publicados por Estadão, piauí, Metrópoles, Poder360 e Intercept (2026)",
+    "source_id": "fork-mario-frias",
+    "verification": "imprensa",
+    "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": null,
+      "date": "2024-12-11",
+      "time": null,
+      "sender": "DV",
+      "content": "Eu tô numa ligação, te chamo em seguida",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_id": "fork-mario-frias-intercept-brasil-via-metro1-19-05-2026",
+      "verification": "imprensa"
+    },
+    {
+      "id": 2,
+      "timestamp": null,
+      "date": "2024-12-11",
+      "time": null,
+      "sender": "DV",
+      "content": "Segundo o Intercept Brasil (via Metro1), depois dessa resposta os dois conversaram por telefone.",
+      "type": "system",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Paráfrase: o texto da mensagem não foi publicado; o que está aqui descreve o que ela dizia.",
+      "source_id": "fork-mario-frias-intercept-brasil-via-metro1-19-05-2026",
+      "verification": "reconstruido"
+    },
+    {
+      "id": 3,
+      "timestamp": "2024-12-11T18:24:08",
+      "date": "2024-12-11",
+      "time": "18:24:08",
+      "sender": "DV",
+      "content": "Fala irmao",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_id": "fork-mario-frias-metropoles-12-09-2026",
+      "verification": "imprensa"
+    },
+    {
+      "id": 4,
+      "timestamp": "2024-12-11T18:24:32",
+      "date": "2024-12-11",
+      "time": "18:24:32",
+      "sender": "Mário Frias",
+      "content": "[transcrição do áudio] Só te agradecer meu irmão. Vamos mexer com o coração de muita gente, vai ser muito importante para o nosso país, tá? Preciso de vez em quando te falar com as coisas vão andando, tá?",
+      "type": "audio",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "duration": "00:00:17",
+      "source_id": "fork-mario-frias-metropoles-12-09-2026",
+      "verification": "imprensa"
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "2024-12-11",
+        "message_count": 4,
+        "first_message_id": 1,
+        "last_message_id": 4
+      }
+    ]
+  }
+}
