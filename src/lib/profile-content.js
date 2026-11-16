@@ -844,7 +844,7 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Macallan',
       paragraphs: [
-        { text: 'Grupo ativo entre 2023 e 2024. O trecho transcrito abaixo é de 26/10/2023; o conteúdo do vídeo foi omitido pela reportagem. Trecho parcial. O conteúdo do vídeo não foi reproduzido pela reportagem. Os trechos foram publicados pela imprensa (Veja), por isso levam o selo "imprensa".' },
+        { text: 'Grupo ativo entre 2023 e 2024. O trecho transcrito abaixo é de 26/10/2023; o conteúdo do vídeo foi omitido pela reportagem. Trecho parcial. Os trechos foram publicados pela imprensa (Veja), por isso levam o selo "imprensa".' },
       ],
     }],
   },

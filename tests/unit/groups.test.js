@@ -5,7 +5,9 @@ import { defaultGroupAvatarSvg, senderColors, defaultAvatarSvg } from '../../src
 const group = { id: 'g1', is_group: true, owner: 'DV', contact: 'Macallan', participants: ['DV', 'Fábio Faria', 'Lucas'], members: ['Fábio Faria', 'Lucas'] };
 const conversations = [
   { id: 'fabio-faria', contact: 'Fábio Faria', aliases: ['Fabio Faria'] },
-  { id: 'paulo', contact: 'Diretor Paulo', saved_as: 'Paulo Sérgio Neves de Souza' },
+  // As the data has him: his chat knows him as "Paulo Sergio".
+  { id: 'paulo', contact: 'Diretor Paulo Sergio Bacen', aliases: ['Paulo Sergio'] },
+  { id: 'ciro-soares', contact: 'Ciro Soares' },
   group,
 ];
 
@@ -19,7 +21,9 @@ describe('groups', () => {
 
   it('draws a member who has a chat here with that chat, by any of their names', () => {
     expect(memberIdentity('Fabio Faria', conversations)).toEqual({ seed: 'fabio-faria', conversationId: 'fabio-faria' });
-    expect(conversationOfPerson('paulo sérgio neves de souza', conversations)?.id).toBe('paulo');
+    expect(conversationOfPerson('Paulo Sérgio Neves de Souza', conversations)?.id).toBe('paulo');
+    // One shared word is not the same person.
+    expect(conversationOfPerson('Ciro Nogueira', conversations)).toBeNull();
     // Someone with no chat here: seeded by name, nothing to open.
     expect(memberIdentity('Lucas', conversations)).toEqual({ seed: 'Lucas', conversationId: null });
     // A group is never a member's chat.

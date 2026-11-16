@@ -11,6 +11,12 @@
  * best effort, never throws, so a stray line still renders as text.
  */
 
+/** What a message with no text is called, as WhatsApp names it ("Figurinha"). */
+export const MEDIA_LABELS = {
+  image: 'Foto', image_view_once: 'Foto', video: 'Vídeo', audio: 'Áudio',
+  sticker: 'Figurinha', document: 'Documento', contact: 'Contato', location: 'Localização',
+};
+
 /** Digits only, for comparing phone numbers written in any style. */
 export const phoneDigits = (s) => (s || '').replace(/\D/g, '');
 

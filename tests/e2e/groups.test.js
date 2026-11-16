@@ -23,6 +23,9 @@ test('a run from one person opens with their name and photo; the next bubbles of
   await expect(first.locator('.chat-msg-group-avatar')).toBeVisible();
   await expect(page.locator('.chat-msg-row[data-id="3"] .chat-msg-sender')).toHaveCount(0);
   await expect(page.locator('.chat-msg-row[data-id="3"] .chat-msg-group-avatar')).toHaveCount(0);
+  // The first bubble of a run has its tail, the next ones do not.
+  await expect(first.locator('.chat-msg-tail')).toBeVisible();
+  await expect(page.locator('.chat-msg-row[data-id="3"] .chat-msg-tail')).toBeHidden();
   // The owner's are never named.
   await expect(page.locator('.chat-msg-row.outgoing .chat-msg-sender')).toHaveCount(0);
   // Bubbles of the run line up with the first, past the photo.
@@ -30,13 +33,13 @@ test('a run from one person opens with their name and photo; the next bubbles of
   expect(Math.abs(a.x - b.x)).toBeLessThan(1);
 });
 
-test('"Info do grupo" lists the members, the creator marked, a member with a chat here opening it', async ({ page }) => {
+test('"Info do grupo" lists the members, the creator marked admin, a member with a chat here opening it', async ({ page }) => {
   await page.goto('/#/chat/g002-ciro-daniel-fabio-hugo');
   await page.locator('.chat-header-info-wrapper').click();
   const info = page.locator('.contact-info-drawer');
   await expect(info.locator('.contact-info-title')).toHaveText('Info do grupo');
   await expect(info.locator('.group-info-member-name')).toHaveText(['Você', 'Ciro Nogueira', 'Hugo Motta', 'Fábio Faria']);
-  await expect(info.locator('.group-info-member', { hasText: 'Ciro Nogueira' })).toContainText('Criador do grupo');
+  await expect(info.locator('.group-info-member', { hasText: 'Ciro Nogueira' })).toContainText('Admin do grupo');
   await expect(info.locator('.contact-info-action-item', { hasText: 'Mensagens temporárias' })).toContainText('90 dias');
   await info.locator('button.group-info-member', { hasText: 'Fábio Faria' }).click();
   await expect(page).toHaveURL(/#\/chat\/fabio-faria/);
@@ -50,4 +53,7 @@ test('on a phone the group and its info fit', async ({ page }) => {
   expect(width).toBeLessThanOrEqual(390);
   await page.locator('.chat-header-info-wrapper').click();
   await expect(page.locator('.group-info-member')).toHaveCount(3);
+  // His chat here knows him by a shorter name; he is still the same person.
+  await page.locator('button.group-info-member', { hasText: 'Paulo Sérgio Neves de Souza' }).click();
+  await expect(page).toHaveURL(/#\/chat\/diretor-paulo-sergio-bacen/);
 });

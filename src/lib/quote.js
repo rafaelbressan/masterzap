@@ -31,7 +31,8 @@ export function quoteOf(msg, conversation) {
   return {
     id: msg.quoted_id ?? null,
     fromOwner,
-    author: fromOwner ? 'Você' : contactOf(conversation),
+    // In a group the quoted member, not the group's name.
+    author: fromOwner ? 'Você' : (conversation?.is_group && msg.quoted_sender) || contactOf(conversation),
     sender: msg.quoted_sender,
     kind,
     text: card?.name || msg.quoted,

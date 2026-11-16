@@ -154,10 +154,9 @@ function conversationLd(entry, who, description, { path, month, first, last, par
     inLanguage: 'pt-BR',
     description,
     ...(first && first !== 'sem-data' ? { temporalCoverage: `${first}/${last}` } : {}),
-    about: [
-      { '@type': 'Person', name: ownerName(entry) },
-      { '@type': 'Person', name: who },
-    ],
+    // A group is about its members, the owner among them.
+    about: [ownerName(entry), ...(entry.is_group ? entry.members || [] : [who])]
+      .map(name => ({ '@type': 'Person', name })),
     isPartOf: parent ? { '@id': `${SITE}${parent}` } : { '@id': `${SITE}/#dataset` },
     encoding: [
       { '@type': 'MediaObject', encodingFormat: 'text/markdown', contentUrl: `${SITE}/export/masterwhats-${entry.id}.md` },
@@ -210,7 +209,7 @@ function profileHtml(profile, who, entry, fromPath) {
   const out = [];
   const urls = [];
   if (!profile) return { html: out, urls };
-  out.push(`<h2>Quem é ${escapeHtml(who)}</h2>`);
+  out.push(`<h2>${escapeHtml(entry?.is_group ? `Sobre o grupo ${who}` : `Quem é ${who}`)}</h2>`);
   for (const section of profile.sections || []) {
     if (section.title && section.title !== who && section.title !== `Sobre ${who}`) {
       out.push(`<h3>${escapeHtml(section.title)}</h3>`);
@@ -444,7 +443,8 @@ function llmsFull(built, people) {
   ];
   for (const { entry, who, profile, months } of built) {
     const source = sourceOf(entry);
-    out.push(`### ${who} — ${entry.total_messages} mensagens, ${periodOf(entry.date_range)}`, '');
+    out.push(`### ${entry.is_group ? `Grupo ${who}` : who} — ${entry.total_messages} mensagens, ${periodOf(entry.date_range)}`, '');
+    if (entry.is_group) out.push(`- Membros: ${[ownerName(entry), ...(entry.members || [])].join(', ')}`);
     out.push(`- Página: ${SITE}/chat/${entry.id}`);
     if (months) out.push(`- Um mês por página: ${[...months.keys()].map(ym => `${SITE}/chat/${entry.id}/${ym}`).join(' · ')}`, `- Markdown por mês (troque o mês): ${SITE}/export/masterwhats-${entry.id}-${[...months.keys()][0]}.md`);
     out.push(`- Conversa completa em Markdown: ${SITE}/export/masterwhats-${entry.id}.md · JSON: ${SITE}/export/masterwhats-${entry.id}.json`);

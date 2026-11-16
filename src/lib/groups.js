@@ -22,9 +22,22 @@ export const isGroup = (conversation) => conversation?.is_group === true;
 export function conversationOfPerson(name, conversations) {
   const want = fold(name);
   if (!want) return null;
-  return (conversations || []).find(c => !isGroup(c)
-    && [c.contact, c.saved_as, ...(c.aliases || [])].some(n => fold(n) === want)) || null;
+  const people = (conversations || []).filter(c => !isGroup(c));
+  const namesOf = (c) => [c.contact, c.saved_as, ...(c.aliases || [])].filter(Boolean);
+  return people.find(c => namesOf(c).some(n => fold(n) === want))
+    // A fuller or shorter form of the same name: every word of the shorter
+    // one (two at least) in the longer — "Paulo Sergio" in "Paulo Sérgio
+    // Neves de Souza" — and only one chat that fits.
+    || only(people.filter(c => namesOf(c).some(n => sameName(fold(n), want))))
+    || null;
 }
+
+function sameName(a, b) {
+  const [short, long] = [a.split(/\s+/), b.split(/\s+/)].sort((x, y) => x.length - y.length);
+  return short.length >= 2 && short.every(w => long.includes(w));
+}
+
+const only = (list) => (list.length === 1 ? list[0] : null);
 
 /**
  * Who a member is drawn as: the seed of their default photo and colour (their

@@ -282,8 +282,8 @@ function createActionItem(iconSvg, label, detail, hasToggle = false, disabled = 
  */
 /**
  * A group's members, as WhatsApp lists them: "N membros", the owner first as
- * "Você", then each one with their photo; the one who created the group says
- * so. A member who has a conversation of their own here opens it.
+ * "Você", then each one with their photo; the one who created the group is
+ * its admin, as WhatsApp tags them. A member who has a conversation of their own here opens it.
  */
 function createMembersSection(conversation, { conversations = [], avatarFor = () => null, selfAvatar = null } = {}, actions = {}) {
   const members = membersOf(conversation);
@@ -333,7 +333,7 @@ function createMembersSection(conversation, { conversations = [], avatarFor = ()
   for (const name of members) {
     const { seed, conversationId } = memberIdentity(name, conversations);
     row(name, conversationId ? avatarFor(conversationId) : null, seed,
-      name === creator ? 'Criador do grupo' : null, conversationId);
+      name === creator ? 'Admin do grupo' : null, conversationId);
   }
   return section;
 }

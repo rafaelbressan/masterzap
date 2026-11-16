@@ -16,7 +16,7 @@ import { ICON_FORWARDED, ICON_INFO, ICON_SEARCH, ICON_CHECKEMPTY, ICON_BELL, ICO
 
 import { defaultAvatarSvg, defaultGroupAvatarSvg, senderColors } from '../lib/avatar.js';
 import { isGroup, membersOf, memberIdentity } from '../lib/groups.js';
-import { parseContacts, parseLocation, mapsUrl, parseLink, parseAudio, parseImage, conversationForPhone } from '../lib/media.js';
+import { parseContacts, parseLocation, mapsUrl, parseLink, parseAudio, parseImage, conversationForPhone, MEDIA_LABELS } from '../lib/media.js';
 import { showContactsSheet, ICON_MESSAGE } from './ContactsSheet.js';
 import { openMenu, menuClosed } from '../lib/menus.js';
 import { isImportant } from '../lib/important-messages.js';
@@ -115,7 +115,7 @@ function markGroupRuns(section) {
     if (msg.sender === previous) continue;
     previous = msg.sender;
     row.classList.add('group-run-start');
-    const { seed, conversationId } = memberIdentity(msg.sender, media.conversations);
+    const { seed } = memberIdentity(msg.sender, media.conversations);
     const { light, dark } = senderColors(seed);
     const bubble = row.querySelector('.chat-msg-bubble');
     const name = document.createElement('div');
@@ -124,8 +124,7 @@ function markGroupRuns(section) {
     name.style.setProperty('--sender-dark', dark);
     name.textContent = msg.sender;
     bubble?.prepend(name);
-    const photo = avatarEl(conversationId ? media.avatarFor(conversationId) : null, msg.sender, 28, 'chat-msg-group-avatar');
-    if (!conversationId) photo.innerHTML = defaultAvatarSvg(seed, 28);
+    const photo = memberAvatar(msg.sender, 28, 'chat-msg-group-avatar');
     photo.setAttribute('aria-hidden', 'true');
     row.prepend(photo);
   }
@@ -165,8 +164,7 @@ function renderMediaPlaceholder(type, msg) {
 
   const label = document.createElement('span');
   label.className = 'chat-media-label';
-  const labels = { image: 'Foto', video: 'Vídeo', sticker: 'Figurinha' };
-  label.textContent = image ? image.label : (labels[type] || type);
+  label.textContent = image ? image.label : (MEDIA_LABELS[type] || type);
   el.appendChild(label);
 
   if (image?.note) {
@@ -184,6 +182,18 @@ function renderMediaPlaceholder(type, msg) {
     el.appendChild(caption);
   }
 
+  return el;
+}
+
+/**
+ * A group member's photo: their conversation's when they have one with a
+ * photo, else the default one in the colour their name is written in.
+ */
+function memberAvatar(name, size, className) {
+  const { seed, conversationId } = memberIdentity(name, media.conversations);
+  const photo = conversationId ? media.avatarFor(conversationId) : null;
+  const el = avatarEl(photo, name, size, className);
+  if (!photo) el.innerHTML = defaultAvatarSvg(seed, size); // generated, no user data
   return el;
 }
 
@@ -237,8 +247,11 @@ function renderAudioMessage(msg, isOutgoing, conversation) {
   }
   row.appendChild(waveform);
 
-  const who = avatarEl(isOutgoing ? media.selfAvatar : media.contactAvatar,
-    isOutgoing ? media.selfName : media.contactName, 40, 'chat-audio-avatar');
+  // In a group, the member who recorded it.
+  const who = isOutgoing
+    ? avatarEl(media.selfAvatar, media.selfName, 40, 'chat-audio-avatar')
+    : isGroup(conversation) ? memberAvatar(msg.sender, 40, 'chat-audio-avatar')
+      : avatarEl(media.contactAvatar, media.contactName, 40, 'chat-audio-avatar');
   const mic = document.createElement('span');
   mic.className = 'chat-audio-mic';
   mic.innerHTML = ICON_MIC;
@@ -298,9 +311,11 @@ function renderAudioMessage(msg, isOutgoing, conversation) {
         src,
         conversationId: conversation?.id,
         messageId: msg.id,
-        name: isOutgoing ? media.selfName : media.contactName,
+        name: isOutgoing ? media.selfName : isGroup(conversation) ? msg.sender : media.contactName,
         contactName: media.contactName,
-        avatar: isOutgoing ? media.selfAvatar : media.contactAvatar,
+        avatar: isOutgoing ? media.selfAvatar
+          : isGroup(conversation) ? media.avatarFor(memberIdentity(msg.sender, media.conversations).conversationId)
+            : media.contactAvatar,
       });
     });
   } else {

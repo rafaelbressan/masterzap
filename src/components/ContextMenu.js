@@ -7,7 +7,7 @@
 
 import { DEFAULT_OWNER } from '../lib/participants.js';
 import { noteOf, NOTE_LABEL } from '../lib/provenance.js';
-import { parseAudio } from '../lib/media.js';
+import { parseAudio, MEDIA_LABELS } from '../lib/media.js';
 import { openMenu, menuClosed } from '../lib/menus.js';
 import { escapeHtml, formatDateLong, formatTime, NO_TIME_LABEL, showsForwarded } from '../lib/utils.js';
 import { showToast } from './Toast.js';
@@ -249,10 +249,7 @@ export function attachContextMenu(chatContainer, { senderNames = {}, incomingSen
       fields.appendChild(createField('Hora', NO_TIME_LABEL));
     }
     if (msg.type && msg.type !== 'text') {
-      const typeLabels = {
-        image: 'Foto', video: 'Vídeo', audio: 'Áudio',
-        document: 'Documento', call: 'Chamada', deleted: 'Apagada', system: 'Sistema',
-      };
+      const typeLabels = { ...MEDIA_LABELS, call: 'Chamada', deleted: 'Apagada', system: 'Sistema' };
       fields.appendChild(createField('Tipo', typeLabels[msg.type] || msg.type));
     }
     if (msg.isEdited) {

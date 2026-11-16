@@ -1133,15 +1133,17 @@ button.chat-msg-quote:focus-visible {
   object-fit: cover;
 }
 
+/* Scoped to the group view, so they outrank the rules in components.css
+   (loaded later) that hide the tail after the first bubble of a block. */
 .chat-view.is-group .chat-msg-row.group-run-start {
   margin-top: 6px;
 }
 
-.chat-msg-row.group-run-start.incoming > .chat-msg-bubble.incoming {
+.chat-view.is-group .chat-msg-row.group-run-start.incoming > .chat-msg-bubble.incoming {
   border-top-left-radius: 0;
 }
 
-.chat-msg-row.group-run-start.incoming > .chat-msg-bubble.incoming .chat-msg-tail {
+.chat-view.is-group .chat-msg-row.group-run-start.incoming > .chat-msg-bubble.incoming .chat-msg-tail {
   display: block;
 }
 

@@ -79,7 +79,19 @@ async function init() {
 
   // Contacts with a photograph. Everyone else falls back to the generated
   // coloured avatar in lib/avatar.js, keyed by conversation id.
-  const AVATARS = {
+  /**
+ * Who is who, for a group's members and a voice note's sender: every
+ * conversation, the photos, and the owner's own photo.
+ */
+function peopleFor(conversation) {
+  return {
+    conversations: getDataStore().getConversations(),
+    avatarFor: (convId) => AVATARS[convId] || null,
+    selfAvatar: ownerOf(conversation) === DEFAULT_OWNER ? AVATARS['dv-self'] : null,
+  };
+}
+
+const AVATARS = {
     'martha-graeff': '/assets/avatar-martha-graeff.jpeg',
     'alexandre-de-moraes': '/assets/avatar-alexandre-de-moraes.jpg',
     'fabio-faria': '/assets/avatar-fabio-faria.jpg',
@@ -379,8 +391,7 @@ async function init() {
         onClose: () => { activeContactInfo = null; },
         onSearch: toggleSearch,
         actions: contactProfileActions,
-        // A group lists its members, each with their photo when there is one.
-        people: { conversations: store.getConversations(), avatarFor: (convId) => AVATARS[convId] || null, selfAvatar: ownerOf(conversation) === DEFAULT_OWNER ? AVATARS['dv-self'] : null },
+        people: peopleFor(conversation),
       });
     }
 
@@ -604,6 +615,7 @@ async function init() {
               mediaCounts: conv.media_counts || MEDIA_COUNTS,
               onClose: () => { activeContactInfo = null; },
               onSearch: () => toggleChatSearch(convId, []),
+              people: peopleFor(conv),
               actions: {
                 onProfileDV: () => { closeRightDrawers(); openProfile(); },
                 onSearch: (term, id) => { closeRightDrawers(); fillSidebarSearch(term, id); },

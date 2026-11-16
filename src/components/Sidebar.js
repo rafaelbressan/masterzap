@@ -13,6 +13,7 @@ import { isPinned, togglePinned, orderWithPinned, keepOnlyPinned, MAX_PINNED } f
 import { showToast } from './Toast.js';
 import { defaultAvatarSvg, defaultGroupAvatarSvg } from '../lib/avatar.js';
 import { isGroup } from '../lib/groups.js';
+import { MEDIA_LABELS } from '../lib/media.js';
 
 /**
  * The two conversations pinned under "Favoritas" — the leaks this project is
@@ -37,12 +38,6 @@ export function conversationName(conv) {
  *   search shows there the other name a chat was found by)
  * @returns {HTMLElement}
  */
-/** What the list says for a last message with no text, as WhatsApp does. */
-const MEDIA_PREVIEW = {
-  image: 'Foto', image_view_once: 'Foto', video: 'Vídeo', audio: 'Áudio',
-  sticker: 'Figurinha', document: 'Documento', contact: 'Contato', location: 'Localização',
-};
-
 export function buildConversationItem(conv, { nameHtml, previewHtml } = {}) {
   const item = document.createElement('div');
   item.className = 'conversation-item';
@@ -59,7 +54,7 @@ export function buildConversationItem(conv, { nameHtml, previewHtml } = {}) {
   // In a group, whose message it was: "Ciro Nogueira: Avisa quando…".
   const last = conv.last_message;
   const groupSender = isGroup(conv) && last?.sender && last.sender !== ownerOf(conv) ? `${last.sender}: ` : '';
-  const lastPreview = escapeHtml(groupSender + (last?.content || MEDIA_PREVIEW[last?.type] || ''));
+  const lastPreview = escapeHtml(groupSender + (last?.content || MEDIA_LABELS[last?.type] || ''));
   const displayName = escapeHtml(conversationName(conv));
   const msgCount = conv.total_messages ? formatNumber(conv.total_messages) : '';
 
