@@ -355,8 +355,9 @@ ${body}
 }
 
 function mentionHtml(conversationId, msg, alias, primary, entry) {
-  const page = pageOf(msg, conversationId);
-  const cite = page ? ` <small>(${page})</small>` : '';
+  // Listed out of its conversation: its seal, unless verified, goes with it.
+  const cite = [pageOf(msg, conversationId), ...messageProvenanceTags(msg, entry, { standalone: true })].filter(Boolean)
+    .map(t => ` <small>(${escapeHtml(t)})</small>`).join('');
   return `<div class="msg" id="m-${conversationId}-${msg.id}">`
     + `<time${zonedTimestamp(msg) ? ` datetime="${zonedTimestamp(msg)}"` : ''}>${citationOf(msg).split(' · ')[0]}</time> · <b>${escapeHtml(msg.sender)}</b>${cite}${alias !== primary ? ` <small>· por «${escapeHtml(alias)}»</small>` : ''}<br>`
     + `${messageHtml(msg, entry)}<br>`

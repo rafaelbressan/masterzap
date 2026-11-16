@@ -504,7 +504,13 @@ def append_messages(conversations, appends):
                             if date_sort_key(m["date"]) >= key), len(messages))
             else:
                 if anchor not in by_id:
-                    sys.exit(f"{where(row)}: after {anchor} não está na conversa")
+                    if anchor == row["id"]:
+                        why = "é a própria linha"
+                    elif any(r["id"] == anchor for r in rows):
+                        why = "é uma linha deste acréscimo com id maior; a âncora precisa ter id menor"
+                    else:
+                        why = "não está na conversa"
+                    sys.exit(f"{where(row)}: after {anchor} {why}")
                 if by_id[anchor]["date"] != msg["date"]:
                     sys.exit(f"{where(row)}: after {anchor} é de {by_id[anchor]['date']}, "
                              f"não de {msg['date']}")

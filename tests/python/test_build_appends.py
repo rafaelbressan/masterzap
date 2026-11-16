@@ -71,6 +71,15 @@ class AppendMessages(unittest.TestCase):
         with self.assertRaises(SystemExit):
             append_messages(base(), {"nobody": [row(4, None, "x", date="2024-01-01")]})
 
+    def test_an_anchor_with_a_higher_id_is_named_as_such(self):
+        with self.assertRaises(SystemExit) as caught:
+            append_messages(base(), {"ana": [row(4, 5, "x", "2024-01-01 12:00:00"),
+                                             row(5, 2, "y", "2024-01-01 11:30:00")]})
+        self.assertIn("id maior", str(caught.exception))
+        with self.assertRaises(SystemExit) as caught:
+            append_messages(base(), {"ana": [row(4, 4, "x", "2024-01-01 12:00:00")]})
+        self.assertIn("própria linha", str(caught.exception))
+
     def test_refuses_two_lines_at_one_spot(self):
         # They would come out in reverse; the converter chains them instead.
         for pair in ([row(4, 1, "x", "2024-01-01 10:30:00"), row(5, 1, "y", "2024-01-01 10:31:00")],

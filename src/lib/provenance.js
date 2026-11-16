@@ -89,15 +89,20 @@ export function conversationSealLine(conversation) {
   const source = sourceById(conversation.source_id);
   const title = source?.titulo ? source.titulo.replace(/\s+—\s+.*$/, '') : conversation.source;
   const outlet = source?.orgao_ou_veiculo ? ` (${source.orgao_ou_veiculo})` : '';
-  let line = `Fonte: ${title || 'não informada'}${outlet} · ${seal.label}`;
-  const others = Object.entries(conversation.verification_counts || {})
+  const others = otherSealsText(conversation);
+  return `Fonte: ${title || 'não informada'}${outlet} · ${seal.label}${others ? ` · ${others}` : ''}`;
+}
+
+/**
+ * How many messages carry another seal than the conversation's:
+ * "4 mensagens marcadas como Imprensa", "1 …, 2 … e 1 …"; empty when none.
+ * The app's seal line and the static pages (scripts/lib/corpus.mjs) say it alike.
+ */
+export function otherSealsText(conversation) {
+  const others = Object.entries(conversation?.verification_counts || {})
     .filter(([v]) => v !== conversation.verification && SEALS[v]);
-  if (others.length) {
-    // "· 4 mensagens marcadas como Imprensa", "· 1 …, 2 … e 1 …"
-    const parts = others.map(([v, n]) => `${n.toLocaleString('pt-BR')} ${n === 1 ? 'mensagem marcada' : 'mensagens marcadas'} como ${SEALS[v].label}`);
-    line += ` · ${new Intl.ListFormat('pt-BR', { type: 'conjunction' }).format(parts)}`;
-  }
-  return line;
+  const parts = others.map(([v, n]) => `${n.toLocaleString('pt-BR')} ${n === 1 ? 'mensagem marcada' : 'mensagens marcadas'} como ${SEALS[v].label}`);
+  return parts.length ? new Intl.ListFormat('pt-BR', { type: 'conjunction' }).format(parts) : '';
 }
 
 /** What the editorial note on a message is called wherever it is shown. */

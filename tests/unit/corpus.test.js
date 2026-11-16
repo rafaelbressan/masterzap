@@ -10,6 +10,7 @@ import { SITE_URL } from '../../src/config/site.js';
 import {
   createResolver, createLocator, loadEntries, normalize, citationOf, linksToMarkdown, linksToHtml, linksToText,
   brDate, longDate, monthOf, zonedTimestamp, contactOf, whoIs, messageText, messageHtml, pageOf,
+  sealSummary, messageProvenanceTags, loadMessages,
 } from '../../scripts/lib/corpus.mjs';
 
 const entries = loadEntries();
@@ -157,5 +158,48 @@ describe('messageHtml', () => {
       .toBe('<small>em resposta a DV: «[contato] Vivi +55 11 98344-5794»</small><br>Ok');
     expect(messageHtml({ type: 'text', content: 'Ok', quoted: 'a\nb', quoted_sender: 'Fábio Faria' }, conv))
       .toBe('<small>em resposta a Fábio Faria: «a<br>b»</small><br>Ok');
+  });
+});
+
+// A conversation from one source can hold messages from others (added later,
+// with their own seal): the static pages say so, as the app does.
+describe('seals out of the app', () => {
+  const entry = (id) => entries.find(e => e.id === id);
+  const loaded = new Map();
+  const message = (id, n) => {
+    if (!loaded.has(id)) loaded.set(id, loadMessages(entry(id)));
+    return loaded.get(id).find(m => m.id === n);
+  };
+
+  it("states the conversation's seal and how many messages carry another", () => {
+    const summary = sealSummary(entry('luiz-renno'));
+    expect(summary).toMatch(/^Verificado · /);
+    for (const seal of ['Não verificado', 'Imprensa', 'Reconstruído']) {
+      expect(summary).toMatch(new RegExp(`\\d+ mensagens? marcadas? como ${seal}`));
+    }
+    expect(sealSummary(entry('motorista-brasilia-sidney'))).toBe('Verificado');
+  });
+
+  it('tags a message from another source with its seal and that source', () => {
+    // Moraes msg 64: rebuilt from the phone's search index, in a report chat.
+    expect(messageProvenanceTags(message('alexandre-de-moraes', 64), entry('alexandre-de-moraes')))
+      .toEqual(['reconstruído', expect.stringMatching(/^fonte: ChatSearchV5f/)]);
+    expect(messageProvenanceTags(message('alexandre-de-moraes', 7), entry('alexandre-de-moraes'))).toEqual([]);
+    expect(citationOf(message('alexandre-de-moraes', 64), 'alexandre-de-moraes')).toMatch(/^28\/10\/2025 11:03 · reconstruído · fonte: ChatSearchV5f/);
+  });
+
+  it('out of its conversation, says any seal but Verificado', () => {
+    const standalone = (id, n) => messageProvenanceTags(message(id, n), entry(id), { standalone: true });
+    expect(standalone('martha-graeff', 1)).toEqual(['imprensa']);
+    expect(standalone('alexandre-de-moraes', 7)).toEqual([]);
+    expect(standalone('alexandre-de-moraes', 64)[0]).toBe('reconstruído');
+    // In its own conversation the leak's seal goes without saying.
+    expect(citationOf(message('martha-graeff', 1), 'martha-graeff')).not.toMatch(/imprensa/);
+    expect(citationOf(message('martha-graeff', 1), 'martha-graeff', { standalone: true })).toMatch(/ · imprensa$/);
+  });
+
+  it('a seal it does not know adds no tag rather than stopping the build', () => {
+    const old = { ...message('alexandre-de-moraes', 7), verification: 'antigo' };
+    expect(messageProvenanceTags(old, entry('alexandre-de-moraes'), { standalone: true })).toEqual([]);
   });
 });

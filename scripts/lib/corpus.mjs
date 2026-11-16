@@ -4,7 +4,7 @@
  */
 
 import { readFileSync, existsSync } from 'node:fs';
-import { SEALS, provenanceOf as appProvenanceOf, noteOf, NOTE_LABEL } from '../../src/lib/provenance.js';
+import { SEALS, provenanceOf as appProvenanceOf, noteOf, NOTE_LABEL, otherSealsText } from '../../src/lib/provenance.js';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -90,21 +90,22 @@ export function sourceOf(entry) {
  * the app draws (conversationSealLine in src/lib/provenance.js).
  */
 export function sealSummary(entry) {
-  const others = Object.entries(entry.verification_counts || {})
-    .filter(([v]) => v !== entry.verification && SEALS[v]);
-  const parts = others.map(([v, n]) => `${n.toLocaleString('pt-BR')} ${n === 1 ? 'mensagem marcada' : 'mensagens marcadas'} como ${SEALS[v].label}`);
-  const label = VERIFICATION_LABELS[entry.verification];
-  return parts.length ? `${label} · ${new Intl.ListFormat('pt-BR', { type: 'conjunction' }).format(parts)}` : label;
+  const others = otherSealsText(entry);
+  return `${VERIFICATION_LABELS[entry.verification]}${others ? ` · ${others}` : ''}`;
 }
 
 /**
  * What a message from another source than its conversation's says beside it,
  * as the Markdown export does: its seal and that source. Empty otherwise.
  */
-export function messageProvenanceTags(msg, entry) {
+export function messageProvenanceTags(msg, entry, { standalone = false } = {}) {
   const { source_id: sourceId, verification: seal } = provenanceOf(msg, entry);
   const tags = [];
-  if (seal !== entry.verification) tags.push(VERIFICATION_LABELS[seal].toLowerCase());
+  // In its conversation, a seal other than the conversation's; read out of it
+  // (a page of mentions, a highlight elsewhere), any seal but "Verificado".
+  const baseline = standalone ? 'verificado' : entry.verification;
+  // An unknown value only means old data (src/lib/provenance.js): no tag.
+  if (seal !== baseline && VERIFICATION_LABELS[seal]) tags.push(VERIFICATION_LABELS[seal].toLowerCase());
   if (sourceId !== entry.source_id) tags.push(`fonte: ${loadSources().get(sourceId)?.titulo || sourceId}`);
   return tags;
 }
@@ -216,19 +217,30 @@ export const monthOf = (date) => (DAY.test(date || '') || MONTH.test(date || '')
  * message's own source, else its conversation's (sources.json `cita`).
  */
 let entriesById = null;
+const entryOf = (conversationId) => {
+  if (!conversationId) return null;
+  entriesById ??= new Map(loadEntries().map(e => [e.id, e]));
+  return entriesById.get(conversationId) || null;
+};
 export function pageOf(msg, conversationId) {
   if (!msg.source_page) return '';
-  entriesById ??= new Map(loadEntries().map(e => [e.id, e]));
-  const sourceId = msg.source_id || entriesById.get(conversationId)?.source_id;
+  const sourceId = msg.source_id || entryOf(conversationId)?.source_id;
   const word = loadSources().get(sourceId)?.cita || 'documento';
   return `${word} p. ${msg.source_page}${msg.source_figure ? `, fig. ${msg.source_figure}` : ''}`;
 }
 
-/** "15/11/2025 18:22 · laudo p. 109, fig. 108" — what a quote needs to be checked. */
-export function citationOf(msg, conversationId) {
+/**
+ * "15/11/2025 18:22 · laudo p. 109, fig. 108" — what a quote needs to be
+ * checked, plus the message's seal and source when they are not what the
+ * reader already sees (messageProvenanceTags). `standalone`: the citation is
+ * read out of its conversation, which does not show its seal.
+ */
+export function citationOf(msg, conversationId, { standalone = false } = {}) {
   const parts = [msg.time ? `${brDate(msg.date)} ${msg.time.slice(0, 5)}` : `${brDate(msg.date)}, horário não informado`];
   const page = pageOf(msg, conversationId);
   if (page) parts.push(page);
+  const entry = entryOf(conversationId);
+  if (entry) parts.push(...messageProvenanceTags(msg, entry, { standalone }));
   return parts.join(' · ');
 }
 
@@ -299,7 +311,11 @@ export function renderLinks(text, opts = {}) {
   const link = (label, href) => (mode === 'md' ? `[${label}](${href})`
     : mode === 'html' ? `<a href="${escapeHtml(href)}"${href.startsWith('http') ? ' rel="noopener"' : ''}>${escapeHtml(label)}</a>`
     : label);
-  const cite = (msg, conversationId) => (mode === 'html' ? ` <small>⟨${escapeHtml(citationOf(msg, conversationId))}⟩</small>` : ` ⟨${citationOf(msg, conversationId)}⟩`);
+  // A highlight of another conversation is read without that one's seal.
+  const cite = (msg, conversationId) => {
+    const where = citationOf(msg, conversationId, { standalone: conversationId !== (opts.samePage ?? opts.context) });
+    return mode === 'html' ? ` <small>⟨${escapeHtml(where)}⟩</small>` : ` ⟨${where}⟩`;
+  };
 
   let out = '';
   let last = 0;
