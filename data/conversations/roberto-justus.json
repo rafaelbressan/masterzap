@@ -4,7 +4,7 @@
       "DV",
       "Roberto Justus"
     ],
-    "saved_as": "roberto-justus",
+    "saved_as": null,
     "phone": null,
     "date_range": {
       "start": "2024-12-21",
@@ -278,19 +278,6 @@
       "urls": []
     },
     {
-      "id": 22,
-      "timestamp": null,
-      "date": "2025-09-04",
-      "time": null,
-      "sender": "DV",
-      "content": "Ok",
-      "type": "text",
-      "is_edited": false,
-      "attachment": null,
-      "urls": [],
-      "note": "O print está cortado na borda inferior e o carimbo de hora não aparece. Posição logo após a mensagem das 21:10:37, na mesma tela de 04/09; a data é inferida pela posição."
-    },
-    {
       "id": 23,
       "timestamp": "2025-09-04T15:38:52",
       "date": "2025-09-04",
@@ -427,6 +414,19 @@
       "urls": []
     },
     {
+      "id": 22,
+      "timestamp": null,
+      "date": "2025-09-04",
+      "time": null,
+      "sender": "DV",
+      "content": "Ok",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "O print está cortado na borda inferior e o carimbo de hora não aparece. Posição logo após a mensagem das 21:10:37, na mesma tela de 04/09; a data é inferida pela posição."
+    },
+    {
       "id": 34,
       "timestamp": "2025-09-11T21:49:06",
       "date": "2025-09-11",
@@ -499,12 +499,7 @@
       "content": "Arquivo de mensagem de áudio",
       "type": "audio",
       "is_edited": false,
-      "attachment": {
-        "type": "audio",
-        "filename": null,
-        "duration": null,
-        "transcript": null
-      },
+      "attachment": null,
       "urls": [],
       "note": "O player no print mostra 0:00 / 0:00; duração e conteúdo do áudio não estão disponíveis."
     },
@@ -517,12 +512,7 @@
       "content": "Arquivo de mensagem de áudio",
       "type": "audio",
       "is_edited": false,
-      "attachment": {
-        "type": "audio",
-        "filename": null,
-        "duration": null,
-        "transcript": null
-      },
+      "attachment": null,
       "urls": [],
       "note": "O player no print mostra 0:00 / 0:00; duração e conteúdo do áudio não estão disponíveis."
     },

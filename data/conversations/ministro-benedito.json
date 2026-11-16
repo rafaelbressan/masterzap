@@ -4,7 +4,7 @@
       "DV",
       "Ministro Benedito"
     ],
-    "saved_as": "ministro-benedito",
+    "saved_as": null,
     "phone": null,
     "date_range": {
       "start": "2024-05-07",
@@ -17,20 +17,6 @@
     "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
   },
   "messages": [
-    {
-      "id": 1,
-      "timestamp": null,
-      "date": "2024-05-07",
-      "time": null,
-      "sender": "DV",
-      "content": "Se puder na próxima quarta",
-      "type": "text",
-      "is_edited": false,
-      "attachment": null,
-      "urls": [],
-      "source_figure": "imagem 1",
-      "note": "Horário não aparece no print. Pela sequência, é posterior ou igual a 19:45."
-    },
     {
       "id": 2,
       "timestamp": "2024-05-07T19:36:00",
@@ -84,6 +70,20 @@
       "urls": [],
       "source_figure": "imagem 1",
       "note": "'brasília' em minúscula, como no print."
+    },
+    {
+      "id": 1,
+      "timestamp": null,
+      "date": "2024-05-07",
+      "time": null,
+      "sender": "DV",
+      "content": "Se puder na próxima quarta",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_figure": "imagem 1",
+      "note": "Horário não aparece no print. Pela sequência, é posterior ou igual a 19:45."
     },
     {
       "id": 6,
@@ -149,14 +149,10 @@
       "content": "TAMO JUNTO SEMPRE",
       "type": "sticker",
       "is_edited": false,
-      "attachment": {
-        "type": "sticker",
-        "filename": null,
-        "description": "Figurinha com imagem de dois braços em aperto de mãos (braço de ferro) e a legenda 'TAMO JUNTO SEMPRE'."
-      },
+      "attachment": null,
       "urls": [],
       "source_figure": "imagem 2",
-      "note": "O campo content traz o texto que aparece dentro da figurinha. Data inferida, como no id 7."
+      "note": "Anexo: Figurinha com imagem de dois braços em aperto de mãos (braço de ferro) e a legenda 'TAMO JUNTO SEMPRE'.. O campo content traz o texto que aparece dentro da figurinha. Data inferida, como no id 7."
     }
   ],
   "index": {

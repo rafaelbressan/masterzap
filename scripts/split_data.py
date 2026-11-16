@@ -290,6 +290,8 @@ def split_conversation(conv_id, data, index):
             "videos": type_counts["video"],
             "documents": type_counts["document"],
         },
+        # The last known date, with or without a time: what date_range ends on.
+        "last_date": next((m["date"] for m in reversed(messages) if m["date"] != "sem-data"), "sem-data"),
         "last_message": {
             "content": (last_msg.get("content") or "")[:80],
             "timestamp": last_msg["timestamp"],

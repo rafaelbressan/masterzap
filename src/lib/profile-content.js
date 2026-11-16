@@ -473,7 +473,7 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Sobre o registro',
       paragraphs: [
-        { text: 'Esta conversa contém um único texto apresentado pelo usuário como publicado e situado em julho de 2024. A destinatária é descrita como uma amiga não identificada publicamente; esse rótulo não confirma sua identidade.' },
+        { text: 'Esta conversa contém um único texto apresentado ao fork como publicado e situado em julho de 2024. A destinatária é descrita como uma amiga não identificada publicamente; esse rótulo não confirma sua identidade.' },
         { text: 'A referência da publicação, a data exata, a autenticidade da mensagem e o contexto não foram fornecidos para conferência. O texto é um relato atribuído a Daniel Vorcaro sobre uma festa na noite anterior; não constitui, por si só, comprovação independente do ocorrido.' },
       ],
     }],
@@ -492,7 +492,7 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Diogo Batista',
       paragraphs: [
-        { text: 'Conversa adicionada a partir dos três prints fornecidos pelo usuário e da matéria atribuída a Daniel Vorcaro. O registro reproduz apenas os trechos visíveis nos prints, com nomes e dados pessoais mascarados conforme o material original.' },
+        { text: 'Conversa adicionada a partir dos três prints fornecidos ao fork e da matéria atribuída a Daniel Vorcaro. O registro reproduz apenas os trechos visíveis nos prints, com nomes e dados pessoais mascarados conforme o material original.' },
         { text: 'No trecho disponível, Diogo Batista fala em “segurar umas gringas” para a agência, menciona “sobrou uma ucraniana” e as “3 refugiadas aqui”, além de dizer que uma jovem havia vindo da Ucrânia e que a mãe dela mandou áudio dos bombardeios. O material foi incluído como conversa de referência e não como confirmação de fatos.' },
       ],
     }],
@@ -501,7 +501,7 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Flávio Bolsonaro',
       paragraphs: [
-        { text: 'Esta conversa foi adicionada a partir do conteúdo fornecido para o MasterWhats. Os horários originais não foram informados.' },
+        { text: 'Esta conversa foi adicionada a partir do conteúdo enviado ao fork. Os horários com segundos vêm, segundo o fork, do acervo Arkanto; os que a fonte não publicou ficam sem hora.' },
       ],
     }],
   },
@@ -537,7 +537,7 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Julio Anônimo',
       paragraphs: [
-        { text: 'Conversa adicionada a partir das capturas fornecidas pelo usuário. O contato aparece no app como "Julio" e foi registrado neste projeto como "Julio Anônimo" para preservar o nome do personagem.' },
+        { text: 'Conversa adicionada a partir das capturas fornecidas ao fork. O contato aparece no app como "Julio" e foi registrado neste projeto como "Julio Anônimo" para preservar o nome do personagem.' },
       ],
     }],
   },
@@ -595,7 +595,7 @@ export const CONTACT_PROFILES = {
         paragraphs: [
           { text: 'Em setembro de 2026, o {Jornal NH}[https://www.facebook.com/watch/?v=1867100414673831], citando reportagem do ICL Notícias, informou que um áudio enviado por Nikolas a Daniel Vorcaro em março de 2025 foi obtido no âmbito de investigações da Polícia Federal. Segundo o relato, Nikolas pediu ajuda para intermediar a liberação de um ativo de minério em favor de Thiago Rodrigues de Faria, descrito pela publicação como advogado e ex-assessor de seu gabinete.' },
           { text: 'No mesmo áudio, segundo o Jornal NH, Nikolas pediu desculpas por críticas que havia feito em 2024 ao Fórum Jurídico Brasil de Ideias, em Londres. Ele teria dito que não sabia que o Banco Master era ligado a Vorcaro e atribuiu a André Valadão a informação que o levou a fazer esse esclarecimento. A publicação relata também que Nikolas sugeriu que os dois se encontrassem.' },
-          { text: 'O áudio exibido nesta conversa foi fornecido ao projeto e está registrado com a data de 30 de março de 2025, informada pelo usuário; o horário original não foi informado. Não há confirmação de que seja a mesma gravação descrita pela imprensa.' },
+          { text: 'O áudio exibido nesta conversa foi fornecido ao projeto e está registrado com a data de 30 de março de 2025, informada ao fork; o horário original não foi informado. Não há confirmação de que seja a mesma gravação descrita pela imprensa.' },
         ],
       },
       {
@@ -610,7 +610,7 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Olavo Noletto',
       paragraphs: [
-        { text: 'Conversa adicionada a partir das capturas fornecidas pelo usuário. O contato aparece no app como “Olavo Noletto Ministerio Padilha”.' },
+        { text: 'Conversa adicionada a partir das capturas fornecidas ao fork. O contato aparece no app como “Olavo Noletto Ministerio Padilha”.' },
       ],
     }],
   },
@@ -618,7 +618,7 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Rayanna',
       paragraphs: [
-        { text: 'Conversa fornecida pelo usuário, identificada no material como um diálogo entre Daniel Vorcaro e Rayanna. O chat trata de um encontro em fevereiro de 2025 e de uma cobrança posterior.' },
+        { text: 'Conversa fornecida ao fork, identificada no material como um diálogo entre Daniel Vorcaro e Rayanna. O chat trata de um encontro em fevereiro de 2025 e de uma cobrança posterior.' },
         { text: 'O material informa que Kassio negou o encontro e não há mensagem publicada em que ele participe desta conversa.' },
       ],
     }],
@@ -627,7 +627,7 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Rodrigo Fux',
       paragraphs: [
-        { text: 'Conversa fornecida pelo usuário, identificada no material como um diálogo entre Daniel Vorcaro e Rodrigo Fux.' },
+        { text: 'Conversa fornecida ao fork, identificada no material como um diálogo entre Daniel Vorcaro e Rodrigo Fux.' },
       ],
     }],
   },
@@ -635,7 +635,7 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Walfrido Mares',
       paragraphs: [
-        { text: 'Conversa adicionada a partir da captura de tela fornecida pelo usuário. O contato aparece no app como “Walfrido Mares Guia”.' },
+        { text: 'Conversa adicionada a partir da captura de tela fornecida ao fork. O contato aparece no app como “Walfrido Mares Guia”.' },
       ],
     }],
   },
@@ -643,28 +643,26 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Walfrido Warde New',
       paragraphs: [
-        { text: 'Esta conversa foi adicionada a partir de capturas de tela do WhatsApp, transcrições e um áudio fornecidos pelo usuário. O material contém mensagens e chamadas dos dias 15 e 16 de maio de 2025, além de trechos sem data; um deles inclui o áudio original e sua transcrição.' },
+        { text: 'Esta conversa foi adicionada a partir de capturas de tela do WhatsApp, transcrições e um áudio fornecidos ao fork. O material contém mensagens e chamadas dos dias 15 e 16 de maio de 2025, além de trechos sem data; um deles inclui o áudio original e sua transcrição.' },
       ],
     }],
   },
-  // Conversas do fork sem perfil lá: o que as mensagens e a fonte dizem.
+  // Conversas do fork sem perfil lá: o que a fonte registrada por ele diz.
   'andre-esteves': {
-    about: 'Fonte anônima',
+    about: 'Fonte não identificada',
     sections: [{
       title: 'Andre Esteves',
       paragraphs: [
-        { text: '7 mensagens, em 23 de abril de 2025.' },
-        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: Captura de tela (registros #963124 a #963712) enviada ao fork — origem do documento não identificada. Sem documento nem veículo que se possa conferir, levam o selo "não verificado". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
   'andre-valadao': {
-    about: 'Fonte anônima',
+    about: 'Fonte não identificada',
     sections: [{
       title: 'André Valadão',
       paragraphs: [
-        { text: 'No celular de Vorcaro, salvo como "andre-valadao". 31 mensagens, de 8 de abril de 2024 a 31 de julho de 2024.' },
-        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: Ids de 27/04/2024: trechos publicados por ICL, CartaCapital, piauí, Fatos Online e Jornal de Brasília (2026); a citação das mensagens vem de ICL Notícias, 03/09/2026, sem print correspondente. Demais mensagens: capturas de tela fornecidas ao fork (08/04, 16/04, 29/04, 23/07 e 31/07/2024), sem matéria de origem informada. Sem documento nem veículo que se possa conferir, levam o selo "não verificado". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
@@ -673,38 +671,34 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Antonio Rueda',
       paragraphs: [
-        { text: '1 mensagem, em junho de 2024.' },
-        { text: 'Trechos publicados pela imprensa (UOL), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: UOL — reportagem de 18/10/2026. Por isso levam o selo "imprensa". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
   'assessor-anonimo': {
-    about: 'Fonte anônima',
+    about: 'Fonte não identificada',
     sections: [{
       title: 'Assessor (sem nome)',
       paragraphs: [
-        { text: '1 mensagem, em 4 de outubro de 2024.' },
-        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: Trechos literais citados em matéria enviada ao fork (veículo e data de publicação não informados). Sem documento nem veículo que se possa conferir, levam o selo "não verificado". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
   'chiquinho-feitosa': {
-    about: 'Fonte anônima',
+    about: 'Fonte não identificada',
     sections: [{
       title: 'Chiquinho Feitosa',
       paragraphs: [
-        { text: '24 mensagens, de 11 de abril de 2024 a 28 de maio de 2024.' },
-        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: Capturas de tela de conversa do WhatsApp fornecidas ao fork. Sem documento nem veículo que se possa conferir, levam o selo "não verificado". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
   'ciro-gomes': {
-    about: 'Fonte anônima',
+    about: 'Fonte não identificada',
     sections: [{
       title: 'Ciro Gomes',
       paragraphs: [
-        { text: '2 mensagens, em 23 de julho de 2024.' },
-        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: Imagem da conversa fornecida ao fork. Sem documento nem veículo que se possa conferir, levam o selo "não verificado". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
@@ -713,8 +707,7 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Daniel Alves',
       paragraphs: [
-        { text: 'No celular de Vorcaro, salvo como "daniel-alves". 24 mensagens, de 11 de janeiro de 2019 a 11 de julho de 2024.' },
-        { text: 'Trechos publicados pela imprensa (Poder360), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: 3 capturas de tela de conversa de WhatsApp com marca d\'água \'PODER 360\'. Transcrição feita exclusivamente a partir do que aparece nas imagens. Por isso levam o selo "imprensa". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
@@ -723,8 +716,7 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Davi Alcolumbre Presidente',
       paragraphs: [
-        { text: '10 mensagens, de 1 de fevereiro de 2025 a 30 de março de 2025.' },
-        { text: 'Trechos publicados pela imprensa (Poder360 / Veja / CNN Brasil), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: VEJA, 24–25/09/2026; Poder360 e CNN Brasil, 25/09/2026. Por isso levam o selo "imprensa". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
@@ -733,8 +725,7 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Dias Toffoli',
       paragraphs: [
-        { text: 'No celular de Vorcaro, salvo como "dias-toffoli". 6 mensagens, de 30 de outubro de 2023 a 14 de agosto de 2024.' },
-        { text: 'Trechos publicados pela imprensa (piauí), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: piauí: infográfico \'O WhatsApp de Vorcaro\' (bloco \'Dias Toffoli\') e reportagem sobre o relatório da PF (Informação de Polícia Judiciária de Análise nº 893171/2026, feito com base no celular de Vorcaro apreendido em 18/11/2025) — https://piaui.uol.com.br/web/toffoli-relatorio-pf-vorcaro-paraiso-fiscal. Por isso levam o selo "imprensa". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
@@ -743,8 +734,7 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Erika Schneider',
       paragraphs: [
-        { text: 'No celular de Vorcaro, salvo como "erika-schneider". 14 mensagens, em julho de 2025.' },
-        { text: 'Trechos publicados pela imprensa (Veja / UOL), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: Veja, divulgado em 02/11/2026; republicado por Hugo Gloss (UOL) / Radar. Origem atribuída à PF, celular de Daniel Vorcaro. Por isso levam o selo "imprensa". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
@@ -753,18 +743,16 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Fábio Medina Osório',
       paragraphs: [
-        { text: 'No celular de Vorcaro, salvo como "fabio-medina-osorio". 6 mensagens, de 13 de agosto de 2024 a maio de 2025.' },
-        { text: 'Trechos publicados pela imprensa (O Globo), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: O Globo (coluna Lauro Jardim), nov/2026: \'Vorcaro pediu ajuda a ex-ministro da AGU para destruir o Itaú\' — https://oglobo.globo.com/blogs/lauro-jardim/post/2026/11/vorcaro-pediu-ajuda-a-ex-ministro-da-agu-para-destruir-o-itau.ghtml. Por isso levam o selo "imprensa". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
   'guilherme-barros': {
-    about: 'Fonte anônima',
+    about: 'Fonte não identificada',
     sections: [{
       title: 'Guilherme Barros Assessor',
       paragraphs: [
-        { text: 'No celular de Vorcaro, salvo como "guilherme-barros". 65 mensagens, de 7 de agosto de 2024 a 25 de setembro de 2024.' },
-        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: 7 arquivos de capturas de tela de WhatsApp fornecidas ao fork: printcorrigido__1_.jpg, folha01.webp, folha03.webp, folha04.webp, printcorrigido.jpg, folha01.jpg, folha05.jpg (07/08 a 25/09/2024). Sem documento nem veículo que se possa conferir, levam o selo "não verificado". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
@@ -773,8 +761,7 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Gustavo Lima',
       paragraphs: [
-        { text: 'No celular de Vorcaro, salvo como "gustavo-lima". 40 mensagens, de 18 de setembro de 2024 a 12 de março de 2025.' },
-        { text: 'Trechos publicados pela imprensa (Poder360), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: 4 capturas de tela de conversa de WhatsApp (cabeçalho \'WhatsApp Chat - Gustavo Lima - [tarja]\') com marca d\'água \'PODER 360\'. Transcrição feita exclusivamente a partir do que aparece nas imagens. Arquivos (pela ordem de envio): vorcaro-gustavo-lima_page-0002-scaled.webp (2025-01-13), vorcaro-gustavo-lima_page-0004-scaled.webp (2024-09-18), vorcaro-gustavo-lima_page-0003.webp (2025-03-12), vorcaro-gustavo-lima_page-0001.webp (2024-11-25). Por isso levam o selo "imprensa". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
@@ -783,8 +770,7 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Hamilton Buzelin',
       paragraphs: [
-        { text: '12 mensagens, de 27 de fevereiro de 2024 a 28 de fevereiro de 2024.' },
-        { text: 'Trechos publicados pela imprensa (Poder360), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: 2 capturas de tela de conversa de WhatsApp (Poder360, \'original isolado\'), transcritas exclusivamente a partir das imagens. Por isso levam o selo "imprensa". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
@@ -793,8 +779,7 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Hugo Motta',
       paragraphs: [
-        { text: 'No celular de Vorcaro, salvo como "hugo-motta". 69 mensagens, de 9 de março de 2024 a agosto de 2025.' },
-        { text: 'Trechos publicados pela imprensa (Poder360 / O Globo / Folha de S.Paulo / CNN Brasil), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: Poder360 (prints com marca d\'água \'PODER 360\', material extraído pela Polícia Federal do celular de Daniel Vorcaro); Folha de S.Paulo — Constança Rezende: https://www1.folha.uol.com.br/poder/2026/09/mensagens-de-motta-com-vorcaro-citam-sociedade-em-negocio-e-discussao-sobre-projeto-de-lei-na-camara.shtml; Folha de S.Paulo — José Marques e Constança Rezende (proximidade / Mônaco / camarote); O Globo — Sarah Teófilo e Pepita Ortega, 29/09/2026; CNN Brasil — Matheus Teixeira, 29/09/2026; Fatos Online (primeira divulgação do recorte de 2024). Atualização 18/10/2026: ids 23-37 (15/05/2024) vêm de 1 captura de tela de reprodução editorial, sem marca d\'água do Poder360 e sem matéria de origem informada. Por isso levam o selo "imprensa". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
@@ -803,38 +788,35 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Kiko Sobrinho',
       paragraphs: [
-        { text: 'No celular de Vorcaro, salvo como "Kiko Sobrinho (arquiteto)". 38 mensagens, de 26 de fevereiro de 2025 a 28 de fevereiro de 2025.' },
-        { text: 'Trechos publicados pela imprensa (piauí), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+        { text: 'No celular de Vorcaro, salvo como "Kiko Sobrinho (arquiteto)".' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: Capturas de tela com marca d\'água \'piauí\' e texto fornecido ao fork. Documento de origem não informado. Por isso levam o selo "imprensa". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
   'ministro-benedito': {
-    about: 'Fonte anônima',
+    about: 'Fonte não identificada',
     sections: [{
       title: 'Ministro Benedito',
       paragraphs: [
-        { text: 'No celular de Vorcaro, salvo como "ministro-benedito". 10 mensagens, de 7 de maio de 2024 a 2 de julho de 2024.' },
-        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: Dois prints de conversa de WhatsApp em formato de infográfico (veículo não identificado nas imagens); transcrição manual a partir das imagens. Sem documento nem veículo que se possa conferir, levam o selo "não verificado". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
   'nelson-tanure': {
-    about: 'Fonte anônima',
+    about: 'Fonte não identificada',
     sections: [{
       title: 'Nelson Tanure',
       paragraphs: [
-        { text: '17 mensagens, de 12 de setembro de 2024 a 18 de fevereiro de 2025.' },
-        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: Mensagens extraídas pela PF do celular de Vorcaro, conforme duas colunas do blog do Lauro Jardim (O Globo, out/2026): \'O carinho especial de Vorcaro e Tanure com o Itaú\' e \'Da CVC à Eletrobras, os negócios de Vorcaro e Tanure que não foram adiante\'. Não são transcrições integrais. Atualização 25/10/2026: ids 9-17 vêm de duas capturas de tela fornecidas ao fork (sem matéria de origem informada). Sem documento nem veículo que se possa conferir, levam o selo "não verificado". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
   'nelson-willians': {
-    about: 'Fonte anônima',
+    about: 'Fonte não identificada',
     sections: [{
       title: 'Nelson Wilians',
       paragraphs: [
-        { text: '5 mensagens, de 11 de outubro de 2024 a 27 de outubro de 2024.' },
-        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: Trechos literais citados em matéria enviada ao fork (veículo e data de publicação não informados). Sem documento nem veículo que se possa conferir, levam o selo "não verificado". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
@@ -843,8 +825,7 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Newton Ramos',
       paragraphs: [
-        { text: '35 mensagens, de 6 de março de 2024 a 2 de dezembro de 2024.' },
-        { text: 'Trechos publicados pela imprensa (piauí / BBC News Brasil), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: piauí (reportagem sobre Vorcaro, Kassio Nunes Marques e Newton Ramos) + BBC News Brasil (viagem a Buenos Aires), a partir de mensagens extraídas pela PF do celular de Vorcaro. Por isso levam o selo "imprensa". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
@@ -853,18 +834,16 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Pablo Marçal',
       paragraphs: [
-        { text: '4 mensagens, em 2 de setembro de 2025.' },
-        { text: 'Trechos publicados pela imprensa (O Globo), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: 1 captura de tela (trecho de conversa com a legenda \'Transcrição reproduzida pela reportagem de O Globo\', rótulo \'Linproxy\' no print), transcrita exclusivamente a partir da imagem. Por isso levam o selo "imprensa". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
   'ricardo-lewandowski': {
-    about: 'Fonte anônima',
+    about: 'Fonte não identificada',
     sections: [{
       title: 'Ricardo Lewandowski',
       paragraphs: [
-        { text: '13 mensagens, de 15 de janeiro de 2024 a 2 de fevereiro de 2024.' },
-        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: Imagens fornecidas ao fork. Sem documento nem veículo que se possa conferir, levam o selo "não verificado". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
@@ -873,18 +852,16 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Roberto Justus',
       paragraphs: [
-        { text: 'No celular de Vorcaro, salvo como "roberto-justus". 43 mensagens, de 21 de dezembro de 2024 a 17 de novembro de 2025.' },
-        { text: 'Trechos publicados pela imprensa (Poder360 / O Globo), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: Duas fontes: (1) 6 capturas de tela de conversa de WhatsApp com marca d\'água \'PODER 360\' (41 registros, de 18/08/2025 a 11/09/2025), transcritas exclusivamente a partir do que aparece nas imagens; (2) 2 mensagens de Roberto Justus citadas em reportagem de O Globo (coluna Lauro Jardim, outubro de 2026; https://oglobo.globo.com/blogs/lauro-jardim/post/2026/10/justus-para-vorcaro-estou-certo-que-nao-mereco-isso.ghtml). O texto das mensagens da reportagem vem do trecho colado ao fork; o link não pôde ser aberto para conferência. Cada registro indica a origem no campo \'source\'. Por isso levam o selo "imprensa". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
   'ronaldo-fenomeno': {
-    about: 'Fonte anônima',
+    about: 'Fonte não identificada',
     sections: [{
       title: 'Ronaldo',
       paragraphs: [
-        { text: 'No celular de Vorcaro, salvo como "ronaldo-fenomeno". 11 mensagens, de abril de 2024 a julho de 2024.' },
-        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: Texto fornecido ao fork, sem print; o texto atribui a transcrição à VEJA. Reportagens posteriores da imprensa, consultadas apenas para situar o período, repetem as mesmas falas. Sem documento nem veículo que se possa conferir, levam o selo "não verificado". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
@@ -893,8 +870,8 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Selma',
       paragraphs: [
-        { text: 'No celular de Vorcaro, salvo como "Selma (empregada)". 3 mensagens, em 1 de março de 2025.' },
-        { text: 'Trechos publicados pela imprensa (piauí), na transcrição de outro projeto; levam o selo "imprensa". A conversa completa não é pública.' },
+        { text: 'No celular de Vorcaro, salvo como "Selma (empregada)".' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: Captura de tela com marca d\'água \'piauí\', enviada ao fork. Documento de origem não informado. Por isso levam o selo "imprensa". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
@@ -915,28 +892,25 @@ export const CONTACT_PROFILES = {
     sections: [{
       title: 'Thiago Miranda - Leo Dias',
       paragraphs: [
-        { text: '191 mensagens, de 8 de dezembro de 2024 a 12 de novembro de 2025.' },
-        { text: 'A maior parte vem das IPJ-A 270/2026 e 276/2026 da Polícia Federal, na transcrição de outro projeto; sem o PDF, levam o selo "não verificado". Dezessete vêm de capturas de tela sem origem identificada.' },
+        { text: 'A maior parte das mensagens vem das IPJ-A 270/2026 e 276/2026 da Polícia Federal, na transcrição de outro projeto; sem o PDF, levam o selo "não verificado". Uma parte vem de capturas de tela sem origem identificada.' },
       ],
     }],
   },
   'yasmin-brunet': {
-    about: 'Fonte anônima',
+    about: 'Fonte não identificada',
     sections: [{
       title: 'Yasmin Brunet',
       paragraphs: [
-        { text: 'No celular de Vorcaro, salvo como "yasmin-brunet". 24 mensagens, de 31 de dezembro de 2023 a junho de 2024.' },
-        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: Texto fornecido ao fork, sem print; veículo de origem não informado. Sem documento nem veículo que se possa conferir, levam o selo "não verificado". Cada mensagem diz de onde veio.' },
       ],
     }],
   },
   'ze-maria': {
-    about: 'Fonte anônima',
+    about: 'Fonte não identificada',
     sections: [{
       title: 'Ze Maria Chef Iate Clube',
       paragraphs: [
-        { text: 'No celular de Vorcaro, salvo como "ze-maria". 7 mensagens, em 27 de dezembro de 2023.' },
-        { text: 'Material que outro projeto recebeu sem veículo nem documento identificados: fonte anônima, com o selo "não verificado". A conversa completa não é pública.' },
+        { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: Print enviado ao fork (arquivo HTdteX0XQAA-S6E.jpg); veículo de origem não identificado na imagem. Título do chat: \'WhatsApp Chat - Ze Maria Chef Iate Clube\'. Sem documento nem veículo que se possa conferir, levam o selo "não verificado". Cada mensagem diz de onde veio.' },
       ],
     }],
   },

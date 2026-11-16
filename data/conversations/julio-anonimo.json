@@ -451,12 +451,7 @@
       "content": "OLAVO NOLETO_RJ — +55 21 [oculto]",
       "type": "contact",
       "is_edited": false,
-      "attachment": {
-        "kind": "contact",
-        "formatted_name": "OLAVO NOLETO_RJ",
-        "name": "OLAVO NOLETO_RJ",
-        "phone": "+55 21 [oculto por tarja]"
-      },
+      "attachment": "OLAVO NOLETO_RJ",
       "urls": [],
       "forwarded": true
     },

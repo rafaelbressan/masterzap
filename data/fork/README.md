@@ -31,6 +31,22 @@ entre « ». A linha de outra origem traz `source_id` e `verification` próprios
   desconhecida: `ts: null`.
 - Data aproximada (`date_approx`, `date_placeholder`) fica só com o mês.
 - O resto vai como o fork transcreveu, com as notas dele na `note` da mensagem.
+- Dentro de um dia, a ordem é a do fork: uma mensagem sem hora fica onde ele a pôs
+  (onde está no print), e não no começo do dia. O índice por dia usa o menor e o
+  maior id do dia, então a ordem na tela não precisa seguir os ids.
+
+## Ids
+
+Uma mensagem guarda o id para sempre. Ao reconverter o fork, a mensagem que já
+estava aqui (mesma conversa, data, remetente e texto) fica com o id que tinha, e
+a nova recebe o próximo. Linhas idênticas guardam os ids na ordem.
+
+## Nome e anexos
+
+- `saved_as` é o nome salvo no celular. Quando o fork guardou ali o nome do
+  arquivo (`acm-neto`), fica o nome da pessoa: aquilo não é nome salvo.
+- Um anexo que o fork descreve como objeto vira o nome do arquivo (`filename`/`name`),
+  e a descrição vai para a nota.
 
 ## Tipos
 

@@ -4,7 +4,7 @@
       "DV",
       "Daniel Alves"
     ],
-    "saved_as": "daniel-alves",
+    "saved_as": null,
     "phone": null,
     "date_range": {
       "start": "2019-01-11",
@@ -187,11 +187,7 @@
       "content": "Anexo",
       "type": "document",
       "is_edited": false,
-      "attachment": {
-        "type": "document",
-        "filename": null,
-        "label": "Download File"
-      },
+      "attachment": null,
       "urls": [],
       "forwarded": true,
       "note": "Marcada como 'Encaminhada'. O print mostra o link 'Anexo', um ícone de clipe e o texto 'Download File'; nome e conteúdo do arquivo não aparecem."
@@ -231,11 +227,7 @@
       "content": "Anexo",
       "type": "document",
       "is_edited": false,
-      "attachment": {
-        "type": "document",
-        "filename": "HyperloopTT Intro deck _01.19-compressed",
-        "label": null
-      },
+      "attachment": "HyperloopTT Intro deck _01.19-compressed",
       "urls": [],
       "note": "Nome do arquivo conforme exibido no print, sem extensão visível."
     },

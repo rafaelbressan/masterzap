@@ -57,18 +57,14 @@ describe('conversations.json', () => {
 
   it('keeps the date range consistent with the last message', () => {
     for (const conv of conversations) {
-      const end = conv.date_range.end;
-      const last = conv.last_message.timestamp;
-      // The last message with a time is the last one, unless the last ones
-      // have no time (a press report gave only the day, or the month): then
-      // it is before them, and after the start.
-      // A message with no date at all ("sem-data") sorts first; one with no
-      // time anywhere leaves no timestamp to compare.
-      expect(end, conv.id).toMatch(/^(\d{4}(-\d{2}){0,2}|sem-data)$/);
-      if (!last || end === 'sem-data') continue;
-      const start = conv.date_range.start === 'sem-data' ? '' : conv.date_range.start.slice(0, 10);
-      const ok = last.slice(0, end.length) <= end && last.slice(0, 10) >= start;
-      expect(ok, conv.id).toBe(true);
+      // The range ends on the last known date, whether or not that message
+      // has a time (a press report may give only the day, or the month).
+      expect(conv.date_range.end, conv.id).toBe(conv.last_date);
+      // The last message with a time is no later than that.
+      const last = conv.last_message?.timestamp;
+      if (last && conv.last_date !== 'sem-data') {
+        expect(last.slice(0, conv.last_date.length) <= conv.last_date, conv.id).toBe(true);
+      }
     }
   });
 

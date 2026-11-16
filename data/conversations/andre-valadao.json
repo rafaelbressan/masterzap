@@ -4,10 +4,10 @@
       "DV",
       "André Valadão"
     ],
-    "saved_as": "andre-valadao",
+    "saved_as": null,
     "phone": "14078202598",
     "date_range": {
-      "start": "sem-data",
+      "start": "2024-04-08",
       "end": "2024-07-31"
     },
     "total_messages": 31,
@@ -42,19 +42,6 @@
       "attachment": "Audio03_Vorcaro-orquestrou-venda-de-bens-da-Igreja-Lagoinha-e-prometeu-expansao-de-R_-100-milhoes.mp3",
       "urls": [],
       "date_precision": "none"
-    },
-    {
-      "id": 1,
-      "timestamp": null,
-      "date": "2024-04-08",
-      "time": null,
-      "sender": "DV",
-      "content": "Sim",
-      "type": "text",
-      "is_edited": false,
-      "attachment": null,
-      "urls": [],
-      "note": "Mensagem cortada no rodapé do print; hora não visível. Ordem pela posição no print (depois das 10:17:57). O cabeçalho do print mostra o número 14078202598 ao lado de 'Andre Valadao'."
     },
     {
       "id": 2,
@@ -149,6 +136,19 @@
       "attachment": null,
       "urls": [],
       "note": "Print com data, hora e fuso visíveis (-03:00); o nome aparece como 'Andre Valadao' no print."
+    },
+    {
+      "id": 1,
+      "timestamp": null,
+      "date": "2024-04-08",
+      "time": null,
+      "sender": "DV",
+      "content": "Sim",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Mensagem cortada no rodapé do print; hora não visível. Ordem pela posição no print (depois das 10:17:57). O cabeçalho do print mostra o número 14078202598 ao lado de 'Andre Valadao'."
     },
     {
       "id": 9,

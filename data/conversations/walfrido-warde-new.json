@@ -4,14 +4,14 @@
       "DV",
       "Walfrido Warde New"
     ],
-    "saved_as": "walfrido-warde-new",
+    "saved_as": null,
     "phone": null,
     "date_range": {
-      "start": "sem-data",
+      "start": "2025-01-22",
       "end": "2025-07-23"
     },
     "total_messages": 58,
-    "source": "Capturas de tela de conversa do WhatsApp e transcrições de áudios fornecidas pelo usuário; captura de tela publicada pela Veja (22/01/2025)",
+    "source": "Capturas de tela de conversa do WhatsApp e transcrições de áudios fornecidas ao fork; captura de tela publicada pela Veja (22/01/2025)",
     "source_id": "fork-walfrido-warde-new",
     "verification": "nao-verificado",
     "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."

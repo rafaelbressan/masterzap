@@ -316,6 +316,16 @@ export const longDate = (iso) => (DAY.test(iso || '') ? dateFmt.format(new Date(
   : YEAR.test(iso || '') ? iso
   : NO_DATE);
 
+/**
+ * A conversation's period in words: "de X a Y", "em X", or, when no message
+ * has a date, "sem data conhecida" (never "de sem-data a …").
+ */
+export function periodOf(range) {
+  const { start, end } = range || {};
+  if (!start || start === 'sem-data') return 'sem data conhecida';
+  return start === end ? `em ${start}` : `de ${start} a ${end}`;
+}
+
 /** A timestamp with the zone, or null when the time is not known. */
 export const zonedTimestamp = (msg) => (msg.timestamp ? `${msg.timestamp}${UTC_OFFSET}` : null);
 

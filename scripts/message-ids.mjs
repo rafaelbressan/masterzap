@@ -31,9 +31,13 @@ export const FIXTURE = join(ROOT, 'tests/fixtures/message-ids.json');
 const slugify = (name) => name.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
   .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-/** 8 hex characters: enough to notice a change, small enough for 66k messages. */
+/**
+ * 8 hex characters: enough to notice a change, small enough for 66k messages.
+ * A message with no text says what it is by its attachment (two voice notes
+ * of the same day are told apart by their files).
+ */
 export const hashMessage = (m) => createHash('sha256')
-  .update(`${m.sender}\u0000${m.timestamp ?? `${m.date} ${m.time ?? ''}`}\u0000${m.content ?? ''}`)
+  .update(`${m.sender}\u0000${m.timestamp ?? `${m.date} ${m.time ?? ''}`}\u0000${m.content || (m.attachment ? `[${m.attachment}]` : '')}`)
   .digest('hex').slice(0, 8);
 
 /** Every conversation in data/, as { id: { messageId: hash } }. */

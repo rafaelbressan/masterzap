@@ -18,18 +18,6 @@
   },
   "messages": [
     {
-      "id": 1,
-      "timestamp": null,
-      "date": "2025-02-25",
-      "time": null,
-      "sender": "DV",
-      "content": "Sim",
-      "type": "text",
-      "is_edited": false,
-      "attachment": null,
-      "urls": []
-    },
-    {
       "id": 2,
       "timestamp": "2025-02-25T15:42:36",
       "date": "2025-02-25",
@@ -121,43 +109,16 @@
       "note": "O horário é de leitura incerta, segundo a transcrição do fork."
     },
     {
-      "id": 9,
+      "id": 1,
       "timestamp": null,
-      "date": "2025-02-28",
-      "time": null,
-      "sender": "Rayanna",
-      "content": "Qual o endereço, Dani?",
-      "type": "text",
-      "is_edited": false,
-      "attachment": null,
-      "urls": [],
-      "note": "Do texto fornecido; horário não informado e posição na sequência do dia desconhecida"
-    },
-    {
-      "id": 10,
-      "timestamp": null,
-      "date": "2025-02-28",
-      "time": null,
-      "sender": "Rayanna",
-      "content": "As meninas estão prontas.",
-      "type": "text",
-      "is_edited": false,
-      "attachment": null,
-      "urls": [],
-      "note": "Do texto fornecido; horário não informado e posição na sequência do dia desconhecida"
-    },
-    {
-      "id": 11,
-      "timestamp": null,
-      "date": "2025-02-28",
+      "date": "2025-02-25",
       "time": null,
       "sender": "DV",
-      "content": "Endereço: Rua Leopoldo Couto de Magalhães Júnior, Itaim Bibi, São Paulo.",
+      "content": "Sim",
       "type": "text",
       "is_edited": false,
       "attachment": null,
-      "urls": [],
-      "note": "Do texto fornecido; horário não informado e posição na sequência do dia desconhecida"
+      "urls": []
     },
     {
       "id": 12,
@@ -216,11 +177,9 @@
       "content": "",
       "type": "image",
       "is_edited": false,
-      "attachment": {
-        "kind": "image",
-        "description": "Miniatura de foto de uma pessoa (sem legenda)"
-      },
-      "urls": []
+      "attachment": null,
+      "urls": [],
+      "note": "Anexo: Miniatura de foto de uma pessoa (sem legenda)."
     },
     {
       "id": 17,
@@ -229,18 +188,6 @@
       "time": "11:33:44",
       "sender": "Rayanna",
       "content": "Ia chamar a Fernanda, e a outra amiga que foi comigo da última vez",
-      "type": "text",
-      "is_edited": false,
-      "attachment": null,
-      "urls": []
-    },
-    {
-      "id": 18,
-      "timestamp": "2025-02-28T11:34:00",
-      "date": "2025-02-28",
-      "time": "11:34:00",
-      "sender": "DV",
-      "content": "Venha com ela",
       "type": "text",
       "is_edited": false,
       "attachment": null,
@@ -259,6 +206,18 @@
       "urls": []
     },
     {
+      "id": 18,
+      "timestamp": "2025-02-28T11:34:00",
+      "date": "2025-02-28",
+      "time": "11:34:00",
+      "sender": "DV",
+      "content": "Venha com ela",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
       "id": 20,
       "timestamp": "2025-02-28T11:34:44",
       "date": "2025-02-28",
@@ -267,11 +226,9 @@
       "content": "",
       "type": "video",
       "is_edited": false,
-      "attachment": {
-        "kind": "video",
-        "description": "Arquivo de mensagem de vídeo (duração 0:00, conteúdo não visível)"
-      },
-      "urls": []
+      "attachment": null,
+      "urls": [],
+      "note": "Anexo: Arquivo de mensagem de vídeo (duração 0:00, conteúdo não visível)."
     },
     {
       "id": 21,
@@ -310,6 +267,45 @@
       "urls": []
     },
     {
+      "id": 9,
+      "timestamp": null,
+      "date": "2025-02-28",
+      "time": null,
+      "sender": "Rayanna",
+      "content": "Qual o endereço, Dani?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Do texto fornecido; horário não informado e posição na sequência do dia desconhecida"
+    },
+    {
+      "id": 10,
+      "timestamp": null,
+      "date": "2025-02-28",
+      "time": null,
+      "sender": "Rayanna",
+      "content": "As meninas estão prontas.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Do texto fornecido; horário não informado e posição na sequência do dia desconhecida"
+    },
+    {
+      "id": 11,
+      "timestamp": null,
+      "date": "2025-02-28",
+      "time": null,
+      "sender": "DV",
+      "content": "Endereço: Rua Leopoldo Couto de Magalhães Júnior, Itaim Bibi, São Paulo.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Do texto fornecido; horário não informado e posição na sequência do dia desconhecida"
+    },
+    {
       "id": 24,
       "timestamp": null,
       "date": "2025-03-03",
@@ -320,44 +316,6 @@
       "is_edited": false,
       "attachment": null,
       "urls": []
-    },
-    {
-      "id": 25,
-      "timestamp": null,
-      "date": "2025-03-07",
-      "time": null,
-      "sender": "Rayanna",
-      "content": "10 né!",
-      "type": "text",
-      "is_edited": false,
-      "attachment": null,
-      "urls": []
-    },
-    {
-      "id": 26,
-      "timestamp": null,
-      "date": "2025-03-07",
-      "time": null,
-      "sender": "Rayanna",
-      "content": "Ela ficou com ele",
-      "type": "text",
-      "is_edited": false,
-      "attachment": null,
-      "urls": [],
-      "note": "Do texto fornecido; não aparece nos prints"
-    },
-    {
-      "id": 27,
-      "timestamp": null,
-      "date": "2025-03-07",
-      "time": null,
-      "sender": "Rayanna",
-      "content": "[e-mail / dados para pagamento]",
-      "type": "text",
-      "is_edited": false,
-      "attachment": null,
-      "urls": [],
-      "note": "Do texto fornecido; não aparece nos prints"
     },
     {
       "id": 28,
@@ -442,6 +400,44 @@
       "is_edited": false,
       "attachment": null,
       "urls": []
+    },
+    {
+      "id": 25,
+      "timestamp": null,
+      "date": "2025-03-07",
+      "time": null,
+      "sender": "Rayanna",
+      "content": "10 né!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 26,
+      "timestamp": null,
+      "date": "2025-03-07",
+      "time": null,
+      "sender": "Rayanna",
+      "content": "Ela ficou com ele",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Do texto fornecido; não aparece nos prints"
+    },
+    {
+      "id": 27,
+      "timestamp": null,
+      "date": "2025-03-07",
+      "time": null,
+      "sender": "Rayanna",
+      "content": "[e-mail / dados para pagamento]",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Do texto fornecido; não aparece nos prints"
     }
   ],
   "index": {
