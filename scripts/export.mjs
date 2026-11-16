@@ -237,7 +237,7 @@ function readme(conversations) {
     '| `masterwhats.md` / `masterwhats.json` | Tudo num arquivo só |', '',
     '## Como ler', '',
     `- Horários em ${TIMEZONE} (UTC${UTC_OFFSET}); no JSON, cada \`timestamp\` já carrega o fuso.`,
-    '- Mensagens dos documentos da PF trazem a página e a figura do PDF de origem, para conferência: `laudo p. N, fig. M` (IPJ-A nº 3298613/2026) ou `representação p. N` (Inq 5.026).',
+    '- Mensagens dos documentos da PF trazem a página e a figura do PDF de origem, para conferência: `laudo p. N, fig. M` (IPJ-A nº 3298613/2026) `representação p. N` (Inq 5.026) ou `Pet 15.497 p. N` (representação sobre o RioPrevidência, cujo PDF não foi localizado: essas mensagens levam o selo não verificado).',
     '- `_[Foto]_`, `_[Vídeo]_`, `_[Áudio]_`, `_[Documento]_`: a mídia não faz parte do material público; só o tipo é conhecido.',
     '- `[imagem de visualização única — conteúdo não recuperado]`: enviada em visualização única e não recuperada pela perícia.', '',
     aboutMarkdown(),

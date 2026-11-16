@@ -55,11 +55,20 @@ def slugify(name):
 
 
 def make_message(mid, timestamp, sender, content, mtype, **extra):
-    """Build a message in the viewer's schema (see CLAUDE.md 'Data Format')."""
-    date, time = timestamp.split(" ")
+    """Build a message in the viewer's schema (see CLAUDE.md 'Data Format').
+
+    Without a timestamp (a press report that gives the day, or only the
+    month), the date comes in ``extra["date"]`` and the time stays unknown.
+    """
+    if timestamp:
+        date, time = timestamp.split(" ")
+    elif extra.get("date"):
+        date, time = extra["date"], None
+    else:
+        raise SystemExit(f"msg {mid} ({sender}): sem ts nem date; uma data desconhecida se escreve date: \"sem-data\"")
     msg = {
         "id": mid,
-        "timestamp": f"{date}T{time}",
+        "timestamp": f"{date}T{time}" if time else None,
         "date": date,
         "time": time,
         "sender": sender,
@@ -71,7 +80,7 @@ def make_message(mid, timestamp, sender, content, mtype, **extra):
     }
     for key in ("forwarded", "quoted", "quoted_sender", "source_page", "source_figure",
                 "view_once", "note_created_utc", "sent_utc", "duration",
-                "note"):
+                "note", "source_id", "verification"):
         if extra.get(key) is not None:
             msg[key] = extra[key]
     return normalise_message(msg)
@@ -164,6 +173,10 @@ CONTACT_DISPLAY_NAMES = {
     "leo-serrano": "Leandro Serrano Giunchetti",
     # Inq 5.026: identificado pela PF; salvo no celular como "Berg".
     "berg": "José Alfredo Berg Filho",
+    # Pet 15.497 (RioPrevidência): o nome da pessoa, não o salvo no celular.
+    "mauricio-quadrado": "Maurício Quadrado",
+    "ricardo-gordo-siqueira-rodrigues": "Ricardo Siqueira Rodrigues",
+    "augusto-lima": "Augusto Lima",
 }
 
 # The report also quotes the DV <-> Martha Graeff chat, but that conversation is
@@ -185,12 +198,18 @@ def row_message(mid, row, **extra):
         source_page=row["page"],
         source_figure=row.get("fig"),
         note=row.get("note"),
+        date=row.get("date"),
+        # A line from another source than its document's (a press report
+        # quoting the same chat), with that source's seal.
+        source_id=row.get("source_id"),
+        verification=row.get("verification"),
         **extra,
     )
 
 
-def contact_metadata(rows, peer, saved_as, messages, source_label, source_id, note):
-    """A conversation with one contact, every message from one document."""
+def contact_metadata(rows, peer, saved_as, messages, source_label, source_id, note,
+                     verification=VERIFICATION):
+    """A conversation with one contact, its messages from one document."""
     return {
         "participants": ["DV", peer],
         # How the contact was filed in Vorcaro's phone, when that differs
@@ -201,7 +220,7 @@ def contact_metadata(rows, peer, saved_as, messages, source_label, source_id, no
         "total_messages": len(messages),
         "source": source_label,
         "source_id": source_id,
-        "verification": VERIFICATION,
+        "verification": verification,
         "note": note,
     }
 
@@ -222,7 +241,15 @@ def _quotes(target, quoted):
         return (target["type"] == "contact" and len(digits) >= 8
                 and digits in re.sub(r"\D", "", target["content"]))
     if target["type"] == "document":
-        return _quote_key(target.get("attachment")) == _quote_key(quoted)
+        # By the file's name, or by the caption after the bracketed
+        # description when the print does not show the name.
+        caption = re.sub(r"^\[[^\]]*\]\s*", "", target["content"])
+        return _quote_key(quoted) in {_quote_key(target.get("attachment")), _quote_key(caption)} - {""}
+    if target["type"] == "link":
+        # A quoted link shows the address and the start of its card.
+        url = URL_PATTERN.match(quoted.strip())
+        if url:
+            return url.group(0) in target["content"]
     return target["type"] != "contact" and _quote_key(target["content"]) == _quote_key(quoted)
 
 
@@ -283,7 +310,7 @@ def build_other_conversations():
 
     built = {}
     for conv_id, rows in by_conv.items():
-        rows.sort(key=lambda m: m["ts"])
+        rows.sort(key=lambda m: m.get("ts") or m.get("date") or "")
         saved_as = rows[0]["peer"]
         peer = CONTACT_DISPLAY_NAMES.get(conv_id, saved_as)
         messages = [row_message(i, r) for i, r in enumerate(rows, 1)]
@@ -306,7 +333,25 @@ DOCUMENTS = [
         "source_id": "inq-5026-representacao-pf-2026-06-09",
         "label": "Representação da PF por medidas cautelares — Inq 5.026 (Pet 16.032)",
     },
+    {
+        # No PDF in the repo: the lines come from the fork's transcription,
+        # which cites the page but cannot be checked (see document_seal).
+        "dir": "pet-15497",
+        "source_id": "pet-15497-representacao-pf-rioprevidencia",
+        "label": "Representação da PF — RioPrevidência e Cláudio Castro (Pet 15.497)",
+    },
 ]
+
+
+def document_seal(source_id):
+    """A document's default seal: "verificado" only with its PDF in the repo.
+
+    The same rule scripts/message_schema.py enforces; when the PDF arrives
+    (file + sha256 in data/sources.json), the conversation is promoted here.
+    """
+    with open(ROOT / "data" / "sources.json", encoding="utf-8") as f:
+        source = next(s for s in json.load(f)["sources"] if s["id"] == source_id)
+    return VERIFICATION if source.get("file") else "nao-verificado"
 
 
 def add_document_conversations(conversations):
@@ -336,7 +381,8 @@ def add_document_conversations(conversations):
                 "metadata": contact_metadata(
                     rows, peer, saved_as, messages, doc["label"], doc["source_id"],
                     "Trechos citados no documento da PF — a conversa completa "
-                    "não consta dele."),
+                    "não consta dele.",
+                    verification=document_seal(doc["source_id"])),
                 "messages": messages,
             }
 

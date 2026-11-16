@@ -57,9 +57,16 @@ describe('conversations.json', () => {
 
   it('keeps the date range consistent with the last message', () => {
     for (const conv of conversations) {
-      expect(
-        conv.last_message.timestamp.startsWith(conv.date_range.end), conv.id
-      ).toBe(true);
+      const end = conv.date_range.end;
+      const last = conv.last_message.timestamp;
+      // The last message with a time is the last one, unless the last ones
+      // have only a month (a press report that gave no day): then it is
+      // before that month ends.
+      expect(end, conv.id).toMatch(/^\d{4}(-\d{2}){0,2}$/);
+      const ok = end.length === 10
+        ? last.startsWith(end)
+        : last.slice(0, end.length) <= end && last >= conv.date_range.start;
+      expect(ok, conv.id).toBe(true);
     }
   });
 

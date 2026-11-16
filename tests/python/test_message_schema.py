@@ -97,7 +97,7 @@ class SortKey(unittest.TestCase):
 class Provenance(unittest.TestCase):
     def test_unknown_source_id_is_rejected(self):
         from message_schema import validate_provenance
-        sources = {"a": {"kind": "laudo-pf"}, "j": {"kind": "imprensa"}}
+        sources = {"a": {"kind": "laudo-pf", "file": "a.pdf"}, "j": {"kind": "imprensa"}}
         meta = {"source_id": "a", "verification": "verificado"}
         self.assertEqual(validate_provenance(meta, [msg()], sources, "t"), [])
         self.assertTrue(validate_provenance({**meta, "source_id": "x"}, [msg()], sources, "t"))
@@ -106,7 +106,7 @@ class Provenance(unittest.TestCase):
 
     def test_verified_needs_an_official_document(self):
         from message_schema import validate_provenance
-        sources = {"a": {"kind": "laudo-pf"}, "j": {"kind": "imprensa"}}
+        sources = {"a": {"kind": "laudo-pf", "file": "a.pdf"}, "j": {"kind": "imprensa"}}
         press = {"source_id": "j", "verification": "verificado"}
         self.assertTrue(validate_provenance(press, [msg()], sources, "t"))
         self.assertEqual(validate_provenance({**press, "verification": "imprensa"}, [msg()], sources, "t"), [])
@@ -114,6 +114,13 @@ class Provenance(unittest.TestCase):
         official = {"source_id": "a", "verification": "verificado"}
         self.assertTrue(validate_provenance(official, [msg(source_id="j")], sources, "t"))
         self.assertEqual(validate_provenance(official, [msg(source_id="j", verification="imprensa")], sources, "t"), [])
+
+    def test_verified_needs_the_pdf_in_the_repo(self):
+        from message_schema import validate_provenance
+        # An official document nobody could find: its messages are not "verificado".
+        sources = {"p": {"kind": "peticao-stf", "file": None}}
+        self.assertTrue(validate_provenance({"source_id": "p", "verification": "verificado"}, [msg()], sources, "t"))
+        self.assertEqual(validate_provenance({"source_id": "p", "verification": "nao-verificado"}, [msg()], sources, "t"), [])
 
     def test_sources_file_hash_must_match(self):
         import tempfile

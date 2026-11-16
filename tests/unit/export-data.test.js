@@ -41,6 +41,8 @@ describe('the JSON', () => {
   it('stamps every timestamp with its UTC offset', () => {
     for (const conv of conversations) {
       for (const msg of json(conv.id).messages) {
+        // No time known, no timestamp (never a made-up midnight).
+        if (msg.time == null) { expect(msg.timestamp, `${conv.id} #${msg.id}`).toBeNull(); continue; }
         expect(msg.timestamp, `${conv.id} #${msg.id}`).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-03:00$/);
       }
     }
@@ -122,7 +124,8 @@ describe('the Markdown', () => {
 
   it('keeps every message', () => {
     for (const conv of conversations) {
-      const headers = md(conv.id).split('\n').filter(l => /^\*\*.+\*\* · \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} · msg \d+/.test(l));
+      // With the time, or saying it is not known (a press report gave none).
+      const headers = md(conv.id).split('\n').filter(l => /^\*\*.+\*\* · (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}|[^·]*não informad[oa]s?) · msg \d+/.test(l));
       expect(headers.length, conv.id).toBe(conv.total_messages);
     }
   });
