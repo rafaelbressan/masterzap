@@ -29,22 +29,25 @@ export const SEALS = {
 /** Seals that are always marked on the bubble, even as a conversation's default. */
 const WEAK = new Set(['nao-verificado', 'reconstruido']);
 
-// 14px glyphs, drawn with currentColor. Static literals — safe for innerHTML.
-const svg = (body) => `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
+// 14px glyphs in WhatsApp's own style — a thin contour (1.4 on 24) with a
+// solid core, as its ⓘ — drawn with currentColor. Static literals, safe for
+// innerHTML. ContactInfo scales them to 20px by their width/height.
+const glyph = (body) => `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
+// WhatsApp's ⓘ ring (ICON_INFO), shared by the "?" so the two match.
+const RING = '<path fill="currentColor" stroke="none" fill-rule="evenodd" d="M12 3.95C7.55 3.95 3.95 7.55 3.95 12s3.6 8.05 8.05 8.05 8.05-3.6 8.05-8.05S16.45 3.95 12 3.95ZM2.55 12C2.55 6.78 6.78 2.55 12 2.55S21.45 6.78 21.45 12 17.22 21.45 12 21.45 2.55 17.22 2.55 12Z"/>';
 export const SEAL_ICONS = {
   // A document with a check: shields already mean "Criptografia" in WhatsApp.
-  verificado: svg('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><polyline points="9 15 11 17 15 13"/>'),
-  imprensa: svg('<path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/>'),
-  'nao-verificado': svg('<circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>'),
-  reconstruido: svg('<path d="M19.4 14.9a2.5 2.5 0 1 0 0-5H18V7a2 2 0 0 0-2-2h-2.9a2.5 2.5 0 1 0-5 0H5a2 2 0 0 0-2 2v3.1a2.5 2.5 0 1 1 0 5V18a2 2 0 0 0 2 2h3.1a2.5 2.5 0 1 1 5 0H16a2 2 0 0 0 2-2v-3.1z"/>'),
+  verificado: glyph('<path d="M14 2.7H6.5a1.8 1.8 0 0 0-1.8 1.8v15a1.8 1.8 0 0 0 1.8 1.8h11a1.8 1.8 0 0 0 1.8-1.8V8z"/><polyline points="14 2.7 14 8 19.3 8"/><polyline points="8.8 15 11 17.2 15.2 13" stroke-width="2.2"/>'),
+  imprensa: glyph('<path d="M4 21.3h15.5a1.8 1.8 0 0 0 1.8-1.8V4.5a1.8 1.8 0 0 0-1.8-1.8H8.5a1.8 1.8 0 0 0-1.8 1.8v15a1.8 1.8 0 0 1-1.8 1.8zm0 0a1.8 1.8 0 0 1-1.8-1.8v-8.5a1.8 1.8 0 0 1 1.8-1.8h2.7"/><rect x="10" y="6" width="8" height="4.2" rx=".6" fill="currentColor" stroke="none"/><path d="M10 14h8M10 17.5h5" stroke-width="1.8"/>'),
+  'nao-verificado': glyph(`${RING}<path d="M9.6 9.6a2.45 2.45 0 0 1 4.8.6c0 1.6-2.3 2.05-2.3 3.1" stroke-width="2"/><circle cx="12.1" cy="16.5" r="1.15" fill="currentColor" stroke="none"/>`),
+  reconstruido: glyph('<path d="M19.4 14.9a2.5 2.5 0 1 0 0-5H18V7a2 2 0 0 0-2-2h-2.9a2.5 2.5 0 1 0-5 0H5a2 2 0 0 0-2 2v3.1a2.5 2.5 0 1 1 0 5V18a2 2 0 0 0 2 2h3.1a2.5 2.5 0 1 1 5 0H16a2 2 0 0 0 2-2v-3.1z"/><circle cx="10.5" cy="12.5" r="1.6" fill="currentColor" stroke="none"/>'),
 };
 
 /**
  * The ⓘ that opens a message's editorial note, beside the seal by the time:
- * drawn as the seals are (circle r10, stroke 2), so the two read as one row of
- * equal weight. The menus keep WhatsApp's own ⓘ (ICON_INFO).
+ * WhatsApp's own (the ring the "?" shares), at the seals' 14px.
  */
-export const NOTE_ICON = svg('<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="11"/><line x1="12" y1="7.5" x2="12.01" y2="7.5"/>');
+export const NOTE_ICON = glyph(`${RING}<path fill="currentColor" stroke="none" d="M10.9 11.7h.85v4.1h-1.4a.7.7 0 0 0 0 1.4h4a.7.7 0 0 0 0-1.4h-1.2V11a.7.7 0 0 0-.7-.7h-1.55a.7.7 0 0 0 0 1.4ZM12.05 8.5a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5Z"/>`);
 
 let sources = {};
 

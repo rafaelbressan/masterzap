@@ -56,6 +56,30 @@ test.describe('Provenance seal', () => {
     await expect(report.locator('.chat-msg-seal')).toHaveCount(10);
   });
 
+  test('the glyphs by the time sit on the centre of its digits', async ({ page }) => {
+    // Geraldo msg 13: the seal and the note's ⓘ beside 15:59.
+    await page.goto('/#/chat/geraldo-brazil-journal/msg/13');
+    const meta = page.locator('.chat-msg-row[data-id="13"] .chat-msg-meta');
+    await expect(meta.locator('svg')).toHaveCount(2);
+    const offsets = await meta.evaluate((el) => {
+      const time = el.querySelector('.chat-msg-time');
+      const probe = document.createElement('span');
+      probe.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline';
+      time.appendChild(probe);
+      const baseline = probe.getBoundingClientRect().top;
+      probe.remove();
+      const cs = getComputedStyle(time);
+      const ctx = document.createElement('canvas').getContext('2d');
+      ctx.font = `${cs.fontSize} ${cs.fontFamily}`;
+      const digits = baseline - ctx.measureText('0123456789').actualBoundingBoxAscent / 2;
+      return [...el.querySelectorAll('svg')].map((svg) => {
+        const r = svg.getBoundingClientRect();
+        return r.top + r.height / 2 - digits;
+      });
+    });
+    for (const off of offsets) expect(Math.abs(off)).toBeLessThan(0.6);
+  });
+
   test('the leak is labelled press, without marking every bubble', async ({ page }) => {
     await page.goto('/');
     await page.locator('.conversation-item[data-id="martha-graeff"]').click();
