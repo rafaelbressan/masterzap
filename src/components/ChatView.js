@@ -858,12 +858,18 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
   countEl.className = 'chat-header-info-count';
   countEl.textContent = `${total.toLocaleString('pt-BR')} ${total === 1 ? 'mensagem' : 'mensagens'}`;
   subtitleEl.appendChild(countEl);
-  // The seal most of the messages carry (src/lib/provenance.js headerSeal).
-  const seal = SEALS[headerSeal(conversation)];
+  // The seal most of the messages carry (src/lib/provenance.js headerSeal),
+  // as the glyph the bubbles use: the word would not fit beside a long count
+  // on a phone. Its name is read aloud and shown on hover.
+  const mark = headerSeal(conversation);
+  const seal = SEALS[mark];
   if (seal) {
     const sealEl = document.createElement('span');
-    sealEl.className = 'chat-header-info-seal';
-    sealEl.textContent = ` · ${seal.label}`;
+    sealEl.className = `chat-header-info-seal seal-${mark}`;
+    sealEl.setAttribute('role', 'img');
+    sealEl.setAttribute('aria-label', seal.label);
+    sealEl.title = seal.label;
+    sealEl.innerHTML = SEAL_ICONS[mark]; // Static SVG literal
     subtitleEl.appendChild(sealEl);
   }
   infoEl.appendChild(subtitleEl);

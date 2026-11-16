@@ -84,9 +84,12 @@
 }
 
 .chat-header-info-seal {
+  display: inline-flex;
+  align-items: center;
   flex-shrink: 0;
-  white-space: pre;
+  margin-left: 4px;
 }
+
 
 /* ── Chat header menu button ──────────────────── */
 .chat-header-menu-btn {
