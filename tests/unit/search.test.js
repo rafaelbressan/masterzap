@@ -42,3 +42,10 @@ describe('searchIndex()', () => {
     expect(searchIndex(null, 'hello')).toEqual([]);
   });
 });
+
+describe('the minimum length', () => {
+  it('starts at the third character, counted without accents', async () => {
+    const { MIN_QUERY_LENGTH } = await import('../../src/lib/search.js');
+    expect(MIN_QUERY_LENGTH).toBe(3);
+  });
+});

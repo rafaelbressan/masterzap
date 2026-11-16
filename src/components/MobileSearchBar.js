@@ -7,7 +7,7 @@
  */
 import { buildCalendar } from './Calendar.js';
 import { openMenu, menuClosed } from '../lib/menus.js';
-import { searchIndex, loadSearchIndex } from '../lib/search.js';
+import { searchIndex, loadSearchIndex, MIN_QUERY_LENGTH } from '../lib/search.js';
 
 const DEBOUNCE_MS = 300;
 
@@ -118,7 +118,7 @@ export function showMobileSearchBar(chatView, conversationId, { dateIndex = [], 
   async function doSearch() {
     const query = input.value.trim();
     const seq = ++searchSeq;
-    if (query.length < 2) {
+    if (query.length < MIN_QUERY_LENGTH) {
       results = [];
       currentIndex = -1;
       upBtn.style.display = 'none';

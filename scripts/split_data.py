@@ -311,9 +311,14 @@ def split_conversation(conv_id, data, index):
         } if last_msg else None,
     }
     # Other names the chat is found by in the list's search: the thesaurus
-    # (data/aliases.json) and how the contact was saved in the phone.
-    aliases = list(dict.fromkeys(ALIASES.get(conv_id, []) + (
-        [metadata["saved_as"]] if metadata.get("saved_as") and metadata["saved_as"] not in metadata["participants"] else [])))
+    # (data/aliases.json), how the contact was saved in the phone, and every
+    # name the data gives them (the participant, the sender of their
+    # messages: "Ana Matos" for the chat listed as "Ana Matos Mkt").
+    names = ALIASES.get(conv_id, []) + [metadata.get("saved_as") or ""] + other \
+        + sorted({m["sender"] for m in messages
+                  if m.get("sender") and m["sender"] != owner and m.get("type") != "system"})
+    shown = entry.get("contact") or (other[0] if other else "")
+    aliases = [n for n in dict.fromkeys(names) if n and n != shown]
     if aliases:
         entry["aliases"] = aliases
     for key in ("phone", "saved_as", "note"):
