@@ -80,7 +80,7 @@ def make_message(mid, timestamp, sender, content, mtype, **extra):
     }
     for key in ("forwarded", "quoted", "quoted_sender", "source_page", "source_figure",
                 "view_once", "note_created_utc", "sent_utc", "duration",
-                "note", "source_id", "verification"):
+                "note", "source_id", "verification", "reactions"):
         if extra.get(key) is not None:
             msg[key] = extra[key]
     return normalise_message(msg)
@@ -195,7 +195,10 @@ def row_message(mid, row, **extra):
         quoted=row.get("quoted"),
         quoted_sender=row.get("quoted_sender"),
         duration=row.get("duration"),
-        source_page=row["page"],
+        # [{emoji, by}]: kept in the data and the export; the bubble does not
+        # draw reactions yet.
+        reactions=row.get("reactions"),
+        source_page=row.get("page"),
         source_figure=row.get("fig"),
         note=row.get("note"),
         date=row.get("date"),
@@ -277,13 +280,27 @@ def resolve_quotes(conv_id, messages, only=None):
     author that matches none of the messages with that text; or a text both
     sides wrote (an "Ok"), with no author to choose between them.
     """
+    # Where each text sits, by the way it reads, so a reply finds what it
+    # quotes without reading the whole chat back (a full export has 14k
+    # messages and hundreds of replies). Cards and links match otherwise
+    # (_quotes): they are few, and read one by one.
+    by_text = defaultdict(list)
+    cards = []
+    for pos, m in enumerate(messages):
+        if m["type"] in ("contact", "document", "link"):
+            cards.append(pos)
+        if m["type"] not in ("contact", "document"):
+            by_text[_quote_key(m["content"])].append(pos)
     for i, msg in enumerate(messages):
         quoted = msg.get("quoted")
         if not quoted or (only is not None and msg["id"] not in only):
             continue
         given = msg.get("quoted_sender")
         where = f"{conv_id} msg {msg['id']} (p. {msg.get('source_page')})"
-        matches = [m for m in reversed(messages[:i]) if _quotes(m, quoted)]
+        # The latest earlier first, as reading the chat back would find them.
+        found = {p for p in by_text.get(_quote_key(quoted), ()) if p < i}
+        found |= {p for p in cards if p < i and _quotes(messages[p], quoted)}
+        matches = [messages[p] for p in sorted(found, reverse=True)]
         if given:
             if matches and not any(m["sender"] == given for m in matches):
                 raise SystemExit(
@@ -491,17 +508,22 @@ def append_messages(conversations, appends):
             if len(same) > 1:
                 sys.exit(f"{'; '.join(where(r) for r in same)}: entram no mesmo lugar ({spot}); "
                          "encadeie: cada uma depois da anterior")
+        # Day by day: an anchor is always on its line's day, so a line is
+        # placed within its day's list (thousands of lines stay fast), and
+        # the days are put back in their order at the end.
+        days = {}
+        for m in messages:
+            days.setdefault(m["date"], []).append(m)
         for row in sorted(rows, key=lambda r: r["id"]):
             if row["id"] in by_id:
                 sys.exit(f"{where(row)}: id já usado na conversa")
             msg = row_message(row["id"], row)
+            day = days.setdefault(msg["date"], [])
             anchor = row["after"]
             if anchor is None:
-                # First of its day: before the day's first message, or where
-                # the day falls when the conversation has none on it.
-                key = date_sort_key(msg["date"])
-                pos = next((i for i, m in enumerate(messages)
-                            if date_sort_key(m["date"]) >= key), len(messages))
+                # First of its day (a day the conversation did not have
+                # takes its place among the others when they are put back).
+                pos = 0
             else:
                 if anchor not in by_id:
                     if anchor == row["id"]:
@@ -514,9 +536,13 @@ def append_messages(conversations, appends):
                 if by_id[anchor]["date"] != msg["date"]:
                     sys.exit(f"{where(row)}: after {anchor} é de {by_id[anchor]['date']}, "
                              f"não de {msg['date']}")
-                pos = messages.index(by_id[anchor]) + 1
-            messages.insert(pos, msg)
+                pos = next(i for i, m in enumerate(day) if m is by_id[anchor]) + 1
+            day.insert(pos, msg)
             by_id[msg["id"]] = msg
+        # Undated first, a month before its days (message_schema.date_sort_key);
+        # sorted() is stable, so days already in order keep it.
+        messages = [m for date in sorted(days, key=date_sort_key) for m in days[date]]
+        conversations[conv_id]["messages"] = messages
         resolve_quotes(conv_id, messages, only={r["id"] for r in rows})
         meta = conversations[conv_id]["metadata"]
         meta["total_messages"] = len(messages)

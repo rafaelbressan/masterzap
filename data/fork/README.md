@@ -78,8 +78,25 @@ estão em `data/pet-15497/`.
 - O horário que só tem hora e minuto, ou segundos ilegíveis, fica com `:00` e
   nota.
 
+## Exportações completas (IPED)
+
+Quatro conversas inteiras, de exportações HTML de ferramenta forense (IPED) que
+o fork recebeu sem dizer de quem nem onde foram publicadas (os HTML não estão no
+fork): Ana Matos (13.940 acrescentadas às 99 do laudo), Flávio Carneiro (8.799),
+Fred Kachar (2.022) e Lilian Tahan (912). Fonte `iped-<conversa>`, selo
+`nao-verificado`; uma linha com fonte melhor fica com ela (as do laudo seguem
+verificadas; as quatro do Flávio citadas pela BBC News Brasil são `imprensa`).
+
+- Formatos que o app desenha: contato vira `[cartão de contato] Nome — telefone`,
+  localização `[localização] Latitude: … / Longitude: … — lugar`, documento
+  `[anexo] título`; mídia sem arquivo fica sem texto ("Foto", "Áudio").
+- Reações ficam em `reactions` ([{emoji, by}]) nos dados e no export; a bolha
+  ainda não as desenha.
+- Os dados pessoais vão como o fork tem: ele tarjou CPFs e e-mails na Ana Matos e
+  telefones no Fred Kachar.
+- O export da Ana Matos termina em 03/09/2025 com "[Chat continua...]".
+
 ## O que ainda não entrou
 
 - Os grupos `g001`–`g004`: a tela ainda não mostra conversa em grupo.
-- Os exports completos (Ana Matos, Flávio Carneiro, Fred Kachar, Lilian Tahan).
 

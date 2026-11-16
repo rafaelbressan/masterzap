@@ -1409,6 +1409,71 @@
       "download": null,
       "archive_url": null,
       "sha256": null
+    },
+    {
+      "id": "iped-flavio-carneiro",
+      "kind": "iped",
+      "titulo": "Exportação forense (IPED) da conversa com Flávio Carneiro, enviada ao fork; origem não informada",
+      "orgao_ou_veiculo": "Fonte anônima",
+      "data": "2026",
+      "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Export completo da conversa de WhatsApp entre DV e Flávio Carneiro (relatório HTML 'WhatsApp Chat - Flavio Carneiro - 553188399198', gerado por ferramenta de análise forense tipo IPED), com horário completo (segundos e fuso -03:00), citações, encaminhamentos, reações, chamadas, localizações e contatos. Substitui a versão anterior, montada a partir de 5 capturas de tela e de 4 mensagens citadas pela BBC News Brasil (19/12/2023); todas elas foram localizadas no export e ficaram marcadas com 'legacy_id' e em 'notes'.». O fork não diz quem obteve a exportação nem onde ela foi publicada; o arquivo HTML não está no fork.",
+      "file": null,
+      "url": null,
+      "download": null,
+      "archive_url": null,
+      "sha256": null
+    },
+    {
+      "id": "fork-flavio-carneiro-bbc-news-brasil",
+      "kind": "imprensa",
+      "titulo": "BBC News Brasil — mensagens de Vorcaro extraídas pela PF",
+      "orgao_ou_veiculo": "BBC News Brasil",
+      "data": "2026",
+      "how": "Citadas pela BBC News Brasil, segundo o fork 1uc4sm4theus/masterzap: «ATUALIZAÇÃO 2: acrescentadas as 4 mensagens de 19/12/2023 (ids 1-4), citadas em reportagem da BBC News Brasil (https://www.bbc.com/portuguese/articles/ck4g18721rv2o) sobre mensagens de WhatsApp extraídas pela Polícia Federal do celular de Daniel Vorcaro (source 'news_report', com 'source_ref' e 'quo…».",
+      "file": null,
+      "url": "https://www.bbc.com/portuguese/articles/ck4g18721rv2o",
+      "download": null,
+      "archive_url": null,
+      "sha256": null
+    },
+    {
+      "id": "iped-fred-kachar",
+      "kind": "iped",
+      "titulo": "Exportação forense (IPED) da conversa com Fred Kachar, enviada ao fork; origem não informada",
+      "orgao_ou_veiculo": "Fonte anônima",
+      "data": "2026",
+      "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Conversão do relatório HTML 'WhatsApp Chat - Fred Kachar Globo - 5511991470008' (IPED) para o esquema das demais conversas.». O fork não diz quem obteve a exportação nem onde ela foi publicada; o arquivo HTML não está no fork.",
+      "file": null,
+      "url": null,
+      "download": null,
+      "archive_url": null,
+      "sha256": null
+    },
+    {
+      "id": "iped-lilian-tahan",
+      "kind": "iped",
+      "titulo": "Exportação forense (IPED) da conversa com Lilian Tahan, enviada ao fork; origem não informada",
+      "orgao_ou_veiculo": "Fonte anônima",
+      "data": "2026",
+      "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Exportação HTML do WhatsApp (WhatsApp Chat - Lilian Tahan Editora Chefe Metropoles - 556181320162)». O fork não diz quem obteve a exportação nem onde ela foi publicada; o arquivo HTML não está no fork.",
+      "file": null,
+      "url": null,
+      "download": null,
+      "archive_url": null,
+      "sha256": null
+    },
+    {
+      "id": "iped-ana-matos-mkt",
+      "kind": "iped",
+      "titulo": "Exportação forense (IPED) da conversa com Ana Matos, enviada ao fork; origem não informada",
+      "orgao_ou_veiculo": "Fonte anônima",
+      "data": "2026",
+      "how": "Transcrição do fork 1uc4sm4theus/masterzap, que registra assim a origem: «Exportação HTML (IPED) 'WhatsApp Chat - Ana Matos Mkt - 5511943290909' — conversa completa DV x Ana Matos». O fork não diz quem obteve a exportação nem onde ela foi publicada; o arquivo HTML não está no fork.",
+      "file": null,
+      "url": null,
+      "download": null,
+      "archive_url": null,
+      "sha256": null
     }
   ]
 }

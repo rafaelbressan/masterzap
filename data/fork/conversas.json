@@ -366,5 +366,29 @@
     "source_id": "fork-ze-maria",
     "verification": "nao-verificado",
     "fork_note": "Transcrição literal do print (grafia e pontuação preservadas; horários em -03:00). A última mensagem está cortada na borda inferior e sem horário visível. Imagem em baixa resolução."
+  },
+  "flavio-carneiro": {
+    "name": "Flávio Carneiro",
+    "saved_as": "Flavio Carneiro",
+    "phone": "553188399198",
+    "source_id": "iped-flavio-carneiro",
+    "verification": "nao-verificado",
+    "fork_note": "Texto transcrito do export sem alteração de grafia ou pontuação (quebras de linha preservadas como \\n). Remetentes padronizados: 'DV' (nome exibido no export) e 'Flávio Carneiro' (no export aparece como 'Flavio Carneiro (553188399198)'). 'timestamp' traz data e hh:mm sem offset (convenção do esquema); 'timestamp_full' traz o horário original com segundos e fuso. Mensagens ordenadas por horário (o export nem sempre segue essa ordem) e ids renumerados de 1 a N; 'source_anchor' guarda o id da mensagem no export. 'reply_to_id' é resolvido a partir das citações do export; o texto citado fica em 'quote'. Anexos: o export traz só rótulo, nome de arquivo (quando exibido), caminho interno e hash; o conteúdo de imagens, áudios e vídeos não foi transcrito. 'type' pode ser text, attachment, call, deleted, location ou contact. Mensagens apagadas aparecem sem o conteúdo original. As 3 mensagens de sistema do export (aviso de criptografia em 2023-10-18 e duas sobre mensagens temporárias em 2024-12-31) estão em 'system_events' e não contam em total_messages. 'content' vazio nunca ocorre: anexos sem legenda usam o rótulo (Imagem, Áudio, Vídeo, Anexo)."
+  },
+  "fred-kachar": {
+    "name": "Fred Kachar",
+    "saved_as": "Fred Kachar Globo",
+    "phone": "5511991470008",
+    "source_id": "iped-fred-kachar",
+    "verification": "nao-verificado",
+    "fork_note": "Remetentes padronizados: DV e Fred Kachar. source_anchor = id da mensagem no HTML. Mídia não transcrita. Telefones tarjados."
+  },
+  "lilian-tahan": {
+    "name": "Lilian Tahan",
+    "saved_as": "Lilian Tahan Editora Chefe Metropoles",
+    "phone": "556181320162",
+    "source_id": "iped-lilian-tahan",
+    "verification": "nao-verificado",
+    "fork_note": "Convertido automaticamente do HTML. Remetente 'DV' mantido; 'Lilian Tahan Editora Chefe Metropoles (556181320162)' normalizado para 'Lilian Tahan'. Timestamps completos (com segundos e fuso -03:00) conforme o export. Aviso de criptografia e cabeçalhos de data não entram como mensagens. Reações ficam no campo 'reaction' da mensagem reagida. Respostas (reply_to_id) apontam para o id novo da mensagem citada. Anexos (imagem, áudio, documento) têm só nome do arquivo/duração; sem conteúdo nem transcrição."
   }
 }

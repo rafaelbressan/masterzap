@@ -82,7 +82,9 @@ function contentBody(msg) {
 }
 
 /** A leading #, > or - would turn a line of chat into markup. */
-const escapeLine = (line) => line.replace(/^([#>\-+*]|\d+\.)(?=\s|$)/, '\\$1');
+// A message is text: a line that starts like Markdown is escaped, and so is a
+// tag (a link preview can carry the site's HTML), which Markdown would render.
+const escapeLine = (line) => line.replace(/^([#>\-+*]|\d+\.)(?=\s|$)/, '\\$1').replace(/</g, '&lt;');
 
 // ── profile ────────────────────────────────────────────────────────────────
 

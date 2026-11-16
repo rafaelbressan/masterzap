@@ -262,6 +262,7 @@ export const OTHER_PROFILES = {
         { text: 'Trabalhava no marketing de Vorcaro e coordenou o Fórum Jurídico Londres Brasil de Ideias, apresentado formalmente pelo Grupo Voto e {bancado pelo Banco Master}[https://www.metropoles.com/colunas/demetrio-vecchioli/dialogos-mostram-que-vorcaro-e-moraes-montaram-evento-juntos].' },
         { text: 'É a conversa que melhor mostra o grau de controle do ministro sobre o evento. Vorcaro barra o envio de convites — "{Deixa eu aprovar com alexandre}[action:search@ana-matos-mkt:aprovar com alexandre]" — e Ana responde, sobre a programação, que "{segui todas as recomendações que vieram do Ministro}[action:search@ana-matos-mkt:vieram do Ministro]", inclusive nomes novos que não estavam na lista original. Sobre um convidado sugerido: "{Alexandre morre se vc fizer isso}[action:search@ana-matos-mkt:Alexandre morre]".' },
         { text: 'Ela também organiza o convite formal que o {diretor-geral da PF}[action:search@ana-matos-mkt:Andrei PF] precisava "para entrar agenda institucional dele", emite a passagem aérea do ministro a pedido do assessor dele, atende ao pedido de convite para a {filha de Moraes}[action:search@ana-matos-mkt:Giuliana] e, em julho de 2025, conta ter passado "{o dia aqui com Vivi Moraes e o ministro fechando o programa}[action:search@ana-matos-mkt:Vivi Moraes e o ministro]". Quando o evento é cobrado, Vorcaro avisa: "{Alexandre reclamou MUITO}[action:search@ana-matos-mkt:reclamou MUITO]".' },
+        { text: 'A conversa inteira, de outubro de 2023 a setembro de 2025, vem de uma exportação forense (IPED) do celular de Vorcaro que o projeto de onde vêm estas mensagens recebeu sem dizer de quem. Sem documento nem veículo que se possa conferir, ela leva o selo "não verificado"; as 99 mensagens citadas no relatório da PF levam o selo "verificado". O arquivo termina em 3 de setembro de 2025 e avisa que a conversa continua.' },
       ],
     }],
   },
@@ -808,6 +809,33 @@ export const CONTACT_PROFILES = {
       title: 'Nelson Tanure',
       paragraphs: [
         { text: 'Segundo o projeto de onde vêm estas mensagens, a origem é esta: Mensagens extraídas pela PF do celular de Vorcaro, conforme duas colunas do blog do Lauro Jardim (O Globo, out/2026): \'O carinho especial de Vorcaro e Tanure com o Itaú\' e \'Da CVC à Eletrobras, os negócios de Vorcaro e Tanure que não foram adiante\'. Não são transcrições integrais. Atualização 25/10/2026: ids 9-17 vêm de duas capturas de tela fornecidas ao fork (sem matéria de origem informada). Sem documento nem veículo que se possa conferir, levam o selo "não verificado". Cada mensagem diz de onde veio.' },
+      ],
+    }],
+  },
+  'flavio-carneiro': {
+    about: 'Exportação forense, origem não informada',
+    sections: [{
+      title: 'Flávio Carneiro',
+      paragraphs: [
+        { text: 'Conversa completa, de uma exportação forense (IPED) do celular de Daniel Vorcaro que o projeto de onde vêm estas mensagens recebeu sem dizer de quem. Sem documento nem veículo que se possa conferir, as mensagens levam o selo "não verificado". As quatro de 19 de dezembro de 2023 também foram citadas pela BBC News Brasil e levam o selo "imprensa".' },
+      ],
+    }],
+  },
+  'fred-kachar': {
+    about: 'Exportação forense, origem não informada',
+    sections: [{
+      title: 'Fred Kachar',
+      paragraphs: [
+        { text: 'Conversa completa, de uma exportação forense (IPED) do celular de Daniel Vorcaro que o projeto de onde vêm estas mensagens recebeu sem dizer de quem. No celular, salvo como "Fred Kachar Globo". Sem documento nem veículo que se possa conferir, as mensagens levam o selo "não verificado".' },
+      ],
+    }],
+  },
+  'lilian-tahan': {
+    about: 'Exportação forense, origem não informada',
+    sections: [{
+      title: 'Lilian Tahan',
+      paragraphs: [
+        { text: 'Conversa completa, de uma exportação forense (IPED) do celular de Daniel Vorcaro que o projeto de onde vêm estas mensagens recebeu sem dizer de quem. No celular, salva como "Lilian Tahan Editora Chefe Metropoles". Sem documento nem veículo que se possa conferir, as mensagens levam o selo "não verificado".' },
       ],
     }],
   },
