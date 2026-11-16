@@ -90,6 +90,12 @@
   margin-left: 4px;
 }
 
+/* Centred on the text ("14.039 mensagens" is mostly lowercase), which sits
+   half a pixel below the digits' centre the line box already gives. */
+.chat-header-info-seal svg {
+  translate: 0 0.5px;
+}
+
 
 /* ── Chat header menu button ──────────────────── */
 .chat-header-menu-btn {

@@ -29,12 +29,13 @@ export const SEALS = {
 /** Seals that are always marked on the bubble, even as a conversation's default. */
 const WEAK = new Set(['nao-verificado', 'reconstruido']);
 
-// 14px glyphs in WhatsApp's own style — a thin contour (1.4 on 24) with a
-// solid core, as its ⓘ — drawn with currentColor. Static literals, safe for
+// 14px glyphs in WhatsApp's own style — a thin contour with a solid core, as
+// its ⓘ — whose contour (1.8 on 24, ~1px at 14px) matches the weight of the
+// 11–12.5px text beside it. Drawn with currentColor. Static literals, safe for
 // innerHTML. ContactInfo scales them to 20px by their width/height.
-const glyph = (body) => `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
+const glyph = (body) => `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
 // WhatsApp's ⓘ ring (ICON_INFO), shared by the "?" so the two match.
-const RING = '<path fill="currentColor" stroke="none" fill-rule="evenodd" d="M12 3.95C7.55 3.95 3.95 7.55 3.95 12s3.6 8.05 8.05 8.05 8.05-3.6 8.05-8.05S16.45 3.95 12 3.95ZM2.55 12C2.55 6.78 6.78 2.55 12 2.55S21.45 6.78 21.45 12 17.22 21.45 12 21.45 2.55 17.22 2.55 12Z"/>';
+const RING = '<path fill="currentColor" stroke="none" fill-rule="evenodd" d="M12 2.1a9.9 9.9 0 1 0 0 19.8a9.9 9.9 0 1 0 0-19.8ZM12 3.9a8.1 8.1 0 1 1 0 16.2a8.1 8.1 0 1 1 0-16.2Z"/>';
 export const SEAL_ICONS = {
   // A document with a check: shields already mean "Criptografia" in WhatsApp.
   verificado: glyph('<path d="M14 2.7H6.5a1.8 1.8 0 0 0-1.8 1.8v15a1.8 1.8 0 0 0 1.8 1.8h11a1.8 1.8 0 0 0 1.8-1.8V8z"/><polyline points="14 2.7 14 8 19.3 8"/><polyline points="8.8 15 11 17.2 15.2 13" stroke-width="2.2"/>'),
