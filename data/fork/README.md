@@ -96,7 +96,12 @@ verificadas; as quatro do Flávio citadas pela BBC News Brasil são `imprensa`).
   telefones no Fred Kachar.
 - O export da Ana Matos termina em 03/09/2025 com "[Chat continua...]".
 
-## O que ainda não entrou
+## Grupos
 
-- Os grupos `g001`–`g004`: a tela ainda não mostra conversa em grupo.
-
+Os quatro grupos do fork (Macallan, Ciro Daniel Fábio Hugo, Reunião semanal,
+Master), 20 mensagens publicadas pela imprensa (UOL; o Macallan, pela Veja, que
+o próprio trecho cita). Em `conversas.json`, um grupo traz `members` (todos menos
+o dono do celular) e `group` (quem criou, configurações); as mensagens nomeiam
+quem escreveu. O app desenha o grupo como o WhatsApp: nome e foto de quem
+escreve na primeira bolha de cada sequência, a lista de membros no cabeçalho e
+no "Info do grupo".

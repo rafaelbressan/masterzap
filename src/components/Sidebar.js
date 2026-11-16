@@ -4,14 +4,16 @@
  * Security note: innerHTML is used with static SVGs and data from our own
  * bundled JSON files (not user input), so XSS risk does not apply here.
  */
-import { contactOf } from '../lib/participants.js';
+import { contactOf, ownerOf } from '../lib/participants.js';
 import { openMenu, menuClosed } from '../lib/menus.js';
 import { formatTime, escapeHtml, formatNumber, formatRelativeDate } from '../lib/utils.js';
 
 import { ICON_SEARCH as SEARCH_ICON, ICON_MEETBALL, ICON_PIN, ICON_CHEVRON_DW } from '../lib/icons.js';
 import { isPinned, togglePinned, orderWithPinned, keepOnlyPinned, MAX_PINNED } from '../lib/pinned-conversations.js';
 import { showToast } from './Toast.js';
-import { defaultAvatarSvg } from '../lib/avatar.js';
+import { defaultAvatarSvg, defaultGroupAvatarSvg } from '../lib/avatar.js';
+import { isGroup } from '../lib/groups.js';
+import { MEDIA_LABELS } from '../lib/media.js';
 
 /**
  * The two conversations pinned under "Favoritas" — the leaks this project is
@@ -49,14 +51,17 @@ export function buildConversationItem(conv, { nameHtml, previewHtml } = {}) {
     : '';
   const lastTimeLabel = lastDate ? formatRelativeDate(lastDate) : '';
 
-  const lastPreview = escapeHtml(conv.last_message?.content || '');
+  // In a group, whose message it was: "Ciro Nogueira: Avisa quando…".
+  const last = conv.last_message;
+  const groupSender = isGroup(conv) && last?.sender && last.sender !== ownerOf(conv) ? `${last.sender}: ` : '';
+  const lastPreview = escapeHtml(groupSender + (last?.content || MEDIA_LABELS[last?.type] || ''));
   const displayName = escapeHtml(conversationName(conv));
   const msgCount = conv.total_messages ? formatNumber(conv.total_messages) : '';
 
   // Use real avatar if available, otherwise default SVG
   const avatarHtml = conv.avatar
     ? `<img src="${conv.avatar}" alt="${displayName}" class="conversation-item-avatar-img" />`
-    : defaultAvatarSvg(conv.id);
+    : isGroup(conv) ? defaultGroupAvatarSvg(conv.id) : defaultAvatarSvg(conv.id);
 
   // Escaped user-facing data inserted via innerHTML
   item.innerHTML = `
@@ -113,7 +118,7 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
       <button class="sidebar-tag active" data-filter="todas">Todas</button>
       <button class="sidebar-tag" data-filter="nao-lidas">Não lidas <span class="sidebar-tag-count"></span></button>
       <button class="sidebar-tag" data-filter="favoritas">Favoritas</button>
-      <button class="sidebar-tag disabled">Grupos</button>
+      <button class="sidebar-tag" data-filter="grupos">Grupos</button>
     </div>
     <div class="conversation-list" role="list"></div>
   `;
@@ -324,6 +329,7 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
   function matchesFilter(conv) {
     if (activeFilter === 'nao-lidas') return isUnread(conv);
     if (activeFilter === 'favoritas') return FAVORITE_CONVERSATIONS.has(conv.id);
+    if (activeFilter === 'grupos') return isGroup(conv);
     return true;
   }
 

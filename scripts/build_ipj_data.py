@@ -477,6 +477,17 @@ def add_fork_conversations(conversations, appends):
                 verification=info["verification"]),
             "messages": messages,
         }
+        if info.get("members"):
+            # A group: its name is the conversation's, and everyone else in it
+            # is a participant. The messages name their senders, each one a
+            # member ("Fabio Faria" for "Fábio Faria" would be a stranger).
+            strangers = sorted({m["sender"] for m in messages} - {"DV", "system", *info["members"]})
+            if strangers:
+                sys.exit(f"data/fork: {conv_id}: {strangers} escrevem no grupo sem estar em members")
+            meta = conversations[conv_id]["metadata"]
+            meta.update(participants=["DV", *info["members"]], contact=info["name"],
+                        is_group=True, members=info["members"], saved_as=None,
+                        **({"group": info["group"]} if info.get("group") else {}))
 
 
 APPENDED_NOTE = ("Há também mensagens de outras fontes, acrescentadas depois; "

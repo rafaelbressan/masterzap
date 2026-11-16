@@ -123,7 +123,9 @@ export function conversationSealLine(conversation) {
  */
 export function sourceNameOf(conversation, source) {
   const title = (source?.titulo ? source.titulo.replace(/\s+—\s+.*$/, '') : conversation?.source) || 'não informada';
-  return { title, outlet: source?.orgao_ou_veiculo || '' };
+  // "UOL — íntegra…" from UOL is "UOL", not "UOL (UOL)".
+  const outlet = source?.orgao_ou_veiculo || '';
+  return { title, outlet: outlet === title ? '' : outlet };
 }
 
 /**

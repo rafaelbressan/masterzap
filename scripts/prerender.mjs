@@ -35,7 +35,7 @@ import {
   loadEntries, loadMessages, sourceOf, contactOf, ownerName, whoIs, createResolver, mentionsOf, createLocator, isPaged, PREVIEW_MESSAGES,
   urlsIn, linksToMarkdown, linksToText, linksToHtml, escapeHtml,
   longDate, phonePretty, messageText, messageHtml, citationOf, pageOf, messageUrl, periodOf,
-  OFFICIAL_KINDS, monthOf, zonedTimestamp, sealSummary, messageProvenanceTags,
+  OFFICIAL_KINDS, monthOf, zonedTimestamp, sealSummary, messageProvenanceTags, pairTitle,
 } from './lib/corpus.mjs';
 
 const DIST = join(ROOT, 'dist');
@@ -149,15 +149,14 @@ function conversationLd(entry, who, description, { path, month, first, last, par
     '@context': 'https://schema.org',
     '@type': 'Conversation',
     '@id': url,
-    name: month ? `${ownerName(entry)} ↔ ${who} — ${longMonth(month)}` : `${ownerName(entry)} ↔ ${who}`,
+    name: month ? `${pairTitle(entry, who)} — ${longMonth(month)}` : `${pairTitle(entry, who)}`,
     url,
     inLanguage: 'pt-BR',
     description,
     ...(first && first !== 'sem-data' ? { temporalCoverage: `${first}/${last}` } : {}),
-    about: [
-      { '@type': 'Person', name: ownerName(entry) },
-      { '@type': 'Person', name: who },
-    ],
+    // A group is about its members, the owner among them.
+    about: [ownerName(entry), ...(entry.is_group ? entry.members || [] : [who])]
+      .map(name => ({ '@type': 'Person', name })),
     isPartOf: parent ? { '@id': `${SITE}${parent}` } : { '@id': `${SITE}/#dataset` },
     encoding: [
       { '@type': 'MediaObject', encodingFormat: 'text/markdown', contentUrl: `${SITE}/export/masterwhats-${entry.id}.md` },
@@ -210,7 +209,7 @@ function profileHtml(profile, who, entry, fromPath) {
   const out = [];
   const urls = [];
   if (!profile) return { html: out, urls };
-  out.push(`<h2>Quem é ${escapeHtml(who)}</h2>`);
+  out.push(`<h2>${escapeHtml(entry?.is_group ? `Sobre o grupo ${who}` : `Quem é ${who}`)}</h2>`);
   for (const section of profile.sections || []) {
     if (section.title && section.title !== who && section.title !== `Sobre ${who}`) {
       out.push(`<h3>${escapeHtml(section.title)}</h3>`);
@@ -237,7 +236,7 @@ function conversationPage(entry, messages, profile, who) {
   const out = [];
 
   out.push(`<article id="prerender">`);
-  out.push(`<h1>${escapeHtml(ownerName(entry))} ↔ ${escapeHtml(who)}</h1>`);
+  out.push(`<h1>${escapeHtml(pairTitle(entry, who))}</h1>`);
   out.push(`<p>${entry.total_messages} mensagens, ${periodOf(entry.date_range)}. `
     + `<a href="/#/chat/${entry.id}">Abrir no MasterWhats</a> · `
     + `<a href="/export/masterwhats-${entry.id}.md">Markdown completo</a> · `
@@ -264,7 +263,7 @@ function conversationPage(entry, messages, profile, who) {
 
   const description = describe(entry, profile, who);
   return appPage({
-    title: `${ownerName(entry)} ↔ ${who} — MasterWhats`,
+    title: `${pairTitle(entry, who)} — MasterWhats`,
     description,
     path,
     jsonLd: conversationLd(entry, who, description, { path, first: entry.date_range.start, last: entry.date_range.end }),
@@ -279,7 +278,7 @@ function monthPage(entry, who, ym, msgs, prevYm, nextYm) {
   const parent = `/chat/${entry.id}`;
   const out = [];
   out.push(`<article id="prerender">`);
-  out.push(`<h1>${escapeHtml(ownerName(entry))} ↔ ${escapeHtml(who)} — ${longMonth(ym)}</h1>`);
+  out.push(`<h1>${escapeHtml(pairTitle(entry, who))} — ${longMonth(ym)}</h1>`);
   out.push(`<p>${msgs.length} mensagens em ${longMonth(ym)}, de ${msgs[0].date} a ${msgs.at(-1).date}. `
     + `<a href="${parent}">A conversa</a> · `
     + (prevYm ? `<a href="${parent}/${prevYm}" rel="prev">${longMonth(prevYm)}</a> · ` : '')
@@ -294,7 +293,7 @@ function monthPage(entry, who, ym, msgs, prevYm, nextYm) {
   const links = (prevYm ? `<link rel="prev" href="${SITE}${parent}/${prevYm}">\n` : '')
     + (nextYm ? `<link rel="next" href="${SITE}${parent}/${nextYm}">\n` : '');
   return appPage({
-    title: `${ownerName(entry)} ↔ ${who} — ${longMonth(ym)} — MasterWhats`,
+    title: `${pairTitle(entry, who)} — ${longMonth(ym)} — MasterWhats`,
     description,
     path,
     jsonLd: conversationLd(entry, who, description, { path, month: ym, first: msgs[0].date, last: msgs.at(-1).date, parent }),
@@ -382,7 +381,7 @@ function personPage(person, mentions) {
   body.push(`<p class="how">Como as mensagens se referem a essa pessoa: ${person.aliases.map(a => `<code>${escapeHtml(a.match)}</code>${a.only ? ` (só em ${a.only.map(id => contactOf(byId.get(id))).join(', ')})` : ''}`).join(', ')}. Uma menção achada por um apelido que não é o nome vem marcada.</p>`);
   for (const [id, hits] of mentions) {
     const entry = byId.get(id);
-    body.push(`<h2><a href="/chat/${id}">${escapeHtml(ownerName(entry))} ↔ ${escapeHtml(contactOf(entry))}</a> — ${hits.length} men${hits.length === 1 ? 'ção' : 'ções'}</h2>`);
+    body.push(`<h2><a href="/chat/${id}">${escapeHtml(pairTitle(entry, contactOf(entry)))}</a> — ${hits.length} men${hits.length === 1 ? 'ção' : 'ções'}</h2>`);
     for (const { msg, alias } of hits) body.push(mentionHtml(id, msg, alias, primary, entry));
   }
   const jsonLd = {
@@ -444,7 +443,8 @@ function llmsFull(built, people) {
   ];
   for (const { entry, who, profile, months } of built) {
     const source = sourceOf(entry);
-    out.push(`### ${who} — ${entry.total_messages} mensagens, ${periodOf(entry.date_range)}`, '');
+    out.push(`### ${entry.is_group ? `Grupo ${who}` : who} — ${entry.total_messages} mensagens, ${periodOf(entry.date_range)}`, '');
+    if (entry.is_group) out.push(`- Membros: ${[ownerName(entry), ...(entry.members || [])].join(', ')}`);
     out.push(`- Página: ${SITE}/chat/${entry.id}`);
     if (months) out.push(`- Um mês por página: ${[...months.keys()].map(ym => `${SITE}/chat/${entry.id}/${ym}`).join(' · ')}`, `- Markdown por mês (troque o mês): ${SITE}/export/masterwhats-${entry.id}-${[...months.keys()][0]}.md`);
     out.push(`- Conversa completa em Markdown: ${SITE}/export/masterwhats-${entry.id}.md · JSON: ${SITE}/export/masterwhats-${entry.id}.json`);

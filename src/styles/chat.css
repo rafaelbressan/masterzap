@@ -1105,3 +1105,56 @@ button.chat-msg-quote:focus-visible {
     -webkit-touch-callout: none;
   }
 }
+
+/* ── Group chats ──────────────────────────────────────────────────────────
+   As WhatsApp draws a group: incoming bubbles stand off the edge by a photo's
+   width; a run from one person opens with their photo beside the bubble and
+   their name over it, in their colour, and that bubble keeps its tail. */
+.chat-view.is-group .chat-msg-row.incoming:not(.system) {
+  position: relative;
+  padding-left: 36px;
+}
+
+.chat-msg-group-avatar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.chat-msg-group-avatar img,
+.chat-msg-group-avatar svg {
+  display: block;
+  width: 28px;
+  height: 28px;
+  object-fit: cover;
+}
+
+/* Scoped to the group view, so they outrank the rules in components.css
+   (loaded later) that hide the tail after the first bubble of a block. */
+.chat-view.is-group .chat-msg-row.group-run-start {
+  margin-top: 6px;
+}
+
+.chat-view.is-group .chat-msg-row.group-run-start.incoming > .chat-msg-bubble.incoming {
+  border-top-left-radius: 0;
+}
+
+.chat-view.is-group .chat-msg-row.group-run-start.incoming > .chat-msg-bubble.incoming .chat-msg-tail {
+  display: block;
+}
+
+.chat-msg-sender {
+  margin-bottom: 2px;
+  color: var(--sender-light);
+  font-size: 12.8px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+:root[data-theme="dark"] .chat-msg-sender {
+  color: var(--sender-dark);
+}

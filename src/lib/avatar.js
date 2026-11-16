@@ -69,4 +69,42 @@ export function defaultAvatarSvg(seed, size) {
     `</svg>`;
 }
 
+/**
+ * The Material "group" glyph (two people, one ahead), as WhatsApp's default
+ * group photo draws it, in its own 24×24 space.
+ */
+const GROUP_PATH = 'M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z';
+
+// Wider than the person, so a little smaller, centred a touch above the middle
+// as the person is.
+const GROUP_TRANSFORM = 'translate(60.4 56.2) scale(3.8)';
+
+/**
+ * The default photo of a group: the contacts' coloured circle with the group
+ * glyph — WhatsApp's current style, not the grey one of old.
+ *
+ * @param {string} seed - the group's conversation id
+ * @param {number} [size]
+ */
+export function defaultGroupAvatarSvg(seed, size) {
+  const { bg, fg } = paletteFor(seed || '');
+  const dimensions = size ? ` width="${size}" height="${size}"` : '';
+  return `<svg viewBox="0 0 212 212"${dimensions} role="img" aria-hidden="true">` +
+    `<circle cx="106" cy="106" r="106" fill="${bg}"/>` +
+    `<path d="${GROUP_PATH}" fill="${fg}" transform="${GROUP_TRANSFORM}"/>` +
+    `</svg>`;
+}
+
+/**
+ * The colour of a participant's name in a group, from the palette of their
+ * default photo so name and photo match: the circle's colour on a light
+ * bubble, the figure's on a dark one.
+ * @param {string} seed - the same seed as their avatar
+ * @returns {{ light: string, dark: string }}
+ */
+export function senderColors(seed) {
+  const { bg, fg } = paletteFor(seed || '');
+  return { light: bg, dark: fg };
+}
+
 export { PALETTE as AVATAR_PALETTE };

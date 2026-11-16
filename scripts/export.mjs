@@ -27,7 +27,7 @@ import {
   ROOT, SITE, REPO, TIMEZONE, UTC_OFFSET,
   loadEntries, loadMessages, sourceOf, provenanceOf, contactOf, ownerName, whoIs, createResolver, createLocator, isPaged,
   urlsIn, linksToMarkdown, longDate, phonePretty, MEDIA, monthOf, zonedTimestamp, loadSources, pageOf, periodOf,
-  sealSummary, messageProvenanceTags,
+  sealSummary, messageProvenanceTags, pairTitle,
 } from './lib/corpus.mjs';
 
 const OUT = join(ROOT, 'public/export');
@@ -129,7 +129,7 @@ function conversationMarkdown(entry, messages, { standalone = true, month = null
   const sub = standalone ? '##' : '###';
   const out = [];
 
-  out.push(`${heading} ${ownerName(entry)} ↔ ${contact}${month ? ` — ${monthName(month)}` : ''}`, '');
+  out.push(`${heading} ${pairTitle(entry, contact)}${month ? ` — ${monthName(month)}` : ''}`, '');
   if (standalone) {
     out.push(`> Exportado de [MasterWhats](${SITE}/#/chat/${entry.id}) em ${generatedAt.slice(0, 10)}.${month ? ` Só ${monthName(month)} (${messages.length} mensagens); a conversa inteira está em masterwhats-${entry.id}.md.` : ''} Código e dados: ${REPO}.`, '');
   }
@@ -143,6 +143,9 @@ function conversationMarkdown(entry, messages, { standalone = true, month = null
   out.push(`| Como chegou ao público | ${source.how} |`);
   out.push(`| Período | ${month ? `${messages[0].date} a ${messages.at(-1).date}` : periodOf(entry.date_range)} |`);
   out.push(`| Mensagens | ${month ? `${messages.length} (de ${entry.total_messages} na conversa)` : entry.total_messages} |`);
+  if (entry.is_group) out.push(`| Membros | ${[ownerName(entry), ...(entry.members || [])].join(', ')} |`);
+  if (entry.group?.creator) out.push(`| Criado por | ${entry.group.creator} |`);
+  if (entry.group?.settings) out.push(`| Configurações do grupo | ${entry.group.settings} |`);
   if (entry.saved_as) out.push(`| Contato salvo como | ${entry.saved_as} |`);
   if (entry.phone) out.push(`| Telefone | ${phonePretty(entry.phone)} |`);
   out.push(`| Fuso dos horários | ${TIMEZONE} (UTC${UTC_OFFSET}) |`);
@@ -150,7 +153,7 @@ function conversationMarkdown(entry, messages, { standalone = true, month = null
   out.push('');
 
   const who = whoIs(entry, profile);
-  const { text: profileText, urls } = profileMarkdown(`Quem é ${who}`, profile, entry.id);
+  const { text: profileText, urls } = profileMarkdown(entry.is_group ? `Sobre o grupo ${who}` : `Quem é ${who}`, profile, entry.id);
   if (profileText) out.push(profileText.replace(/^## /, `${sub} `).replace(/\n### /g, `\n${standalone ? '###' : '####'} `));
 
   out.push(`${sub} Conversa`, '');
@@ -204,6 +207,9 @@ function conversationJson(entry, messages) {
       // Whose phone it came from: their messages are the outgoing ones.
       owner: ownerOf(entry),
       contact: contactOf(entry),
+      // A group: its name is `contact`; who is in it besides the owner, who
+      // created it, its settings.
+      ...(entry.is_group ? { is_group: true, members: entry.members || [], group: entry.group || null } : {}),
       saved_as: entry.saved_as || null,
       phone: entry.phone || null,
       date_range: entry.date_range,

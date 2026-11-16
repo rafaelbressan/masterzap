@@ -37,8 +37,16 @@ describe('conversations.json', () => {
 
   it('names the contact as a field, not as "the participant that is not DV"', () => {
     for (const conv of conversations) {
+      // A group is named by its own name, its members listed apart.
+      if (conv.is_group) {
+        expect(conv.members, conv.id).toEqual(conv.participants.filter(p => p !== 'DV'));
+        expect(conv.contact, conv.id).toBeTruthy();
+        continue;
+      }
       expect(conv.contact, conv.id).toBe(conv.participants.find(p => p !== 'DV') || conv.participants[0]);
     }
+    expect(conversations.filter(c => c.is_group).map(c => c.contact)).toEqual(
+      expect.arrayContaining(['Macallan', 'Ciro Daniel Fábio Hugo', 'Reunião semanal', 'Master']));
   });
 
   it('has a positive message count everywhere', () => {

@@ -12,7 +12,8 @@ import { contactOf } from '../lib/participants.js';
 import { importantMessages } from '../lib/important-messages.js';
 import { getContactProfile, SOURCES, CREDITS } from '../lib/profile-content.js';
 import { renderProfileSections } from './ProfileSections.js';
-import { defaultAvatarSvg } from '../lib/avatar.js';
+import { defaultAvatarSvg, defaultGroupAvatarSvg } from '../lib/avatar.js';
+import { isGroup, membersOf, memberIdentity } from '../lib/groups.js';
 
 const ICON_MEDIA = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`;
 const ICON_STAR_OUTLINE = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
@@ -34,7 +35,7 @@ import { SEALS, SEAL_ICONS, sourceById, headerSeal } from '../lib/provenance.js'
  * @param {string} [options.at] - selector of a row to bring into view once open
  * @returns {{ element: HTMLElement, destroy: function }}
  */
-export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onClose, onSearch, actions = {}, at = null } = {}) {
+export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onClose, onSearch, actions = {}, at = null, people = {} } = {}) {
   // Remove existing drawer if any
   const existing = mainArea.querySelector('.contact-info-drawer');
   if (existing) existing.remove();
@@ -62,7 +63,7 @@ export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onCl
 
   const titleEl = document.createElement('span');
   titleEl.className = 'contact-info-title';
-  titleEl.textContent = 'Info do contato';
+  titleEl.textContent = isGroup(conversation) ? 'Info do grupo' : 'Info do contato';
   header.appendChild(titleEl);
 
   drawer.appendChild(header);
@@ -85,7 +86,7 @@ export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onCl
     avatarEl.appendChild(img);
   } else {
     // Generated SVG — no user data, safe innerHTML
-    avatarEl.innerHTML = defaultAvatarSvg(conversation.id, 120);
+    avatarEl.innerHTML = isGroup(conversation) ? defaultGroupAvatarSvg(conversation.id, 120) : defaultAvatarSvg(conversation.id, 120);
   }
   profile.appendChild(avatarEl);
 
@@ -96,7 +97,10 @@ export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onCl
 
   const phoneEl = document.createElement('div');
   phoneEl.className = 'contact-info-phone';
-  phoneEl.textContent = `${conversation.total_messages.toLocaleString('pt-BR')} mensagens`;
+  // A group says what it is and how many are in it, as WhatsApp does.
+  phoneEl.textContent = isGroup(conversation)
+    ? `Grupo · ${membersOf(conversation).length + 1} membros · ${conversation.total_messages.toLocaleString('pt-BR')} mensagens`
+    : `${conversation.total_messages.toLocaleString('pt-BR')} mensagens`;
   profile.appendChild(phoneEl);
 
   // Search button
@@ -167,7 +171,9 @@ export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onCl
   }
   actionsEl.appendChild(importantItem);
   actionsEl.appendChild(createActionItem(ICON_BELL, 'Modo silencioso', '', true, true));
-  actionsEl.appendChild(createActionItem(ICON_CLOCK, 'Mensagens temporárias', contactProfile?.ephemeral || 'Não', false, true));
+  // A group's own setting when the data has it ("… com duração de 90 dias").
+  const groupTimer = conversation.group?.settings?.match(/duração de ([^.]+)/)?.[1];
+  actionsEl.appendChild(createActionItem(ICON_CLOCK, 'Mensagens temporárias', contactProfile?.ephemeral || groupTimer || 'Não', false, true));
   actionsEl.appendChild(createActionItem(ICON_LOCK, 'Privacidade avançada da conversa', 'Desativada', false, true));
   actionsEl.appendChild(createActionItem(ICON_SHIELD, 'Criptografia', 'As mensagens são protegidas com criptografia de ponta a ponta.', false, true));
   const sourceItem = createSourceItem(conversation);
@@ -175,6 +181,11 @@ export function showContactInfo(mainArea, conversation, { mediaCounts = {}, onCl
 
   body.appendChild(actionsEl);
   body.appendChild(createDivider());
+
+  if (isGroup(conversation)) {
+    body.appendChild(createMembersSection(conversation, people, actions));
+    body.appendChild(createDivider());
+  }
 
   // Investigation section, when this contact has a profile written for them
   if (contactProfile) {
@@ -269,6 +280,64 @@ function createActionItem(iconSvg, label, detail, hasToggle = false, disabled = 
  * "Fonte": where this conversation's messages came from and their seal, in
  * the shape of the rows above it, with the document's links and hash below.
  */
+/**
+ * A group's members, as WhatsApp lists them: "N membros", the owner first as
+ * "Você", then each one with their photo; the one who created the group is
+ * its admin, as WhatsApp tags them. A member who has a conversation of their own here opens it.
+ */
+function createMembersSection(conversation, { conversations = [], avatarFor = () => null, selfAvatar = null } = {}, actions = {}) {
+  const members = membersOf(conversation);
+  const section = document.createElement('div');
+  section.className = 'contact-info-section group-info-members';
+  const label = document.createElement('div');
+  label.className = 'contact-info-section-label';
+  label.textContent = `${members.length + 1} membros`;
+  section.appendChild(label);
+
+  const row = (name, photo, seed, tag, openId) => {
+    const item = document.createElement(openId && actions.onContact ? 'button' : 'div');
+    item.className = 'group-info-member';
+    if (item.tagName === 'BUTTON') {
+      item.type = 'button';
+      item.addEventListener('click', () => actions.onContact(openId));
+    }
+    const avatar = document.createElement('span');
+    avatar.className = 'group-info-member-avatar';
+    if (photo) {
+      const img = document.createElement('img');
+      img.src = photo;
+      img.alt = '';
+      avatar.appendChild(img);
+    } else {
+      avatar.innerHTML = defaultAvatarSvg(seed, 40); // generated, no user data
+    }
+    item.appendChild(avatar);
+    const text = document.createElement('span');
+    text.className = 'group-info-member-text';
+    const nameEl = document.createElement('span');
+    nameEl.className = 'group-info-member-name';
+    nameEl.textContent = name;
+    text.appendChild(nameEl);
+    item.appendChild(text);
+    if (tag) {
+      const tagEl = document.createElement('span');
+      tagEl.className = 'group-info-member-tag';
+      tagEl.textContent = tag;
+      item.appendChild(tagEl);
+    }
+    section.appendChild(item);
+  };
+
+  const creator = conversation.group?.creator;
+  row('Você', selfAvatar, 'owner', null, null);
+  for (const name of members) {
+    const { seed, conversationId } = memberIdentity(name, conversations);
+    row(name, conversationId ? avatarFor(conversationId) : null, seed,
+      name === creator ? 'Admin do grupo' : null, conversationId);
+  }
+  return section;
+}
+
 function createSourceItem(conversation) {
   const seal = SEALS[conversation.verification];
   if (!seal) return null;
