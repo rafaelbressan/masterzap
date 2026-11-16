@@ -259,7 +259,7 @@ def _quotes(target, quoted):
     return target["type"] != "contact" and _quote_key(target["content"]) == _quote_key(quoted)
 
 
-def resolve_quotes(conv_id, messages):
+def resolve_quotes(conv_id, messages, only=None):
     """Point each reply at the message it quotes.
 
     A reply in the report carries only the quoted excerpt. When the quoted
@@ -270,13 +270,16 @@ def resolve_quotes(conv_id, messages):
     printed the reply, not what it answered), the transcription says who wrote
     it, as the print shows above the excerpt.
 
+    ``only`` limits it to those ids: a reply already resolved keeps its target
+    when messages are added to the conversation later (append_messages).
+
     The build stops on a reply it cannot settle: no match and no author; an
     author that matches none of the messages with that text; or a text both
     sides wrote (an "Ok"), with no author to choose between them.
     """
     for i, msg in enumerate(messages):
         quoted = msg.get("quoted")
-        if not quoted:
+        if not quoted or (only is not None and msg["id"] not in only):
             continue
         given = msg.get("quoted_sender")
         where = f"{conv_id} msg {msg['id']} (p. {msg.get('source_page')})"
@@ -376,10 +379,14 @@ def add_document_conversations(conversations, appends):
         for conv_id, rows in by_conv.items():
             if conv_id in conversations:
                 seal = document_seal(doc["source_id"])
-                appends[conv_id].extend(
-                    {**r, "source_id": r.get("source_id") or doc["source_id"],
-                     "verification": r.get("verification") or seal, "_where": doc["dir"]}
-                    for r in rows)
+                for r in rows:
+                    if r.get("source_id") and not r.get("verification"):
+                        # Another source's seal is never the document's.
+                        sys.exit(f"{doc['dir']}: {conv_id} msg {r['id']}: um acréscimo com "
+                                 "source_id próprio precisa de verification própria")
+                    appends[conv_id].append(
+                        {**r, "source_id": r.get("source_id") or doc["source_id"],
+                         "verification": r.get("verification") or seal, "_where": doc["dir"]})
                 continue
             saved_as = rows[0]["peer"]
             peer = CONTACT_DISPLAY_NAMES.get(conv_id, saved_as)
@@ -458,6 +465,15 @@ def append_messages(conversations, appends):
                      "uma conversa a que se acrescentar")
         messages = conversations[conv_id]["messages"]
         by_id = {m["id"]: m for m in messages}
+        # Two lines at one spot would come out in reverse: each anchor once
+        # (and one first line per day), so the order is never a guess.
+        spots = defaultdict(list)
+        for r in rows:
+            spots[r.get("after") if r.get("after") is not None else ("first", r.get("date") or (r.get("ts") or "")[:10])].append(r["id"])
+        for spot, ids in spots.items():
+            if len(ids) > 1:
+                sys.exit(f"{rows[0]['_where']}: {conv_id} msgs {ids} entram no mesmo lugar ({spot}); "
+                         "encadeie: cada uma depois da anterior")
         for row in sorted(rows, key=lambda r: r["id"]):
             where = f"{row['_where']}: {conv_id} msg {row['id']}"
             if "after" not in row:
@@ -481,7 +497,7 @@ def append_messages(conversations, appends):
                 pos = messages.index(by_id[anchor]) + 1
             messages.insert(pos, msg)
             by_id[msg["id"]] = msg
-        resolve_quotes(conv_id, messages)
+        resolve_quotes(conv_id, messages, only={r["id"] for r in rows})
         meta = conversations[conv_id]["metadata"]
         meta["total_messages"] = len(messages)
         meta["date_range"] = date_range(messages)
@@ -503,26 +519,27 @@ def build_index(messages):
     by_date = defaultdict(list)
     for msg in messages:
         by_date[msg["date"]].append(msg)
-    return {
-        "dates": [
-            {
-                "date": date,
-                "message_count": len(by_date[date]),
-                # The lowest and highest id of the day, which need not be its
-                # first and last on screen: a day of the fork keeps the fork's
-                # order, and its ids stay the ones already published.
-                "first_message_id": min(m["id"] for m in by_date[date]),
-                "last_message_id": max(m["id"] for m in by_date[date]),
-                # A day with a message added later is not one run of ids: its
-                # runs, so a link finds the day (src/lib/data-store.js).
-                **({"id_runs": runs} if len(runs := id_runs(m["id"] for m in by_date[date])) > 1
-                   else {}),
-            }
-            # Undated first, a month before its days — the order the viewer
-            # loads them in (message_schema.date_sort_key).
-            for date in sorted(by_date, key=date_sort_key)
-        ]
-    }
+    dates = []
+    # Undated first, a month before its days — the order the viewer loads
+    # them in (message_schema.date_sort_key).
+    for date in sorted(by_date, key=date_sort_key):
+        ids = [m["id"] for m in by_date[date]]
+        entry = {
+            "date": date,
+            "message_count": len(ids),
+            # The lowest and highest id of the day, which need not be its
+            # first and last on screen: a day of the fork keeps the fork's
+            # order, and its ids stay the ones already published.
+            "first_message_id": min(ids),
+            "last_message_id": max(ids),
+        }
+        # A day with a message added later is not one run of ids: its runs,
+        # so a link finds the day (src/lib/data-store.js).
+        runs = id_runs(ids)
+        if len(runs) > 1:
+            entry["id_runs"] = runs
+        dates.append(entry)
+    return {"dates": dates}
 
 
 def main():
@@ -531,8 +548,10 @@ def main():
     conversations = dict([build_moraes_conversation()])
     conversations.update(build_other_conversations())
     appends = defaultdict(list)
-    add_document_conversations(conversations, appends)
+    # The fork's new conversations first: a document line for one of them is
+    # then an addition to it, not a second conversation with the same id.
     add_fork_conversations(conversations, appends)
+    add_document_conversations(conversations, appends)
     append_messages(conversations, appends)
 
     for conv_id, payload in sorted(conversations.items()):

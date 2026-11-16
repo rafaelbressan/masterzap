@@ -188,7 +188,7 @@ export const OTHER_PROFILES = {
       title: 'Geraldo Samor',
       paragraphs: [
         { text: 'Jornalista, fundador do {Brazil Journal}[https://braziljournal.com/], veículo de economia e negócios com forte penetração na Faria Lima. Ex-repórter da Veja e do Wall Street Journal.' },
-        { text: 'A conversa com Vorcaro é curta e reveladora do que o banqueiro esperava da imprensa. Em 26 de abril de 2024, dia seguinte ao debate com Tony Blair em Londres, Vorcaro pede que a matéria mencione que "{antes do meu debate com o tony Blair, os 3 ministros do STF se reuniram privadamente}[action:search@geraldo-brazil-journal:Blair]" com o ex-primeiro-ministro — e diz explicitamente que "{Alexandre pediu}[action:search@geraldo-brazil-journal:Alexandre pediu]". O jornalista pede esclarecimento sobre o que exatamente deveria ser publicado.' },
+        { text: 'O trecho do relatório é curto e revelador do que o banqueiro esperava da imprensa; o resto vem de capturas de tela sem origem conhecida. Em 26 de abril de 2024, dia seguinte ao debate com Tony Blair em Londres, Vorcaro pede que a matéria mencione que "{antes do meu debate com o tony Blair, os 3 ministros do STF se reuniram privadamente}[action:search@geraldo-brazil-journal:debate com o tony Blair]" com o ex-primeiro-ministro — e diz explicitamente que "{Alexandre pediu}[action:search@geraldo-brazil-journal:Alexandre pediu]". O jornalista pede esclarecimento sobre o que exatamente deveria ser publicado.' },
         { text: 'Meses depois, um fundo controlado por {Fabiano Zettel}[action:contact:fabiano-zettel], cunhado de Vorcaro, {comprou 49,9% do Brazil Journal}[https://www.brasil247.com/midia/cunhado-de-vorcaro-investiu-em-participacao-acionaria-no-brazil-journal-a-biblia-da-faria-lima/]. Samor afirma ser sócio apenas de Flávio Carneiro, nega ligação com Vorcaro ou com o Master e diz manter independência editorial.' },
       ],
     }],
@@ -331,7 +331,7 @@ export const OTHER_PROFILES = {
     sections: [{
       title: 'Luiz Rennó',
       paragraphs: [
-        { text: 'Empresário mineiro do círculo de Vorcaro. Aparece uma única vez no relatório, em 19 de abril de 2024, mas o trecho é dos mais diretos sobre como o fórum de Londres era vendido.' },
+        { text: 'Empresário mineiro do círculo de Vorcaro. No relatório aparece uma única vez, em 19 de abril de 2024, mas o trecho é dos mais diretos sobre como o fórum de Londres era vendido. O resto da conversa vem da representação da PF sobre o RioPrevidência e de reportagens.' },
         { text: 'Vorcaro oferece a ida a ele e a um sócio: "{Semana que vem estou fazendo um evento super exclusivo com alexandre de moraes em londres}[action:search@luiz-renno:super exclusivo]". Manda o convite digital do Grupo Voto e pede discrição — "{Pede pra ele nao passar adiante}[action:search@luiz-renno:passar adiante]. Estamos mantendo reservado".' },
         { text: 'E explica o critério de quem entra: "{Concorrente dele nao vai pq nao se da c alexandre}[action:search@luiz-renno:Concorrente dele]". O evento foi {financiado pelo Banco Master}[https://www.poder360.com.br/poder-justica/vorcaro-do-banco-master-financiou-eventos-com-ministros-do-stf/] sem aparecer como realizador.' },
       ],

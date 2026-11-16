@@ -62,6 +62,21 @@ class AppendMessages(unittest.TestCase):
         with self.assertRaises(SystemExit):
             append_messages(base(), {"nobody": [row(4, None, "x", date="2024-01-01")]})
 
+    def test_refuses_two_lines_at_one_spot(self):
+        # They would come out in reverse; the converter chains them instead.
+        for pair in ([row(4, 1, "x", "2024-01-01 10:30:00"), row(5, 1, "y", "2024-01-01 10:31:00")],
+                     [row(4, None, "x", date="2024-01-02"), row(5, None, "y", date="2024-01-02")]):
+            with self.subTest(pair=pair), self.assertRaises(SystemExit):
+                append_messages(base(), {"ana": pair})
+
+    def test_an_old_reply_keeps_its_target(self):
+        # Reply 3 quoted "a" (msg 1); a new "a" placed before it does not take it over.
+        convs = base()
+        old = convs["ana"]["messages"][2]
+        old.update(quoted="a", quoted_id=1, quoted_sender="DV")
+        append_messages(convs, {"ana": [row(4, 2, "a", "2024-01-01 12:00:00", sender="DV")]})
+        self.assertEqual(old["quoted_id"], 1)
+
 
 class IdRuns(unittest.TestCase):
     def test_runs(self):
