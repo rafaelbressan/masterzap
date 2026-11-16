@@ -9,7 +9,7 @@ import { describe, it, expect } from 'vitest';
 import { SITE_URL } from '../../src/config/site.js';
 import {
   createResolver, createLocator, loadEntries, normalize, citationOf, linksToMarkdown, linksToHtml, linksToText,
-  brDate, longDate, monthOf, zonedTimestamp, contactOf, whoIs, messageText, pageOf,
+  brDate, longDate, monthOf, zonedTimestamp, contactOf, whoIs, messageText, messageHtml, pageOf,
 } from '../../scripts/lib/corpus.mjs';
 
 const entries = loadEntries();
@@ -134,5 +134,28 @@ describe('pageOf', () => {
     // A message carrying its own source wins over its conversation's.
     expect(pageOf({ source_page: 5, source_id: 'inq-5026-representacao-pf-2026-06-09' }, 'alexandre-de-moraes')).toBe('representação p. 5');
     expect(pageOf({ source_page: null }, 'berg')).toBe('');
+  });
+});
+
+describe('messageHtml', () => {
+  it('keeps the line breaks and says "Encaminhada", but not on a deleted one', () => {
+    expect(messageHtml({ type: 'text', content: 'Range Rover\nRSB7C37', forwarded: true }))
+      .toBe('<i>Encaminhada</i> Range Rover<br>RSB7C37');
+    expect(messageHtml({ type: 'deleted', content: '', forwarded: true })).toBe('[Mensagem apagada]');
+    expect(messageHtml({ type: 'text', content: '<b>"x"</b>' })).toBe('&lt;b&gt;&quot;x&quot;&lt;/b&gt;');
+  });
+
+  it('puts the message a reply answers before it, with its author', () => {
+    const conv = { id: 'fabio-faria', participants: ['DV', 'Fábio Faria'], contact: 'Fábio Faria' };
+    expect(messageHtml({ type: 'text', content: 'Isso', quoted: 'Melhor <encarar>', quoted_sender: 'DV' }, conv))
+      .toBe('<small>em resposta a DV: «Melhor &lt;encarar&gt;»</small><br>Isso');
+    // On the page with the quoted message: a link to it.
+    expect(messageHtml({ type: 'text', content: 'Ok', quoted: 'x', quoted_sender: 'DV', quoted_id: 3 }, conv, { quoteHref: id => `#msg-${id}` }))
+      .toBe('<small><a href="#msg-3">em resposta a</a> DV: «x»</small><br>Ok');
+    // A quoted card keeps its number.
+    expect(messageHtml({ type: 'text', content: 'Ok', quoted: '[contato] Vivi +55 11 98344-5794', quoted_sender: 'DV', quoted_type: 'contact' }, conv))
+      .toBe('<small>em resposta a DV: «[contato] Vivi +55 11 98344-5794»</small><br>Ok');
+    expect(messageHtml({ type: 'text', content: 'Ok', quoted: 'a\nb', quoted_sender: 'Fábio Faria' }, conv))
+      .toBe('<small>em resposta a Fábio Faria: «a<br>b»</small><br>Ok');
   });
 });

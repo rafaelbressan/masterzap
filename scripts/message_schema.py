@@ -168,15 +168,42 @@ def validate_message(msg, where):
     return problems
 
 
-def validate_messages(messages, where):
-    """Every problem in a conversation, plus duplicate ids."""
+def validate_quote(msg, earlier, senders, where):
+    """A reply's quote: who wrote the quoted message, and that message if given.
+
+    ``earlier`` maps the ids before this message to their messages.
+    """
+    if not msg.get("quoted"):
+        return []
     problems = []
-    seen = set()
+    say = lambda text: problems.append(f"{where} msg {msg.get('id')}: {text}")
+    author = msg.get("quoted_sender")
+    if not author:
+        say("resposta sem quoted_sender (quem escreveu a mensagem citada)")
+    elif author not in senders:
+        say(f"quoted_sender {author!r} não é ninguém da conversa")
+    if "quoted_id" in msg:
+        target = earlier.get(msg["quoted_id"])
+        if target is None:
+            say(f"quoted_id {msg['quoted_id']!r} não é uma mensagem anterior da conversa")
+        elif author and target.get("sender") != author:
+            say(f"quoted_sender {author!r}, mas a msg {msg['quoted_id']} é de {target.get('sender')!r}")
+    if msg.get("quoted_type") is not None and msg["quoted_type"] not in TYPES:
+        say(f"quoted_type desconhecido {msg['quoted_type']!r}")
+    return problems
+
+
+def validate_messages(messages, where):
+    """Every problem in a conversation, plus duplicate ids and broken quotes."""
+    problems = []
+    seen = {}
+    senders = {m.get("sender") for m in messages}
     for msg in messages:
         problems.extend(validate_message(msg, where))
+        problems.extend(validate_quote(msg, seen, senders, where))
         if msg.get("id") in seen:
             problems.append(f"{where} msg {msg.get('id')}: id duplicado")
-        seen.add(msg.get("id"))
+        seen[msg.get("id")] = msg
     return problems
 
 

@@ -69,7 +69,7 @@ def make_message(mid, timestamp, sender, content, mtype, **extra):
         "attachment": extra.get("attachment"),
         "urls": URL_PATTERN.findall(content),
     }
-    for key in ("forwarded", "quoted", "source_page", "source_figure",
+    for key in ("forwarded", "quoted", "quoted_sender", "source_page", "source_figure",
                 "view_once", "note_created_utc", "sent_utc", "duration",
                 "note"):
         if extra.get(key) is not None:
@@ -180,6 +180,7 @@ def row_message(mid, row, **extra):
         attachment=row.get("attachment"),
         forwarded=row.get("forwarded"),
         quoted=row.get("quoted"),
+        quoted_sender=row.get("quoted_sender"),
         duration=row.get("duration"),
         source_page=row["page"],
         source_figure=row.get("fig"),
@@ -205,6 +206,73 @@ def contact_metadata(rows, peer, saved_as, messages, source_label, source_id, no
     }
 
 
+def _quote_key(text):
+    """Text compared the way it reads: case and spacing aside."""
+    return " ".join((text or "").split()).casefold()
+
+
+CONTACT_QUOTE = re.compile(r"^\[(cartão de )?contato\]", re.IGNORECASE)
+
+
+def _quotes(target, quoted):
+    """Whether `quoted` (the excerpt a reply carries) is the message `target`."""
+    if CONTACT_QUOTE.match(quoted):
+        # A quoted card, as the print shows it: name and number.
+        digits = re.sub(r"\D", "", quoted)
+        return (target["type"] == "contact" and len(digits) >= 8
+                and digits in re.sub(r"\D", "", target["content"]))
+    if target["type"] == "document":
+        return _quote_key(target.get("attachment")) == _quote_key(quoted)
+    return target["type"] != "contact" and _quote_key(target["content"]) == _quote_key(quoted)
+
+
+def resolve_quotes(conv_id, messages):
+    """Point each reply at the message it quotes.
+
+    A reply in the report carries only the quoted excerpt. When the quoted
+    message is in the conversation too (the latest earlier one that matches),
+    the reply gets its id, ``quoted_id``, and its author, ``quoted_sender``, so
+    the bubble can name who wrote it and take you there (and ``quoted_type``
+    when the quoted message is a card, not text). When it is not (the report
+    printed the reply, not what it answered), the transcription says who wrote
+    it, as the print shows above the excerpt.
+
+    The build stops on a reply it cannot settle: no match and no author; an
+    author that matches none of the messages with that text; or a text both
+    sides wrote (an "Ok"), with no author to choose between them.
+    """
+    for i, msg in enumerate(messages):
+        quoted = msg.get("quoted")
+        if not quoted:
+            continue
+        given = msg.get("quoted_sender")
+        where = f"{conv_id} msg {msg['id']} (p. {msg.get('source_page')})"
+        matches = [m for m in reversed(messages[:i]) if _quotes(m, quoted)]
+        if given:
+            if matches and not any(m["sender"] == given for m in matches):
+                raise SystemExit(
+                    f"{where}: quoted_sender {given!r}, mas a mensagem citada "
+                    f"(msg {matches[0]['id']}) é de {matches[0]['sender']!r}")
+            matches = [m for m in matches if m["sender"] == given]
+        elif len({m["sender"] for m in matches}) > 1:
+            raise SystemExit(
+                f"{where}: o texto citado é de mais de um remetente "
+                f"(msgs {', '.join(str(m['id']) for m in matches)}); "
+                "transcreva quoted_sender do print")
+        if not matches:
+            if not given:
+                raise SystemExit(
+                    f"{where}: a mensagem citada não está na conversa; "
+                    "transcreva quoted_sender do print")
+            continue
+        target = matches[0]
+        msg["quoted_id"] = target["id"]
+        msg["quoted_sender"] = target["sender"]
+        # A card (a document, a contact) is quoted with its icon, not as text.
+        if target["type"] != "text":
+            msg["quoted_type"] = target["type"]
+
+
 def build_other_conversations():
     """Every other chat quoted in the report, one conversation per contact."""
     by_conv = defaultdict(list)
@@ -219,6 +287,7 @@ def build_other_conversations():
         saved_as = rows[0]["peer"]
         peer = CONTACT_DISPLAY_NAMES.get(conv_id, saved_as)
         messages = [row_message(i, r) for i, r in enumerate(rows, 1)]
+        resolve_quotes(conv_id, messages)
         built[conv_id] = {
             "metadata": contact_metadata(
                 rows, peer, saved_as, messages, SOURCE_DOC, SOURCE_ID,
@@ -262,6 +331,7 @@ def add_document_conversations(conversations):
             saved_as = rows[0]["peer"]
             peer = CONTACT_DISPLAY_NAMES.get(conv_id, saved_as)
             messages = sorted((row_message(r["id"], r) for r in rows), key=sort_key)
+            resolve_quotes(conv_id, messages)
             conversations[conv_id] = {
                 "metadata": contact_metadata(
                     rows, peer, saved_as, messages, doc["label"], doc["source_id"],

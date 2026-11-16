@@ -16,6 +16,8 @@ import { writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import JSZip from 'jszip';
 import { ownerOf } from '../src/lib/participants.js';
+import { showsForwarded } from '../src/lib/utils.js';
+import { quoteOf } from '../src/lib/quote.js';
 import { noteOf, NOTE_LABEL } from '../src/lib/provenance.js';
 
 import { getContactProfile, VORCARO_PROFILE, SOURCES } from '../src/lib/profile-content.js';
@@ -158,6 +160,9 @@ function conversationMarkdown(entry, messages, { standalone = true, month = null
     const when = msg.time ? `${msg.date} ${msg.time}` : `${msg.date === 'sem-data' ? 'data e horário não informados' : `${msg.date}, horário não informado`}`;
     const tags = [when, `msg ${msg.id}`];
     if (msg.is_edited) tags.push('editada');
+    if (showsForwarded(msg)) tags.push('encaminhada');
+    const quote = quoteOf(msg, entry);
+    if (quote) tags.push(quote.id != null ? `em resposta à msg ${quote.id}` : 'em resposta');
     if (msg.view_once) tags.push('visualização única');
     const page = pageOf(msg, entry.id);
     if (page) tags.push(page);
@@ -168,8 +173,11 @@ function conversationMarkdown(entry, messages, { standalone = true, month = null
     // The same message, quoted in another document too.
     for (const id of msg.also_in || []) tags.push(`também em ${loadSources().get(id)?.titulo || id}`);
     out.push(`**${msg.sender}** · ${tags.join(' · ')}`);
+    // The quoted message, as a Markdown quote: who wrote it, then its text.
+    if (quote) out.push(`> ${quote.sender}: ${quote.excerpt.split('\n').map(escapeLine).join('  \n> ')}`, '');
     const body = messageBody(msg);
-    if (body) out.push(...body.split('\n').map(escapeLine));
+    // A line break in the message is a hard break in Markdown (two spaces).
+    if (body) out.push(body.split('\n').map(escapeLine).join('  \n'));
     out.push('');
   }
 

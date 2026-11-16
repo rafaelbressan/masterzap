@@ -57,7 +57,9 @@
       "attachment": null,
       "urls": [],
       "quoted": "Pq segurou o fsw?",
-      "source_page": 63
+      "source_page": 63,
+      "quoted_id": 1,
+      "quoted_sender": "DV"
     },
     {
       "id": 4,

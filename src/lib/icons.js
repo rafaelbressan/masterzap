@@ -39,4 +39,7 @@ export const ICON_ARROW_BACK = `<svg viewBox="0 0 24 24" width="24" height="24" 
 export const ICON_TICKS = `<svg class="search-result-ticks" viewBox="0 0 16 11" width="16" height="11" aria-hidden="true"><path fill="currentColor" d="M11.07.65a.46.46 0 0 0-.65.08L4.8 7.8 2.07 5.13a.46.46 0 0 0-.65.01.46.46 0 0 0 0 .65l3.08 3.02a.46.46 0 0 0 .69-.05l5.96-7.46a.46.46 0 0 0-.08-.65Zm3.5 0a.46.46 0 0 0-.65.08L8.3 7.8l-.6-.58a.46.46 0 0 0-.64.66l.94.92a.46.46 0 0 0 .69-.05l5.96-7.46a.46.46 0 0 0-.08-.65Z"/></svg>`;
 
 /** The pin of a conversation fixed to the top of the list, as WhatsApp. */
+// Forwarded message (the arrow over the bubble's "Encaminhada"), 16×16.
+export const ICON_FORWARDED = `<svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M9.5 4.2V2.6c0-.45.54-.67.86-.36l4.4 4.3c.2.2.2.52 0 .72l-4.4 4.3a.5.5 0 0 1-.86-.36V9.6c-3.1 0-5.3.9-6.9 2.8-.28.33-.8.08-.73-.35C2.4 7.3 5.1 4.6 9.5 4.2Z"/></svg>`;
+
 export const ICON_PIN = `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M16 3a1 1 0 0 1 .7 1.7L15.4 6l.9 6.1 2.4 2.4A1 1 0 0 1 18 16h-5v5.2a1 1 0 0 1-2 0V16H6a1 1 0 0 1-.7-1.7L7.7 12l.9-6L7.3 4.7A1 1 0 0 1 8 3h8Zm-2.6 3H10.6L9.6 12.6 8.4 14h7.2l-1.2-1.4-1-6.6Z"/></svg>`;

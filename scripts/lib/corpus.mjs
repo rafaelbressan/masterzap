@@ -13,6 +13,8 @@ export const DATA_DIR = join(ROOT, 'data');
 export const PUBLIC_DATA = join(ROOT, 'public/data');
 
 import { SITE_URL } from '../../src/config/site.js';
+import { showsForwarded } from '../../src/lib/utils.js';
+import { quoteOf } from '../../src/lib/quote.js';
 
 /** The site's address — src/config/site.js decides it, for the app and the build alike. */
 export const SITE = SITE_URL;
@@ -325,6 +327,21 @@ export const MEDIA = {
   image: 'Foto', video: 'Vídeo', audio: 'Áudio', sticker: 'Sticker',
   document: 'Documento', call: 'Chamada', deleted: 'Mensagem apagada', system: 'Sistema',
 };
+
+/**
+ * One message in a static page: escaped, its line breaks kept, "Encaminhada"
+ * first if it was, and, for a reply, the message it answers. `quoteHref(id)`
+ * links the quoted message when it is on the same page.
+ */
+export function messageHtml(msg, conversation, { quoteHref = () => null } = {}) {
+  const html = (s) => escapeHtml(s).replace(/\n/g, '<br>');
+  const text = html(messageText(msg));
+  const quote = quoteOf(msg, conversation);
+  const href = quote?.id != null ? quoteHref(quote.id) : null;
+  const answers = href ? `<a href="${href}">em resposta a</a>` : 'em resposta a';
+  const quoted = quote ? `<small>${answers} ${escapeHtml(quote.sender)}: «${html(quote.excerpt)}»</small><br>` : '';
+  return `${showsForwarded(msg) ? '<i>Encaminhada</i> ' : ''}${quoted}${text}`;
+}
 
 /** One message as plain text, media and system events in brackets, and the editorial note after. */
 export function messageText(msg) {

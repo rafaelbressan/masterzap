@@ -223,11 +223,22 @@
   background-color: var(--WDS-systems-bubble-surface-outgoing);
 }
 
+/* The quote, 3px in from the preview's edges as from the bubble's. */
+.msg-info-preview .chat-msg-quote {
+  width: calc(100% + 14px);
+  margin: -5px -7px 5px;
+}
+
 .msg-info-preview-content {
   font-size: 14px;
   color: var(--WDS-content-default);
   line-height: 1.4;
   word-break: break-word;
+}
+
+/* A text message's own line breaks (a card's text is one run). */
+.msg-info-preview-content.text {
+  white-space: pre-wrap;
 }
 
 .msg-info-preview-meta {
