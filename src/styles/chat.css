@@ -312,6 +312,67 @@
   flex-shrink: 0;
 }
 
+/* A reply's quote: the message it answers, on top of the bubble. */
+.chat-msg-quote {
+  --quote-color: var(--MW-quote-contact);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: calc(100% + 15px);
+  min-width: 0;
+  margin: -3px -9px 5px -6px;
+  padding: 5px 10px 6px 8px;
+  border: 0;
+  border-left: 4px solid var(--quote-color);
+  border-radius: 6px;
+  background-color: var(--WDS-systems-bubble-surface-overlay);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
+.chat-msg-quote.from-owner {
+  --quote-color: var(--MW-quote-owner);
+}
+
+button.chat-msg-quote {
+  cursor: pointer;
+}
+
+button.chat-msg-quote:focus-visible {
+  outline: 2px solid var(--quote-color);
+  outline-offset: 1px;
+}
+
+.chat-msg-quote-author {
+  font-size: 12.8px;
+  font-weight: 500;
+  line-height: 20px;
+  color: var(--quote-color);
+}
+
+.chat-msg-quote-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  font-size: 13.2px;
+  line-height: 19px;
+  color: var(--WDS-systems-bubble-content-deemphasized);
+  white-space: pre-line;
+}
+
+.chat-msg-quote-icon {
+  display: inline-flex;
+  vertical-align: -3px;
+  margin-right: 3px;
+}
+
+.chat-msg-quote-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
 .chat-msg-content a {
   color: var(--MW-link);
   text-decoration: none;

@@ -29,6 +29,8 @@
   --MW-negative: var(--WDS-secondary-negative);
   --MW-nav-selected: var(--WDS-surface-highlight);
   --MW-tag-selected: var(--WDS-components-filter-surface-selected);
+  --MW-quote-owner: var(--WDS-emerald-400);
+  --MW-quote-contact: var(--WDS-purple-300);
 
   --WDS-accent: #21C063;
   --WDS-accent-RGB: 33, 192, 99;

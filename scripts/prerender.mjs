@@ -169,8 +169,11 @@ function conversationLd(entry, who, description, { path, month, first, last, par
   return data;
 }
 
-function messagesHtml(messages) {
+function messagesHtml(messages, entry) {
   const out = [];
+  // A reply links the message it answers when that one is on this page too.
+  const here = new Set(messages.map(m => m.id));
+  const quoteHref = (id) => (here.has(id) ? `#msg-${id}` : null);
   let day = null;
   for (const msg of messages) {
     if (msg.date !== day) {
@@ -179,7 +182,7 @@ function messagesHtml(messages) {
     }
     const cite = msg.source_page ? ` <small>(laudo p. ${msg.source_page}${msg.source_figure ? `, fig. ${msg.source_figure}` : ''})</small>` : '';
     const stamp = zonedTimestamp(msg);
-    out.push(`<p id="msg-${msg.id}"><time${stamp ? ` datetime="${stamp}"` : ''}>${msg.time ? msg.time.slice(0, 5) : '--:--'}</time> <b>${escapeHtml(msg.sender)}</b>: ${messageHtml(msg)}${cite}</p>`);
+    out.push(`<p id="msg-${msg.id}"><time${stamp ? ` datetime="${stamp}"` : ''}>${msg.time ? msg.time.slice(0, 5) : '--:--'}</time> <b>${escapeHtml(msg.sender)}</b>: ${messageHtml(msg, entry, { quoteHref })}${cite}</p>`);
   }
   return out;
 }
@@ -249,7 +252,7 @@ function conversationPage(entry, messages, profile, who) {
   }
 
   out.push(`<h2>Conversa${paged ? ` (primeiras ${shown.length} mensagens)` : ''}</h2>`);
-  out.push(...messagesHtml(shown));
+  out.push(...messagesHtml(shown, entry));
   if (paged) {
     out.push(`<p>As outras ${messages.length - shown.length} mensagens estão nas páginas por mês acima, no <a href="/export/masterwhats-${entry.id}.md">Markdown completo</a> e <a href="/#/chat/${entry.id}">no app</a>.</p>`);
   }
@@ -281,7 +284,7 @@ function monthPage(entry, who, ym, msgs, prevYm, nextYm) {
     + `<a href="/#/chat/${entry.id}/msg/${msgs[0].id}">Abrir no MasterWhats</a> · `
     + `<a href="/export/masterwhats-${entry.id}-${ym}.md">Markdown deste mês</a> · `
     + `<a href="/export/masterwhats-${entry.id}.md">Markdown completo</a></p>`);
-  out.push(...messagesHtml(msgs));
+  out.push(...messagesHtml(msgs, entry));
   out.push('</article>');
 
   const description = `Conversa entre ${ownerName(entry)} e ${who} em ${longMonth(ym)}: ${msgs.length} mensagens, de ${msgs[0].date} a ${msgs.at(-1).date}.`;
@@ -348,11 +351,11 @@ ${body}
 `;
 }
 
-function mentionHtml(conversationId, msg, alias, primary) {
+function mentionHtml(conversationId, msg, alias, primary, entry) {
   const cite = msg.source_page ? ` <small>(laudo p. ${msg.source_page}${msg.source_figure ? `, fig. ${msg.source_figure}` : ''})</small>` : '';
   return `<div class="msg" id="m-${conversationId}-${msg.id}">`
     + `<time${zonedTimestamp(msg) ? ` datetime="${zonedTimestamp(msg)}"` : ''}>${citationOf(msg).split(' · ')[0]}</time> · <b>${escapeHtml(msg.sender)}</b>${cite}${alias !== primary ? ` <small>· por «${escapeHtml(alias)}»</small>` : ''}<br>`
-    + `${messageHtml(msg)}<br>`
+    + `${messageHtml(msg, entry)}<br>`
     + `<span class="links"><a href="${locate(conversationId, msg)}">ver na conversa</a> · <a href="${messageUrl(conversationId, msg)}">no app</a> · msg ${msg.id}</span>`
     + `</div>`;
 }
@@ -375,7 +378,7 @@ function personPage(person, mentions) {
   for (const [id, hits] of mentions) {
     const entry = byId.get(id);
     body.push(`<h2><a href="/chat/${id}">${escapeHtml(ownerName(entry))} ↔ ${escapeHtml(contactOf(entry))}</a> — ${hits.length} men${hits.length === 1 ? 'ção' : 'ções'}</h2>`);
-    for (const { msg, alias } of hits) body.push(mentionHtml(id, msg, alias, primary));
+    for (const { msg, alias } of hits) body.push(mentionHtml(id, msg, alias, primary, entry));
   }
   const jsonLd = {
     '@context': 'https://schema.org',

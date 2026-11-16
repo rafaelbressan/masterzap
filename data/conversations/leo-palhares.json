@@ -100,7 +100,10 @@
       "urls": [],
       "quoted": "Termo de Quitação - Entrega Imediata.docx",
       "source_page": 161,
-      "source_figure": 160
+      "source_figure": 160,
+      "quoted_id": 5,
+      "quoted_sender": "Leo Palhares",
+      "quoted_type": "document"
     },
     {
       "id": 7,
@@ -381,7 +384,9 @@
       "urls": [],
       "quoted": "Bom dia! A gente precisa iniciar o fluxo de pagamentos do escritório Biaci como foi combinado.",
       "source_page": 167,
-      "source_figure": 166
+      "source_figure": 166,
+      "quoted_id": 23,
+      "quoted_sender": "Leo Palhares"
     },
     {
       "id": 27,

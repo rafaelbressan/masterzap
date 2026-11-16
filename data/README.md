@@ -125,3 +125,14 @@ copiar o campo como veio:
   como um horário foi estimado, o que a figura deixa de fora. No app aparece como um ⓘ
   ao lado da hora, que abre a "Info da mensagem" com a "Nota do MasterWhats"; no export
   vai logo depois do texto. Nas linhas do `ipj-3298613/*.jsonl`, o mesmo campo `note`.
+- **`forwarded`** (opcional): `true` numa mensagem encaminhada. A bolha diz "Encaminhada",
+  menos numa apagada (o WhatsApp tira o rótulo).
+- **Resposta** (opcionais): `quoted` é o trecho da mensagem respondida, como o print o
+  mostra; `quoted_sender`, quem a escreveu. Quando a mensagem respondida também está na
+  conversa, `scripts/build_ipj_data.py` acha a mais recente anterior com o mesmo texto (um
+  documento pelo nome do arquivo, um contato pelo número) e grava `quoted_id`,
+  `quoted_sender` e, se ela for um cartão, `quoted_type` (`document`, `contact`). Quando
+  não está (o laudo imprimiu a resposta, não o que ela responde), a linha do
+  `ipj-3298613/mensagens.jsonl` traz `quoted_sender`, lido do nome que o print mostra sobre o
+  trecho. Sem nenhum dos dois, ou com o print e a conversa discordando do autor, a build para.
+  No app, o bloco da citação fica no topo da bolha e leva à mensagem citada.

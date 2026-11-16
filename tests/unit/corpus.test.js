@@ -134,4 +134,18 @@ describe('messageHtml', () => {
     expect(messageHtml({ type: 'deleted', content: '', forwarded: true })).toBe('[Mensagem apagada]');
     expect(messageHtml({ type: 'text', content: '<b>"x"</b>' })).toBe('&lt;b&gt;&quot;x&quot;&lt;/b&gt;');
   });
+
+  it('puts the message a reply answers before it, with its author', () => {
+    const conv = { id: 'fabio-faria', participants: ['DV', 'Fábio Faria'], contact: 'Fábio Faria' };
+    expect(messageHtml({ type: 'text', content: 'Isso', quoted: 'Melhor <encarar>', quoted_sender: 'DV' }, conv))
+      .toBe('<small>em resposta a DV: «Melhor &lt;encarar&gt;»</small><br>Isso');
+    // On the page with the quoted message: a link to it.
+    expect(messageHtml({ type: 'text', content: 'Ok', quoted: 'x', quoted_sender: 'DV', quoted_id: 3 }, conv, { quoteHref: id => `#msg-${id}` }))
+      .toBe('<small><a href="#msg-3">em resposta a</a> DV: «x»</small><br>Ok');
+    // A quoted card keeps its number.
+    expect(messageHtml({ type: 'text', content: 'Ok', quoted: '[contato] Vivi +55 11 98344-5794', quoted_sender: 'DV', quoted_type: 'contact' }, conv))
+      .toBe('<small>em resposta a DV: «[contato] Vivi +55 11 98344-5794»</small><br>Ok');
+    expect(messageHtml({ type: 'text', content: 'Ok', quoted: 'a\nb', quoted_sender: 'Fábio Faria' }, conv))
+      .toBe('<small>em resposta a Fábio Faria: «a<br>b»</small><br>Ok');
+  });
 });

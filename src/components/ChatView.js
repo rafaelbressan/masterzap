@@ -20,6 +20,7 @@ import { showContactsSheet, ICON_MESSAGE } from './ContactsSheet.js';
 import { openMenu, menuClosed } from '../lib/menus.js';
 import { isImportant } from '../lib/important-messages.js';
 import { setBubbleStar } from './ImportantPanel.js';
+import { quoteOf } from '../lib/quote.js';
 import { SEALS, SEAL_ICONS, sealToMark, sealDescription, provenanceOf, sourceById, conversationSealLine, noteOf, NOTE_LABEL } from '../lib/provenance.js';
 
 /**
@@ -27,7 +28,7 @@ import { SEALS, SEAL_ICONS, sealToMark, sealDescription, provenanceOf, sourceByI
  * are, where the avatars live, how to open a chat or copy a number. Set once
  * per chat view; there is only ever one on screen.
  */
-let media = { conversations: [], avatarFor: () => null, selfAvatar: null, selfName: '', contactAvatar: null, contactName: '', onOpenChat: () => {}, onCopy: () => {}, container: null, signal: undefined };
+let media = { conversations: [], avatarFor: () => null, selfAvatar: null, selfName: '', contactAvatar: null, contactName: '', onOpenChat: () => {}, onOpenMessage: () => {}, onCopy: () => {}, container: null, signal: undefined };
 
 /** The open conversation, for the seal each bubble may carry. */
 let sealContext = { conversation: null };
@@ -567,6 +568,54 @@ export function forwardedLabel() {
   return tag;
 }
 
+const ICON_QUOTE_CONTACT = `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 12a4 4 0 100-8 4 4 0 000 8zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
+
+/**
+ * The quoted message on top of a reply, as WhatsApp draws it: a coloured bar,
+ * who wrote it ("Você" or the contact) and the start of it. When the quoted
+ * message is in the conversation, the block is a button that goes there.
+ */
+export function renderQuote(msg, conversation, { interactive = true } = {}) {
+  const quote = quoteOf(msg, conversation);
+  if (!quote) return null;
+  const goes = interactive && quote.id != null;
+  const el = document.createElement(goes ? 'button' : 'div');
+  el.className = `chat-msg-quote ${quote.fromOwner ? 'from-owner' : 'from-contact'}`;
+  if (goes) {
+    el.type = 'button';
+    el.title = 'Ir para a mensagem respondida';
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      media.onOpenMessage(quote.id);
+    });
+  }
+  // Read aloud as what it is: "Em resposta a Fábio Faria: …", then the reply.
+  const spoken = document.createElement('span');
+  spoken.className = 'sr-only';
+  spoken.textContent = 'Em resposta a ';
+  el.appendChild(spoken);
+  const author = document.createElement('span');
+  author.className = 'chat-msg-quote-author';
+  author.textContent = quote.author;
+  el.appendChild(author);
+  const colon = document.createElement('span');
+  colon.className = 'sr-only';
+  colon.textContent = ': ';
+  el.appendChild(colon);
+  const text = document.createElement('span');
+  text.className = 'chat-msg-quote-text';
+  const icon = { document: ICON_DOC, contact: ICON_QUOTE_CONTACT }[quote.kind];
+  if (icon) {
+    const glyph = document.createElement('span');
+    glyph.className = 'chat-msg-quote-icon';
+    glyph.innerHTML = icon; // Static SVG
+    text.appendChild(glyph);
+  }
+  text.append(quote.text);
+  el.appendChild(text);
+  return el;
+}
+
 /**
  * Render a single message bubble.
  * @param {object} msg
@@ -654,6 +703,10 @@ function renderMessage(msg, conversation) {
   if (showsForwarded(msg)) {
     bubble.appendChild(forwardedLabel());
   }
+
+  // A reply: the message it answers, on top.
+  const quote = renderQuote(msg, conversation);
+  if (quote) bubble.appendChild(quote);
 
   bubble.appendChild(content);
 

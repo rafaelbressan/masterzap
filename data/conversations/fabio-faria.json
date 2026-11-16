@@ -1108,6 +1108,7 @@
       "attachment": null,
       "urls": [],
       "quoted": "Melhor encarar e entender rapido",
+      "quoted_sender": "DV",
       "source_page": 174,
       "source_figure": 173
     },
@@ -1492,7 +1493,9 @@
       "urls": [],
       "quoted": "Podem entrar em contato lá na PF. Ele aceitou",
       "source_page": 212,
-      "source_figure": 224
+      "source_figure": 224,
+      "quoted_id": 103,
+      "quoted_sender": "Fábio Faria"
     },
     {
       "id": 105,
@@ -1550,7 +1553,9 @@
       "urls": [],
       "quoted": "Vc falou c andre ontem? Ele disse algo da reuniao?",
       "source_page": 213,
-      "source_figure": 225
+      "source_figure": 225,
+      "quoted_id": 107,
+      "quoted_sender": "DV"
     },
     {
       "id": 109,
