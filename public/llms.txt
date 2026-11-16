@@ -1,6 +1,6 @@
 # MasterWhats
 
-> Visualizador interativo das 67.685 mensagens de WhatsApp extraídas dos celulares apreendidos de Daniel Vorcaro (Banco Master), em 75 conversas — das trocas com Martha Graeff ao relatório da Polícia Federal sobre os contatos com o ministro Alexandre de Moraes.
+> Visualizador interativo das 68.134 mensagens de WhatsApp extraídas dos celulares apreendidos de Daniel Vorcaro (Banco Master), em 75 conversas — das trocas com Martha Graeff ao relatório da Polícia Federal sobre os contatos com o ministro Alexandre de Moraes.
 
 ## O que é
 MasterWhats é um projeto web que replica a interface do WhatsApp Web para permitir a navegação pelas conversas que vieram a público no escândalo do Banco Master. O projeto foi criado por %AUTHOR_NAME% com Claude Code. Cada contato tem um perfil que explica quem é a pessoa, o que o material revela e de onde vem a informação, com fontes.

@@ -295,8 +295,8 @@ export const OTHER_PROFILES = {
     sections: [{
       title: 'Romy',
       paragraphs: [
-        { text: 'Trabalhava no financeiro do Banco Master e executava os pagamentos. Não é figura pública e não foi identificada pela imprensa: a única fonte sobre ela é o próprio relatório.' },
-        { text: 'A conversa dura três minutos, em 15 de março de 2024, e é uma das mais citadas do relatório. Vorcaro instrui: "{esse barci moraes por favor nao deixe atrasar um dia}[action:search@romy-banco-master:nao deixe atrasar], coloca no seu controle. É o pgto mais importante que temos". Ela responde que já estava fazendo "neste instante".' },
+        { text: 'Trabalhava no financeiro do Banco Master e executava os pagamentos. Não é figura pública e não foi identificada pela imprensa: o que se sabe dela vem dos documentos da PF.' },
+        { text: 'O trecho do relatório dura três minutos, em 15 de março de 2024, e é um dos mais citados. Vorcaro instrui: "{esse barci moraes por favor nao deixe atrasar um dia}[action:search@romy-banco-master:nao deixe atrasar], coloca no seu controle. É o pgto mais importante que temos". Ela responde que já estava fazendo "neste instante".' },
         { text: 'Ele completa: "{Pode pagar sempre, sem nota}[action:search@romy-banco-master:sem nota]. Do jeito que for". Três minutos depois ela envia o comprovante. A frase virou {manchete quando o sigilo caiu}[https://ndmais.com.br/justica/vorcaro-cobrou-pagamento-a-mulher-de-moraes-sem-atrasos/].' },
       ],
     }],
@@ -320,7 +320,7 @@ export const OTHER_PROFILES = {
       title: 'Leandro Serrano Giunchetti',
       paragraphs: [
         { text: 'Produtor dos eventos de Vorcaro e cavaleiro de hipismo. Salvo no celular como "Leo Serrano Giunchetti".' },
-        { text: 'A conversa é de abril de 2024, na preparação de Londres, e o tom dele diz muito sobre quem estava sendo recebido. Pede orientação porque era a primeira vez que fazia um evento "{mais coorporativo}[action:search@leo-serrano:coorporativo]" para o banqueiro e que envolvia "{esse bando de gente importante e sensivel}[action:search@leo-serrano:gente importante]" — diferente dos eventos "só de diversão", em que se arriscava sozinho.' },
+        { text: 'O trecho do relatório é de abril de 2024, na preparação de Londres, e o tom dele diz muito sobre quem estava sendo recebido. Pede orientação porque era a primeira vez que fazia um evento "{mais coorporativo}[action:search@leo-serrano:coorporativo]" para o banqueiro e que envolvia "{esse bando de gente importante e sensivel}[action:search@leo-serrano:gente importante]" — diferente dos eventos "só de diversão", em que se arriscava sozinho.' },
         { text: 'Detalha então a hierarquia do transporte: dois casais por V-Class para os convidados comuns, e "{os ministros mais sensiveis tipo Alexandre, Tofolli}[action:search@leo-serrano:mais sensiveis]" com um casal por S-Class.' },
       ],
     }],
@@ -355,8 +355,8 @@ export const OTHER_PROFILES = {
     sections: [{
       title: 'Michael',
       paragraphs: [
-        { text: 'Trabalhava na operação do hotel de Vorcaro em Campos do Jordão. Não é figura pública; a única fonte é o relatório.' },
-        { text: 'Toda a conversa é de 30 de dezembro de 2023, o dia do almoço para o ministro. Vorcaro acompanha minuto a minuto e orienta a não parecer forçado: "{Nao precisa ficar indo em todos locais dentro dacasa}[action:search@michael:forçado] pra nao ficar forçado demais. Deixa ser bem natural".' },
+        { text: 'Trabalhava na operação do hotel de Vorcaro em Campos do Jordão. Não é figura pública: as mensagens vêm do relatório e de capturas de tela sem origem conhecida.' },
+        { text: 'O trecho do relatório é de 30 de dezembro de 2023, o dia do almoço para o ministro. Vorcaro acompanha minuto a minuto e orienta a não parecer forçado: "{Nao precisa ficar indo em todos locais dentro dacasa}[action:search@michael:forçado] pra nao ficar forçado demais. Deixa ser bem natural".' },
         { text: 'À noite, Michael relata o incidente: um funcionário tirou foto com o convidado e trocou telefone. Vorcaro reage mal — "{Isso nao podia ne}[action:search@michael:nao podia]" — até saber quem tinha pedido. Michael explica que "{o ministro pediu para tirar fotos com todos}[action:search@michael:pediu para tirar fotos]", e o banqueiro recua: "{Mas se foi o ministro que pediu tudo bem}[action:search@michael:foi o ministro que pediu]".' },
       ],
     }],
@@ -422,8 +422,8 @@ export const OTHER_PROFILES = {
     sections: [{
       title: 'Gustavo',
       paragraphs: [
-        { text: 'Motorista de Vorcaro em São Paulo. Não é figura pública; a única fonte é o relatório.' },
-        { text: 'As seis mensagens são de 21 de dezembro de 2023 — o dia do primeiro encontro, intermediado por {Fábio Faria}[action:contact:fabio-faria]. A segurança do anfitrião pediu o modelo e a placa do carro para autorizar a entrada na garagem, e é Gustavo quem confirma os dados: "{Range Rover Vogue}[action:search@gustavo-motorista:Range Rover]".' },
+        { text: 'Motorista de Vorcaro em São Paulo. Não é figura pública: as mensagens vêm do relatório e de capturas de tela sem origem conhecida.' },
+        { text: 'As do relatório são de 21 de dezembro de 2023 — o dia do primeiro encontro, intermediado por {Fábio Faria}[action:contact:fabio-faria]. A segurança do anfitrião pediu o modelo e a placa do carro para autorizar a entrada na garagem, e é Gustavo quem confirma os dados: "{Range Rover Vogue}[action:search@gustavo-motorista:Range Rover]".' },
         { text: 'Em seguida Vorcaro repassa o endereço — "{Tucumã 99}[action:search@gustavo-motorista:Tucumã]" — e avisa: "Vamos nesse endereço agora".' },
       ],
     }],

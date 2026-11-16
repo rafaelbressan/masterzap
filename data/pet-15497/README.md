@@ -48,9 +48,11 @@ sabe:
 - uma paráfrase, em que o fork descreve a mensagem sem o texto dela: selo
   `reconstruido`, com nota.
 
-As mensagens de outros documentos que o fork acrescentou a conversas que já temos
-(Romy, Leo Serrano e outras) ficam para depois: acrescentar a uma conversa
-existente ainda não é suportado pelo build.
+A representação cita também conversas que já tínhamos do relatório IPJ-A: Romy,
+Leo Serrano e Luiz Rennó. Essas 108 linhas são acréscimos a elas (ver
+"Acréscimos" em `data/README.md`): cada uma traz `after`, a mensagem que vem
+antes dela no mesmo dia, e na tela leva o selo desta fonte. Quando o fork diz que
+o trecho aparece em mais de uma página, a nota diz qual.
 
 ## `mensagens.jsonl`
 

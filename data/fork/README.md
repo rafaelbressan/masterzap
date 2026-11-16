@@ -54,9 +54,31 @@ a nova recebe o próximo. Linhas idênticas guardam os ids na ordem.
 encaminhado, `emoji` vira texto. Uma resposta (`reply_to_id`, `quoted`) vira
 citação: o build acha a mensagem citada na conversa ou usa o autor que o fork dá.
 
+## Acréscimos a conversas que já existiam
+
+O fork também acrescentou mensagens a 11 conversas que já tínhamos de outras
+fontes (Moraes, Ciro Soares, Fábio Faria, Luiz Rennó e outras). Elas estão em
+`mensagens.jsonl`, com o `conv` da conversa existente, que não aparece em
+`conversas.json`. Cada linha traz `source_id` e `verification` próprios e
+`after`, a mensagem que vem antes dela no mesmo dia, na ordem do fork (ver
+"Acréscimos" em `data/README.md`). As que citam a representação da Pet 15.497
+estão em `data/pet-15497/`.
+
+- Fonte: a que o fork registra na linha (`source_cite`, `source_ref`, `source`).
+  Sem nenhuma, vale o que o fork diz da conversa, como fonte anônima
+  (`fork-<conversa>-capturas-de-tela-sem-origem-registrada…`).
+- Mensagens reconstruídas do banco de busca do WhatsApp (ChatSearchV5f, palavras
+  embaralhadas e ordem deduzida) ficam `reconstruido`.
+- Uma chamada ou aviso sem lado (o fork não diz quem ligou) vira aviso no meio
+  da conversa.
+- Quando a mensagem respondida não está na conversa e o fork não diz quem a
+  escreveu, o autor vem do contexto, com nota; se o contexto não decide, a
+  citação vai para a nota e a bolha fica sem ela.
+- O horário que só tem hora e minuto, ou segundos ilegíveis, fica com `:00` e
+  nota.
+
 ## O que ainda não entrou
 
 - Os grupos `g001`–`g004`: a tela ainda não mostra conversa em grupo.
 - Os exports completos (Ana Matos, Flávio Carneiro, Fred Kachar, Lilian Tahan).
-- As mensagens que o fork acrescentou a conversas que já existiam aqui:
-  acrescentar a uma conversa existente ainda não é suportado pelo build.
+

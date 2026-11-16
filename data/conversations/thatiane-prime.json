@@ -10,11 +10,11 @@
       "start": "2023-12-27",
       "end": "2025-08-21"
     },
-    "total_messages": 28,
+    "total_messages": 35,
     "source": "IPJ-A nº 3298613/2026 — NADIP/DFIN/CGRC/DICOR/PF",
     "source_id": "ipj-a-3298613-2026",
     "verification": "verificado",
-    "note": "Trechos citados no relatório policial — a conversa completa não consta do documento."
+    "note": "Trechos citados no relatório policial — a conversa completa não consta do documento. Há também mensagens de outras fontes, acrescentadas depois; cada uma diz de onde veio."
   },
   "messages": [
     {
@@ -242,6 +242,113 @@
       "source_figure": 21
     },
     {
+      "id": 29,
+      "timestamp": "2024-05-29T17:37:27",
+      "date": "2024-05-29",
+      "time": "17:37:27",
+      "sender": "Thatiane Prime",
+      "content": "Sr. Daniel, boa tarde, sobre o aniversário no Rosewood, segue o resumo do que o David (empresário da Sra Yasmin) me passou até o momento (se preferir, mando os orçamentos que recebi):\nRosewood - R$ 690.036,00 - PAGO\n\nDecoração - R$ 176.600,00 + 13% emissão de NF + R$ 14.000,00 (dia extra para montagem) - Aprox. R$ 215.378,00\n\nIluminação e vídeo - R$ 195.665,96\n\nDJ Brunetta - R$ 5.000,00\n\nProdução Executiva - R$ 65.000,00\n\nLembrancinhas - R$ 35.940,00\n\nDennis DJ - R$ 450.000,00 cachê + R$ 110.000,00 produção (desse valor vamos descontar o crédito que o Sr tinha de um evento anterior de Trancoso e ficará somente R$ 20.000,00 a pagar)\n\nOs Locos - R$ 35.000,00 cachê - som de acordo com o que já foi contratado no pacote do Rosewood\n\nL7nnon - R$ 250.000,00 cachê + despesas a confirmar (imaginam que deve chegar em mais R$ 50.000,00)\n\nTotal estimado: R$ 2.012.019,96\n\nPoderia me confirmar por favor se está de acordo cm essas despesas e valores e se devo prosseguir com todos os pagamentos? Precisaremos de aporte para realiza-los... Cheguei a questionar se precisavam ser esses fornecedores para verificar a possibilidade de conseguir valores mais atrativos mas me disseram que são os fornecedores indicados pelo Rosewood para manter a qualidade do evento. Aguardo sua orientação sobre se devemos seguir ou se devo vetar ou renegociar algo.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Print: WhatsApp-Image-2026-10-23-at-09_52_17.webp.",
+      "source_id": "fork-thatiane-prime-capturas-de-tela-sem-origem-registrada",
+      "verification": "nao-verificado"
+    },
+    {
+      "id": 30,
+      "timestamp": "2024-05-29T17:39:15",
+      "date": "2024-05-29",
+      "time": "17:39:15",
+      "sender": "Thatiane Prime",
+      "content": "Yasmin queria chamar a val Drummond pra fazer a lista de convidados",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "forwarded": true,
+      "note": "Print: WhatsApp-Image-2026-10-23-at-09_49_12.webp.",
+      "source_id": "fork-thatiane-prime-capturas-de-tela-sem-origem-registrada",
+      "verification": "nao-verificado"
+    },
+    {
+      "id": 31,
+      "timestamp": "2024-05-29T17:39:15",
+      "date": "2024-05-29",
+      "time": "17:39:15",
+      "sender": "Thatiane Prime",
+      "content": "Sabe se ok pelo patrocinador ?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "forwarded": true,
+      "note": "Print: WhatsApp-Image-2026-10-23-at-09_49_12.webp.",
+      "source_id": "fork-thatiane-prime-capturas-de-tela-sem-origem-registrada",
+      "verification": "nao-verificado"
+    },
+    {
+      "id": 32,
+      "timestamp": "2024-05-29T17:39:45",
+      "date": "2024-05-29",
+      "time": "17:39:45",
+      "sender": "Thatiane Prime",
+      "content": "Sr. Daniel, me fizeram também essa pergunta acima... Favor informar se há alguma restrição nesse sentido.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Print: WhatsApp-Image-2026-10-23-at-09_49_12.webp.",
+      "source_id": "fork-thatiane-prime-capturas-de-tela-sem-origem-registrada",
+      "verification": "nao-verificado"
+    },
+    {
+      "id": 33,
+      "timestamp": "2024-05-30T13:21:48",
+      "date": "2024-05-30",
+      "time": "13:21:48",
+      "sender": "Thatiane Prime",
+      "content": "Bom dia. Tudo bom? Quando possível, poderia me responder por favor se posso seguir com os acertos do Rosewood ou se há restrições de acordo com as considerações acima? Obrigada e bom feriado",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Print: WhatsApp-Image-2026-10-23-at-09_49_12.webp.",
+      "source_id": "fork-thatiane-prime-capturas-de-tela-sem-origem-registrada",
+      "verification": "nao-verificado"
+    },
+    {
+      "id": 34,
+      "timestamp": "2024-05-31T09:08:53",
+      "date": "2024-05-31",
+      "time": "09:08:53",
+      "sender": "Thatiane Prime",
+      "content": "Sr Daniel, bom dia! Tudo bom? O David está me cobrando os pagamentos do evento do Rosewood. Posso seguir? Lembrando que precisamos do aporte para que seja possível dar vazão aos pagamentos. Aguardo. Obrigada.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Print: WhatsApp-Image-2026-10-23-at-09_49_12.webp.",
+      "source_id": "fork-thatiane-prime-capturas-de-tela-sem-origem-registrada",
+      "verification": "nao-verificado"
+    },
+    {
+      "id": 35,
+      "timestamp": "2024-05-31T09:17:49",
+      "date": "2024-05-31",
+      "time": "09:17:49",
+      "sender": "DV",
+      "content": "Pode seguir",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Print: WhatsApp-Image-2026-10-23-at-09_49_12.webp.",
+      "source_id": "fork-thatiane-prime-capturas-de-tela-sem-origem-registrada",
+      "verification": "nao-verificado"
+    },
+    {
       "id": 17,
       "timestamp": "2025-08-21T12:29:40",
       "date": "2025-08-21",
@@ -419,6 +526,24 @@
         "message_count": 16,
         "first_message_id": 1,
         "last_message_id": 16
+      },
+      {
+        "date": "2024-05-29",
+        "message_count": 4,
+        "first_message_id": 29,
+        "last_message_id": 32
+      },
+      {
+        "date": "2024-05-30",
+        "message_count": 1,
+        "first_message_id": 33,
+        "last_message_id": 33
+      },
+      {
+        "date": "2024-05-31",
+        "message_count": 2,
+        "first_message_id": 34,
+        "last_message_id": 35
       },
       {
         "date": "2025-08-21",

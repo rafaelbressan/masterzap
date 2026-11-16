@@ -360,14 +360,12 @@ def document_seal(source_id):
     return VERIFICATION if source.get("file") else "nao-verificado"
 
 
-def add_document_conversations(conversations):
+def add_document_conversations(conversations, appends):
     """The chats the other documents quote, one new conversation per contact.
 
-    Adding to a conversation that already exists is refused for now: a new
-    message keeps the next id even when it is older (data/README.md), and the
-    per-day index (first/last id of each day, src/lib/data-store.js) assumes
-    each day holds a contiguous run of ids, so an older message with a high id
-    would send its links to the wrong day.
+    A line for a conversation that already exists (built from another source)
+    is an addition to it: it goes to ``appends``, with the document as its
+    source (see append_messages).
     """
     for doc in DOCUMENTS:
         by_conv = defaultdict(list)
@@ -377,8 +375,12 @@ def add_document_conversations(conversations):
 
         for conv_id, rows in by_conv.items():
             if conv_id in conversations:
-                sys.exit(f"{doc['dir']}: {conv_id} já existe; acrescentar mensagens a "
-                         "uma conversa existente ainda não é suportado (ver a docstring).")
+                seal = document_seal(doc["source_id"])
+                appends[conv_id].extend(
+                    {**r, "source_id": r.get("source_id") or doc["source_id"],
+                     "verification": r.get("verification") or seal, "_where": doc["dir"]}
+                    for r in rows)
+                continue
             saved_as = rows[0]["peer"]
             peer = CONTACT_DISPLAY_NAMES.get(conv_id, saved_as)
             messages = sorted((row_message(r["id"], r) for r in rows), key=sort_key)
@@ -393,13 +395,14 @@ def add_document_conversations(conversations):
             }
 
 
-def add_fork_conversations(conversations):
+def add_fork_conversations(conversations, appends):
     """The fork's new conversations (data/fork/), one source per conversation.
 
     data/fork/conversas.json gives each conversation's contact, its default
     source and seal (the fork's own description of where the messages came
     from); a line from elsewhere carries its own source_id and verification.
-    As with the documents, adding to an existing conversation is refused.
+    A line for a conversation not in conversas.json is what the fork added to
+    one that already exists here: it goes to ``appends``, with its own source.
     """
     meta_path = ROOT / "data" / "fork" / "conversas.json"
     if not meta_path.exists():
@@ -410,11 +413,17 @@ def add_fork_conversations(conversations):
         titles = {s["id"]: s["titulo"] for s in json.load(f)["sources"]}
     by_conv = defaultdict(list)
     for row in read_jsonl(ROOT / "data" / "fork" / "mensagens.jsonl"):
-        by_conv[row["conv"]].append(row)
+        if row["conv"] in convs:
+            by_conv[row["conv"]].append(row)
+        else:
+            if not (row.get("source_id") and row.get("verification")):
+                sys.exit(f"data/fork: {row['conv']} msg {row['id']}: um acréscimo a uma "
+                         "conversa existente precisa de source_id e verification próprios")
+            appends[row["conv"]].append({**row, "_where": "data/fork"})
     for conv_id, info in convs.items():
         if conv_id in conversations:
-            sys.exit(f"data/fork: {conv_id} já existe; acrescentar mensagens a uma conversa "
-                     "existente ainda não é suportado (ver add_document_conversations).")
+            sys.exit(f"data/fork: {conv_id} já existe; uma conversa nova do fork não pode ter "
+                     "o id de uma que já existe (os acréscimos ficam fora de conversas.json).")
         rows = by_conv[conv_id]
         # In the file's order: the converter put each day in the fork's order.
         messages = [row_message(r["id"], r) for r in rows]
@@ -428,6 +437,66 @@ def add_fork_conversations(conversations):
                 verification=info["verification"]),
             "messages": messages,
         }
+
+
+APPENDED_NOTE = ("Há também mensagens de outras fontes, acrescentadas depois; "
+                 "cada uma diz de onde veio.")
+
+
+def append_messages(conversations, appends):
+    """Add to a conversation that already exists the lines of other sources.
+
+    A new message keeps the next id even when it is older (data/README.md: an
+    id is an address, never reused or renumbered), so ids alone cannot place
+    it. Each line says where it goes: ``after``, the id of the message right
+    before it on the same day (null: the first of its day). Lines are applied
+    in id order, so an anchor can be a line added in the same run.
+    """
+    for conv_id, rows in appends.items():
+        if conv_id not in conversations:
+            sys.exit(f"{rows[0]['_where']}: {conv_id} não existe; um acréscimo precisa de "
+                     "uma conversa a que se acrescentar")
+        messages = conversations[conv_id]["messages"]
+        by_id = {m["id"]: m for m in messages}
+        for row in sorted(rows, key=lambda r: r["id"]):
+            where = f"{row['_where']}: {conv_id} msg {row['id']}"
+            if "after" not in row:
+                sys.exit(f"{where}: a conversa já existe; o acréscimo precisa de \"after\"")
+            if row["id"] in by_id:
+                sys.exit(f"{where}: id já usado na conversa")
+            msg = row_message(row["id"], row)
+            anchor = row["after"]
+            if anchor is None:
+                # First of its day: before the day's first message, or where
+                # the day falls when the conversation has none on it.
+                key = date_sort_key(msg["date"])
+                pos = next((i for i, m in enumerate(messages)
+                            if date_sort_key(m["date"]) >= key), len(messages))
+            else:
+                if anchor not in by_id:
+                    sys.exit(f"{where}: after {anchor} não está na conversa")
+                if by_id[anchor]["date"] != msg["date"]:
+                    sys.exit(f"{where}: after {anchor} é de {by_id[anchor]['date']}, "
+                             f"não de {msg['date']}")
+                pos = messages.index(by_id[anchor]) + 1
+            messages.insert(pos, msg)
+            by_id[msg["id"]] = msg
+        resolve_quotes(conv_id, messages)
+        meta = conversations[conv_id]["metadata"]
+        meta["total_messages"] = len(messages)
+        meta["date_range"] = date_range(messages)
+        meta["note"] = f"{meta['note']} {APPENDED_NOTE}" if meta.get("note") else APPENDED_NOTE
+
+
+def id_runs(ids):
+    """Sorted ids as [first, last] runs of consecutive numbers."""
+    runs = []
+    for i in sorted(ids):
+        if runs and i == runs[-1][1] + 1:
+            runs[-1][1] = i
+        else:
+            runs.append([i, i])
+    return runs
 
 
 def build_index(messages):
@@ -444,6 +513,10 @@ def build_index(messages):
                 # order, and its ids stay the ones already published.
                 "first_message_id": min(m["id"] for m in by_date[date]),
                 "last_message_id": max(m["id"] for m in by_date[date]),
+                # A day with a message added later is not one run of ids: its
+                # runs, so a link finds the day (src/lib/data-store.js).
+                **({"id_runs": runs} if len(runs := id_runs(m["id"] for m in by_date[date])) > 1
+                   else {}),
             }
             # Undated first, a month before its days — the order the viewer
             # loads them in (message_schema.date_sort_key).
@@ -457,8 +530,10 @@ def main():
 
     conversations = dict([build_moraes_conversation()])
     conversations.update(build_other_conversations())
-    add_document_conversations(conversations)
-    add_fork_conversations(conversations)
+    appends = defaultdict(list)
+    add_document_conversations(conversations, appends)
+    add_fork_conversations(conversations, appends)
+    append_messages(conversations, appends)
 
     for conv_id, payload in sorted(conversations.items()):
         payload["index"] = build_index(payload["messages"])

@@ -126,12 +126,13 @@ export class DataStore {
   async findDateForMessage(conversationId, messageId) {
     const dates = await this.getConversationIndex(conversationId);
     const id = Number(messageId);
-    for (const entry of dates) {
-      if (id >= entry.first_message_id && id <= entry.last_message_id) {
-        return entry.date;
-      }
-    }
-    return null;
+    // A day that got a message added later (a new id, kept for good) is not
+    // one run of ids: its runs say which are its, since its first..last range
+    // spans other days (scripts/build_ipj_data.py, id_runs).
+    const inDay = (entry) => (entry.id_runs
+      ? entry.id_runs.some(([first, last]) => id >= first && id <= last)
+      : id >= entry.first_message_id && id <= entry.last_message_id);
+    return dates.find(inDay)?.date ?? null;
   }
 
   /**

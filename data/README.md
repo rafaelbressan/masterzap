@@ -107,6 +107,14 @@ copiar o campo como veio:
   (só acrescenta; recusa mudança ou sumiço). Correção de uma mensagem existente
   (remetente errado, erro de transcrição): `node scripts/message-ids.mjs --accept-changes`,
   e o diff do fixture mostra exatamente quais ids mudaram.
+- **Acréscimos**: uma fonte nova pode trazer mensagens a uma conversa que já
+  existe. Como o id não diz a posição (a mensagem nova pode ser mais antiga), a
+  linha diz onde entra: `after`, o id da mensagem que vem antes dela no mesmo dia,
+  ou `null` para a primeira do dia. O build (`append_messages` em
+  `scripts/build_ipj_data.py`) insere na ordem dos ids e recusa âncora que não
+  existe ou é de outro dia. Um dia que ganhou mensagem assim deixa de ser uma
+  faixa contínua de ids: o índice lista as faixas em `id_runs`, que
+  `findDateForMessage` usa para achar o dia de um link.
 - **Horário**: hora local de Brasília, **sem offset** (`2024-02-10T11:12:08`, nunca
   `…-03:00`). O export acrescenta o fuso. Um importador que receba `-03:00` ou UTC
   passa a mensagem por `normalise_message()`.

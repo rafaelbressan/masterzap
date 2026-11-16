@@ -2,7 +2,7 @@
 
 # MasterWhats
 
-> Visualizador interativo das 67.685 mensagens de WhatsApp extraídas dos celulares apreendidos de Daniel Vorcaro (Banco Master), em 75 conversas — de Martha Graeff a Alexandre de Moraes.
+> Visualizador interativo das 68.134 mensagens de WhatsApp extraídas dos celulares apreendidos de Daniel Vorcaro (Banco Master), em 75 conversas — de Martha Graeff a Alexandre de Moraes.
 
 **[Acesse ao vivo: www.masterwhats.com.br](https://www.masterwhats.com.br/)**
 
@@ -40,7 +40,7 @@ O nome do repositório — **masterzap** — é uma referência ao projeto origi
 |-------|---------|
 | **Frontend** | Vanilla JS — zero frameworks |
 | **Build** | Vite |
-| **Dados** | 67.685 mensagens em 75 conversas, divididas em arquivos JSON por data |
+| **Dados** | 68.134 mensagens em 75 conversas, divididas em arquivos JSON por data |
 | **Carregamento** | Lazy loading com cache LRU por dia |
 | **Deploy** | Vercel com headers de segurança (HSTS, CSP, X-Frame-Options) |
 | **SEO** | Open Graph, Twitter Cards, JSON-LD, sitemap |
@@ -129,7 +129,7 @@ As informações compiladas neste projeto são de domínio público, extraídas 
 
 ## English Summary
 
-**MasterWhats** is an interactive viewer for 67,685 WhatsApp messages recovered from the seized phones of Daniel Vorcaro (former owner of Banco Master, arrested by Brazil's Federal Police), across 75 conversations: the leaked exchanges with Martha Graeff and the Federal Police report on his contacts with Supreme Court Justice Alexandre de Moraes, unsealed in September 2026. Built with vanilla JS and Vite, it features smart search with accent support, calendar navigation, direct message link sharing, investigative profiles, and a fully responsive WhatsApp Web-like interface optimized for mobile.
+**MasterWhats** is an interactive viewer for 68,134 WhatsApp messages recovered from the seized phones of Daniel Vorcaro (former owner of Banco Master, arrested by Brazil's Federal Police), across 75 conversations: the leaked exchanges with Martha Graeff and the Federal Police report on his contacts with Supreme Court Justice Alexandre de Moraes, unsealed in September 2026. Built with vanilla JS and Vite, it features smart search with accent support, calendar navigation, direct message link sharing, investigative profiles, and a fully responsive WhatsApp Web-like interface optimized for mobile.
 
 The repo name "masterzap" references the original [MasterZap](https://www.reddit.com/r/brasil/s/xQeqrG27p8) project by Lucas Matheus (built on Replit with Grok), which inspired this reimagined version.
 

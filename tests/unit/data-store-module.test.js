@@ -245,6 +245,25 @@ describe('DataStore', () => {
       const date = await store.findDateForMessage('martha-graeff', '1');
       expect(date).toBe('2024-02-10');
     });
+
+    it('finds a message added later to an older day by the day\'s id runs', async () => {
+      // Day 1 had 1–3 and later got 7–8; its 1..8 range spans day 2's ids.
+      const added = new DataStore({
+        basePath: '/data',
+        fetcher: createMockFetcher({
+          'added/index.json': {
+            dates: [
+              { date: '2024-01-01', message_count: 5, first_message_id: 1, last_message_id: 8,
+                id_runs: [[1, 3], [7, 8]] },
+              { date: '2024-01-02', message_count: 3, first_message_id: 4, last_message_id: 6 },
+            ],
+          },
+        }),
+      });
+      expect(await added.findDateForMessage('added', 8)).toBe('2024-01-01');
+      expect(await added.findDateForMessage('added', 5)).toBe('2024-01-02');
+      expect(await added.findDateForMessage('added', 9)).toBeNull();
+    });
   });
 
   describe('getDataStore() singleton', () => {
