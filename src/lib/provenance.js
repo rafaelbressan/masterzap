@@ -39,6 +39,13 @@ export const SEAL_ICONS = {
   reconstruido: svg('<path d="M19.4 14.9a2.5 2.5 0 1 0 0-5H18V7a2 2 0 0 0-2-2h-2.9a2.5 2.5 0 1 0-5 0H5a2 2 0 0 0-2 2v3.1a2.5 2.5 0 1 1 0 5V18a2 2 0 0 0 2 2h3.1a2.5 2.5 0 1 1 5 0H16a2 2 0 0 0 2-2v-3.1z"/>'),
 };
 
+/**
+ * The ⓘ that opens a message's editorial note, beside the seal by the time:
+ * drawn as the seals are (circle r10, stroke 2), so the two read as one row of
+ * equal weight. The menus keep WhatsApp's own ⓘ (ICON_INFO).
+ */
+export const NOTE_ICON = svg('<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="11"/><line x1="12" y1="7.5" x2="12.01" y2="7.5"/>');
+
 let sources = {};
 
 /** The sources table from conversations.json, by id. */
