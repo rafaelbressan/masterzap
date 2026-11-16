@@ -31,8 +31,8 @@ export function setBubbleStar(meta, on) {
   el.setAttribute('aria-label', 'Importante');
   el.title = 'Importante';
   el.innerHTML = ICON_STAR; // Static SVG
-  // Star, then the note's ⓘ if any, then the time (as ChatView draws them).
-  meta.insertBefore(el, meta.querySelector('.chat-msg-note-flag') || meta.querySelector('.chat-msg-time'));
+  // Always first, left of the seal, the note's ⓘ and the time.
+  meta.prepend(el);
 }
 
 /**

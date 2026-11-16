@@ -4,7 +4,7 @@
  */
 
 import { readFileSync, existsSync } from 'node:fs';
-import { SEALS, provenanceOf as appProvenanceOf, noteOf, NOTE_LABEL, otherSealsText } from '../../src/lib/provenance.js';
+import { SEALS, provenanceOf as appProvenanceOf, noteOf, NOTE_LABEL, sealCountsText, headerSeal, sourceNameOf } from '../../src/lib/provenance.js';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -85,13 +85,14 @@ export function sourceOf(entry) {
 }
 
 /**
- * The conversation's seal and, when some messages carry another, how many:
- * "Verificado · 76 mensagens marcadas como Não verificado e 30 …" — the line
- * the app draws (conversationSealLine in src/lib/provenance.js).
+ * The seal the header shows and how many messages carry another — the
+ * app's notice without its "Fonte:" (sealCountsText in src/lib/provenance.js):
+ * "Verificado · 4 mensagens marcadas como Imprensa", or "Na maior parte, Não
+ * verificado · 9 mensagens marcadas como Verificado (IPJ-A …, Polícia Federal), …".
  */
 export function sealSummary(entry) {
-  const others = otherSealsText(entry);
-  return `${VERIFICATION_LABELS[entry.verification]}${others ? ` · ${others}` : ''}`;
+  const { title, outlet } = sourceNameOf(entry, loadSources().get(entry.source_id));
+  return sealCountsText(entry, outlet ? `${title}, ${outlet}` : title);
 }
 
 /**
@@ -101,9 +102,9 @@ export function sealSummary(entry) {
 export function messageProvenanceTags(msg, entry, { standalone = false } = {}) {
   const { source_id: sourceId, verification: seal } = provenanceOf(msg, entry);
   const tags = [];
-  // In its conversation, a seal other than the conversation's; read out of it
+  // In its conversation, a seal other than the one its header shows; read out of it
   // (a page of mentions, a highlight elsewhere), any seal but "Verificado".
-  const baseline = standalone ? 'verificado' : entry.verification;
+  const baseline = standalone ? 'verificado' : headerSeal(entry);
   // An unknown value only means old data (src/lib/provenance.js): no tag.
   if (seal !== baseline && VERIFICATION_LABELS[seal]) tags.push(VERIFICATION_LABELS[seal].toLowerCase());
   if (sourceId !== entry.source_id) tags.push(`fonte: ${loadSources().get(sourceId)?.titulo || sourceId}`);

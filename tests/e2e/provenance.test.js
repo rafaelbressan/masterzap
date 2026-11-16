@@ -29,16 +29,55 @@ test.describe('Provenance seal', () => {
     await expect(source.locator('.contact-info-source-hash')).toContainText('SHA-256 23cfdfa4');
   });
 
-  test('a report chat with messages added from other sources counts them and marks each one', async ({ page }) => {
-    // Geraldo: 12 messages of the report and 24 the fork added, from prints with no outlet.
+  test('a chat most of whose messages came from elsewhere reads their seal, and marks the source\'s own', async ({ page }) => {
+    // Geraldo: 12 messages of the report, 24 from prints with no outlet.
     await page.goto('/#/chat/geraldo-brazil-journal');
-    await expect(page.locator('.chat-header-info')).toHaveText(/36 mensagens · Verificado/);
-    const notice = page.locator('.chat-seal-notice');
-    await expect(notice).toContainText('Fonte: IPJ-A nº 3298613/2026 (Polícia Federal) · Verificado · 24 mensagens marcadas como Não verificado');
-    // The added ones carry the glyph; the report's do not. All 36 are on
-    // screen (three days, loaded at once).
+    await expect(page.locator('.chat-header-info')).toHaveText(/36 mensagens · Não verificado/);
+    // The notice leads with the majority and names the report's source.
+    await expect(page.locator('.chat-seal-notice')).toContainText('Na maior parte, Não verificado · 12 mensagens marcadas como Verificado (IPJ-A nº 3298613/2026, Polícia Federal)');
+    // All 36 on screen (three days, loaded at once): each bubble says its seal.
     await expect(page.locator('.chat-msg-row')).toHaveCount(36);
-    await expect(page.locator('.chat-msg-seal')).toHaveCount(24);
+    await expect(page.locator('.chat-msg-seal')).toHaveCount(36);
+  });
+
+  test('a press majority stays plain; the report\'s own are marked', async ({ page }) => {
+    // Ciro Soares: 60 press lines (O Globo, Noites Húngaras, Poder360), 51 of the report.
+    await page.goto('/#/chat/ciro-soares/msg/52');
+    await expect(page.locator('.chat-header-info')).toHaveText(/116 mensagens · Imprensa/);
+    await expect(page.locator('.chat-seal-notice')).toContainText('Na maior parte, Imprensa · 51 mensagens marcadas como Verificado (IPJ-A nº 3298613/2026, Polícia Federal)');
+    // 31/01/2024: seven press lines, no glyph.
+    const press = page.locator('[data-date="2024-01-31"]');
+    await expect(press.locator('.chat-msg-row')).toHaveCount(7);
+    await expect(press.locator('.chat-msg-seal')).toHaveCount(0);
+    // 14/04/2024: the report's ten, each marked.
+    await page.goto('/#/chat/ciro-soares/msg/1');
+    const report = page.locator('[data-date="2024-04-14"]');
+    await expect(report.locator('.chat-msg-row')).toHaveCount(10);
+    await expect(report.locator('.chat-msg-seal')).toHaveCount(10);
+  });
+
+  test('the glyphs by the time sit on the centre of its digits', async ({ page }) => {
+    // Geraldo msg 13: the seal and the note's ⓘ beside 15:59.
+    await page.goto('/#/chat/geraldo-brazil-journal/msg/13');
+    const meta = page.locator('.chat-msg-row[data-id="13"] .chat-msg-meta');
+    await expect(meta.locator('svg')).toHaveCount(2);
+    const offsets = await meta.evaluate((el) => {
+      const time = el.querySelector('.chat-msg-time');
+      const probe = document.createElement('span');
+      probe.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline';
+      time.appendChild(probe);
+      const baseline = probe.getBoundingClientRect().top;
+      probe.remove();
+      const cs = getComputedStyle(time);
+      const ctx = document.createElement('canvas').getContext('2d');
+      ctx.font = `${cs.fontSize} ${cs.fontFamily}`;
+      const digits = baseline - ctx.measureText('0123456789').actualBoundingBoxAscent / 2;
+      return [...el.querySelectorAll('svg')].map((svg) => {
+        const r = svg.getBoundingClientRect();
+        return r.top + r.height / 2 - digits;
+      });
+    });
+    for (const off of offsets) expect(Math.abs(off)).toBeLessThan(0.6);
   });
 
   test('the leak is labelled press, without marking every bubble', async ({ page }) => {

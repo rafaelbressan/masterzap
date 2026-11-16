@@ -329,9 +329,19 @@ def split_conversation(conv_id, data, index):
     entry["source"] = source["titulo"]
     entry["source_id"] = source["id"]
     entry["verification"] = metadata["verification"]
-    seals = Counter(provenance_of(m, metadata)[1] for m in messages)
-    if len(seals) > 1:
+    provenance = [provenance_of(m, metadata) for m in messages]
+    seals = Counter(seal for _, seal in provenance)
+    if len(seals) > 1 or (seals and metadata["verification"] not in seals):
         entry["verification_counts"] = dict(seals)
+    # The seal the header shows: another seal than the source's when more than
+    # half the messages carry it (the fork added more to a report chat). The
+    # source, its document and the per-message seals stay as they are.
+    top, count = seals.most_common(1)[0] if seals else (None, 0)
+    if top and top != metadata["verification"] and count * 2 > len(messages):
+        entry["majority_verification"] = top
+        # How many come from the conversation's own source: the notice names
+        # it for the source's seal only when they all do.
+        entry["source_messages"] = sum(1 for src, _ in provenance if src == source["id"])
     document = document_of(source)
     if document:
         entry["source_document"] = document

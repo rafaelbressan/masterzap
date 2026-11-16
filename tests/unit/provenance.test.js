@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { noteOf, SEALS, SEAL_ICONS, setSources, sealToMark, provenanceOf, sealDescription, conversationSealLine } from '../../src/lib/provenance.js';
+import { noteOf, SEALS, SEAL_ICONS, setSources, sealToMark, provenanceOf, sealDescription, conversationSealLine, headerSeal } from '../../src/lib/provenance.js';
 
 const ROOT = join(import.meta.dirname, '../..');
 
@@ -27,6 +27,32 @@ describe('sealToMark', () => {
 
   it('ignores a seal it does not know', () => {
     expect(sealToMark({ verification: 'talvez' }, verified)).toBeNull();
+  });
+
+  it('in a chat most of whose messages carry another seal, marks the source\'s own', () => {
+    // A report chat the fork added more to: the header reads the majority's
+    // seal, and the report's messages say "Verificado" one by one.
+    const mixed = { ...verified, majority_verification: 'nao-verificado' };
+    expect(headerSeal(mixed)).toBe('nao-verificado');
+    expect(headerSeal(verified)).toBe('verificado');
+    expect(sealToMark({}, mixed)).toBe('verificado');
+    expect(sealToMark({ source_id: 'print', verification: 'nao-verificado' }, mixed)).toBe('nao-verificado');
+    // A press majority from several outlets stays plain: only the report's
+    // and the weak ones are marked.
+    const press = { ...verified, majority_verification: 'imprensa' };
+    expect(sealToMark({ source_id: 'globo', verification: 'imprensa' }, press)).toBeNull();
+    expect(sealToMark({}, press)).toBe('verificado');
+    // A seal it does not know falls back to the source's.
+    expect(headerSeal({ ...verified, majority_verification: 'talvez' })).toBe('verificado');
+  });
+
+  it('leads the notice with the majority and names the source of the rest', () => {
+    setSources({ pf: { titulo: 'IPJ-A nº 1/2026 — PF', orgao_ou_veiculo: 'Polícia Federal' } });
+    const conv = { source_id: 'pf', verification: 'verificado', majority_verification: 'nao-verificado',
+      verification_counts: { verificado: 12, 'nao-verificado': 24 }, source_messages: 12 };
+    expect(conversationSealLine(conv)).toBe('Na maior parte, Não verificado · 12 mensagens marcadas como Verificado (IPJ-A nº 1/2026, Polícia Federal)');
+    // When some of those come from another document, the source is not named for all.
+    expect(conversationSealLine({ ...conv, source_messages: 10 })).toBe('Na maior parte, Não verificado · 12 mensagens marcadas como Verificado');
   });
 
   it('has a label, an explanation and an icon for every seal', () => {

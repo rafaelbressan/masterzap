@@ -195,3 +195,16 @@ describe('totals written in the text', () => {
     expect(found.length, `${file} should state the totals somewhere`).toBeGreaterThan(0);
   });
 });
+
+describe('the seal most messages carry', () => {
+  it('is set only where more than half the messages carry another seal than the source\'s', () => {
+    for (const c of conversations) {
+      const counts = c.verification_counts || { [c.verification]: c.total_messages };
+      const [top, n] = Object.entries(counts).sort((a, b) => b[1] - a[1])[0];
+      const expected = top !== c.verification && n * 2 > c.total_messages ? top : undefined;
+      expect(c.majority_verification, c.id).toBe(expected);
+    }
+    expect(conversations.find(c => c.id === 'luiz-renno').majority_verification).toBe('nao-verificado');
+    expect(conversations.find(c => c.id === 'alexandre-de-moraes').majority_verification).toBeUndefined();
+  });
+});

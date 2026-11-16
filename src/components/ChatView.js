@@ -21,7 +21,7 @@ import { openMenu, menuClosed } from '../lib/menus.js';
 import { isImportant } from '../lib/important-messages.js';
 import { setBubbleStar } from './ImportantPanel.js';
 import { quoteOf } from '../lib/quote.js';
-import { SEALS, SEAL_ICONS, sealToMark, sealDescription, provenanceOf, sourceById, conversationSealLine, noteOf, NOTE_LABEL } from '../lib/provenance.js';
+import { SEALS, SEAL_ICONS, sealToMark, sealDescription, provenanceOf, sourceById, conversationSealLine, noteOf, NOTE_LABEL, NOTE_ICON, headerSeal } from '../lib/provenance.js';
 
 /**
  * What the media renderers need from outside the bubble: who the contacts
@@ -46,7 +46,7 @@ function renderSealNotice(conversation, onOpen) {
   const icon = document.createElement('span');
   icon.className = 'chat-seal-notice-icon';
   // Static SVG literal — safe innerHTML
-  icon.innerHTML = SEAL_ICONS[conversation.verification] || '';
+  icon.innerHTML = SEAL_ICONS[headerSeal(conversation)] || '';
   notice.appendChild(icon);
   const text = document.createElement('span');
   // "Clique" with a mouse, "Toque" on a touchscreen, as WhatsApp words it.
@@ -756,7 +756,7 @@ function renderMessage(msg, conversation) {
     flag.className = 'chat-msg-note-flag';
     flag.setAttribute('aria-label', 'Ver nota do MasterWhats sobre esta mensagem');
     flag.title = NOTE_LABEL;
-    flag.innerHTML = ICON_INFO; // Static SVG
+    flag.innerHTML = NOTE_ICON; // Static SVG, drawn as the seals are
     meta.insertBefore(flag, time);
   }
   bubble.appendChild(meta);
@@ -858,7 +858,8 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
   countEl.className = 'chat-header-info-count';
   countEl.textContent = `${total.toLocaleString('pt-BR')} ${total === 1 ? 'mensagem' : 'mensagens'}`;
   subtitleEl.appendChild(countEl);
-  const seal = SEALS[conversation.verification];
+  // The seal most of the messages carry (src/lib/provenance.js headerSeal).
+  const seal = SEALS[headerSeal(conversation)];
   if (seal) {
     const sealEl = document.createElement('span');
     sealEl.className = 'chat-header-info-seal';

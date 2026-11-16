@@ -1717,8 +1717,6 @@
 /* The star by the time of a marked message, as WhatsApp. */
 .chat-msg-star {
   display: inline-flex;
-  margin-right: 3px;
-  vertical-align: -1px;
 }
 
 .chat-msg-star svg {

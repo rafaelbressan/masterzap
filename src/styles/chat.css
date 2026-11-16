@@ -576,7 +576,8 @@ button.chat-msg-quote:focus-visible {
 .chat-msg-meta {
   display: flex;
   align-items: center;
-  gap: 4px;
+  /* Glyphs close together (star, seal, the note's ⓘ), the time a little apart. */
+  gap: 1px;
   float: right;
   margin: 2px 2px -4px 12px;
   font-size: 11px;
@@ -584,7 +585,19 @@ button.chat-msg-quote:focus-visible {
   white-space: nowrap;
 }
 
+/* Every glyph by the time (seal, star, the note's ⓘ) is centred on the
+   digits, not on the time's line box: the box keeps room below the baseline
+   that digits never use, which left the glyphs 1.4px low at 11px. */
+.chat-msg-meta svg {
+  translate: 0 -1.4px;
+}
+
+.chat-msg-time {
+  margin-left: 3px;
+}
+
 .chat-msg-edited {
+  margin: 0 2px;
   font-style: italic;
   font-size: 10px;
 }
