@@ -65,10 +65,19 @@ export function provenanceOf(msg, conversation) {
 export function sealToMark(msg, conversation) {
   const { sourceId, verification } = provenanceOf(msg, conversation);
   if (!SEALS[verification]) return null;
-  if (WEAK.has(verification) || verification !== conversation?.verification
+  if (WEAK.has(verification) || verification !== headerSeal(conversation)
     || sourceId !== conversation?.source_id) return verification;
   return null;
 }
+
+/**
+ * The seal the conversation's header shows: the one more than half its
+ * messages carry (majority_verification, from split_data.py), else its
+ * source's. A report chat the fork added more to reads "Não verificado",
+ * and the report's own messages are then marked "Verificado" one by one.
+ */
+export const headerSeal = (conversation) =>
+  conversation?.majority_verification || conversation?.verification;
 
 /** "Não verificado: print sem origem conhecida" — what a screen reader says. */
 export function sealDescription(verification, source) {

@@ -29,16 +29,15 @@ test.describe('Provenance seal', () => {
     await expect(source.locator('.contact-info-source-hash')).toContainText('SHA-256 23cfdfa4');
   });
 
-  test('a report chat with messages added from other sources counts them and marks each one', async ({ page }) => {
-    // Geraldo: 12 messages of the report and 24 the fork added, from prints with no outlet.
+  test('a chat most of whose messages came from elsewhere reads their seal, and marks the source\'s own', async ({ page }) => {
+    // Geraldo: 12 messages of the report, 24 from prints with no outlet.
     await page.goto('/#/chat/geraldo-brazil-journal');
-    await expect(page.locator('.chat-header-info')).toHaveText(/36 mensagens · Verificado/);
-    const notice = page.locator('.chat-seal-notice');
-    await expect(notice).toContainText('Fonte: IPJ-A nº 3298613/2026 (Polícia Federal) · Verificado · 24 mensagens marcadas como Não verificado');
-    // The added ones carry the glyph; the report's do not. All 36 are on
-    // screen (three days, loaded at once).
+    await expect(page.locator('.chat-header-info')).toHaveText(/36 mensagens · Não verificado/);
+    // The notice still names the source and its document, with the count.
+    await expect(page.locator('.chat-seal-notice')).toContainText('Fonte: IPJ-A nº 3298613/2026 (Polícia Federal) · Verificado · 24 mensagens marcadas como Não verificado');
+    // All 36 on screen (three days, loaded at once): each bubble says its seal.
     await expect(page.locator('.chat-msg-row')).toHaveCount(36);
-    await expect(page.locator('.chat-msg-seal')).toHaveCount(24);
+    await expect(page.locator('.chat-msg-seal')).toHaveCount(36);
   });
 
   test('the leak is labelled press, without marking every bubble', async ({ page }) => {

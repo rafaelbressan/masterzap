@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { noteOf, SEALS, SEAL_ICONS, setSources, sealToMark, provenanceOf, sealDescription, conversationSealLine } from '../../src/lib/provenance.js';
+import { noteOf, SEALS, SEAL_ICONS, setSources, sealToMark, provenanceOf, sealDescription, conversationSealLine, headerSeal } from '../../src/lib/provenance.js';
 
 const ROOT = join(import.meta.dirname, '../..');
 
@@ -27,6 +27,16 @@ describe('sealToMark', () => {
 
   it('ignores a seal it does not know', () => {
     expect(sealToMark({ verification: 'talvez' }, verified)).toBeNull();
+  });
+
+  it('in a chat most of whose messages carry another seal, marks the source\'s own', () => {
+    // A report chat the fork added more to: the header reads the majority's
+    // seal, and the report's messages say "Verificado" one by one.
+    const mixed = { ...verified, majority_verification: 'nao-verificado' };
+    expect(headerSeal(mixed)).toBe('nao-verificado');
+    expect(headerSeal(verified)).toBe('verificado');
+    expect(sealToMark({}, mixed)).toBe('verificado');
+    expect(sealToMark({ source_id: 'print', verification: 'nao-verificado' }, mixed)).toBe('nao-verificado');
   });
 
   it('has a label, an explanation and an icon for every seal', () => {
