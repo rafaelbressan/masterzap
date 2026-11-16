@@ -10,7 +10,7 @@ import { SITE_URL } from '../../src/config/site.js';
 import {
   createResolver, createLocator, loadEntries, normalize, citationOf, linksToMarkdown, linksToHtml, linksToText,
   brDate, longDate, monthOf, zonedTimestamp, contactOf, whoIs, messageText, messageHtml, pageOf,
-  sealSummary, messageProvenanceTags, standaloneSealTags, loadMessages,
+  sealSummary, messageProvenanceTags, loadMessages,
 } from '../../scripts/lib/corpus.mjs';
 
 const entries = loadEntries();
@@ -165,10 +165,18 @@ describe('messageHtml', () => {
 // with their own seal): the static pages say so, as the app does.
 describe('seals out of the app', () => {
   const entry = (id) => entries.find(e => e.id === id);
-  const message = (id, n) => loadMessages(entry(id)).find(m => m.id === n);
+  const loaded = new Map();
+  const message = (id, n) => {
+    if (!loaded.has(id)) loaded.set(id, loadMessages(entry(id)));
+    return loaded.get(id).find(m => m.id === n);
+  };
 
   it("states the conversation's seal and how many messages carry another", () => {
-    expect(sealSummary(entry('luiz-renno'))).toMatch(/^Verificado · \d+ mensagens marcadas como Não verificado, \d+ mensagens marcadas como Imprensa e \d+ mensagens marcadas como Reconstruído$/);
+    const summary = sealSummary(entry('luiz-renno'));
+    expect(summary).toMatch(/^Verificado · /);
+    for (const seal of ['Não verificado', 'Imprensa', 'Reconstruído']) {
+      expect(summary).toMatch(new RegExp(`\\d+ mensagens? marcadas? como ${seal}`));
+    }
     expect(sealSummary(entry('motorista-brasilia-sidney'))).toBe('Verificado');
   });
 
@@ -181,8 +189,17 @@ describe('seals out of the app', () => {
   });
 
   it('out of its conversation, says any seal but Verificado', () => {
-    expect(standaloneSealTags(message('martha-graeff', 1), 'martha-graeff')).toEqual(['imprensa']);
-    expect(standaloneSealTags(message('alexandre-de-moraes', 7), 'alexandre-de-moraes')).toEqual([]);
-    expect(standaloneSealTags(message('alexandre-de-moraes', 64), 'alexandre-de-moraes')[0]).toBe('reconstruído');
+    const standalone = (id, n) => messageProvenanceTags(message(id, n), entry(id), { standalone: true });
+    expect(standalone('martha-graeff', 1)).toEqual(['imprensa']);
+    expect(standalone('alexandre-de-moraes', 7)).toEqual([]);
+    expect(standalone('alexandre-de-moraes', 64)[0]).toBe('reconstruído');
+    // In its own conversation the leak's seal goes without saying.
+    expect(citationOf(message('martha-graeff', 1), 'martha-graeff')).not.toMatch(/imprensa/);
+    expect(citationOf(message('martha-graeff', 1), 'martha-graeff', { standalone: true })).toMatch(/ · imprensa$/);
+  });
+
+  it('a seal it does not know adds no tag rather than stopping the build', () => {
+    const old = { ...message('alexandre-de-moraes', 7), verification: 'antigo' };
+    expect(messageProvenanceTags(old, entry('alexandre-de-moraes'), { standalone: true })).toEqual([]);
   });
 });

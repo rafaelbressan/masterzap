@@ -65,7 +65,7 @@ Cada .md abre com proveniência (fonte, documento com páginas e sha256, períod
 - Arquivo: data/source/IPJ-A-3298613-2026.pdf — 218 páginas
 - sha256: 23cfdfa410c47ab09cbb2b443965e3a3095d9bc3dc5fb266efff76d6f5192b60
 - Onde obter: https://github.com/rafaelbressan/masterzap/blob/main/data/source/IPJ-A-3298613-2026.pdf (página) ou https://raw.githubusercontent.com/rafaelbressan/masterzap/main/data/source/IPJ-A-3298613-2026.pdf (os bytes, 32 MB) — o site não serve o PDF; %SITE_URL%/data/source/... redireciona para os bytes
-- Os destaques abaixo e no llms-full.txt já trazem o link e ⟨data hora · laudo p., fig.⟩
+- Os destaques abaixo e no llms-full.txt já trazem o link e ⟨data hora · laudo p., fig.⟩; quando a mensagem não vem do laudo, o selo e a fonte dela
 
 ## Fontes
 - Wikipedia: https://en.wikipedia.org/wiki/Daniel_Vorcaro

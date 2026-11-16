@@ -98,10 +98,14 @@ export function sealSummary(entry) {
  * What a message from another source than its conversation's says beside it,
  * as the Markdown export does: its seal and that source. Empty otherwise.
  */
-export function messageProvenanceTags(msg, entry) {
+export function messageProvenanceTags(msg, entry, { standalone = false } = {}) {
   const { source_id: sourceId, verification: seal } = provenanceOf(msg, entry);
   const tags = [];
-  if (seal !== entry.verification) tags.push(VERIFICATION_LABELS[seal].toLowerCase());
+  // In its conversation, a seal other than the conversation's; read out of it
+  // (a page of mentions, a highlight elsewhere), any seal but "Verificado".
+  const baseline = standalone ? 'verificado' : entry.verification;
+  // An unknown value only means old data (src/lib/provenance.js): no tag.
+  if (seal !== baseline && VERIFICATION_LABELS[seal]) tags.push(VERIFICATION_LABELS[seal].toLowerCase());
   if (sourceId !== entry.source_id) tags.push(`fonte: ${loadSources().get(sourceId)?.titulo || sourceId}`);
   return tags;
 }
@@ -227,31 +231,17 @@ export function pageOf(msg, conversationId) {
 
 /**
  * "15/11/2025 18:22 · laudo p. 109, fig. 108" — what a quote needs to be
- * checked; a message from another source than its conversation's adds its
- * seal and that source, as in the conversation itself.
+ * checked, plus the message's seal and source when they are not what the
+ * reader already sees (messageProvenanceTags). `standalone`: the citation is
+ * read out of its conversation, which does not show its seal.
  */
-export function citationOf(msg, conversationId) {
+export function citationOf(msg, conversationId, { standalone = false } = {}) {
   const parts = [msg.time ? `${brDate(msg.date)} ${msg.time.slice(0, 5)}` : `${brDate(msg.date)}, horário não informado`];
   const page = pageOf(msg, conversationId);
   if (page) parts.push(page);
   const entry = entryOf(conversationId);
-  if (entry) parts.push(...messageProvenanceTags(msg, entry));
+  if (entry) parts.push(...messageProvenanceTags(msg, entry, { standalone }));
   return parts.join(' · ');
-}
-
-/**
- * Out of its conversation (a page that lists mentions), the reader does not
- * see the conversation's seal: a message says its own unless it is
- * "Verificado", and its source when it is not the conversation's.
- */
-export function standaloneSealTags(msg, conversationId) {
-  const entry = entryOf(conversationId);
-  if (!entry) return [];
-  const { source_id: sourceId, verification: seal } = provenanceOf(msg, entry);
-  const tags = [];
-  if (seal && seal !== 'verificado') tags.push(VERIFICATION_LABELS[seal].toLowerCase());
-  if (sourceId !== entry.source_id) tags.push(`fonte: ${loadSources().get(sourceId)?.titulo || sourceId}`);
-  return tags;
 }
 
 /**
@@ -321,7 +311,11 @@ export function renderLinks(text, opts = {}) {
   const link = (label, href) => (mode === 'md' ? `[${label}](${href})`
     : mode === 'html' ? `<a href="${escapeHtml(href)}"${href.startsWith('http') ? ' rel="noopener"' : ''}>${escapeHtml(label)}</a>`
     : label);
-  const cite = (msg, conversationId) => (mode === 'html' ? ` <small>⟨${escapeHtml(citationOf(msg, conversationId))}⟩</small>` : ` ⟨${citationOf(msg, conversationId)}⟩`);
+  // A highlight of another conversation is read without that one's seal.
+  const cite = (msg, conversationId) => {
+    const where = citationOf(msg, conversationId, { standalone: conversationId !== (opts.samePage ?? opts.context) });
+    return mode === 'html' ? ` <small>⟨${escapeHtml(where)}⟩</small>` : ` ⟨${where}⟩`;
+  };
 
   let out = '';
   let last = 0;

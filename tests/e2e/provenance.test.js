@@ -35,8 +35,10 @@ test.describe('Provenance seal', () => {
     await expect(page.locator('.chat-header-info')).toHaveText(/36 mensagens · Verificado/);
     const notice = page.locator('.chat-seal-notice');
     await expect(notice).toContainText('Fonte: IPJ-A nº 3298613/2026 (Polícia Federal) · Verificado · 24 mensagens marcadas como Não verificado');
-    // The added ones carry the glyph; the report's do not.
-    await expect(page.locator('.chat-msg-seal').first()).toBeVisible();
+    // The added ones carry the glyph; the report's do not. All 36 are on
+    // screen (three days, loaded at once).
+    await expect(page.locator('.chat-msg-row')).toHaveCount(36);
+    await expect(page.locator('.chat-msg-seal')).toHaveCount(24);
   });
 
   test('the leak is labelled press, without marking every bubble', async ({ page }) => {
