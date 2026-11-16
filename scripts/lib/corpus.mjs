@@ -121,6 +121,10 @@ export const provenanceOf = (msg, entry) => {
 import { contactOf, ownerName } from '../../src/lib/participants.js';
 export { contactOf, ownerName };
 
+/** How a conversation is titled: "Grupo Macallan", or "Daniel Vorcaro ↔ Fábio Faria". */
+export const pairTitle = (entry, who) =>
+  (entry?.is_group ? `Grupo ${contactOf(entry)}` : `${ownerName(entry)} ↔ ${who}`);
+
 /** The person, as opposed to the name the phone saved them under. */
 export const whoIs = (entry, profile) =>
   profile?.name || profile?.sections?.[0]?.title?.replace(/^Sobre /, '') || contactOf(entry);

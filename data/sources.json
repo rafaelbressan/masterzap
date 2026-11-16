@@ -1474,6 +1474,58 @@
       "download": null,
       "archive_url": null,
       "sha256": null
+    },
+    {
+      "id": "fork-g001-macallan",
+      "kind": "imprensa",
+      "titulo": "Veja — trecho do grupo Macallan",
+      "orgao_ou_veiculo": "Veja",
+      "data": "2026",
+      "url": null,
+      "how": "Trechos do grupo publicados pela imprensa: Veja — trecho do grupo Macallan.",
+      "file": null,
+      "download": null,
+      "archive_url": null,
+      "sha256": null
+    },
+    {
+      "id": "fork-g002-ciro-daniel-fabio-hugo",
+      "kind": "imprensa",
+      "titulo": "UOL — íntegra dos trechos divulgados",
+      "orgao_ou_veiculo": "UOL",
+      "data": "2026-09-30",
+      "url": "https://noticias.uol.com.br/colunas/cezar-feitoza/2026/09/30/grupo-de-zap-para-organizar-encontros-reunia-vorcaro-ciro-motta-e-faria.htm",
+      "how": "Trechos do grupo publicados pela imprensa: UOL — íntegra dos trechos divulgados.",
+      "file": null,
+      "download": null,
+      "archive_url": null,
+      "sha256": null
+    },
+    {
+      "id": "fork-g003-reuniao-semanal",
+      "kind": "imprensa",
+      "titulo": "UOL — reportagem de 18/10/2026",
+      "orgao_ou_veiculo": "UOL",
+      "data": "2026-10-18",
+      "url": "https://noticias.uol.com.br/colunas/natalia-portinari/2026/10/18/vorcaro-quis-dar-a-gringa-a-hugo-motta-ciro-sugeriu-convidar-amigas.htm",
+      "how": "Trechos do grupo publicados pela imprensa: UOL — reportagem de 18/10/2026.",
+      "file": null,
+      "download": null,
+      "archive_url": null,
+      "sha256": null
+    },
+    {
+      "id": "fork-g004-master",
+      "kind": "imprensa",
+      "titulo": "UOL — Os espiões de Vorcaro",
+      "orgao_ou_veiculo": "UOL",
+      "data": "2026-08-18",
+      "url": "https://tab.uol.com.br/noticias/redacao/2026/08/18/os-espioes-de-vorcaro-como-dono-do-master-usava-grupo-de-aliados-no-bc.htm",
+      "how": "Trechos do grupo publicados pela imprensa: UOL — Os espiões de Vorcaro.",
+      "file": null,
+      "download": null,
+      "archive_url": null,
+      "sha256": null
     }
   ]
 }

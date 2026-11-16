@@ -1,0 +1,158 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "Ciro Nogueira",
+      "Hugo Motta",
+      "Fábio Faria"
+    ],
+    "saved_as": null,
+    "phone": null,
+    "date_range": {
+      "start": "2025-08-28",
+      "end": "2025-11-17"
+    },
+    "total_messages": 8,
+    "source": "UOL — íntegra dos trechos divulgados",
+    "source_id": "fork-g002-ciro-daniel-fabio-hugo",
+    "verification": "imprensa",
+    "note": "Conversas sobre encontros, jantares, viagens e acontecimentos políticos e investigações. A reportagem transcreve apenas trechos, não a conversa completa.",
+    "contact": "Ciro Daniel Fábio Hugo",
+    "is_group": true,
+    "members": [
+      "Ciro Nogueira",
+      "Hugo Motta",
+      "Fábio Faria"
+    ],
+    "group": {
+      "creator": "Ciro Nogueira",
+      "settings": "Mensagens temporárias com duração de 90 dias."
+    }
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": null,
+      "date": "2025-08-28",
+      "time": null,
+      "sender": "Ciro Nogueira",
+      "content": "Acho que encima (sic) do Beto",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Compartilhamento de notícia sobre a Operação Carbono Oculto. Não há resposta registrada no trecho divulgado."
+    },
+    {
+      "id": 2,
+      "timestamp": null,
+      "date": "2025-08-28",
+      "time": null,
+      "sender": "Ciro Nogueira",
+      "content": "Avisa quando tiverem indo hangar",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Organização de deslocamento em aeronave."
+    },
+    {
+      "id": 3,
+      "timestamp": null,
+      "date": "2025-08-28",
+      "time": null,
+      "sender": "Fábio Faria",
+      "content": "To indo agora",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 4,
+      "timestamp": null,
+      "date": "2025-09-04",
+      "time": null,
+      "sender": "DV",
+      "content": "óbvio",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Resposta que confirma o encontro proposto no contexto do jantar de aniversário organizado por Fábio Faria."
+    },
+    {
+      "id": 5,
+      "timestamp": null,
+      "date": "2025-09-04",
+      "time": null,
+      "sender": "Ciro Nogueira",
+      "content": "Amigos acho qeu eu e hugo vamos ter problemas no jantar quinta, pois vai ter a posse do Carlos Brandao no STJ",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Conflito de agenda para o jantar."
+    },
+    {
+      "id": 6,
+      "timestamp": null,
+      "date": "2025-09-04",
+      "time": null,
+      "sender": "Hugo Motta",
+      "content": "Verdade. Tinha esquecido",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 7,
+      "timestamp": null,
+      "date": "2025-11-17",
+      "time": null,
+      "sender": "Fábio Faria",
+      "content": "Parabéns irmão",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Mensagens sobre a proposta do grupo Fictor para comprar o Banco Master. Vorcaro foi preso aproximadamente três horas depois das mensagens, segundo a reportagem."
+    },
+    {
+      "id": 8,
+      "timestamp": null,
+      "date": "2025-11-17",
+      "time": null,
+      "sender": "Ciro Nogueira",
+      "content": "",
+      "type": "sticker",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Figurinha (conteúdo gráfico não reproduzido na reportagem)"
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "2025-08-28",
+        "message_count": 3,
+        "first_message_id": 1,
+        "last_message_id": 3
+      },
+      {
+        "date": "2025-09-04",
+        "message_count": 3,
+        "first_message_id": 4,
+        "last_message_id": 6
+      },
+      {
+        "date": "2025-11-17",
+        "message_count": 2,
+        "first_message_id": 7,
+        "last_message_id": 8
+      }
+    ]
+  }
+}

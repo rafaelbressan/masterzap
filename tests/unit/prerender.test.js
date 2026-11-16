@@ -33,7 +33,9 @@ describe('one page per conversation', () => {
       const html = page(conv.id);
       expect(html, conv.id).toContain(`<link rel="canonical" href="${SITE}/chat/${conv.id}">`);
       expect(html, conv.id).toContain(`<meta property="og:url" content="${SITE}/chat/${conv.id}">`);
-      expect(html, conv.id).toMatch(/<title>Daniel Vorcaro ↔ .+ — MasterWhats<\/title>/);
+      expect(html, conv.id).toMatch(conv.is_group
+        ? /<title>Grupo .+ — MasterWhats<\/title>/
+        : /<title>Daniel Vorcaro ↔ .+ — MasterWhats<\/title>/);
     }
   });
 

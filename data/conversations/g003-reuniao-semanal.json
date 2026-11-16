@@ -1,0 +1,56 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "Ciro Nogueira",
+      "Antonio Rueda",
+      "Fábio Faria",
+      "Gusttavo Lima"
+    ],
+    "saved_as": null,
+    "phone": null,
+    "date_range": {
+      "start": "2024-06",
+      "end": "2024-06"
+    },
+    "total_messages": 1,
+    "source": "UOL — reportagem de 18/10/2026",
+    "source_id": "fork-g003-reuniao-semanal",
+    "verification": "imprensa",
+    "note": "Organização de encontros privados em Brasília. O trecho de conversa privada entre Antonio Rueda e Daniel Vorcaro está separado no chat Antonio Rueda (relacionado a este grupo), não nesta conversa coletiva.",
+    "contact": "Reunião semanal",
+    "is_group": true,
+    "members": [
+      "Ciro Nogueira",
+      "Antonio Rueda",
+      "Fábio Faria",
+      "Gusttavo Lima"
+    ]
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": null,
+      "date": "2024-06",
+      "time": null,
+      "sender": "Ciro Nogueira",
+      "content": "Poderíamos convidar umas amigas, mas tem de ser bem segredo",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "A reportagem informa que Antonio Rueda lembrou ao grupo que aquela quarta-feira seria Dia dos Namorados.",
+      "date_precision": "month"
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "2024-06",
+        "message_count": 1,
+        "first_message_id": 1,
+        "last_message_id": 1
+      }
+    ]
+  }
+}

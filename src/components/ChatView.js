@@ -14,7 +14,8 @@ import { escapeHtml, formatTime, formatDateLong, linkify, NO_TIME_LABEL, showsFo
 import { ScrollLoader } from '../lib/scroll-loader.js';
 import { ICON_FORWARDED, ICON_INFO, ICON_SEARCH, ICON_CHECKEMPTY, ICON_BELL, ICON_TIMER, ICON_DOWNLOAD, ICON_CLOSE_CIRCULAR, ICON_MASTERZAP_LOGO, ICON_MEETBALL, ICON_CHEVRON_DW, ICON_SCREENSHOT } from '../lib/icons.js';
 
-import { defaultAvatarSvg } from '../lib/avatar.js';
+import { defaultAvatarSvg, defaultGroupAvatarSvg, senderColors } from '../lib/avatar.js';
+import { isGroup, membersOf, memberIdentity } from '../lib/groups.js';
 import { parseContacts, parseLocation, mapsUrl, parseLink, parseAudio, parseImage, conversationForPhone } from '../lib/media.js';
 import { showContactsSheet, ICON_MESSAGE } from './ContactsSheet.js';
 import { openMenu, menuClosed } from '../lib/menus.js';
@@ -92,8 +93,42 @@ function renderDaySection(date, messages, { notice = null, conversation }) {
   for (const msg of messages) {
     section.appendChild(renderMessage(msg, conversation));
   }
+  if (isGroup(conversation)) markGroupRuns(section);
 
   return section;
+}
+
+/**
+ * In a group, as WhatsApp draws it: each run of messages from one person
+ * opens with their name over the first bubble (in their colour) and their
+ * photo beside it, and that bubble keeps its tail. A run ends at a message
+ * from someone else, the owner's included, or at a notice.
+ */
+function markGroupRuns(section) {
+  let previous = null;
+  for (const row of section.querySelectorAll(':scope > .chat-msg-row')) {
+    const msg = row._message;
+    if (!row.classList.contains('incoming') || row.classList.contains('system') || !msg) {
+      previous = null;
+      continue;
+    }
+    if (msg.sender === previous) continue;
+    previous = msg.sender;
+    row.classList.add('group-run-start');
+    const { seed, conversationId } = memberIdentity(msg.sender, media.conversations);
+    const { light, dark } = senderColors(seed);
+    const bubble = row.querySelector('.chat-msg-bubble');
+    const name = document.createElement('div');
+    name.className = 'chat-msg-sender';
+    name.style.setProperty('--sender-light', light);
+    name.style.setProperty('--sender-dark', dark);
+    name.textContent = msg.sender;
+    bubble?.prepend(name);
+    const photo = avatarEl(conversationId ? media.avatarFor(conversationId) : null, msg.sender, 28, 'chat-msg-group-avatar');
+    if (!conversationId) photo.innerHTML = defaultAvatarSvg(seed, 28);
+    photo.setAttribute('aria-hidden', 'true');
+    row.prepend(photo);
+  }
 }
 
 // ── SVG Icons for message types ──────────────────
@@ -130,7 +165,7 @@ function renderMediaPlaceholder(type, msg) {
 
   const label = document.createElement('span');
   label.className = 'chat-media-label';
-  const labels = { image: 'Foto', video: 'Vídeo', sticker: 'Sticker' };
+  const labels = { image: 'Foto', video: 'Vídeo', sticker: 'Figurinha' };
   label.textContent = image ? image.label : (labels[type] || type);
   el.appendChild(label);
 
@@ -799,7 +834,7 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
   while (container.firstChild) container.removeChild(container.firstChild);
 
   const el = document.createElement('div');
-  el.className = 'chat-view';
+  el.className = isGroup(conversation) ? 'chat-view is-group' : 'chat-view';
   el.dataset.conversationId = conversation.id;
 
   // Header
@@ -827,7 +862,7 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
     avatarEl.appendChild(img);
   } else {
     // Generated SVG — no user data, safe innerHTML
-    avatarEl.innerHTML = defaultAvatarSvg(conversation.id, 40);
+    avatarEl.innerHTML = isGroup(conversation) ? defaultGroupAvatarSvg(conversation.id, 40) : defaultAvatarSvg(conversation.id, 40);
   }
   if (onContactClick) {
     avatarEl.style.cursor = 'pointer';
@@ -856,7 +891,11 @@ export function renderChatView(container, { conversation, dateIndex, loadMessage
   const total = conversation.total_messages;
   const countEl = document.createElement('span');
   countEl.className = 'chat-header-info-count';
-  countEl.textContent = `${total.toLocaleString('pt-BR')} ${total === 1 ? 'mensagem' : 'mensagens'}`;
+  // A group lists who is in it, as WhatsApp does: "Ciro Nogueira, Hugo
+  // Motta, Fábio Faria, Você".
+  countEl.textContent = isGroup(conversation)
+    ? [...membersOf(conversation), 'Você'].join(', ')
+    : `${total.toLocaleString('pt-BR')} ${total === 1 ? 'mensagem' : 'mensagens'}`;
   subtitleEl.appendChild(countEl);
   // The seal most of the messages carry (src/lib/provenance.js headerSeal),
   // as the glyph the bubbles use: the word would not fit beside a long count

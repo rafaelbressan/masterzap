@@ -839,6 +839,42 @@ export const CONTACT_PROFILES = {
       ],
     }],
   },
+  'g001-macallan': {
+    about: 'Grupo',
+    sections: [{
+      title: 'Macallan',
+      paragraphs: [
+        { text: 'Grupo ativo entre 2023 e 2024. O trecho transcrito abaixo é de 26/10/2023; o conteúdo do vídeo foi omitido pela reportagem. Trecho parcial. O conteúdo do vídeo não foi reproduzido pela reportagem. Os trechos foram publicados pela imprensa (Veja), por isso levam o selo "imprensa".' },
+      ],
+    }],
+  },
+  'g002-ciro-daniel-fabio-hugo': {
+    about: 'Grupo',
+    sections: [{
+      title: 'Ciro Daniel Fábio Hugo',
+      paragraphs: [
+        { text: 'Conversas sobre encontros, jantares, viagens e acontecimentos políticos e investigações. A reportagem transcreve apenas trechos, não a conversa completa. Criado por Ciro Nogueira. Os trechos foram publicados pela imprensa (UOL), por isso levam o selo "imprensa".' },
+      ],
+    }],
+  },
+  'g003-reuniao-semanal': {
+    about: 'Grupo',
+    sections: [{
+      title: 'Reunião semanal',
+      paragraphs: [
+        { text: 'Organização de encontros privados em Brasília. O trecho de conversa privada entre Antonio Rueda e Daniel Vorcaro está separado no chat Antonio Rueda (relacionado a este grupo), não nesta conversa coletiva. Os trechos foram publicados pela imprensa (UOL), por isso levam o selo "imprensa".' },
+      ],
+    }],
+  },
+  'g004-master': {
+    about: 'Grupo',
+    sections: [{
+      title: 'Master',
+      paragraphs: [
+        { text: 'Interlocução entre Vorcaro e servidores do Departamento de Supervisão Bancária do Banco Central. A reportagem também menciona chamadas de voz, mas não há transcrição disponível. Criado por Belline Santana. Os trechos foram publicados pela imprensa (UOL), por isso levam o selo "imprensa".' },
+      ],
+    }],
+  },
   'nelson-willians': {
     about: 'Fonte não identificada',
     sections: [{

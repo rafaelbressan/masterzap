@@ -379,6 +379,8 @@ async function init() {
         onClose: () => { activeContactInfo = null; },
         onSearch: toggleSearch,
         actions: contactProfileActions,
+        // A group lists its members, each with their photo when there is one.
+        people: { conversations: store.getConversations(), avatarFor: (convId) => AVATARS[convId] || null, selfAvatar: ownerOf(conversation) === DEFAULT_OWNER ? AVATARS['dv-self'] : null },
       });
     }
 

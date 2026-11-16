@@ -1,0 +1,84 @@
+{
+  "metadata": {
+    "participants": [
+      "DV",
+      "Belline Santana",
+      "Paulo Sérgio Neves de Souza"
+    ],
+    "saved_as": null,
+    "phone": null,
+    "date_range": {
+      "start": "2025-10-02",
+      "end": "2025-10-27"
+    },
+    "total_messages": 3,
+    "source": "UOL — Os espiões de Vorcaro",
+    "source_id": "fork-g004-master",
+    "verification": "imprensa",
+    "note": "Interlocução entre Vorcaro e servidores do Departamento de Supervisão Bancária do Banco Central. A reportagem também menciona chamadas de voz, mas não há transcrição disponível.",
+    "contact": "Master",
+    "is_group": true,
+    "members": [
+      "Belline Santana",
+      "Paulo Sérgio Neves de Souza"
+    ],
+    "group": {
+      "creator": "Belline Santana"
+    }
+  },
+  "messages": [
+    {
+      "id": 1,
+      "timestamp": null,
+      "date": "2025-10-02",
+      "time": null,
+      "sender": "Belline Santana",
+      "content": "Boa tarde. Criei esse grupo, no intuito de facilitar nossa interlocução.",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 2,
+      "timestamp": null,
+      "date": "2025-10-27",
+      "time": null,
+      "sender": "DV",
+      "content": "[anexo] Ofício Banco Master ao Desup — atualização das ações",
+      "type": "document",
+      "is_edited": false,
+      "attachment": "Ofício Banco Master ao Desup — atualização das ações",
+      "urls": [],
+      "note": "Segue minuta para avaliação"
+    },
+    {
+      "id": 3,
+      "timestamp": null,
+      "date": "2025-10-27",
+      "time": null,
+      "sender": "DV",
+      "content": "Por favor, vejam se atende",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    }
+  ],
+  "index": {
+    "dates": [
+      {
+        "date": "2025-10-02",
+        "message_count": 1,
+        "first_message_id": 1,
+        "last_message_id": 1
+      },
+      {
+        "date": "2025-10-27",
+        "message_count": 2,
+        "first_message_id": 2,
+        "last_message_id": 3
+      }
+    ]
+  }
+}

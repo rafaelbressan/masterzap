@@ -393,5 +393,65 @@
     "verification": "nao-verificado",
     "fork_note": "Convertido automaticamente do HTML. Remetente 'DV' mantido; 'Lilian Tahan Editora Chefe Metropoles (556181320162)' normalizado para 'Lilian Tahan'. Timestamps completos (com segundos e fuso -03:00) conforme o export. Aviso de criptografia e cabeçalhos de data não entram como mensagens. Reações ficam no campo 'reaction' da mensagem reagida. Respostas (reply_to_id) apontam para o id novo da mensagem citada. Anexos (imagem, áudio, documento) têm só nome do arquivo/duração; sem conteúdo nem transcrição.",
     "note": "Conversa completa, de uma exportação forense (IPED) do celular de Vorcaro, de fonte anônima. Cada mensagem diz de onde veio."
+  },
+  "g001-macallan": {
+    "name": "Macallan",
+    "saved_as": "Macallan",
+    "phone": null,
+    "source_id": "fork-g001-macallan",
+    "verification": "imprensa",
+    "note": "Grupo ativo entre 2023 e 2024. O trecho transcrito abaixo é de 26/10/2023; o conteúdo do vídeo foi omitido pela reportagem. Trecho parcial. O conteúdo do vídeo não foi reproduzido pela reportagem.",
+    "members": [
+      "Fábio Faria",
+      "Lucas kallas USA"
+    ],
+    "group": {}
+  },
+  "g002-ciro-daniel-fabio-hugo": {
+    "name": "Ciro Daniel Fábio Hugo",
+    "saved_as": "Ciro Daniel Fábio Hugo",
+    "phone": null,
+    "source_id": "fork-g002-ciro-daniel-fabio-hugo",
+    "verification": "imprensa",
+    "note": "Conversas sobre encontros, jantares, viagens e acontecimentos políticos e investigações. A reportagem transcreve apenas trechos, não a conversa completa.",
+    "members": [
+      "Ciro Nogueira",
+      "Hugo Motta",
+      "Fábio Faria"
+    ],
+    "group": {
+      "creator": "Ciro Nogueira",
+      "settings": "Mensagens temporárias com duração de 90 dias."
+    }
+  },
+  "g003-reuniao-semanal": {
+    "name": "Reunião semanal",
+    "saved_as": "Reunião semanal",
+    "phone": null,
+    "source_id": "fork-g003-reuniao-semanal",
+    "verification": "imprensa",
+    "note": "Organização de encontros privados em Brasília. O trecho de conversa privada entre Antonio Rueda e Daniel Vorcaro está separado no chat Antonio Rueda (relacionado a este grupo), não nesta conversa coletiva.",
+    "members": [
+      "Ciro Nogueira",
+      "Antonio Rueda",
+      "Fábio Faria",
+      "Gusttavo Lima"
+    ],
+    "group": {}
+  },
+  "g004-master": {
+    "name": "Master",
+    "saved_as": "Master",
+    "phone": null,
+    "source_id": "fork-g004-master",
+    "verification": "imprensa",
+    "note": "Interlocução entre Vorcaro e servidores do Departamento de Supervisão Bancária do Banco Central. A reportagem também menciona chamadas de voz, mas não há transcrição disponível.",
+    "members": [
+      "Belline Santana",
+      "Paulo Sérgio Neves de Souza"
+    ],
+    "group": {
+      "creator": "Belline Santana"
+    }
   }
 }

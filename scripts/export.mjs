@@ -27,7 +27,7 @@ import {
   ROOT, SITE, REPO, TIMEZONE, UTC_OFFSET,
   loadEntries, loadMessages, sourceOf, provenanceOf, contactOf, ownerName, whoIs, createResolver, createLocator, isPaged,
   urlsIn, linksToMarkdown, longDate, phonePretty, MEDIA, monthOf, zonedTimestamp, loadSources, pageOf, periodOf,
-  sealSummary, messageProvenanceTags,
+  sealSummary, messageProvenanceTags, pairTitle,
 } from './lib/corpus.mjs';
 
 const OUT = join(ROOT, 'public/export');
@@ -129,7 +129,7 @@ function conversationMarkdown(entry, messages, { standalone = true, month = null
   const sub = standalone ? '##' : '###';
   const out = [];
 
-  out.push(`${heading} ${ownerName(entry)} ↔ ${contact}${month ? ` — ${monthName(month)}` : ''}`, '');
+  out.push(`${heading} ${pairTitle(entry, contact)}${month ? ` — ${monthName(month)}` : ''}`, '');
   if (standalone) {
     out.push(`> Exportado de [MasterWhats](${SITE}/#/chat/${entry.id}) em ${generatedAt.slice(0, 10)}.${month ? ` Só ${monthName(month)} (${messages.length} mensagens); a conversa inteira está em masterwhats-${entry.id}.md.` : ''} Código e dados: ${REPO}.`, '');
   }

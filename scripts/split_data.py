@@ -308,19 +308,26 @@ def split_conversation(conv_id, data, index):
             "content": (last_msg.get("content") or "")[:80],
             "timestamp": last_msg["timestamp"],
             "sender": last_msg["sender"],
+            # The list says what a message with no text is ("Figurinha").
+            "type": last_msg["type"],
         } if last_msg else None,
     }
     # Other names the chat is found by in the list's search: the thesaurus
     # (data/aliases.json), how the contact was saved in the phone, and every
     # name the data gives them (the participant, the sender of their
     # messages: "Ana Matos" for the chat listed as "Ana Matos Mkt").
-    names = ALIASES.get(conv_id, []) + [metadata.get("saved_as") or ""] + other \
+    # A group is found by its own name, not by its members'.
+    names = ALIASES.get(conv_id, []) + [metadata.get("saved_as") or ""] + ([] if metadata.get("is_group") else other
         + sorted({m["sender"] for m in messages
-                  if m.get("sender") and m["sender"] != owner and m.get("type") != "system"})
+                  if m.get("sender") and m["sender"] != owner and m.get("type") != "system"}))
     shown = entry.get("contact") or (other[0] if other else "")
     aliases = [n for n in dict.fromkeys(names) if n and n != shown]
     if aliases:
         entry["aliases"] = aliases
+    # A group: who is in it besides the owner, who created it, its settings.
+    for key in ("is_group", "members", "group"):
+        if metadata.get(key):
+            entry[key] = metadata[key]
     for key in ("phone", "saved_as", "note"):
         if metadata.get(key):
             entry[key] = metadata[key]
