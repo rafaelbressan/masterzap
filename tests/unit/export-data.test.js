@@ -112,6 +112,14 @@ describe('the Markdown', () => {
     for (const line of headers) expect(line).toMatch(/laudo p\. \d+/);
   });
 
+  it('cites the representação, not the laudo, on the Inq 5.026 conversation', () => {
+    const text = md('berg');
+    const headers = text.split('\n').filter(l => /^\*\*.+\*\* · \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} · msg \d+/.test(l));
+    expect(headers.length).toBe(14);
+    for (const line of headers) expect(line).toMatch(/representação p\. 63/);
+    expect(text).not.toMatch(/laudo p\./);
+  });
+
   it('keeps every message', () => {
     for (const conv of conversations) {
       const headers = md(conv.id).split('\n').filter(l => /^\*\*.+\*\* · \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} · msg \d+/.test(l));
