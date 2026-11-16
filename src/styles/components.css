@@ -230,6 +230,11 @@
   word-break: break-word;
 }
 
+/* A text message's own line breaks (a card's text is one run). */
+.msg-info-preview-content.text {
+  white-space: pre-wrap;
+}
+
 .msg-info-preview-meta {
   display: block;
   text-align: right;

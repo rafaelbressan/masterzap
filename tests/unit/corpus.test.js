@@ -9,7 +9,7 @@ import { describe, it, expect } from 'vitest';
 import { SITE_URL } from '../../src/config/site.js';
 import {
   createResolver, createLocator, loadEntries, normalize, citationOf, linksToMarkdown, linksToHtml, linksToText,
-  brDate, longDate, monthOf, zonedTimestamp, contactOf, whoIs, messageText,
+  brDate, longDate, monthOf, zonedTimestamp, contactOf, whoIs, messageText, messageHtml,
 } from '../../scripts/lib/corpus.mjs';
 
 const entries = loadEntries();
@@ -124,5 +124,14 @@ describe('messageText', () => {
     expect(messageText({ type: 'image', content: '', note: 'Figura cortada.' }))
       .toBe('[Foto] (Nota do MasterWhats: Figura cortada.)');
     expect(messageText({ type: 'text', content: 'Oi' })).toBe('Oi');
+  });
+});
+
+describe('messageHtml', () => {
+  it('keeps the line breaks and says "Encaminhada", but not on a deleted one', () => {
+    expect(messageHtml({ type: 'text', content: 'Range Rover\nRSB7C37', forwarded: true }))
+      .toBe('<i>Encaminhada</i> Range Rover<br>RSB7C37');
+    expect(messageHtml({ type: 'deleted', content: '', forwarded: true })).toBe('[Mensagem apagada]');
+    expect(messageHtml({ type: 'text', content: '<b>"x"</b>' })).toBe('&lt;b&gt;&quot;x&quot;&lt;/b&gt;');
   });
 });

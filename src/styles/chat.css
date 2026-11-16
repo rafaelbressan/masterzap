@@ -291,6 +291,27 @@
   color: var(--WDS-content-default);
 }
 
+/* A text message keeps its line breaks. */
+.chat-msg-text {
+  white-space: pre-wrap;
+}
+
+/* "Encaminhada", over a forwarded message's content. */
+.chat-msg-forwarded {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-bottom: 2px;
+  font-size: 12.5px;
+  font-style: italic;
+  line-height: 18px;
+  color: var(--WDS-systems-bubble-content-deemphasized);
+}
+
+.chat-msg-forwarded svg {
+  flex-shrink: 0;
+}
+
 .chat-msg-content a {
   color: var(--MW-link);
   text-decoration: none;

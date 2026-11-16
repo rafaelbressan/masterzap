@@ -134,3 +134,14 @@ describe('partial dates and unknown times', () => {
     expect([...dates].sort(compareDates)).toEqual(['sem-data', '2024', '2024-07', '2024-07-01', '2024-07-02']);
   });
 });
+
+describe('a link with a quote in it', () => {
+  it('cannot close the href and add an attribute', () => {
+    const html = linkify(escapeHtml('veja https://x.com/"onmouseover="alert(1)'));
+    const el = document.createElement('div');
+    el.innerHTML = html;
+    const a = el.querySelector('a');
+    expect(a.getAttributeNames().sort()).toEqual(['href', 'rel', 'target']);
+    expect(a.getAttribute('href')).toBe('https://x.com/"onmouseover="alert(1)');
+  });
+});
