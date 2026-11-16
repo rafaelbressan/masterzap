@@ -320,8 +320,8 @@
     "fork_note": "O texto foi transcrito da captura de tela, que mostra hora e minuto, sem segundos; por isso os timestamps usam ':00' nos segundos e o campo 'time' traz '??'. Na captura, o remetente da direita é 'Vorcaro' e o da esquerda é 'Selma (empregada)'; aqui os rótulos são DV e Selma, para manter o estilo dos outros JSONs. A grafia original foi mantida, inclusive 'sar' na mensagem 1. A captura mostra apenas este trecho do dia 01/03/2025; a conversa completa não foi enviada."
   },
   "sicario-master": {
-    "name": "sicario master",
-    "saved_as": "sicario-master",
+    "name": "Sicário",
+    "saved_as": "Sicário",
     "phone": null,
     "source_id": "fork-sicario-master",
     "verification": "nao-verificado",

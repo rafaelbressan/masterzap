@@ -899,12 +899,14 @@ export const CONTACT_PROFILES = {
     }],
   },
   'sicario-master': {
-    about: 'Relatório da PF e BBC News Brasil',
+    about: '"A Turma" e as notícias derrubadas',
     sections: [{
-      title: 'sicario master',
+      title: 'Sicário',
       paragraphs: [
-        { text: 'No celular de Vorcaro, salvo como "sicario-master". 46 mensagens, de 19 de outubro de 2023 a 24 de outubro de 2025.' },
-        { text: 'Trechos que outro projeto atribui ao relatório policial e à decisão do STF no caso Master, sem o documento (selo "não verificado"), e trechos publicados pela BBC News Brasil (selo "imprensa").' },
+        { text: 'Identificado pelo fork como Luiz Phillipi Machado de Moraes Mourão, o "Sicário" (Felipe Mourão). Segundo a BBC News Brasil, que examinou mais de 11 mil registros da conversa, ele cuidava de tirar da internet o que era negativo sobre Vorcaro, de novembro de 2023 a novembro de 2025.' },
+        { text: 'A pedido de Vorcaro — "{Derruba esse site}[action:search@sicario-master:Derruba esse site]" —, ele derruba links e põe notícias positivas no lugar: "{qualquer coisa que sair derrubamos tudo}[action:search@sicario-master:derrubamos tudo]". Em setembro de 2024, diz que estão "{trabalhando para entrar na database do site da Folha}[action:search@sicario-master:database do site da Folha]"; em outubro de 2025, que "{Os meninos invadiram a revista piauí}[action:search@sicario-master:invadiram a revista]".' },
+        { text: 'Sobre o colunista Lauro Jardim, Vorcaro escreve que quer "{Quebrar todos os dentes}[action:search@sicario-master:Quebrar todos os dentes]" dele, "num assalto", e o Sicário responde "Vou olhar isso". Ele também cobra o pagamento da "{A Turma}[action:search@sicario-master:A Turma]", que diz receber de {Fabiano Zettel}[action:contact:fabiano-zettel] e dividir entre seis pessoas.' },
+        { text: 'As mensagens vêm de trechos que o fork atribui ao relatório policial e à decisão do STF, sem o documento (selo "não verificado"), e de trechos publicados pela BBC News Brasil (selo "imprensa"). Datas e horários que a fonte não deu ficam sem.' },
       ],
     }],
   },
