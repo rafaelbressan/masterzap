@@ -240,8 +240,9 @@ describe('llms-full.txt', () => {
   it('cites every highlight with a link, a date and a page', () => {
     const t = text();
     expect(t).toContain('/chat/alexandre-de-moraes#msg-39) ⟨15/11/2025 18:22 · laudo p. 109, fig. 108⟩');
-    // The famous quote lives in December 2024, on that month's page.
-    expect(t).toContain('/chat/martha-graeff/2024-12#msg-35686) ⟨04/12/2024 00:33⟩');
+    // The famous quote lives in December 2024, on that month's page; read
+    // out of its conversation, it says the leak's seal.
+    expect(t).toContain('/chat/martha-graeff/2024-12#msg-35686) ⟨04/12/2024 00:33 · imprensa⟩');
     expect(t).toContain('## Documento-fonte: IPJ-A nº 3298613/2026 — Polícia Federal');
   });
 
