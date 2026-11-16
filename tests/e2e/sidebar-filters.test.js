@@ -53,8 +53,11 @@ test.describe('Filter tabs', () => {
     await expect(page.locator('.sidebar-tag.active')).toHaveText('Todas');
   });
 
-  test('"Grupos" stays disabled', async ({ page }) => {
-    await expect(page.locator('.sidebar-tag.disabled')).toHaveText('Grupos');
+  test('"Grupos" is a filter like the others, and no tab is disabled', async ({ page }) => {
+    await expect(page.locator('.sidebar-tag.disabled')).toHaveCount(0);
+    await page.locator('.sidebar-tag[data-filter="grupos"]').click();
+    await expect(page.locator('.sidebar-tag.active')).toHaveText('Grupos');
+    await expect(page.locator(`${items}:visible`)).toHaveCount(4);
   });
 });
 
