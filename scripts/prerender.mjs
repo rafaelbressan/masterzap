@@ -35,7 +35,7 @@ import {
   loadEntries, loadMessages, sourceOf, contactOf, ownerName, whoIs, createResolver, mentionsOf, createLocator, isPaged, PREVIEW_MESSAGES,
   urlsIn, linksToMarkdown, linksToText, linksToHtml, escapeHtml,
   longDate, phonePretty, messageText, messageHtml, citationOf, pageOf, messageUrl, periodOf,
-  OFFICIAL_KINDS, monthOf, zonedTimestamp, sealSummary, messageProvenanceTags,
+  OFFICIAL_KINDS, monthOf, zonedTimestamp, sealSummary, messageProvenanceTags, standaloneSealTags,
 } from './lib/corpus.mjs';
 
 const DIST = join(ROOT, 'dist');
@@ -355,8 +355,9 @@ ${body}
 }
 
 function mentionHtml(conversationId, msg, alias, primary, entry) {
-  const page = pageOf(msg, conversationId);
-  const cite = page ? ` <small>(${page})</small>` : '';
+  // Listed out of its conversation: its seal, unless verified, goes with it.
+  const cite = [pageOf(msg, conversationId), ...standaloneSealTags(msg, conversationId)].filter(Boolean)
+    .map(t => ` <small>(${escapeHtml(t)})</small>`).join('');
   return `<div class="msg" id="m-${conversationId}-${msg.id}">`
     + `<time${zonedTimestamp(msg) ? ` datetime="${zonedTimestamp(msg)}"` : ''}>${citationOf(msg).split(' · ')[0]}</time> · <b>${escapeHtml(msg.sender)}</b>${cite}${alias !== primary ? ` <small>· por «${escapeHtml(alias)}»</small>` : ''}<br>`
     + `${messageHtml(msg, entry)}<br>`

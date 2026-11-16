@@ -29,6 +29,16 @@ test.describe('Provenance seal', () => {
     await expect(source.locator('.contact-info-source-hash')).toContainText('SHA-256 23cfdfa4');
   });
 
+  test('a report chat with messages added from other sources counts them and marks each one', async ({ page }) => {
+    // Geraldo: 12 messages of the report and 24 the fork added, from prints with no outlet.
+    await page.goto('/#/chat/geraldo-brazil-journal');
+    await expect(page.locator('.chat-header-info')).toHaveText(/36 mensagens · Verificado/);
+    const notice = page.locator('.chat-seal-notice');
+    await expect(notice).toContainText('Fonte: IPJ-A nº 3298613/2026 (Polícia Federal) · Verificado · 24 mensagens marcadas como Não verificado');
+    // The added ones carry the glyph; the report's do not.
+    await expect(page.locator('.chat-msg-seal').first()).toBeVisible();
+  });
+
   test('the leak is labelled press, without marking every bubble', async ({ page }) => {
     await page.goto('/');
     await page.locator('.conversation-item[data-id="martha-graeff"]').click();

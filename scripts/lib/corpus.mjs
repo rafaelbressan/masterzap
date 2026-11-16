@@ -4,7 +4,7 @@
  */
 
 import { readFileSync, existsSync } from 'node:fs';
-import { SEALS, provenanceOf as appProvenanceOf, noteOf, NOTE_LABEL } from '../../src/lib/provenance.js';
+import { SEALS, provenanceOf as appProvenanceOf, noteOf, NOTE_LABEL, otherSealsText } from '../../src/lib/provenance.js';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -90,11 +90,8 @@ export function sourceOf(entry) {
  * the app draws (conversationSealLine in src/lib/provenance.js).
  */
 export function sealSummary(entry) {
-  const others = Object.entries(entry.verification_counts || {})
-    .filter(([v]) => v !== entry.verification && SEALS[v]);
-  const parts = others.map(([v, n]) => `${n.toLocaleString('pt-BR')} ${n === 1 ? 'mensagem marcada' : 'mensagens marcadas'} como ${SEALS[v].label}`);
-  const label = VERIFICATION_LABELS[entry.verification];
-  return parts.length ? `${label} · ${new Intl.ListFormat('pt-BR', { type: 'conjunction' }).format(parts)}` : label;
+  const others = otherSealsText(entry);
+  return `${VERIFICATION_LABELS[entry.verification]}${others ? ` · ${others}` : ''}`;
 }
 
 /**
@@ -216,20 +213,45 @@ export const monthOf = (date) => (DAY.test(date || '') || MONTH.test(date || '')
  * message's own source, else its conversation's (sources.json `cita`).
  */
 let entriesById = null;
+const entryOf = (conversationId) => {
+  if (!conversationId) return null;
+  entriesById ??= new Map(loadEntries().map(e => [e.id, e]));
+  return entriesById.get(conversationId) || null;
+};
 export function pageOf(msg, conversationId) {
   if (!msg.source_page) return '';
-  entriesById ??= new Map(loadEntries().map(e => [e.id, e]));
-  const sourceId = msg.source_id || entriesById.get(conversationId)?.source_id;
+  const sourceId = msg.source_id || entryOf(conversationId)?.source_id;
   const word = loadSources().get(sourceId)?.cita || 'documento';
   return `${word} p. ${msg.source_page}${msg.source_figure ? `, fig. ${msg.source_figure}` : ''}`;
 }
 
-/** "15/11/2025 18:22 · laudo p. 109, fig. 108" — what a quote needs to be checked. */
+/**
+ * "15/11/2025 18:22 · laudo p. 109, fig. 108" — what a quote needs to be
+ * checked; a message from another source than its conversation's adds its
+ * seal and that source, as in the conversation itself.
+ */
 export function citationOf(msg, conversationId) {
   const parts = [msg.time ? `${brDate(msg.date)} ${msg.time.slice(0, 5)}` : `${brDate(msg.date)}, horário não informado`];
   const page = pageOf(msg, conversationId);
   if (page) parts.push(page);
+  const entry = entryOf(conversationId);
+  if (entry) parts.push(...messageProvenanceTags(msg, entry));
   return parts.join(' · ');
+}
+
+/**
+ * Out of its conversation (a page that lists mentions), the reader does not
+ * see the conversation's seal: a message says its own unless it is
+ * "Verificado", and its source when it is not the conversation's.
+ */
+export function standaloneSealTags(msg, conversationId) {
+  const entry = entryOf(conversationId);
+  if (!entry) return [];
+  const { source_id: sourceId, verification: seal } = provenanceOf(msg, entry);
+  const tags = [];
+  if (seal && seal !== 'verificado') tags.push(VERIFICATION_LABELS[seal].toLowerCase());
+  if (sourceId !== entry.source_id) tags.push(`fonte: ${loadSources().get(sourceId)?.titulo || sourceId}`);
+  return tags;
 }
 
 /**
