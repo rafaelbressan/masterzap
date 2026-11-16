@@ -92,6 +92,18 @@ class AppendMessages(unittest.TestCase):
                                         row(5, 4, "z", "2024-01-01 12:00:00")]})
         self.assertEqual(len(convs["ana"]["messages"]), 5)
 
+    def test_the_same_line_from_two_files_is_refused(self):
+        a = row(4, 2, "z", "2024-01-01 12:00:00")
+        b = {**row(5, 4, "Z", "2024-01-01 12:00:00"), "_where": "outro"}
+        with self.assertRaises(SystemExit):
+            append_messages(base(), {"ana": [a, b]})
+
+    def test_a_day_the_source_printed_out_of_time_is_not_refused(self):
+        convs = base()
+        convs["ana"]["messages"][1].update(time="09:00:00", timestamp="2024-01-01T09:00:00")
+        append_messages(convs, {"ana": [row(4, 1, "x", "2024-01-01 10:30:00")]})
+        self.assertEqual([m["id"] for m in convs["ana"]["messages"]], [1, 4, 2, 3])
+
     def test_refuses_an_anchor_that_puts_a_day_out_of_time(self):
         # 09:00 placed after the 11:00 message.
         with self.assertRaises(SystemExit) as caught:

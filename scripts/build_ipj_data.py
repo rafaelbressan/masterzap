@@ -399,12 +399,13 @@ def add_document_conversations(conversations, appends):
     for doc in DOCUMENTS:
         by_conv = defaultdict(list)
         for row in read_jsonl(ROOT / "data" / doc["dir"] / "mensagens.jsonl"):
+            if row["conv"] in SKIP_CONVERSATIONS:
+                continue
             if "page" not in row:
                 # A police document's line says where it is (null when the
                 # transcription has no page): the field may not be forgotten.
                 sys.exit(f"{doc['dir']}: msg {row['id']} sem \"page\"")
-            if row["conv"] not in SKIP_CONVERSATIONS:
-                by_conv[row["conv"]].append(row)
+            by_conv[row["conv"]].append(row)
 
         for conv_id, rows in by_conv.items():
             if conv_id in conversations:
@@ -545,22 +546,28 @@ def append_messages(conversations, appends):
             by_id[msg["id"]] = msg
         # What an anchor gets wrong shows here: a line already in the chat
         # (same sender, second and text), or a day whose known times go back.
-        added = {r["id"] for r in rows}
+        # Where each line came from: the conversation as it was, or the file
+        # that adds it. Two alike from the same file are its own (a file sent
+        # twice); from two places, one of them repeats the other.
+        origin = {r["id"]: r["_where"] for r in rows}
         for date, day in days.items():
-            if not any(m["id"] in added for m in day):
+            if not any(m["id"] in origin for m in day):
                 continue
             seen = {}
             for m in day:
                 if m.get("time"):
-                    key = (m["sender"], m["time"], " ".join((m["content"] or "").split()))
-                    # Two added ones alike are the source's own (a file sent twice).
-                    if key in seen and (m["id"] in added) != (seen[key] in added):
+                    key = (m["sender"], m["time"], _quote_key(m["content"]))
+                    if key in seen and origin.get(m["id"]) != origin.get(seen[key]):
                         sys.exit(f"{conv_id} {date}: msgs {seen[key]} e {m['id']} são a mesma mensagem "
                                  "(remetente, horário e texto); o acréscimo repete uma que já existe")
                     seen.setdefault(key, m["id"])
+            # A day the source already printed out of time is not the anchors' fault.
+            base_times = [m["time"] for m in day if m.get("time") and m["id"] not in origin]
+            if base_times != sorted(base_times):
+                continue
             times = [(m["time"], m["id"]) for m in day if m.get("time")]
             for (t0, i0), (t1, i1) in zip(times, times[1:]):
-                if t1 < t0 and (i0 in added or i1 in added):
+                if t1 < t0 and (i0 in origin or i1 in origin):
                     sys.exit(f"{conv_id} {date}: msg {i1} ({t1}) vem depois da {i0} ({t0}); "
                              "confira o after das linhas acrescentadas")
         # Undated first, a month before its days (message_schema.date_sort_key);

@@ -8,7 +8,7 @@ Lula (`roberto-teixeira`).
 
 | Arquivo | Conteúdo |
 |---|---|
-| `conversas.json` | Uma entrada por conversa: o contato (`name`), como estava salvo (`saved_as`), o telefone, a fonte padrão (`source_id`) e o selo padrão (`verification`) |
+| `conversas.json` | Uma entrada por conversa: o contato (`name`), como estava salvo (`saved_as`), o telefone, a fonte padrão (`source_id`), o selo padrão (`verification`) e, quando a observação padrão não serve, `note` (as conversas completas dos exports) |
 | `mensagens.jsonl` | Uma linha por mensagem, no formato de `data/inq-5026/mensagens.jsonl`, com `id` explícito e estável |
 
 ## Fonte e selo
