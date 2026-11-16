@@ -18,7 +18,7 @@ export const SEALS = {
   },
   'nao-verificado': {
     label: 'Não verificado',
-    explanation: 'Sem fonte verificável; pode estar incompleto ou adulterado.',
+    explanation: 'Sem fonte verificável.',
   },
   reconstruido: {
     label: 'Reconstruído',

@@ -32376,6 +32376,20 @@
       "verification": "nao-verificado"
     },
     {
+      "id": 2344,
+      "timestamp": "2024-04-18T13:49:09",
+      "date": "2024-04-18",
+      "time": "13:49:09",
+      "sender": "DV",
+      "content": "Sim",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_id": "iped-ana-matos-mkt",
+      "verification": "nao-verificado"
+    },
+    {
       "id": 1,
       "timestamp": "2024-04-18T13:49:12",
       "date": "2024-04-18",
@@ -32402,20 +32416,6 @@
       "urls": [],
       "source_page": 186,
       "source_figure": 192
-    },
-    {
-      "id": 2344,
-      "timestamp": "2024-04-18T14:08:06",
-      "date": "2024-04-18",
-      "time": "14:08:06",
-      "sender": "DV",
-      "content": "Sim",
-      "type": "text",
-      "is_edited": false,
-      "attachment": null,
-      "urls": [],
-      "source_id": "iped-ana-matos-mkt",
-      "verification": "nao-verificado"
     },
     {
       "id": 3,
@@ -181754,24 +181754,10 @@
       "verification": "nao-verificado"
     },
     {
-      "id": 77,
-      "timestamp": "2025-07-21T12:25:49",
+      "id": 12661,
+      "timestamp": "2025-07-21T06:46:01",
       "date": "2025-07-21",
-      "time": "12:25:49",
-      "sender": "DV",
-      "content": "Ana",
-      "type": "text",
-      "is_edited": false,
-      "attachment": null,
-      "urls": [],
-      "source_page": 194,
-      "source_figure": 203
-    },
-    {
-      "id": 12665,
-      "timestamp": "2025-07-21T12:25:55",
-      "date": "2025-07-21",
-      "time": "12:25:55",
+      "time": "06:46:01",
       "sender": "Ana Matos",
       "content": "Oi",
       "type": "text",
@@ -181782,21 +181768,7 @@
       "verification": "nao-verificado"
     },
     {
-      "id": 78,
-      "timestamp": "2025-07-21T12:25:55",
-      "date": "2025-07-21",
-      "time": "12:25:55",
-      "sender": "Ana Matos",
-      "content": "Oi",
-      "type": "text",
-      "is_edited": false,
-      "attachment": null,
-      "urls": [],
-      "source_page": 194,
-      "source_figure": 203
-    },
-    {
-      "id": 12661,
+      "id": 12662,
       "timestamp": "2025-07-21T06:46:04",
       "date": "2025-07-21",
       "time": "06:46:04",
@@ -181810,7 +181782,7 @@
       "verification": "nao-verificado"
     },
     {
-      "id": 12662,
+      "id": 12663,
       "timestamp": "2025-07-21T06:46:12",
       "date": "2025-07-21",
       "time": "06:46:12",
@@ -181824,7 +181796,7 @@
       "verification": "nao-verificado"
     },
     {
-      "id": 12663,
+      "id": 12664,
       "timestamp": "2025-07-21T10:41:56",
       "date": "2025-07-21",
       "time": "10:41:56",
@@ -181838,7 +181810,7 @@
       "verification": "nao-verificado"
     },
     {
-      "id": 12664,
+      "id": 12665,
       "timestamp": "2025-07-21T12:24:51",
       "date": "2025-07-21",
       "time": "12:24:51",
@@ -181853,6 +181825,34 @@
       "source_id": "iped-ana-matos-mkt",
       "verification": "nao-verificado",
       "quoted_id": 12655
+    },
+    {
+      "id": 77,
+      "timestamp": "2025-07-21T12:25:49",
+      "date": "2025-07-21",
+      "time": "12:25:49",
+      "sender": "DV",
+      "content": "Ana",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_page": 194,
+      "source_figure": 203
+    },
+    {
+      "id": 78,
+      "timestamp": "2025-07-21T12:25:55",
+      "date": "2025-07-21",
+      "time": "12:25:55",
+      "sender": "Ana Matos",
+      "content": "Oi",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_page": 194,
+      "source_figure": 203
     },
     {
       "id": 79,
@@ -182225,7 +182225,7 @@
       "quoted_sender": "Ana Matos",
       "source_id": "iped-ana-matos-mkt",
       "verification": "nao-verificado",
-      "quoted_id": 12664
+      "quoted_id": 12665
     },
     {
       "id": 12681,

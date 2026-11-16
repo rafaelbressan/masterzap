@@ -298,7 +298,7 @@ def resolve_quotes(conv_id, messages, only=None):
         given = msg.get("quoted_sender")
         where = f"{conv_id} msg {msg['id']} (p. {msg.get('source_page')})"
         # The latest earlier first, as reading the chat back would find them.
-        found = {p for p in by_text.get(_quote_key(quoted), ()) if p < i}
+        found = set() if CONTACT_QUOTE.match(quoted) else {p for p in by_text.get(_quote_key(quoted), ()) if p < i}
         found |= {p for p in cards if p < i and _quotes(messages[p], quoted)}
         matches = [messages[p] for p in sorted(found, reverse=True)]
         if given:
@@ -399,6 +399,10 @@ def add_document_conversations(conversations, appends):
     for doc in DOCUMENTS:
         by_conv = defaultdict(list)
         for row in read_jsonl(ROOT / "data" / doc["dir"] / "mensagens.jsonl"):
+            if "page" not in row:
+                # A police document's line says where it is (null when the
+                # transcription has no page): the field may not be forgotten.
+                sys.exit(f"{doc['dir']}: msg {row['id']} sem \"page\"")
             if row["conv"] not in SKIP_CONVERSATIONS:
                 by_conv[row["conv"]].append(row)
 
@@ -467,8 +471,8 @@ def add_fork_conversations(conversations, appends):
             "metadata": contact_metadata(
                 rows, info["name"], info["saved_as"], messages,
                 titles[info["source_id"]], info["source_id"],
-                "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. "
-                "A conversa completa não é pública.",
+                info.get("note") or ("Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem "
+                                     "diz de onde veio. A conversa completa não é pública."),
                 verification=info["verification"]),
             "messages": messages,
         }
@@ -539,6 +543,26 @@ def append_messages(conversations, appends):
                 pos = next(i for i, m in enumerate(day) if m is by_id[anchor]) + 1
             day.insert(pos, msg)
             by_id[msg["id"]] = msg
+        # What an anchor gets wrong shows here: a line already in the chat
+        # (same sender, second and text), or a day whose known times go back.
+        added = {r["id"] for r in rows}
+        for date, day in days.items():
+            if not any(m["id"] in added for m in day):
+                continue
+            seen = {}
+            for m in day:
+                if m.get("time"):
+                    key = (m["sender"], m["time"], " ".join((m["content"] or "").split()))
+                    # Two added ones alike are the source's own (a file sent twice).
+                    if key in seen and (m["id"] in added) != (seen[key] in added):
+                        sys.exit(f"{conv_id} {date}: msgs {seen[key]} e {m['id']} são a mesma mensagem "
+                                 "(remetente, horário e texto); o acréscimo repete uma que já existe")
+                    seen.setdefault(key, m["id"])
+            times = [(m["time"], m["id"]) for m in day if m.get("time")]
+            for (t0, i0), (t1, i1) in zip(times, times[1:]):
+                if t1 < t0 and (i0 in added or i1 in added):
+                    sys.exit(f"{conv_id} {date}: msg {i1} ({t1}) vem depois da {i0} ({t0}); "
+                             "confira o after das linhas acrescentadas")
         # Undated first, a month before its days (message_schema.date_sort_key);
         # sorted() is stable, so days already in order keep it.
         messages = [m for date in sorted(days, key=date_sort_key) for m in days[date]]
