@@ -11,7 +11,7 @@
       "end": "2025-02-28"
     },
     "total_messages": 38,
-    "source": "Capturas de tela com marca d'água 'piauí' e texto fornecido pelo usuário. Documento de origem não informado.",
+    "source": "Capturas de tela com marca d'água 'piauí' e texto fornecido ao fork. Documento de origem não informado.",
     "source_id": "fork-kiko-sobrinho",
     "verification": "imprensa",
     "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
@@ -60,6 +60,18 @@
       "time": "15:30:00",
       "sender": "Kiko Sobrinho",
       "content": "Agora tendi vc mudou almoço ministro lá pra",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": []
+    },
+    {
+      "id": 29,
+      "timestamp": "2025-02-28T10:19:00",
+      "date": "2025-02-28",
+      "time": "10:19:00",
+      "sender": "DV",
+      "content": "Opa",
       "type": "text",
       "is_edited": false,
       "attachment": null,
@@ -351,18 +363,6 @@
       "time": null,
       "sender": "DV",
       "content": "Deixa sem",
-      "type": "text",
-      "is_edited": false,
-      "attachment": null,
-      "urls": []
-    },
-    {
-      "id": 29,
-      "timestamp": "2025-02-28T10:19:00",
-      "date": "2025-02-28",
-      "time": "10:19:00",
-      "sender": "DV",
-      "content": "Opa",
       "type": "text",
       "is_edited": false,
       "attachment": null,

@@ -34,7 +34,7 @@ import {
   ROOT, SITE, REPO, TIMEZONE, UTC_OFFSET,
   loadEntries, loadMessages, sourceOf, contactOf, ownerName, whoIs, createResolver, mentionsOf, createLocator, isPaged, PREVIEW_MESSAGES,
   urlsIn, linksToMarkdown, linksToText, linksToHtml, escapeHtml,
-  longDate, phonePretty, messageText, messageHtml, citationOf, pageOf, messageUrl,
+  longDate, phonePretty, messageText, messageHtml, citationOf, pageOf, messageUrl, periodOf,
   OFFICIAL_KINDS, VERIFICATION_LABELS, monthOf, zonedTimestamp,
 } from './lib/corpus.mjs';
 
@@ -135,7 +135,7 @@ function appPage({ title, description, path, jsonLd, chat, hash, article, extraH
 /** A description a search result can show, from the profile when there is one. */
 function describe(entry, profile, who) {
   const first = profile?.sections?.[0]?.paragraphs?.[0]?.text;
-  const fallback = `Conversa entre ${ownerName(entry)} e ${who}: ${entry.total_messages} mensagens, de ${entry.date_range.start} a ${entry.date_range.end}, no MasterWhats.`;
+  const fallback = `Conversa entre ${ownerName(entry)} e ${who}: ${entry.total_messages} mensagens, ${periodOf(entry.date_range)}, no MasterWhats.`;
   if (!first) return fallback;
   const text = linksToText(first).replace(/\s+/g, ' ').trim();
   if (text.length <= 155) return text;
@@ -153,7 +153,7 @@ function conversationLd(entry, who, description, { path, month, first, last, par
     url,
     inLanguage: 'pt-BR',
     description,
-    temporalCoverage: `${first}/${last}`,
+    ...(first && first !== 'sem-data' ? { temporalCoverage: `${first}/${last}` } : {}),
     about: [
       { '@type': 'Person', name: ownerName(entry) },
       { '@type': 'Person', name: who },
@@ -236,7 +236,7 @@ function conversationPage(entry, messages, profile, who) {
 
   out.push(`<article id="prerender">`);
   out.push(`<h1>${escapeHtml(ownerName(entry))} ↔ ${escapeHtml(who)}</h1>`);
-  out.push(`<p>${entry.total_messages} mensagens, de ${entry.date_range.start} a ${entry.date_range.end}. `
+  out.push(`<p>${entry.total_messages} mensagens, ${periodOf(entry.date_range)}. `
     + `<a href="/#/chat/${entry.id}">Abrir no MasterWhats</a> · `
     + `<a href="/export/masterwhats-${entry.id}.md">Markdown completo</a> · `
     + `<a href="/export/masterwhats-${entry.id}.json">JSON</a></p>`);
@@ -423,12 +423,16 @@ function profileParagraphs(profile, context) {
 }
 
 function llmsFull(built, people) {
+  // The whole collection's span: the earliest and latest known date of any
+  // conversation (the list is ordered by last message, not by start).
+  const known = built.flatMap(b => [b.entry.date_range.start, b.entry.date_range.end]).filter(d => d && d !== 'sem-data').sort();
+  const span = { start: known[0] ?? '', end: known.at(-1) ?? '' };
   const total = built.reduce((n, b) => n + b.entry.total_messages, 0);
   const about = SETTINGS_CONTENT.sections.find(s => s.title === 'Sobre o Projeto');
   const rest = SETTINGS_CONTENT.sections.filter(s => s !== about);
   const out = [
     '# MasterWhats — conteúdo completo', '',
-    `> Tudo que o site diz, em texto. Cada citação traz ⟨data hora · documento p., fig.⟩ (o laudo da IPJ-A nº 3298613/2026, a representação do Inq 5.026) e linka a mensagem na página estática (${SITE}/chat/<id>#msg-<n>, ou a página do mês na conversa com Martha Graeff); a mesma página abre o app nessa mensagem para quem tem JavaScript. O mesmo n aparece como "msg n" no Markdown de cada conversa. ${built.length} conversas, ${total} mensagens, de ${built.at(-1)?.entry.date_range.start ?? ''} a ${built[0]?.entry.date_range.end ?? ''}. Gerado em ${today}. Código e dados: ${REPO}.`, '',
+    `> Tudo que o site diz, em texto. Cada citação traz ⟨data hora · documento p., fig.⟩ (o laudo da IPJ-A nº 3298613/2026, a representação do Inq 5.026) e linka a mensagem na página estática (${SITE}/chat/<id>#msg-<n>, ou a página do mês na conversa com Martha Graeff); a mesma página abre o app nessa mensagem para quem tem JavaScript. O mesmo n aparece como "msg n" no Markdown de cada conversa. ${built.length} conversas, ${total} mensagens, de ${span.start} a ${span.end}. Gerado em ${today}. Código e dados: ${REPO}.`, '',
     '## Sobre o projeto', '',
     ...(about?.paragraphs || []).map(p => linksToMarkdown(p.text, { resolve, hrefFor: locate }) + '\n'),
     '## Quem é Daniel Vorcaro', '',
@@ -437,7 +441,7 @@ function llmsFull(built, people) {
   ];
   for (const { entry, who, profile, months } of built) {
     const source = sourceOf(entry);
-    out.push(`### ${who} — ${entry.total_messages} mensagens, ${entry.date_range.start} a ${entry.date_range.end}`, '');
+    out.push(`### ${who} — ${entry.total_messages} mensagens, ${periodOf(entry.date_range)}`, '');
     out.push(`- Página: ${SITE}/chat/${entry.id}`);
     if (months) out.push(`- Um mês por página: ${[...months.keys()].map(ym => `${SITE}/chat/${entry.id}/${ym}`).join(' · ')}`, `- Markdown por mês (troque o mês): ${SITE}/export/masterwhats-${entry.id}-${[...months.keys()][0]}.md`);
     out.push(`- Conversa completa em Markdown: ${SITE}/export/masterwhats-${entry.id}.md · JSON: ${SITE}/export/masterwhats-${entry.id}.json`);

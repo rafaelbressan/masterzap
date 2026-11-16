@@ -1,7 +1,7 @@
 {
   "acm-neto": {
     "name": "ACM Neto",
-    "saved_as": "acm-neto",
+    "saved_as": "ACM Neto",
     "phone": null,
     "source_id": "fork-acm-neto",
     "verification": "imprensa",
@@ -25,7 +25,7 @@
   },
   "andre-valadao": {
     "name": "André Valadão",
-    "saved_as": "andre-valadao",
+    "saved_as": "André Valadão",
     "phone": "14078202598",
     "source_id": "fork-andre-valadao",
     "verification": "nao-verificado",
@@ -49,7 +49,7 @@
   },
   "cezinha-de-madureira": {
     "name": "Cezinha de Madureira",
-    "saved_as": "cezinha-de-madureira",
+    "saved_as": "Cezinha de Madureira",
     "phone": null,
     "source_id": "fork-cezinha-de-madureira",
     "verification": "imprensa",
@@ -73,7 +73,7 @@
   },
   "dani-alves": {
     "name": "Daniel Alves",
-    "saved_as": "daniel-alves",
+    "saved_as": "Daniel Alves",
     "phone": null,
     "source_id": "fork-dani-alves",
     "verification": "imprensa",
@@ -89,7 +89,7 @@
   },
   "dias-toffoli": {
     "name": "Dias Toffoli",
-    "saved_as": "dias-toffoli",
+    "saved_as": "Dias Toffoli",
     "phone": null,
     "source_id": "fork-dias-toffoli",
     "verification": "imprensa",
@@ -97,7 +97,7 @@
   },
   "diogo-batista-vorcaro": {
     "name": "Diogo Batista",
-    "saved_as": "diogo-batista-vorcaro",
+    "saved_as": "Diogo Batista",
     "phone": null,
     "source_id": "fork-diogo-batista-vorcaro",
     "verification": "imprensa",
@@ -105,7 +105,7 @@
   },
   "erika-schneider": {
     "name": "Erika Schneider",
-    "saved_as": "erika-schneider",
+    "saved_as": "Erika Schneider",
     "phone": null,
     "source_id": "fork-erika-schneider",
     "verification": "imprensa",
@@ -113,7 +113,7 @@
   },
   "fabiano-medina": {
     "name": "Fábio Medina Osório",
-    "saved_as": "fabio-medina-osorio",
+    "saved_as": "Fábio Medina Osório",
     "phone": null,
     "source_id": "fork-fabiano-medina",
     "verification": "imprensa",
@@ -129,7 +129,7 @@
   },
   "guilherme-barros": {
     "name": "Guilherme Barros Assessor",
-    "saved_as": "guilherme-barros",
+    "saved_as": "Guilherme Barros Assessor",
     "phone": null,
     "source_id": "fork-guilherme-barros",
     "verification": "nao-verificado",
@@ -137,7 +137,7 @@
   },
   "gustavo-lima": {
     "name": "Gustavo Lima",
-    "saved_as": "gustavo-lima",
+    "saved_as": "Gustavo Lima",
     "phone": null,
     "source_id": "fork-gustavo-lima",
     "verification": "imprensa",
@@ -153,7 +153,7 @@
   },
   "hugo-motta": {
     "name": "Hugo Motta",
-    "saved_as": "hugo-motta",
+    "saved_as": "Hugo Motta",
     "phone": null,
     "source_id": "fork-hugo-motta",
     "verification": "imprensa",
@@ -193,7 +193,7 @@
   },
   "luciano-huck": {
     "name": "Luciano Huck",
-    "saved_as": "luciano-huck",
+    "saved_as": "Luciano Huck",
     "phone": null,
     "source_id": "fork-luciano-huck",
     "verification": "imprensa",
@@ -209,7 +209,7 @@
   },
   "ministro-benedito": {
     "name": "Ministro Benedito",
-    "saved_as": "ministro-benedito",
+    "saved_as": "Ministro Benedito",
     "phone": null,
     "source_id": "fork-ministro-benedito",
     "verification": "nao-verificado",
@@ -289,7 +289,7 @@
   },
   "roberto-justus": {
     "name": "Roberto Justus",
-    "saved_as": "roberto-justus",
+    "saved_as": "Roberto Justus",
     "phone": null,
     "source_id": "fork-roberto-justus",
     "verification": "imprensa",
@@ -305,7 +305,7 @@
   },
   "ronaldo-fenomeno": {
     "name": "Ronaldo",
-    "saved_as": "ronaldo-fenomeno",
+    "saved_as": "Ronaldo",
     "phone": null,
     "source_id": "fork-ronaldo-fenomeno",
     "verification": "nao-verificado",
@@ -320,8 +320,8 @@
     "fork_note": "O texto foi transcrito da captura de tela, que mostra hora e minuto, sem segundos; por isso os timestamps usam ':00' nos segundos e o campo 'time' traz '??'. Na captura, o remetente da direita é 'Vorcaro' e o da esquerda é 'Selma (empregada)'; aqui os rótulos são DV e Selma, para manter o estilo dos outros JSONs. A grafia original foi mantida, inclusive 'sar' na mensagem 1. A captura mostra apenas este trecho do dia 01/03/2025; a conversa completa não foi enviada."
   },
   "sicario-master": {
-    "name": "sicario master",
-    "saved_as": "sicario-master",
+    "name": "Sicário",
+    "saved_as": "Sicário",
     "phone": null,
     "source_id": "fork-sicario-master",
     "verification": "nao-verificado",
@@ -345,7 +345,7 @@
   },
   "walfrido-warde-new": {
     "name": "Walfrido Warde New",
-    "saved_as": "walfrido-warde-new",
+    "saved_as": "Walfrido Warde New",
     "phone": null,
     "source_id": "fork-walfrido-warde-new",
     "verification": "nao-verificado",
@@ -353,7 +353,7 @@
   },
   "yasmin-brunet": {
     "name": "Yasmin Brunet",
-    "saved_as": "yasmin-brunet",
+    "saved_as": "Yasmin Brunet",
     "phone": null,
     "source_id": "fork-yasmin-brunet",
     "verification": "nao-verificado",
@@ -361,7 +361,7 @@
   },
   "ze-maria": {
     "name": "Ze Maria Chef Iate Clube",
-    "saved_as": "ze-maria",
+    "saved_as": "Ze Maria Chef Iate Clube",
     "phone": null,
     "source_id": "fork-ze-maria",
     "verification": "nao-verificado",

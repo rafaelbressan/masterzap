@@ -4,45 +4,19 @@
       "DV",
       "Guilherme Barros Assessor"
     ],
-    "saved_as": "guilherme-barros",
+    "saved_as": null,
     "phone": null,
     "date_range": {
       "start": "2024-08-07",
       "end": "2024-09-25"
     },
     "total_messages": 65,
-    "source": "7 arquivos de capturas de tela de WhatsApp fornecidas pelo usuário: printcorrigido__1_.jpg, folha01.webp, folha03.webp, folha04.webp, printcorrigido.jpg, folha0",
+    "source": "7 arquivos de capturas de tela de WhatsApp fornecidas ao fork: printcorrigido__1_.jpg, folha01.webp, folha03.webp, folha04.webp, printcorrigido.jpg, folha0",
     "source_id": "fork-guilherme-barros",
     "verification": "nao-verificado",
     "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."
   },
   "messages": [
-    {
-      "id": 1,
-      "timestamp": null,
-      "date": "2024-08-07",
-      "time": null,
-      "sender": "DV",
-      "content": "Sim",
-      "type": "text",
-      "is_edited": false,
-      "attachment": null,
-      "urls": [],
-      "note": "Carimbo coberto pelo botão de compartilhar do celular (visível: '2024-08-07 20:47'); hora exata ilegível, timestamp null. Posição: após 20:47:37."
-    },
-    {
-      "id": 2,
-      "timestamp": null,
-      "date": "2024-08-07",
-      "time": null,
-      "sender": "Guilherme Barros Assessor",
-      "content": "Depois vamos aos outros passos",
-      "type": "text",
-      "is_edited": false,
-      "attachment": null,
-      "urls": [],
-      "note": "Bolha cortada na borda inferior do print, sem carimbo visível; hora ilegível, timestamp null. O print termina aqui; pode haver mensagens seguintes fora do recorte."
-    },
     {
       "id": 3,
       "timestamp": "2024-08-07T17:11:40",
@@ -207,17 +181,30 @@
       "urls": []
     },
     {
-      "id": 16,
+      "id": 1,
       "timestamp": null,
-      "date": "2024-08-09",
+      "date": "2024-08-07",
       "time": null,
       "sender": "DV",
-      "content": "Ok",
+      "content": "Sim",
       "type": "text",
       "is_edited": false,
       "attachment": null,
       "urls": [],
-      "note": "Carimbo coberto pelo botão de compartilhar do celular (visível: '2024-08-09 09:4'); hora ilegível, timestamp null. Posição: entre 09:48:20 e 09:49:58."
+      "note": "Carimbo coberto pelo botão de compartilhar do celular (visível: '2024-08-07 20:47'); hora exata ilegível, timestamp null. Posição: após 20:47:37."
+    },
+    {
+      "id": 2,
+      "timestamp": null,
+      "date": "2024-08-07",
+      "time": null,
+      "sender": "Guilherme Barros Assessor",
+      "content": "Depois vamos aos outros passos",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Bolha cortada na borda inferior do print, sem carimbo visível; hora ilegível, timestamp null. O print termina aqui; pode haver mensagens seguintes fora do recorte."
     },
     {
       "id": 17,
@@ -382,6 +369,19 @@
       "is_edited": false,
       "attachment": null,
       "urls": []
+    },
+    {
+      "id": 16,
+      "timestamp": null,
+      "date": "2024-08-09",
+      "time": null,
+      "sender": "DV",
+      "content": "Ok",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Carimbo coberto pelo botão de compartilhar do celular (visível: '2024-08-09 09:4'); hora ilegível, timestamp null. Posição: entre 09:48:20 e 09:49:58."
     },
     {
       "id": 30,
@@ -586,19 +586,6 @@
       "note": "Texto destacado em amarelo no print (marcação editorial). Carimbo cortado na borda inferior; lido como 14:27:36 (leitura menos segura). O print termina aqui; pode haver mensagens seguintes fora do recorte."
     },
     {
-      "id": 46,
-      "timestamp": null,
-      "date": "2024-08-11",
-      "time": null,
-      "sender": "Guilherme Barros Assessor",
-      "content": "Banco Master\nDaniel Vorcaro\n\nRESULTADOS E METAS\nO Banco Master fechou o ano de 2023 com lucro recorde de R$ 532 milhões, 152% a mais do que em 2022, e rentabilidade (ROE) de 29%.\nNo primeiro semestre de 2024, o resultado foi ainda melhor, com lucro superior a R$ 500 milhões e patrimônio líquido de R$ 4,3 bilhões. A meta de atingir patrimônio líquido de R$ 5 bilhões até 2025 foi antecipada, segundo Daniel Vorcaro, tendo sido alcançada em julho. A nova meta é chegar a R$ 10 bilhões em PL dentro de dois anos.\nVorcaro acredita que, ao atingir R$ 10 bilhões em PL o Master",
-      "type": "text",
-      "is_edited": false,
-      "attachment": null,
-      "urls": [],
-      "note": "Texto de resumo ('ideia geral') enviado por Guilherme Barros, aparentemente um roteiro sobre o banco. Carimbo não visível (bolha cortada na borda inferior do print); posição: após 13:19:23, timestamp null. O texto está truncado: termina em 'em PL o Master', e continua fora do recorte. O botão de compartilhar do celular cobre parte do texto: 'bilhões' (após 'R$ 5'), 'sido' (em 'tendo sido alcançada') e 'ões' (em 'R$ 10 bilhões') foram completados pelo contexto. O print termina aqui."
-    },
-    {
       "id": 47,
       "timestamp": "2024-08-11T12:16:38",
       "date": "2024-08-11",
@@ -705,12 +692,7 @@
       "content": "[imagem]",
       "type": "image",
       "is_edited": false,
-      "attachment": {
-        "type": "image",
-        "filename": null,
-        "duration": null,
-        "transcript": null
-      },
+      "attachment": null,
       "urls": [],
       "note": "Mensagem de imagem: o print mostra apenas um ícone de câmera (marcador de mídia), sem a imagem e sem legenda; conteúdo não disponível."
     },
@@ -725,6 +707,19 @@
       "is_edited": false,
       "attachment": null,
       "urls": []
+    },
+    {
+      "id": 46,
+      "timestamp": null,
+      "date": "2024-08-11",
+      "time": null,
+      "sender": "Guilherme Barros Assessor",
+      "content": "Banco Master\nDaniel Vorcaro\n\nRESULTADOS E METAS\nO Banco Master fechou o ano de 2023 com lucro recorde de R$ 532 milhões, 152% a mais do que em 2022, e rentabilidade (ROE) de 29%.\nNo primeiro semestre de 2024, o resultado foi ainda melhor, com lucro superior a R$ 500 milhões e patrimônio líquido de R$ 4,3 bilhões. A meta de atingir patrimônio líquido de R$ 5 bilhões até 2025 foi antecipada, segundo Daniel Vorcaro, tendo sido alcançada em julho. A nova meta é chegar a R$ 10 bilhões em PL dentro de dois anos.\nVorcaro acredita que, ao atingir R$ 10 bilhões em PL o Master",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Texto de resumo ('ideia geral') enviado por Guilherme Barros, aparentemente um roteiro sobre o banco. Carimbo não visível (bolha cortada na borda inferior do print); posição: após 13:19:23, timestamp null. O texto está truncado: termina em 'em PL o Master', e continua fora do recorte. O botão de compartilhar do celular cobre parte do texto: 'bilhões' (após 'R$ 5'), 'sido' (em 'tendo sido alcançada') e 'ões' (em 'R$ 10 bilhões') foram completados pelo contexto. O print termina aqui."
     },
     {
       "id": 57,
@@ -802,12 +797,7 @@
       "content": "[imagem]",
       "type": "image",
       "is_edited": false,
-      "attachment": {
-        "type": "image",
-        "filename": null,
-        "duration": null,
-        "transcript": null
-      },
+      "attachment": null,
       "urls": [],
       "forwarded": true,
       "note": "Marcada como 'Encaminhada' no print. Mensagem de imagem: o print mostra apenas um ícone de câmera (marcador de mídia), sem a imagem e sem legenda; conteúdo não disponível."

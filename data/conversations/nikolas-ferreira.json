@@ -102,22 +102,6 @@
       "verification": "imprensa"
     },
     {
-      "id": 7,
-      "timestamp": "2025-03-30T18:02:00",
-      "date": "2025-03-30",
-      "time": "18:02:00",
-      "sender": "Nikolas Ferreira",
-      "content": "Melhor ainda!",
-      "type": "text",
-      "is_edited": false,
-      "attachment": null,
-      "urls": [],
-      "quoted": "To em brasilia toda semana\nVamos marcar",
-      "quoted_sender": "DV",
-      "source_id": "fork-nikolas-ferreira-icl-noticias-03-09-2026",
-      "verification": "imprensa"
-    },
-    {
       "id": 8,
       "timestamp": "2025-03-30T18:02:03",
       "date": "2025-03-30",
@@ -226,6 +210,22 @@
       "is_edited": false,
       "attachment": null,
       "urls": [],
+      "source_id": "fork-nikolas-ferreira-icl-noticias-03-09-2026",
+      "verification": "imprensa"
+    },
+    {
+      "id": 7,
+      "timestamp": "2025-03-30T18:02:00",
+      "date": "2025-03-30",
+      "time": "18:02:00",
+      "sender": "Nikolas Ferreira",
+      "content": "Melhor ainda!",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "quoted": "To em brasilia toda semana\nVamos marcar",
+      "quoted_sender": "DV",
       "source_id": "fork-nikolas-ferreira-icl-noticias-03-09-2026",
       "verification": "imprensa"
     },

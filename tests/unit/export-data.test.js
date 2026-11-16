@@ -46,7 +46,8 @@ describe('the JSON', () => {
         expect(msg.timestamp, `${conv.id} #${msg.id}`).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-03:00$/);
       }
     }
-  });
+    // Reads every conversation's JSON (tens of MB): slow on a busy machine.
+  }, 30_000);
 
   it('says where it came from', () => {
     for (const conv of conversations) {

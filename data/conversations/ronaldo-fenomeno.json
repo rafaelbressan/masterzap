@@ -4,14 +4,14 @@
       "DV",
       "Ronaldo"
     ],
-    "saved_as": "ronaldo-fenomeno",
+    "saved_as": null,
     "phone": null,
     "date_range": {
       "start": "2024-04",
       "end": "2024-07"
     },
     "total_messages": 11,
-    "source": "Texto fornecido pelo usuário, sem print; o texto atribui a transcrição à VEJA. Reportagens posteriores da imprensa, consultadas apenas para situar o período, re",
+    "source": "Texto fornecido ao fork, sem print; o texto atribui a transcrição à VEJA. Reportagens posteriores da imprensa, consultadas apenas para situar o período, re",
     "source_id": "fork-ronaldo-fenomeno",
     "verification": "nao-verificado",
     "note": "Transcrição do fork 1uc4sm4theus/masterzap; cada mensagem diz de onde veio. A conversa completa não é pública."

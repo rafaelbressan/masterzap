@@ -24,7 +24,7 @@ SRC_DIR = ROOT / "data" / "ipj-3298613"
 OUT_DIR = ROOT / "data" / "conversations"
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from message_schema import date_sort_key, normalise_message, sort_key  # noqa: E402
+from message_schema import NO_DATE, date_sort_key, normalise_message, sort_key  # noqa: E402
 
 SOURCE_DOC = "IPJ-A nº 3298613/2026 — NADIP/DFIN/CGRC/DICOR/PF"
 # The report's record in data/sources.json. Every message built here comes from
@@ -207,6 +207,12 @@ def row_message(mid, row, **extra):
     )
 
 
+def date_range(messages):
+    """First and last known date; a message with none ("sem-data") is not a bound."""
+    dates = [m["date"] for m in messages if m["date"] != NO_DATE] or [NO_DATE]
+    return {"start": min(dates, key=date_sort_key), "end": max(dates, key=date_sort_key)}
+
+
 def contact_metadata(rows, peer, saved_as, messages, source_label, source_id, note,
                      verification=VERIFICATION):
     """A conversation with one contact, its messages from one document."""
@@ -216,7 +222,7 @@ def contact_metadata(rows, peer, saved_as, messages, source_label, source_id, no
         # from the person's name.
         "saved_as": saved_as if saved_as != peer else None,
         "phone": rows[0].get("phone"),
-        "date_range": {"start": messages[0]["date"], "end": messages[-1]["date"]},
+        "date_range": date_range(messages),
         "total_messages": len(messages),
         "source": source_label,
         "source_id": source_id,
@@ -410,7 +416,8 @@ def add_fork_conversations(conversations):
             sys.exit(f"data/fork: {conv_id} já existe; acrescentar mensagens a uma conversa "
                      "existente ainda não é suportado (ver add_document_conversations).")
         rows = by_conv[conv_id]
-        messages = sorted((row_message(r["id"], r) for r in rows), key=sort_key)
+        # In the file's order: the converter put each day in the fork's order.
+        messages = [row_message(r["id"], r) for r in rows]
         resolve_quotes(conv_id, messages)
         conversations[conv_id] = {
             "metadata": contact_metadata(
@@ -432,8 +439,11 @@ def build_index(messages):
             {
                 "date": date,
                 "message_count": len(by_date[date]),
-                "first_message_id": by_date[date][0]["id"],
-                "last_message_id": by_date[date][-1]["id"],
+                # The lowest and highest id of the day, which need not be its
+                # first and last on screen: a day of the fork keeps the fork's
+                # order, and its ids stay the ones already published.
+                "first_message_id": min(m["id"] for m in by_date[date]),
+                "last_message_id": max(m["id"] for m in by_date[date]),
             }
             # Undated first, a month before its days — the order the viewer
             # loads them in (message_schema.date_sort_key).
