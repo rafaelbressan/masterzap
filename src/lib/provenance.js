@@ -99,13 +99,20 @@ export function sealDescription(verification, source) {
  */
 export function conversationSealLine(conversation) {
   if (!SEALS[conversation?.verification]) return '';
-  const source = sourceById(conversation.source_id);
-  const title = (source?.titulo ? source.titulo.replace(/\s+—\s+.*$/, '') : conversation.source) || 'não informada';
-  const outlet = source?.orgao_ou_veiculo || '';
+  const { title, outlet } = sourceNameOf(conversation, sourceById(conversation.source_id));
   if (headerSeal(conversation) !== conversation.verification) {
     return sealCountsText(conversation, outlet ? `${title}, ${outlet}` : title);
   }
   return `Fonte: ${title}${outlet ? ` (${outlet})` : ''} · ${sealCountsText(conversation)}`;
+}
+
+/**
+ * How a source is named in a line: its title without the " — …" tail, and
+ * its organ or outlet. The app's notice and the static pages share it.
+ */
+export function sourceNameOf(conversation, source) {
+  const title = (source?.titulo ? source.titulo.replace(/\s+—\s+.*$/, '') : conversation?.source) || 'não informada';
+  return { title, outlet: source?.orgao_ou_veiculo || '' };
 }
 
 /**
@@ -116,6 +123,7 @@ export function conversationSealLine(conversation) {
  */
 export function sealCountsText(conversation, sourceName = '') {
   const header = headerSeal(conversation);
+  if (!SEALS[header]) return '';
   const lead = header === conversation.verification ? SEALS[header].label : `Na maior parte, ${SEALS[header].label}`;
   const others = otherSealsText(conversation, sourceName);
   return others ? `${lead} · ${others}` : lead;
@@ -132,7 +140,9 @@ export function otherSealsText(conversation, sourceName = '') {
   const others = Object.entries(conversation?.verification_counts || {})
     .filter(([v]) => v !== header && SEALS[v]);
   const parts = others.map(([v, n]) => {
-    const named = sourceName && v === conversation.verification ? ` (${sourceName})` : '';
+    // Named only when all of them come from it (source_messages, split_data.py).
+    const named = sourceName && v === conversation.verification && n === conversation.source_messages
+      ? ` (${sourceName})` : '';
     return `${n.toLocaleString('pt-BR')} ${n === 1 ? 'mensagem marcada' : 'mensagens marcadas'} como ${SEALS[v].label}${named}`;
   });
   return parts.length ? new Intl.ListFormat('pt-BR', { type: 'conjunction' }).format(parts) : '';

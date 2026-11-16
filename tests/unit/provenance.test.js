@@ -49,8 +49,10 @@ describe('sealToMark', () => {
   it('leads the notice with the majority and names the source of the rest', () => {
     setSources({ pf: { titulo: 'IPJ-A nº 1/2026 — PF', orgao_ou_veiculo: 'Polícia Federal' } });
     const conv = { source_id: 'pf', verification: 'verificado', majority_verification: 'nao-verificado',
-      verification_counts: { verificado: 12, 'nao-verificado': 24 } };
+      verification_counts: { verificado: 12, 'nao-verificado': 24 }, source_messages: 12 };
     expect(conversationSealLine(conv)).toBe('Na maior parte, Não verificado · 12 mensagens marcadas como Verificado (IPJ-A nº 1/2026, Polícia Federal)');
+    // When some of those come from another document, the source is not named for all.
+    expect(conversationSealLine({ ...conv, source_messages: 10 })).toBe('Na maior parte, Não verificado · 12 mensagens marcadas como Verificado');
   });
 
   it('has a label, an explanation and an icon for every seal', () => {

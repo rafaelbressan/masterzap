@@ -40,11 +40,20 @@ test.describe('Provenance seal', () => {
     await expect(page.locator('.chat-msg-seal')).toHaveCount(36);
   });
 
-  test('a press majority from several outlets stays plain; the report\'s are marked', async ({ page }) => {
-    // Fabiano Zettel: 33 press (Metrópoles), 14 of the report, 13 with no outlet.
-    await page.goto('/#/chat/fabiano-zettel/msg/1'); // its first: the notice sits atop the oldest day
-    await expect(page.locator('.chat-header-info')).toHaveText(/60 mensagens · Imprensa/);
-    await expect(page.locator('.chat-seal-notice')).toContainText('Na maior parte, Imprensa');
+  test('a press majority stays plain; the report\'s own are marked', async ({ page }) => {
+    // Ciro Soares: 60 press lines (O Globo, Noites Húngaras, Poder360), 51 of the report.
+    await page.goto('/#/chat/ciro-soares/msg/52');
+    await expect(page.locator('.chat-header-info')).toHaveText(/116 mensagens · Imprensa/);
+    await expect(page.locator('.chat-seal-notice')).toContainText('Na maior parte, Imprensa · 51 mensagens marcadas como Verificado (IPJ-A nº 3298613/2026, Polícia Federal)');
+    // 31/01/2024: seven press lines, no glyph.
+    const press = page.locator('[data-date="2024-01-31"]');
+    await expect(press.locator('.chat-msg-row')).toHaveCount(7);
+    await expect(press.locator('.chat-msg-seal')).toHaveCount(0);
+    // 14/04/2024: the report's ten, each marked.
+    await page.goto('/#/chat/ciro-soares/msg/1');
+    const report = page.locator('[data-date="2024-04-14"]');
+    await expect(report.locator('.chat-msg-row')).toHaveCount(10);
+    await expect(report.locator('.chat-msg-seal')).toHaveCount(10);
   });
 
   test('the leak is labelled press, without marking every bubble', async ({ page }) => {

@@ -21,7 +21,7 @@ const ICON_CLOCK = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" 
 const ICON_LOCK = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>`;
 const ICON_SHIELD = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`;
 import { ICON_SEARCH } from '../lib/icons.js';
-import { SEALS, SEAL_ICONS, sourceById } from '../lib/provenance.js';
+import { SEALS, SEAL_ICONS, sourceById, headerSeal } from '../lib/provenance.js';
 
 
 /**
@@ -281,7 +281,12 @@ function createSourceItem(conversation) {
   item.classList.add('contact-info-source');
   const text = item.querySelector('.contact-info-action-text');
 
-  const lines = [source?.titulo || conversation.source, seal.explanation];
+  // In a chat most of whose messages came from elsewhere, this source is that
+  // of some of them: say how many, so the row does not contradict the header.
+  const share = headerSeal(conversation) !== conversation.verification && conversation.source_messages != null
+    ? `Fonte de ${conversation.source_messages.toLocaleString('pt-BR')} das ${conversation.total_messages.toLocaleString('pt-BR')} mensagens; as demais trazem a fonte delas.`
+    : null;
+  const lines = [source?.titulo || conversation.source, seal.explanation, share];
   for (const line of lines.filter(Boolean)) {
     const p = document.createElement('span');
     p.className = 'contact-info-action-detail';

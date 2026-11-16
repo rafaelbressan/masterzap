@@ -4,7 +4,7 @@
  */
 
 import { readFileSync, existsSync } from 'node:fs';
-import { SEALS, provenanceOf as appProvenanceOf, noteOf, NOTE_LABEL, sealCountsText, headerSeal } from '../../src/lib/provenance.js';
+import { SEALS, provenanceOf as appProvenanceOf, noteOf, NOTE_LABEL, sealCountsText, headerSeal, sourceNameOf } from '../../src/lib/provenance.js';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -91,9 +91,8 @@ export function sourceOf(entry) {
  * verificado · 9 mensagens marcadas como Verificado (IPJ-A …, Polícia Federal), …".
  */
 export function sealSummary(entry) {
-  const src = loadSources().get(entry.source_id);
-  const name = src ? [src.titulo.replace(/\s+—\s+.*$/, ''), src.orgao_ou_veiculo].filter(Boolean).join(', ') : '';
-  return sealCountsText(entry, name);
+  const { title, outlet } = sourceNameOf(entry, loadSources().get(entry.source_id));
+  return sealCountsText(entry, outlet ? `${title}, ${outlet}` : title);
 }
 
 /**
