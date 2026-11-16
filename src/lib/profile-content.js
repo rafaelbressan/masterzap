@@ -85,7 +85,7 @@ export const MORAES_PROFILE = {
       title: 'O Relatório da PF',
       paragraphs: [
         { text: 'Em 1º de setembro de 2026, o ministro {André Mendonça derrubou o sigilo}[https://www.poder360.com.br/poder-justica/mendonca-retira-sigilo-de-acao-sobre-vorcaro-e-moraes/] da IPJ-A nº 3298613/2026 — 218 páginas produzidas pela Polícia Federal a partir do iPhone 17 Pro apreendido de {Daniel Vorcaro}[action:profile-dv] na Operação Compliance Zero. O relatório havia sido entregue em 27 de agosto, em resposta à ordem de Mendonça para identificar os integrantes da suposta rede de influência do banqueiro, inclusive detentores de foro privilegiado.' },
-        { text: 'É esse documento que originou esta conversa. Diferente do vazamento com {Martha Graeff}[action:contact-martha], aqui não há um export de WhatsApp: o conteúdo foi reconstruído pela perícia e as mensagens abaixo saíram, uma a uma, das páginas do laudo. {Leia as íntegras dos documentos}[https://www.poder360.com.br/poder-justica/leia-as-integras-de-documentos-que-revelam-relacao-de-moraes-com-vorcaro/].' },
+        { text: 'É esse documento que originou esta conversa. Diferente do vazamento com {Martha Graeff}[action:contact-martha], aqui não há um export de WhatsApp: o conteúdo foi reconstruído pela perícia e as mensagens do laudo saíram, uma a uma, das páginas dele. As de outubro e novembro de 2025 marcadas como reconstruídas vêm de outra fonte: o índice de busca do WhatsApp citado pelo UOL, em que as palavras chegam embaralhadas. {Leia as íntegras dos documentos}[https://www.poder360.com.br/poder-justica/leia-as-integras-de-documentos-que-revelam-relacao-de-moraes-com-vorcaro/].' },
         { text: 'A PF é explícita ao delimitar o próprio trabalho: não fez diligências investigativas contra magistrados ou membros do Ministério Público, e o relatório {não conclui que Moraes cometeu crime}[https://www.congressoemfoco.com.br/noticia/121853/relatorio-da-pf-indica-sequencia-de-contatos-entre-vorcaro-e-moraes]. Juristas ouvidos pela imprensa também {apontaram uso político}[https://www.brasildefato.com.br/2026/09/01/entenda-o-caso-moraes-e-vorcaro-juristas-veem-uso-politico-e-crise-de-credibilidade/] na divulgação do material.' },
       ],
     },
@@ -188,7 +188,7 @@ export const OTHER_PROFILES = {
       title: 'Geraldo Samor',
       paragraphs: [
         { text: 'Jornalista, fundador do {Brazil Journal}[https://braziljournal.com/], veículo de economia e negócios com forte penetração na Faria Lima. Ex-repórter da Veja e do Wall Street Journal.' },
-        { text: 'A conversa com Vorcaro é curta e reveladora do que o banqueiro esperava da imprensa. Em 26 de abril de 2024, dia seguinte ao debate com Tony Blair em Londres, Vorcaro pede que a matéria mencione que "{antes do meu debate com o tony Blair, os 3 ministros do STF se reuniram privadamente}[action:search@geraldo-brazil-journal:Blair]" com o ex-primeiro-ministro — e diz explicitamente que "{Alexandre pediu}[action:search@geraldo-brazil-journal:Alexandre pediu]". O jornalista pede esclarecimento sobre o que exatamente deveria ser publicado.' },
+        { text: 'O trecho do relatório é curto e revelador do que o banqueiro esperava da imprensa; o resto vem de capturas de tela sem origem conhecida. Em 26 de abril de 2024, dia seguinte ao debate com Tony Blair em Londres, Vorcaro pede que a matéria mencione que "{antes do meu debate com o tony Blair, os 3 ministros do STF se reuniram privadamente}[action:search@geraldo-brazil-journal:debate com o tony Blair]" com o ex-primeiro-ministro — e diz explicitamente que "{Alexandre pediu}[action:search@geraldo-brazil-journal:Alexandre pediu]". O jornalista pede esclarecimento sobre o que exatamente deveria ser publicado.' },
         { text: 'Meses depois, um fundo controlado por {Fabiano Zettel}[action:contact:fabiano-zettel], cunhado de Vorcaro, {comprou 49,9% do Brazil Journal}[https://www.brasil247.com/midia/cunhado-de-vorcaro-investiu-em-participacao-acionaria-no-brazil-journal-a-biblia-da-faria-lima/]. Samor afirma ser sócio apenas de Flávio Carneiro, nega ligação com Vorcaro ou com o Master e diz manter independência editorial.' },
       ],
     }],
@@ -295,8 +295,8 @@ export const OTHER_PROFILES = {
     sections: [{
       title: 'Romy',
       paragraphs: [
-        { text: 'Trabalhava no financeiro do Banco Master e executava os pagamentos. Não é figura pública e não foi identificada pela imprensa: a única fonte sobre ela é o próprio relatório.' },
-        { text: 'A conversa dura três minutos, em 15 de março de 2024, e é uma das mais citadas do relatório. Vorcaro instrui: "{esse barci moraes por favor nao deixe atrasar um dia}[action:search@romy-banco-master:nao deixe atrasar], coloca no seu controle. É o pgto mais importante que temos". Ela responde que já estava fazendo "neste instante".' },
+        { text: 'Trabalhava no financeiro do Banco Master e executava os pagamentos. Não é figura pública e não foi identificada pela imprensa: o que se sabe dela vem dos documentos da PF.' },
+        { text: 'O trecho do relatório dura três minutos, em 15 de março de 2024, e é um dos mais citados. Vorcaro instrui: "{esse barci moraes por favor nao deixe atrasar um dia}[action:search@romy-banco-master:nao deixe atrasar], coloca no seu controle. É o pgto mais importante que temos". Ela responde que já estava fazendo "neste instante".' },
         { text: 'Ele completa: "{Pode pagar sempre, sem nota}[action:search@romy-banco-master:sem nota]. Do jeito que for". Três minutos depois ela envia o comprovante. A frase virou {manchete quando o sigilo caiu}[https://ndmais.com.br/justica/vorcaro-cobrou-pagamento-a-mulher-de-moraes-sem-atrasos/].' },
       ],
     }],
@@ -320,7 +320,7 @@ export const OTHER_PROFILES = {
       title: 'Leandro Serrano Giunchetti',
       paragraphs: [
         { text: 'Produtor dos eventos de Vorcaro e cavaleiro de hipismo. Salvo no celular como "Leo Serrano Giunchetti".' },
-        { text: 'A conversa é de abril de 2024, na preparação de Londres, e o tom dele diz muito sobre quem estava sendo recebido. Pede orientação porque era a primeira vez que fazia um evento "{mais coorporativo}[action:search@leo-serrano:coorporativo]" para o banqueiro e que envolvia "{esse bando de gente importante e sensivel}[action:search@leo-serrano:gente importante]" — diferente dos eventos "só de diversão", em que se arriscava sozinho.' },
+        { text: 'O trecho do relatório é de abril de 2024, na preparação de Londres, e o tom dele diz muito sobre quem estava sendo recebido. Pede orientação porque era a primeira vez que fazia um evento "{mais coorporativo}[action:search@leo-serrano:coorporativo]" para o banqueiro e que envolvia "{esse bando de gente importante e sensivel}[action:search@leo-serrano:gente importante]" — diferente dos eventos "só de diversão", em que se arriscava sozinho.' },
         { text: 'Detalha então a hierarquia do transporte: dois casais por V-Class para os convidados comuns, e "{os ministros mais sensiveis tipo Alexandre, Tofolli}[action:search@leo-serrano:mais sensiveis]" com um casal por S-Class.' },
       ],
     }],
@@ -331,7 +331,7 @@ export const OTHER_PROFILES = {
     sections: [{
       title: 'Luiz Rennó',
       paragraphs: [
-        { text: 'Empresário mineiro do círculo de Vorcaro. Aparece uma única vez no relatório, em 19 de abril de 2024, mas o trecho é dos mais diretos sobre como o fórum de Londres era vendido.' },
+        { text: 'Empresário mineiro do círculo de Vorcaro. No relatório aparece uma única vez, em 19 de abril de 2024, mas o trecho é dos mais diretos sobre como o fórum de Londres era vendido. O resto da conversa vem da representação da PF sobre o RioPrevidência, de reportagens e de prints e trechos sem veículo identificado.' },
         { text: 'Vorcaro oferece a ida a ele e a um sócio: "{Semana que vem estou fazendo um evento super exclusivo com alexandre de moraes em londres}[action:search@luiz-renno:super exclusivo]". Manda o convite digital do Grupo Voto e pede discrição — "{Pede pra ele nao passar adiante}[action:search@luiz-renno:passar adiante]. Estamos mantendo reservado".' },
         { text: 'E explica o critério de quem entra: "{Concorrente dele nao vai pq nao se da c alexandre}[action:search@luiz-renno:Concorrente dele]". O evento foi {financiado pelo Banco Master}[https://www.poder360.com.br/poder-justica/vorcaro-do-banco-master-financiou-eventos-com-ministros-do-stf/] sem aparecer como realizador.' },
       ],
@@ -355,8 +355,8 @@ export const OTHER_PROFILES = {
     sections: [{
       title: 'Michael',
       paragraphs: [
-        { text: 'Trabalhava na operação do hotel de Vorcaro em Campos do Jordão. Não é figura pública; a única fonte é o relatório.' },
-        { text: 'Toda a conversa é de 30 de dezembro de 2023, o dia do almoço para o ministro. Vorcaro acompanha minuto a minuto e orienta a não parecer forçado: "{Nao precisa ficar indo em todos locais dentro dacasa}[action:search@michael:forçado] pra nao ficar forçado demais. Deixa ser bem natural".' },
+        { text: 'Trabalhava na operação do hotel de Vorcaro em Campos do Jordão. Não é figura pública: as mensagens vêm do relatório e de capturas de tela sem origem conhecida.' },
+        { text: 'O trecho do relatório é de 30 de dezembro de 2023, o dia do almoço para o ministro. Vorcaro acompanha minuto a minuto e orienta a não parecer forçado: "{Nao precisa ficar indo em todos locais dentro dacasa}[action:search@michael:forçado] pra nao ficar forçado demais. Deixa ser bem natural".' },
         { text: 'À noite, Michael relata o incidente: um funcionário tirou foto com o convidado e trocou telefone. Vorcaro reage mal — "{Isso nao podia ne}[action:search@michael:nao podia]" — até saber quem tinha pedido. Michael explica que "{o ministro pediu para tirar fotos com todos}[action:search@michael:pediu para tirar fotos]", e o banqueiro recua: "{Mas se foi o ministro que pediu tudo bem}[action:search@michael:foi o ministro que pediu]".' },
       ],
     }],
@@ -422,8 +422,8 @@ export const OTHER_PROFILES = {
     sections: [{
       title: 'Gustavo',
       paragraphs: [
-        { text: 'Motorista de Vorcaro em São Paulo. Não é figura pública; a única fonte é o relatório.' },
-        { text: 'As seis mensagens são de 21 de dezembro de 2023 — o dia do primeiro encontro, intermediado por {Fábio Faria}[action:contact:fabio-faria]. A segurança do anfitrião pediu o modelo e a placa do carro para autorizar a entrada na garagem, e é Gustavo quem confirma os dados: "{Range Rover Vogue}[action:search@gustavo-motorista:Range Rover]".' },
+        { text: 'Motorista de Vorcaro em São Paulo. Não é figura pública: as mensagens vêm do relatório e de capturas de tela sem origem conhecida.' },
+        { text: 'As do relatório são de 21 de dezembro de 2023 — o dia do primeiro encontro, intermediado por {Fábio Faria}[action:contact:fabio-faria]. A segurança do anfitrião pediu o modelo e a placa do carro para autorizar a entrada na garagem, e é Gustavo quem confirma os dados: "{Range Rover Vogue}[action:search@gustavo-motorista:Range Rover]".' },
         { text: 'Em seguida Vorcaro repassa o endereço — "{Tucumã 99}[action:search@gustavo-motorista:Tucumã]" — e avisa: "Vamos nesse endereço agora".' },
       ],
     }],

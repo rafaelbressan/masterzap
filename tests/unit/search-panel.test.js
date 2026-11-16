@@ -61,6 +61,16 @@ describe('matchMessages()', () => {
     expect(hits[1].contact).toBe('Bia');
   });
 
+  it('within a day, newest by the place in the chat, not by id', () => {
+    // 63 was added later to the day, before 3 in the chat.
+    const index = [
+      { id: 1, date: '2024-01-01', content: 'amor 1' },
+      { id: 63, date: '2024-01-01', content: 'amor 63' },
+      { id: 3, date: '2024-01-01', content: 'amor 3' },
+    ];
+    expect(matchMessages([{ conv: conv('a', 'Ana'), index }], 'amor').map(h => h.id)).toEqual([3, 63, 1]);
+  });
+
   it('keeps every match, not a first page', () => {
     const index = Array.from({ length: 500 }, (_, i) => ({ id: i, date: '2024-01-01', content: 'amor' }));
     expect(matchMessages([{ conv: conv('a', 'Ana'), index }], 'amor')).toHaveLength(500);

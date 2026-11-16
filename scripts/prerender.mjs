@@ -35,7 +35,7 @@ import {
   loadEntries, loadMessages, sourceOf, contactOf, ownerName, whoIs, createResolver, mentionsOf, createLocator, isPaged, PREVIEW_MESSAGES,
   urlsIn, linksToMarkdown, linksToText, linksToHtml, escapeHtml,
   longDate, phonePretty, messageText, messageHtml, citationOf, pageOf, messageUrl, periodOf,
-  OFFICIAL_KINDS, VERIFICATION_LABELS, monthOf, zonedTimestamp,
+  OFFICIAL_KINDS, monthOf, zonedTimestamp, sealSummary, messageProvenanceTags,
 } from './lib/corpus.mjs';
 
 const DIST = join(ROOT, 'dist');
@@ -181,7 +181,9 @@ function messagesHtml(messages, entry) {
       out.push(`<h3>${longDate(day)}</h3>`);
     }
     const page = pageOf(msg, entry.id);
-    const cite = page ? ` <small>(${page})</small>` : '';
+    // A message from another source says so, as in the app and the export.
+    const cite = [page, ...messageProvenanceTags(msg, entry)].filter(Boolean)
+      .map(t => ` <small>(${escapeHtml(t)})</small>`).join('');
     const stamp = zonedTimestamp(msg);
     out.push(`<p id="msg-${msg.id}"><time${stamp ? ` datetime="${stamp}"` : ''}>${msg.time ? msg.time.slice(0, 5) : '--:--'}</time> <b>${escapeHtml(msg.sender)}</b>: ${messageHtml(msg, entry, { quoteHref })}${cite}</p>`);
   }
@@ -192,7 +194,7 @@ function provenanceHtml(entry) {
   const source = sourceOf(entry);
   const out = ['<h2>Proveniência</h2><dl>'];
   out.push(`<dt>Fonte</dt><dd>${escapeHtml(source.label)}</dd>`);
-  out.push(`<dt>Selo</dt><dd>${escapeHtml(VERIFICATION_LABELS[source.verification])}</dd>`);
+  out.push(`<dt>Selo</dt><dd>${escapeHtml(sealSummary(entry))}</dd>`);
   if (source.document) out.push(`<dt>Documento</dt><dd>${source.document_url ? `<a href="${escapeHtml(source.document_url)}" rel="noopener">${escapeHtml(source.document)}</a>` : escapeHtml(source.document)}${source.document_pages ? `, ${escapeHtml(source.document_pages)} páginas` : ''} (no repositório; o site não serve o PDF)</dd>`);
   if (source.document_sha256) out.push(`<dt>sha256 do documento</dt><dd><code>${escapeHtml(source.document_sha256)}</code></dd>`);
   out.push(`<dt>Como chegou ao público</dt><dd>${escapeHtml(source.how)}</dd>`);
@@ -445,7 +447,7 @@ function llmsFull(built, people) {
     out.push(`- Página: ${SITE}/chat/${entry.id}`);
     if (months) out.push(`- Um mês por página: ${[...months.keys()].map(ym => `${SITE}/chat/${entry.id}/${ym}`).join(' · ')}`, `- Markdown por mês (troque o mês): ${SITE}/export/masterwhats-${entry.id}-${[...months.keys()][0]}.md`);
     out.push(`- Conversa completa em Markdown: ${SITE}/export/masterwhats-${entry.id}.md · JSON: ${SITE}/export/masterwhats-${entry.id}.json`);
-    out.push(`- Fonte: ${source.label} · selo: ${VERIFICATION_LABELS[source.verification]}`);
+    out.push(`- Fonte: ${source.label} · selo: ${sealSummary(entry)}`);
     if (entry.saved_as) out.push(`- Salvo no celular como: ${entry.saved_as}`);
     if (entry.note) out.push(`- Observação: ${entry.note}`);
     out.push('');

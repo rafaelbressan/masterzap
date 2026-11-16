@@ -9,11 +9,11 @@
       "start": "2025-09-17",
       "end": "2025-11-17"
     },
-    "total_messages": 62,
+    "total_messages": 79,
     "source": "IPJ-A nº 3298613/2026 — NADIP/DFIN/CGRC/DICOR/PF",
     "source_id": "ipj-a-3298613-2026",
     "verification": "verificado",
-    "note": "Mensagens de DANIEL VORCARO enviadas como capturas de tela do aplicativo Notas em modo de visualização única; o conteúdo foi recuperado pela perícia e correlacionado ao envio pelos logs do sistema. Mensagens recebidas de visualização única não foram recuperadas."
+    "note": "Mensagens de DANIEL VORCARO enviadas como capturas de tela do aplicativo Notas em modo de visualização única; o conteúdo foi recuperado pela perícia e correlacionado ao envio pelos logs do sistema. Mensagens recebidas de visualização única não foram recuperadas. Há também mensagens de outras fontes, acrescentadas depois; cada uma diz de onde veio."
   },
   "messages": [
     {
@@ -101,6 +101,36 @@
       "source_figure": 38
     },
     {
+      "id": 63,
+      "timestamp": null,
+      "date": "2025-10-24",
+      "time": null,
+      "sender": "Alexandre de Moraes BRASILIA",
+      "content": "Obrigado amigo. Nem dá pra perceber que não sou eu rsrs",
+      "type": "image",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "O fork registra 12:00, sem a nota de precisão das outras mensagens desta fonte: o horário fica desconhecido. Legenda de imagem de visualização única; conteúdo da imagem não recuperado. Fonte: ChatSearchV5f / reportagem UOL.",
+      "source_id": "fork-alexandre-de-moraes-chatsearchv5f-reportagem-uol-06-11-2026",
+      "verification": "reconstruido"
+    },
+    {
+      "id": 64,
+      "timestamp": "2025-10-28T11:03:00",
+      "date": "2025-10-28",
+      "time": "11:03:00",
+      "sender": "DV",
+      "content": "Opa tudo bem?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Reconstruída a partir do banco ChatSearchV5f (índice de busca do WhatsApp; palavras embaralhadas, ordem inferida). Fonte: reportagem UOL. Horário só com precisão de minuto; ordem dentro do minuto segue o id. Armazenada como \"bem opa tudo\"; leitura provável \"Opa tudo bem?\".",
+      "source_id": "fork-alexandre-de-moraes-chatsearchv5f-reportagem-uol-06-11-2026",
+      "verification": "reconstruido"
+    },
+    {
       "id": 7,
       "timestamp": "2025-10-28T11:04:26",
       "date": "2025-10-28",
@@ -116,6 +146,36 @@
       "view_once": true,
       "note_created_utc": "2025-10-28 14:03:20",
       "sent_utc": "2025-10-28 14:04:26"
+    },
+    {
+      "id": 65,
+      "timestamp": "2025-10-28T11:43:00",
+      "date": "2025-10-28",
+      "time": "11:43:00",
+      "sender": "DV",
+      "content": "Boa, tinha esquecido disso. Sorte aí",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Reconstruída a partir do banco ChatSearchV5f (índice de busca do WhatsApp; palavras embaralhadas, ordem inferida). Fonte: reportagem UOL. Horário só com precisão de minuto; ordem dentro do minuto segue o id.",
+      "source_id": "fork-alexandre-de-moraes-chatsearchv5f-reportagem-uol-06-11-2026",
+      "verification": "reconstruido"
+    },
+    {
+      "id": 66,
+      "timestamp": "2025-10-28T11:44:00",
+      "date": "2025-10-28",
+      "time": "11:44:00",
+      "sender": "Alexandre de Moraes BRASILIA",
+      "content": "Obrigado ",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Reconstruída a partir do banco ChatSearchV5f (índice de busca do WhatsApp; palavras embaralhadas, ordem inferida). Fonte: reportagem UOL. Horário só com precisão de minuto; ordem dentro do minuto segue o id.",
+      "source_id": "fork-alexandre-de-moraes-chatsearchv5f-reportagem-uol-06-11-2026",
+      "verification": "reconstruido"
     },
     {
       "id": 8,
@@ -424,6 +484,36 @@
       "sent_utc": "2025-11-05 22:05:56"
     },
     {
+      "id": 67,
+      "timestamp": "2025-11-06T16:20:00",
+      "date": "2025-11-06",
+      "time": "16:20:00",
+      "sender": "Alexandre de Moraes BRASILIA",
+      "content": "Boa tarde",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Reconstruída a partir do banco ChatSearchV5f (índice de busca do WhatsApp; palavras embaralhadas, ordem inferida). Fonte: reportagem UOL. Horário só com precisão de minuto; ordem dentro do minuto segue o id.",
+      "source_id": "fork-alexandre-de-moraes-chatsearchv5f-reportagem-uol-06-11-2026",
+      "verification": "reconstruido"
+    },
+    {
+      "id": 68,
+      "timestamp": "2025-11-06T16:20:00",
+      "date": "2025-11-06",
+      "time": "16:20:00",
+      "sender": "DV",
+      "content": "Opa",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Reconstruída a partir do banco ChatSearchV5f (índice de busca do WhatsApp; palavras embaralhadas, ordem inferida). Fonte: reportagem UOL. Horário só com precisão de minuto; ordem dentro do minuto segue o id.",
+      "source_id": "fork-alexandre-de-moraes-chatsearchv5f-reportagem-uol-06-11-2026",
+      "verification": "reconstruido"
+    },
+    {
       "id": 26,
       "timestamp": "2025-11-06T16:26:16",
       "date": "2025-11-06",
@@ -594,6 +684,81 @@
       "sent_utc": "2025-11-12 12:37:42"
     },
     {
+      "id": 69,
+      "timestamp": "2025-11-12T20:42:00",
+      "date": "2025-11-12",
+      "time": "20:42:00",
+      "sender": "DV",
+      "content": "Show",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Reconstruída a partir do banco ChatSearchV5f (índice de busca do WhatsApp; palavras embaralhadas, ordem inferida). Fonte: reportagem UOL. Horário só com precisão de minuto; ordem dentro do minuto segue o id.",
+      "source_id": "fork-alexandre-de-moraes-chatsearchv5f-reportagem-uol-06-11-2026",
+      "verification": "reconstruido"
+    },
+    {
+      "id": 70,
+      "timestamp": "2025-11-12T20:48:00",
+      "date": "2025-11-12",
+      "time": "20:48:00",
+      "sender": "Alexandre de Moraes BRASILIA",
+      "content": "Não basta ser pai, tem de participar rsrs",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Reconstruída a partir do banco ChatSearchV5f (índice de busca do WhatsApp; palavras embaralhadas, ordem inferida). Fonte: reportagem UOL. Horário só com precisão de minuto; ordem dentro do minuto segue o id.",
+      "source_id": "fork-alexandre-de-moraes-chatsearchv5f-reportagem-uol-06-11-2026",
+      "verification": "reconstruido"
+    },
+    {
+      "id": 71,
+      "timestamp": "2025-11-12T21:11:00",
+      "date": "2025-11-12",
+      "time": "21:11:00",
+      "sender": "DV",
+      "content": "Você é paizão",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Reconstruída a partir do banco ChatSearchV5f (índice de busca do WhatsApp; palavras embaralhadas, ordem inferida). Fonte: reportagem UOL. Horário só com precisão de minuto; ordem dentro do minuto segue o id.",
+      "source_id": "fork-alexandre-de-moraes-chatsearchv5f-reportagem-uol-06-11-2026",
+      "verification": "reconstruido"
+    },
+    {
+      "id": 72,
+      "timestamp": "2025-11-12T21:11:00",
+      "date": "2025-11-12",
+      "time": "21:11:00",
+      "sender": "DV",
+      "content": "Manda abraço pra todos",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Reconstruída a partir do banco ChatSearchV5f (índice de busca do WhatsApp; palavras embaralhadas, ordem inferida). Fonte: reportagem UOL. Horário só com precisão de minuto; ordem dentro do minuto segue o id.",
+      "source_id": "fork-alexandre-de-moraes-chatsearchv5f-reportagem-uol-06-11-2026",
+      "verification": "reconstruido"
+    },
+    {
+      "id": 73,
+      "timestamp": "2025-11-12T21:12:00",
+      "date": "2025-11-12",
+      "time": "21:12:00",
+      "sender": "Alexandre de Moraes BRASILIA",
+      "content": "Pode deixar",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Reconstruída a partir do banco ChatSearchV5f (índice de busca do WhatsApp; palavras embaralhadas, ordem inferida). Fonte: reportagem UOL. Horário só com precisão de minuto; ordem dentro do minuto segue o id.",
+      "source_id": "fork-alexandre-de-moraes-chatsearchv5f-reportagem-uol-06-11-2026",
+      "verification": "reconstruido"
+    },
+    {
       "id": 36,
       "timestamp": "2025-11-13T22:40:33",
       "date": "2025-11-13",
@@ -626,6 +791,96 @@
       "view_once": true,
       "note_created_utc": "2025-11-14 13:03:31",
       "sent_utc": "2025-11-14 13:03:49"
+    },
+    {
+      "id": 74,
+      "timestamp": "2025-11-14T13:24:00",
+      "date": "2025-11-14",
+      "time": "13:24:00",
+      "sender": "Alexandre de Moraes BRASILIA",
+      "content": "Me avise quando pousar",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Reconstruída a partir do banco ChatSearchV5f (índice de busca do WhatsApp; palavras embaralhadas, ordem inferida). Fonte: reportagem UOL. Horário só com precisão de minuto; ordem dentro do minuto segue o id.",
+      "source_id": "fork-alexandre-de-moraes-chatsearchv5f-reportagem-uol-06-11-2026",
+      "verification": "reconstruido"
+    },
+    {
+      "id": 75,
+      "timestamp": "2025-11-14T13:25:00",
+      "date": "2025-11-14",
+      "time": "13:25:00",
+      "sender": "DV",
+      "content": "Ok",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Reconstruída a partir do banco ChatSearchV5f (índice de busca do WhatsApp; palavras embaralhadas, ordem inferida). Fonte: reportagem UOL. Horário só com precisão de minuto; ordem dentro do minuto segue o id.",
+      "source_id": "fork-alexandre-de-moraes-chatsearchv5f-reportagem-uol-06-11-2026",
+      "verification": "reconstruido"
+    },
+    {
+      "id": 76,
+      "timestamp": "2025-11-14T13:25:00",
+      "date": "2025-11-14",
+      "time": "13:25:00",
+      "sender": "DV",
+      "content": "Em voo",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Reconstruída a partir do banco ChatSearchV5f (índice de busca do WhatsApp; palavras embaralhadas, ordem inferida). Fonte: reportagem UOL. Horário só com precisão de minuto; ordem dentro do minuto segue o id.",
+      "source_id": "fork-alexandre-de-moraes-chatsearchv5f-reportagem-uol-06-11-2026",
+      "verification": "reconstruido"
+    },
+    {
+      "id": 77,
+      "timestamp": "2025-11-14T14:32:00",
+      "date": "2025-11-14",
+      "time": "14:32:00",
+      "sender": "Alexandre de Moraes BRASILIA",
+      "content": "Chegou?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Reconstruída a partir do banco ChatSearchV5f (índice de busca do WhatsApp; palavras embaralhadas, ordem inferida). Fonte: reportagem UOL. Horário só com precisão de minuto; ordem dentro do minuto segue o id.",
+      "source_id": "fork-alexandre-de-moraes-chatsearchv5f-reportagem-uol-06-11-2026",
+      "verification": "reconstruido"
+    },
+    {
+      "id": 78,
+      "timestamp": "2025-11-14T14:35:00",
+      "date": "2025-11-14",
+      "time": "14:35:00",
+      "sender": "DV",
+      "content": "Agora pousei",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Reconstruída a partir do banco ChatSearchV5f (índice de busca do WhatsApp; palavras embaralhadas, ordem inferida). Fonte: reportagem UOL. Horário só com precisão de minuto; ordem dentro do minuto segue o id.",
+      "source_id": "fork-alexandre-de-moraes-chatsearchv5f-reportagem-uol-06-11-2026",
+      "verification": "reconstruido"
+    },
+    {
+      "id": 79,
+      "timestamp": "2025-11-14T14:46:00",
+      "date": "2025-11-14",
+      "time": "14:46:00",
+      "sender": "Alexandre de Moraes BRASILIA",
+      "content": "A caminho então",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Reconstruída a partir do banco ChatSearchV5f (índice de busca do WhatsApp; palavras embaralhadas, ordem inferida). Fonte: reportagem UOL. Horário só com precisão de minuto; ordem dentro do minuto segue o id.",
+      "source_id": "fork-alexandre-de-moraes-chatsearchv5f-reportagem-uol-06-11-2026",
+      "verification": "reconstruido"
     },
     {
       "id": 38,
@@ -1060,10 +1315,26 @@
         "last_message_id": 6
       },
       {
-        "date": "2025-10-28",
+        "date": "2025-10-24",
         "message_count": 1,
+        "first_message_id": 63,
+        "last_message_id": 63
+      },
+      {
+        "date": "2025-10-28",
+        "message_count": 4,
         "first_message_id": 7,
-        "last_message_id": 7
+        "last_message_id": 66,
+        "id_runs": [
+          [
+            7,
+            7
+          ],
+          [
+            64,
+            66
+          ]
+        ]
       },
       {
         "date": "2025-10-30",
@@ -1085,9 +1356,19 @@
       },
       {
         "date": "2025-11-06",
-        "message_count": 4,
+        "message_count": 6,
         "first_message_id": 26,
-        "last_message_id": 29
+        "last_message_id": 68,
+        "id_runs": [
+          [
+            26,
+            29
+          ],
+          [
+            67,
+            68
+          ]
+        ]
       },
       {
         "date": "2025-11-10",
@@ -1103,9 +1384,19 @@
       },
       {
         "date": "2025-11-12",
-        "message_count": 4,
+        "message_count": 9,
         "first_message_id": 32,
-        "last_message_id": 35
+        "last_message_id": 73,
+        "id_runs": [
+          [
+            32,
+            35
+          ],
+          [
+            69,
+            73
+          ]
+        ]
       },
       {
         "date": "2025-11-13",
@@ -1115,9 +1406,19 @@
       },
       {
         "date": "2025-11-14",
-        "message_count": 2,
+        "message_count": 8,
         "first_message_id": 37,
-        "last_message_id": 38
+        "last_message_id": 79,
+        "id_runs": [
+          [
+            37,
+            38
+          ],
+          [
+            74,
+            79
+          ]
+        ]
       },
       {
         "date": "2025-11-15",

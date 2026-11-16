@@ -82,7 +82,10 @@ export function matchMessages(loaded, query) {
   const hits = [];
   for (const { conv, index } of loaded) {
     const contact = conversationName(conv);
-    for (const hit of searchIndex(index, query, { limit: Infinity })) {
+    // In the chat's order: its place there, not its id, says which came later
+    // (a message added later to an older day keeps a higher id).
+    for (const [position, hit] of searchIndex(index, query, { limit: Infinity }).entries()) {
+      hit.position = position;
       hit.conversationId = conv.id;
       hit.contact = contact;
       hit.outgoing = isOutgoing(hit, conv);
@@ -90,8 +93,8 @@ export function matchMessages(loaded, query) {
     }
   }
   // ISO dates compare as strings. The index has no time, so within a day the
-  // order is by message id, which only orders messages of the same chat.
-  return hits.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : Number(b.id) - Number(a.id)));
+  // order is the place in the chat, which only orders messages of the same chat.
+  return hits.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : b.position - a.position));
 }
 
 /**

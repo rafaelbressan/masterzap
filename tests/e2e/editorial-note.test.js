@@ -24,7 +24,8 @@ test('a message with a note shows the ⓘ by its time, and only it', async ({ pa
   const flag = page.locator('.chat-msg-row[data-id="2"] .chat-msg-meta .chat-msg-note-flag');
   await expect(flag).toBeVisible();
   await expect(flag).toHaveAccessibleName('Ver nota do MasterWhats sobre esta mensagem');
-  await expect(page.locator('.chat-msg-note-flag')).toHaveCount(1);
+  // On its day; other days may have notes of their own (the fork's).
+  await expect(page.locator('[data-date="2024-04-14"] .chat-msg-note-flag')).toHaveCount(1);
   // Not a bubble of its own: the note text is nowhere in the chat.
   await expect(page.locator('.chat-messages')).not.toContainText(NOTE);
 });

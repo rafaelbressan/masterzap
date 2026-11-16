@@ -15,11 +15,13 @@ function silentWav(seconds = 1, rate = 8000) {
   return buf;
 }
 
-const audioRow = (page) => page.locator('.chat-msg-row').filter({ has: page.locator('.chat-audio') }).first();
+// Fábio Faria's voice note with the police transcript (msg 7). The chat has
+// other voice notes, from the fork, with no transcript: this one, by its id.
+const audioRow = (page) => page.locator('.chat-msg-row[data-id="7"]').filter({ has: page.locator('.chat-audio') });
 // The Martha note the recording is put on (its day has other voice notes).
 const note965 = (page) => page.locator('.chat-msg-row[data-id="965"]');
 
-/** Open a chat from the list and scroll up until its voice note is in. */
+/** Open a chat from the list and scroll up until the voice note is in. */
 async function openToVoiceNote(page, id) {
   await page.goto(`/#/chat/${id}`);
   await page.waitForSelector('.chat-messages:not([aria-busy="true"]) .chat-day');

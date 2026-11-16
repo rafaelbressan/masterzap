@@ -8,13 +8,13 @@
     "phone": "5511942328664",
     "date_range": {
       "start": "2023-12-21",
-      "end": "2023-12-21"
+      "end": "2025-02-28"
     },
-    "total_messages": 6,
+    "total_messages": 19,
     "source": "IPJ-A nº 3298613/2026 — NADIP/DFIN/CGRC/DICOR/PF",
     "source_id": "ipj-a-3298613-2026",
     "verification": "verificado",
-    "note": "Trechos citados no relatório policial — a conversa completa não consta do documento."
+    "note": "Trechos citados no relatório policial — a conversa completa não consta do documento. Há também mensagens de outras fontes, acrescentadas depois; cada uma diz de onde veio."
   },
   "messages": [
     {
@@ -101,6 +101,189 @@
       "urls": [],
       "source_page": 20,
       "source_figure": 16
+    },
+    {
+      "id": 7,
+      "timestamp": "2025-02-28T14:04:38",
+      "date": "2025-02-28",
+      "time": "14:04:38",
+      "sender": "Gustavo Motorista",
+      "content": "Dr, começou chegar meninas",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_id": "fork-gustavo-motorista-capturas-de-tela-sem-origem-registrada",
+      "verification": "nao-verificado"
+    },
+    {
+      "id": 8,
+      "timestamp": "2025-02-28T14:04:42",
+      "date": "2025-02-28",
+      "time": "14:04:42",
+      "sender": "Gustavo Motorista",
+      "content": "Pode liberar?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_id": "fork-gustavo-motorista-capturas-de-tela-sem-origem-registrada",
+      "verification": "nao-verificado"
+    },
+    {
+      "id": 9,
+      "timestamp": "2025-02-28T14:06:52",
+      "date": "2025-02-28",
+      "time": "14:06:52",
+      "sender": "DV",
+      "content": "Todas que chegarem",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_id": "fork-gustavo-motorista-capturas-de-tela-sem-origem-registrada",
+      "verification": "nao-verificado"
+    },
+    {
+      "id": 10,
+      "timestamp": "2025-02-28T14:06:54",
+      "date": "2025-02-28",
+      "time": "14:06:54",
+      "sender": "DV",
+      "content": "Pode subir",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_id": "fork-gustavo-motorista-capturas-de-tela-sem-origem-registrada",
+      "verification": "nao-verificado"
+    },
+    {
+      "id": 11,
+      "timestamp": "2025-02-28T14:07:03",
+      "date": "2025-02-28",
+      "time": "14:07:03",
+      "sender": "DV",
+      "content": "Pega carro dos homens qdo chegarem",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "note": "Primeira palavra lida como 'Pega' (impressa como 'Oega' na imagem)",
+      "source_id": "fork-gustavo-motorista-capturas-de-tela-sem-origem-registrada",
+      "verification": "nao-verificado"
+    },
+    {
+      "id": 12,
+      "timestamp": "2025-02-28T14:07:14",
+      "date": "2025-02-28",
+      "time": "14:07:14",
+      "sender": "DV",
+      "content": "Fica embaixo vc e geraldo e acompanha chegada",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_id": "fork-gustavo-motorista-capturas-de-tela-sem-origem-registrada",
+      "verification": "nao-verificado"
+    },
+    {
+      "id": 13,
+      "timestamp": "2025-02-28T14:07:30",
+      "date": "2025-02-28",
+      "time": "14:07:30",
+      "sender": "Gustavo Motorista",
+      "content": "Ok",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_id": "fork-gustavo-motorista-capturas-de-tela-sem-origem-registrada",
+      "verification": "nao-verificado"
+    },
+    {
+      "id": 14,
+      "timestamp": "2025-02-28T14:07:36",
+      "date": "2025-02-28",
+      "time": "14:07:36",
+      "sender": "Gustavo Motorista",
+      "content": "Fica com telefone das meninas?",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_id": "fork-gustavo-motorista-capturas-de-tela-sem-origem-registrada",
+      "verification": "nao-verificado"
+    },
+    {
+      "id": 15,
+      "timestamp": "2025-02-28T14:40:04",
+      "date": "2025-02-28",
+      "time": "14:40:04",
+      "sender": "DV",
+      "content": "Convidados chegando",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_id": "fork-gustavo-motorista-capturas-de-tela-sem-origem-registrada",
+      "verification": "nao-verificado"
+    },
+    {
+      "id": 16,
+      "timestamp": "2025-02-28T14:40:07",
+      "date": "2025-02-28",
+      "time": "14:40:07",
+      "sender": "DV",
+      "content": "Fusion preto",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_id": "fork-gustavo-motorista-capturas-de-tela-sem-origem-registrada",
+      "verification": "nao-verificado"
+    },
+    {
+      "id": 17,
+      "timestamp": "2025-02-28T14:42:06",
+      "date": "2025-02-28",
+      "time": "14:42:06",
+      "sender": "Gustavo Motorista",
+      "content": "Ok",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_id": "fork-gustavo-motorista-capturas-de-tela-sem-origem-registrada",
+      "verification": "nao-verificado"
+    },
+    {
+      "id": 18,
+      "timestamp": "2025-02-28T14:42:36",
+      "date": "2025-02-28",
+      "time": "14:42:36",
+      "sender": "DV",
+      "content": "Pega carro e recebe eles",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_id": "fork-gustavo-motorista-capturas-de-tela-sem-origem-registrada",
+      "verification": "nao-verificado"
+    },
+    {
+      "id": 19,
+      "timestamp": "2025-02-28T14:43:19",
+      "date": "2025-02-28",
+      "time": "14:43:19",
+      "sender": "Gustavo Motorista",
+      "content": "Ok, estamos aqui no terreo",
+      "type": "text",
+      "is_edited": false,
+      "attachment": null,
+      "urls": [],
+      "source_id": "fork-gustavo-motorista-capturas-de-tela-sem-origem-registrada",
+      "verification": "nao-verificado"
     }
   ],
   "index": {
@@ -110,6 +293,12 @@
         "message_count": 6,
         "first_message_id": 1,
         "last_message_id": 6
+      },
+      {
+        "date": "2025-02-28",
+        "message_count": 13,
+        "first_message_id": 7,
+        "last_message_id": 19
       }
     ]
   }

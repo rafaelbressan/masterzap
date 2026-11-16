@@ -64,7 +64,8 @@ describe('the JSON', () => {
     const fromReport = conversations.filter(c => c.source?.startsWith('IPJ-A') && c.verification === 'verificado');
     expect(fromReport.length).toBeGreaterThan(0);
     for (const conv of fromReport) {
-      for (const msg of json(conv.id).messages) {
+      // A message added later from another source carries that source instead.
+      for (const msg of json(conv.id).messages.filter(m => (m.source_id ?? conv.source_id) === conv.source_id)) {
         expect(msg.source_page, `${conv.id} #${msg.id}`).toBeGreaterThan(0);
       }
     }
@@ -109,11 +110,19 @@ describe('the Markdown', () => {
     expect(text).toContain('[no repositório](https://github.com/rafaelbressan/masterzap/blob/main/data/source/');
   });
 
-  it('cites the page of the report on every message from it', () => {
+  it('cites the page of the report on every message from it, and the source of the others', () => {
     const text = md('alexandre-de-moraes');
-    const headers = text.split('\n').filter(l => /^\*\*.+\*\* · \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} · msg \d+/.test(l));
-    expect(headers.length).toBe(62);
-    for (const line of headers) expect(line).toMatch(/laudo p\. \d+/);
+    // Every message header, with its time or saying it is not known.
+    const headers = text.split('\n').filter(l => /^\*\*.+\*\* · \d{4}-\d{2}-\d{2}[ ,].* · msg \d+/.test(l));
+    const added = headers.filter(l => / · fonte: /.test(l));
+    expect(headers.length - added.length).toBe(62);
+    for (const line of headers.filter(l => !added.includes(l))) expect(line).toMatch(/laudo p\. \d+/);
+    // The 17 the fork rebuilt from the phone's search index (ChatSearchV5f).
+    expect(added.length).toBe(17);
+    for (const line of added) {
+      expect(line).not.toMatch(/laudo p\./);
+      expect(line).toMatch(/reconstruído · fonte: ChatSearchV5f/);
+    }
   });
 
   it('cites the representação, not the laudo, on the Inq 5.026 conversation', () => {

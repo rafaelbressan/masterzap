@@ -57,7 +57,7 @@ test('the ⋮ menu toggles, and a message menu replaces it', async ({ page }) =>
 
 test('day badges write the month in lowercase', async ({ page }) => {
   // innerText: the text as drawn, after CSS (a text-transform would show here).
-  await expect(page.locator('.chat-date-badge').first()).toHaveText('26 de abril de 2024', { useInnerText: true });
+  await expect(page.locator('.chat-date-badge').first()).toHaveText('5 de fevereiro de 2024', { useInnerText: true });
 });
 
 test('Android back closes the menu and stays in the chat', async ({ page }) => {
