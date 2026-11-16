@@ -576,7 +576,8 @@ button.chat-msg-quote:focus-visible {
 .chat-msg-meta {
   display: flex;
   align-items: center;
-  gap: 4px;
+  /* Glyphs close together (star, seal, the note's ⓘ), the time a little apart. */
+  gap: 1px;
   float: right;
   margin: 2px 2px -4px 12px;
   font-size: 11px;
@@ -591,7 +592,12 @@ button.chat-msg-quote:focus-visible {
   translate: 0 -1.4px;
 }
 
+.chat-msg-time {
+  margin-left: 3px;
+}
+
 .chat-msg-edited {
+  margin: 0 2px;
   font-style: italic;
   font-size: 10px;
 }
