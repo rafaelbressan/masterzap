@@ -114,5 +114,8 @@ Quatro gravações do fork tocam nas mensagens de áudio a que pertencem
 a rádio Itatiaia), Walfrido Warde (msg 5; os metadados creditam a Veja, no X,
 e a mensagem passou a levar essa fonte e o selo de imprensa) e André Valadão
 (msgs 30 e 31, o mesmo arquivo: o fork tinha duas cópias idênticas). A duração
-vai em `duration`. Ficaram fora o áudio de Lula e Dilma (fora do escopo) e o de
-Silas Malafaia, que nenhuma mensagem do fork usa.
+vai em `duration`. O áudio da Lagoinha veio sem transcrição; a das msgs 30 e 31
+foi feita aqui (Whisper large-v3, revisada na escuta) e leva
+`transcribed_by: "MasterWhats"`, que a bolha mostra ("transcrição do
+MasterWhats"). Ficaram fora, por escopo, o áudio de Lula e Dilma e o de Silas
+Malafaia, que fala com Bolsonaro (anistia, a carta de Trump) e não com Vorcaro.

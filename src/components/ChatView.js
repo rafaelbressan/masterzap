@@ -22,7 +22,7 @@ import { openMenu, menuClosed } from '../lib/menus.js';
 import { isImportant } from '../lib/important-messages.js';
 import { setBubbleStar } from './ImportantPanel.js';
 import { quoteOf } from '../lib/quote.js';
-import { SEALS, SEAL_ICONS, sealToMark, sealDescription, provenanceOf, sourceById, conversationSealLine, noteOf, NOTE_LABEL, NOTE_ICON, headerSeal } from '../lib/provenance.js';
+import { SEALS, SEAL_ICONS, sealToMark, sealDescription, provenanceOf, sourceById, conversationSealLine, noteOf, NOTE_LABEL, NOTE_ICON, headerSeal, transcriptCredit } from '../lib/provenance.js';
 
 /**
  * What the media renderers need from outside the bubble: who the contacts
@@ -263,13 +263,7 @@ function renderAudioMessage(msg, isOutgoing, conversation) {
   foot.className = 'chat-audio-foot';
   el.appendChild(foot);
 
-  // Whose transcript it is: the press's, a paraphrase, or the forensic
-  // report's (police documents and full exports).
-  const seal = msg.verification || conversation?.verification;
-  const provenance = !transcript ? ''
-    : seal === 'imprensa' ? 'transcrição da imprensa'
-      : seal === 'reconstruido' ? 'transcrição reconstruída'
-        : 'transcrição da perícia';
+  const provenance = transcript ? transcriptCredit(msg, conversation) : '';
   // The length the data gives, until the recording says its own (WhatsApp
   // shows it before playing).
   const given = secondsOf(msg.duration);
@@ -299,7 +293,7 @@ function renderAudioMessage(msg, isOutgoing, conversation) {
         foot.textContent = 'Não foi possível tocar o áudio';
         return;
       }
-      const seconds = audio && audio.currentTime > 0 ? audio.currentTime : (durationOf(key) ?? given ?? undefined);
+      const seconds = audio && audio.currentTime > 0 ? audio.currentTime : (durationOf(key) ?? given);
       foot.textContent = [clock(seconds), provenance].filter(Boolean).join(' · ');
     };
     show();
@@ -330,7 +324,7 @@ function renderAudioMessage(msg, isOutgoing, conversation) {
   } else {
     play.disabled = true;
     play.setAttribute('aria-label', 'Áudio não disponível');
-    foot.textContent = [clock(given ?? undefined), 'Áudio não recuperado', provenance].filter(Boolean).join(' · ');
+    foot.textContent = [clock(given), 'Áudio não recuperado', provenance].filter(Boolean).join(' · ');
   }
 
   if (transcript) el.appendChild(renderTranscript(transcript));

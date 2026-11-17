@@ -51,7 +51,8 @@ export function playVoiceNote(note) {
     const on = (type, fn) => audio.addEventListener(type, fn, { signal: listening.signal });
     const key = note.key;
     for (const type of ['play', 'pause', 'timeupdate']) on(type, () => announce(key));
-    on('loadedmetadata', () => { durations.set(key, audio.duration); announce(key); });
+    // A streamed or VBR file can say Infinity or NaN: kept only when it is a length.
+    on('loadedmetadata', () => { if (Number.isFinite(audio.duration)) durations.set(key, audio.duration); announce(key); });
     on('ended', () => stopVoiceNote());
     on('error', () => { failed.add(key); stopVoiceNote(); });
   }
@@ -76,13 +77,18 @@ export function stopVoiceNote() {
   announce(key);
 }
 
-/** "0:42" */
-/** "01:34" or "1:34" (a duration as the data writes it) in seconds; null otherwise. */
+/**
+ * A duration as the data writes it ("01:34", "1:34", "00:00:17", "100:00")
+ * in seconds; undefined when it is not one.
+ */
 export function secondsOf(text) {
-  const m = /^(\d{1,2}):(\d{2})$/.exec(String(text ?? '').trim());
-  return m ? Number(m[1]) * 60 + Number(m[2]) : null;
+  const parts = String(text ?? '').trim().split(':');
+  if (parts.length < 2 || parts.length > 3 || !parts.every(p => /^\d+$/.test(p))) return undefined;
+  if (parts.slice(1).some(p => p.length !== 2 || Number(p) > 59)) return undefined;
+  return parts.reduce((total, p) => total * 60 + Number(p), 0);
 }
 
+/** "0:42" */
 export function clock(seconds) {
   return Number.isFinite(seconds) ? `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}` : '';
 }

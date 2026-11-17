@@ -37,7 +37,7 @@ npm run dev           # Start dev server
 - `data/` — source data (messages.json, index.json)
 - `data/ipj-3298613/` — transcription of the IPJ-A police report (JSONL, one line per message)
 - `data/conversations/` — conversations built from that transcription by `scripts/build_ipj_data.py`
-- `public/audio/` — original recordings of voice notes, each pointed to by a message's `audio_src` (`/audio/<file>.mp3`; the build refuses a missing file). Metadata stripped; the credit is the message's source and note
+- `public/audio/` — original recordings of voice notes, each pointed to by a message's `audio_src` (`/audio/<file>.mp3`; the build refuses a missing file). Metadata stripped; the credit is the message's source and note. A transcript made here carries `transcribed_by` ("MasterWhats"); `transcriptCredit` in src/lib/provenance.js says whose transcript the bubble shows
 - `data/source/` — original source PDFs the transcriptions came from
 - `ref/` — reference files (WDS style.css, WhatsApp desktop HTML, branding)
 - `scripts/` — build scripts

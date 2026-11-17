@@ -200,17 +200,26 @@ class Quotes(unittest.TestCase):
 
 
 class AudioFilesTest(unittest.TestCase):
-    """Every recording a message points to is a file this site serves."""
+    """Every recording a message points to is a file of public/audio/ the
+    bubble can play (the extensions ChatView's playableSource accepts)."""
 
-    def test_audio_src_files_exist(self):
+    PLAYABLE = (".mp3", ".m4a", ".ogg", ".opus", ".wav", ".aac")
+
+    def test_audio_src_files_are_playable(self):
         import glob
         root = Path(__file__).resolve().parents[2]
-        seen = 0
+        found = {}
         for path in glob.glob(str(root / "data" / "conversations" / "*.json")):
-            for msg in json.load(open(path, encoding="utf-8"))["messages"]:
+            with open(path, encoding="utf-8") as fh:
+                conv = json.load(fh)
+            for msg in conv["messages"]:
                 src = msg.get("audio_src")
-                if src:
-                    seen += 1
-                    self.assertTrue(src.startswith("/audio/"), src)
-                    self.assertTrue((root / "public" / src.lstrip("/")).is_file(), src)
-        self.assertGreaterEqual(seen, 5)
+                if not src:
+                    continue
+                found[(conv["metadata"]["id"] if "id" in conv.get("metadata", {}) else Path(path).stem, msg["id"])] = src
+                file = root / "public" / src.lstrip("/")
+                self.assertTrue(src.startswith("/audio/") and file.is_file(), src)
+                self.assertTrue(file.suffix.lower() in self.PLAYABLE, src)
+        # The recordings that came with the fork are among them.
+        self.assertEqual(found.get(("flavio-bolsonaro", 4)), "/audio/flavio-bolsonaro-2025-09-08.mp3")
+        self.assertEqual(found.get(("andre-valadao", 30)), found.get(("andre-valadao", 31)))
