@@ -1,5 +1,6 @@
 """python3 -m unittest discover -s tests/python (part of `npm test`)."""
 
+import json
 import sys
 import unittest
 from pathlib import Path
@@ -196,3 +197,20 @@ class Quotes(unittest.TestCase):
         self.assertTrue(validate_messages(self.conv(quoted="Otto", quoted_sender="DV", quoted_id=9), "c"))
         self.assertTrue(validate_messages(self.conv(quoted="Otto", quoted_sender="Ana", quoted_id=1), "c"))
         self.assertTrue(validate_messages(self.conv(quoted="Otto", quoted_sender="Ninguém"), "c"))
+
+
+class AudioFilesTest(unittest.TestCase):
+    """Every recording a message points to is a file this site serves."""
+
+    def test_audio_src_files_exist(self):
+        import glob
+        root = Path(__file__).resolve().parents[2]
+        seen = 0
+        for path in glob.glob(str(root / "data" / "conversations" / "*.json")):
+            for msg in json.load(open(path, encoding="utf-8"))["messages"]:
+                src = msg.get("audio_src")
+                if src:
+                    seen += 1
+                    self.assertTrue(src.startswith("/audio/"), src)
+                    self.assertTrue((root / "public" / src.lstrip("/")).is_file(), src)
+        self.assertGreaterEqual(seen, 5)

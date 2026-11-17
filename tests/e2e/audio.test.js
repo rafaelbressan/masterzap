@@ -36,7 +36,7 @@ test('a transcript is cut at a few lines, and "Ler mais" shows the rest', async 
   await openToVoiceNote(page, 'fabio-faria');
   const transcript = audioRow(page).locator('.chat-audio-transcript');
   await expect(transcript).toBeVisible();
-  await expect(audioRow(page).locator('.chat-audio-foot')).toHaveText('Áudio não recuperado · transcrição da perícia');
+  await expect(audioRow(page).locator('.chat-audio-foot')).toHaveText('0:50 · Áudio não recuperado · transcrição da perícia');
   const cut = await transcript.boundingBox();
   await transcript.getByRole('button', { name: 'Ler mais' }).click();
   await expect(transcript.getByRole('button', { name: 'Ler mais' })).toHaveCount(0);
@@ -175,3 +175,15 @@ test('a recording that cannot be played says so, and leaves no bar behind', asyn
   await expect(page.locator('.voice-note-bar')).toBeHidden();
 });
 
+
+test('a recording published by the press plays, its length shown before it does', async ({ page }) => {
+  // Flávio Bolsonaro's voice note (msg 4): the file came with the report, so
+  // the transcript is the press's, not the forensic report's.
+  await page.goto('/#/chat/flavio-bolsonaro/msg/4');
+  const row = page.locator('.chat-msg-row[data-id="4"]');
+  await expect(row.locator('.chat-audio-foot')).toHaveText('1:34 · transcrição da imprensa');
+  await row.locator('.chat-audio-play').click();
+  await expect(row.locator('.chat-audio')).toHaveClass(/playing/);
+  await row.locator('.chat-audio-play').click();
+  await expect(row.locator('.chat-audio')).not.toHaveClass(/playing/);
+});

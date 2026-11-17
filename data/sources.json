@@ -1526,6 +1526,19 @@
       "download": null,
       "archive_url": null,
       "sha256": null
+    },
+    {
+      "id": "audio-walfrido-warde-veja-x",
+      "kind": "imprensa",
+      "titulo": "Veja, no X (2026)",
+      "orgao_ou_veiculo": "Veja",
+      "data": "2026",
+      "how": "Gravação que veio no fork 1uc4sm4theus/masterzap; os metadados do arquivo a atribuem a «VEJA (@VEJA)», no X.",
+      "file": null,
+      "url": null,
+      "download": null,
+      "archive_url": null,
+      "sha256": null
     }
   ]
 }

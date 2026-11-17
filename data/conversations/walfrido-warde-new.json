@@ -187,7 +187,12 @@
       "type": "audio",
       "is_edited": false,
       "attachment": null,
-      "urls": []
+      "urls": [],
+      "duration": "00:15",
+      "note": "A gravação foi publicada pela Veja no X; o texto é a transcrição dela.",
+      "source_id": "audio-walfrido-warde-veja-x",
+      "verification": "imprensa",
+      "audio_src": "/audio/walfrido-warde-2025-03-30.mp3"
     },
     {
       "id": 6,

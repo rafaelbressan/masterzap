@@ -8,7 +8,7 @@
  *    then linkify() wraps plain-text URLs in <a> tags. This is safe
  *    because the input to linkify is already fully escaped.
  */
-import { currentVoiceNote, isCurrent, playVoiceNote, pauseVoiceNote, durationOf, hasFailed, clock } from '../lib/voice-notes.js';
+import { currentVoiceNote, isCurrent, playVoiceNote, pauseVoiceNote, durationOf, hasFailed, clock, secondsOf } from '../lib/voice-notes.js';
 import { contactOf, isOutgoing as isOwnerMessage } from '../lib/participants.js';
 import { escapeHtml, formatTime, formatDateLong, linkify, NO_TIME_LABEL, showsForwarded } from '../lib/utils.js';
 import { ScrollLoader } from '../lib/scroll-loader.js';
@@ -263,7 +263,16 @@ function renderAudioMessage(msg, isOutgoing, conversation) {
   foot.className = 'chat-audio-foot';
   el.appendChild(foot);
 
-  const provenance = transcript ? 'transcrição da perícia' : '';
+  // Whose transcript it is: the press's, a paraphrase, or the forensic
+  // report's (police documents and full exports).
+  const seal = msg.verification || conversation?.verification;
+  const provenance = !transcript ? ''
+    : seal === 'imprensa' ? 'transcrição da imprensa'
+      : seal === 'reconstruido' ? 'transcrição reconstruída'
+        : 'transcrição da perícia';
+  // The length the data gives, until the recording says its own (WhatsApp
+  // shows it before playing).
+  const given = secondsOf(msg.duration);
   if (src) {
     // Its state lives in voice-notes.js: it may already be playing (the
     // reader left the chat and came back), and it goes on if they leave.
@@ -290,7 +299,7 @@ function renderAudioMessage(msg, isOutgoing, conversation) {
         foot.textContent = 'Não foi possível tocar o áudio';
         return;
       }
-      const seconds = audio && audio.currentTime > 0 ? audio.currentTime : durationOf(key);
+      const seconds = audio && audio.currentTime > 0 ? audio.currentTime : (durationOf(key) ?? given ?? undefined);
       foot.textContent = [clock(seconds), provenance].filter(Boolean).join(' · ');
     };
     show();
@@ -321,7 +330,7 @@ function renderAudioMessage(msg, isOutgoing, conversation) {
   } else {
     play.disabled = true;
     play.setAttribute('aria-label', 'Áudio não disponível');
-    foot.textContent = ['Áudio não recuperado', provenance].filter(Boolean).join(' · ');
+    foot.textContent = [clock(given ?? undefined), 'Áudio não recuperado', provenance].filter(Boolean).join(' · ');
   }
 
   if (transcript) el.appendChild(renderTranscript(transcript));

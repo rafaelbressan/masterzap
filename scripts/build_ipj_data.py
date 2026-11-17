@@ -80,7 +80,7 @@ def make_message(mid, timestamp, sender, content, mtype, **extra):
     }
     for key in ("forwarded", "quoted", "quoted_sender", "source_page", "source_figure",
                 "view_once", "note_created_utc", "sent_utc", "duration",
-                "note", "source_id", "verification", "reactions"):
+                "note", "source_id", "verification", "reactions", "audio_src"):
         if extra.get(key) is not None:
             msg[key] = extra[key]
     return normalise_message(msg)
@@ -186,6 +186,19 @@ CONTACT_DISPLAY_NAMES = {
 SKIP_CONVERSATIONS = {"martha-graeff"}
 
 
+AUDIO_ROOT = ROOT / "public"
+
+
+def checked_audio(src, mid):
+    """A voice note's recording: a file this site serves, under /audio/."""
+    if src is None:
+        return None
+    path = AUDIO_ROOT / src.lstrip("/")
+    if not src.startswith("/audio/") or not path.is_file():
+        raise SystemExit(f"msg {mid}: audio_src {src!r} não é um arquivo em public/audio/")
+    return src
+
+
 def row_message(mid, row, **extra):
     """One transcribed line (mensagens.jsonl) as a message."""
     return make_message(
@@ -198,6 +211,7 @@ def row_message(mid, row, **extra):
         # [{emoji, by}]: kept in the data and the export; the bubble does not
         # draw reactions yet.
         reactions=row.get("reactions"),
+        audio_src=checked_audio(row.get("audio_src"), mid),
         source_page=row.get("page"),
         source_figure=row.get("fig"),
         note=row.get("note"),

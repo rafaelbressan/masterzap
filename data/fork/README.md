@@ -105,3 +105,14 @@ o dono do celular) e `group` (quem criou, configurações); as mensagens nomeiam
 quem escreveu. O app desenha o grupo como o WhatsApp: nome e foto de quem
 escreve na primeira bolha de cada sequência, a lista de membros no cabeçalho e
 no "Info do grupo".
+
+## Áudios
+
+Quatro gravações do fork tocam nas mensagens de áudio a que pertencem
+(`audio_src`, arquivos em `public/audio/`, sem os metadados): Flávio Bolsonaro
+(msg 4, Metrópoles), Nikolas Ferreira (msg 3; os metadados do arquivo creditam
+a rádio Itatiaia), Walfrido Warde (msg 5; os metadados creditam a Veja, no X,
+e a mensagem passou a levar essa fonte e o selo de imprensa) e André Valadão
+(msgs 30 e 31, o mesmo arquivo: o fork tinha duas cópias idênticas). A duração
+vai em `duration`. Ficaram fora o áudio de Lula e Dilma (fora do escopo) e o de
+Silas Malafaia, que nenhuma mensagem do fork usa.

@@ -77,6 +77,12 @@ export function stopVoiceNote() {
 }
 
 /** "0:42" */
+/** "01:34" or "1:34" (a duration as the data writes it) in seconds; null otherwise. */
+export function secondsOf(text) {
+  const m = /^(\d{1,2}):(\d{2})$/.exec(String(text ?? '').trim());
+  return m ? Number(m[1]) * 60 + Number(m[2]) : null;
+}
+
 export function clock(seconds) {
   return Number.isFinite(seconds) ? `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}` : '';
 }
