@@ -6,10 +6,11 @@
 MasterWhats é um projeto web que replica a interface do WhatsApp Web para permitir a navegação pelas conversas que vieram a público no escândalo do Banco Master. O projeto foi criado por %AUTHOR_NAME% com Claude Code. Cada contato tem um perfil que explica quem é a pessoa, o que o material revela e de onde vem a informação, com fontes.
 
 ## O material
-O conteúdo vem dos celulares apreendidos de Vorcaro na Operação Compliance Zero e chegou ao público em dois momentos, por caminhos diferentes:
+O conteúdo vem dos celulares apreendidos de Vorcaro na Operação Compliance Zero e chegou ao público aos poucos, por caminhos diferentes:
 
 - **Março de 2026 — as conversas com Martha Graeff.** 65.772 mensagens (fevereiro de 2024 a agosto de 2025) trocadas com a então noiva vazaram para a imprensa. Revelaram conexões com autoridades dos Três Poderes, detalhes de operações financeiras e uma linguagem afetiva que viralizou nas redes.
 - **Setembro de 2026 — o relatório da PF sobre Alexandre de Moraes.** Em 1º de setembro caiu o sigilo da IPJ-A nº 3298613/2026, 218 páginas em que a Polícia Federal reconstrói, a partir do iPhone de Vorcaro, seus contatos com o ministro do STF e outras 22 pessoas: diretores do banco, advogados, jornalistas, um diretor do Banco Central. São 615 mensagens em 23 conversas. Vorcaro escrevia no bloco de notas, tirava print e enviava em visualização única; a PF recuperou 52 dessas notas cruzando logs. A PF ressalva que não fez diligências contra magistrados e que o relatório não conclui pela prática de crime.
+- **Depois — imprensa, outros inquéritos e fontes anônimas.** Mais 27.440 mensagens: trechos publicados pela imprensa (O Globo, piauí, Veja, UOL, Poder360, Metrópoles e outros), duas representações da PF ao STF (Inq 5.026 e Pet 15.497), quatro grupos de WhatsApp e as conversas inteiras com Ana Matos, Flávio Carneiro, Fred Kachar e Lilian Tahan, de fonte anônima. Cada mensagem traz o selo da sua fonte: Verificado (documento oficial com o PDF no repositório), Imprensa, Não verificado (sem fonte verificável) ou Reconstruído (paráfrase).
 
 Se outros vazamentos vierem a público, entram como mais uma conversa.
 

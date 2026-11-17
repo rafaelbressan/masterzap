@@ -61,7 +61,7 @@ export const SETTINGS_CONTENT = {
       title: 'Sobre o Projeto',
       paragraphs: [
         { text: 'MasterWhats é um visualizador das conversas extraídas dos celulares apreendidos de Daniel Vorcaro, ex-dono do Banco Master, na Operação Compliance Zero. São 93.827 mensagens em 82 conversas, de janeiro de 2019 a novembro de 2025 — navegáveis, pesquisáveis e compartilháveis no estilo WhatsApp Web.' },
-        { text: 'O material chegou ao público em dois momentos, por caminhos diferentes: o vazamento das conversas com Martha Graeff, em março de 2026, e o relatório da Polícia Federal sobre os contatos com o ministro Alexandre de Moraes, cujo sigilo caiu em setembro de 2026. Cada conversa traz, no perfil do contato, quem é a pessoa e o que aquele material revela.' },
+        { text: 'O material chegou ao público aos poucos, por caminhos diferentes: o vazamento das conversas com Martha Graeff, em março de 2026; o relatório da Polícia Federal sobre os contatos com o ministro Alexandre de Moraes, cujo sigilo caiu em setembro de 2026; e, depois, trechos publicados pela imprensa, outras representações da PF e conversas inteiras de fonte anônima. Cada mensagem mostra o selo da sua fonte. Cada conversa traz, no perfil do contato, quem é a pessoa e o que aquele material revela.' },
         { text: 'Busca com suporte a acentos e resultados em tempo real. Calendário para navegar por data. Compartilhamento por link direto — quem clicar cai na mensagem exata. Menu de contexto em cada mensagem. Responsivo no desktop e no celular.' },
       ],
     },
@@ -146,6 +146,15 @@ export const SETTINGS_CONTENT = {
       paragraphs: [
         { text: 'A palavra "{surreal}[action:search@martha-graeff:surreal]" aparece 91 vezes nas conversas — é a expressão mais repetida pelo casal para descrever sua vida.' },
         { text: 'Vorcaro foi ao "{hospital}[action:search@martha-graeff:hospital]" por questões emocionais, e o casal compartilhava gostos musicais como "{Gilsons}[action:search@martha-graeff:Gilsons]" e "{Rubel}[action:search@martha-graeff:Rubel]".' },
+      ],
+    },
+
+    // ── As outras fontes ──
+    {
+      title: 'As outras fontes',
+      paragraphs: [
+        { text: 'Além do vazamento e do relatório, o MasterWhats reúne mais 27.440 mensagens que chegaram ao público depois. Trechos publicados pela imprensa (O Globo, piauí, Veja, UOL, Poder360, Metrópoles e outros). Duas representações da Polícia Federal ao STF: a do Inq 5.026, com a conversa com {José Alfredo Berg Filho}[action:contact:berg], e a da Pet 15.497, sobre o RioPrevidência. E quatro grupos de WhatsApp, como o {Macallan}[action:contact:g001-macallan].' },
+        { text: 'Vieram também, de fonte anônima, as conversas inteiras com {Ana Matos}[action:contact:ana-matos-mkt], {Flávio Carneiro}[action:contact:flavio-carneiro], {Fred Kachar}[action:contact:fred-kachar] e {Lilian Tahan}[action:contact:lilian-tahan]. Sem fonte verificável, levam o selo "Não verificado". Os selos são quatro: Verificado, Imprensa, Não verificado e Reconstruído. O cabeçalho mostra o da conversa, e uma mensagem de outra fonte traz o ícone do seu selo ao lado do horário.' },
       ],
     },
 

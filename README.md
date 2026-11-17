@@ -13,10 +13,11 @@ Feito por **[Rafael Bressan](https://linkedin.com/in/rafaelbressan)** com **[Cla
 
 ## Sobre o Projeto
 
-As mensagens vêm dos celulares apreendidos de Daniel Vorcaro — ex-dono do Banco Master, preso pela Polícia Federal em novembro de 2025 — e chegaram ao público em dois momentos, por caminhos diferentes:
+As mensagens vêm dos celulares apreendidos de Daniel Vorcaro — ex-dono do Banco Master, preso pela Polícia Federal em novembro de 2025 — e chegaram ao público aos poucos, por caminhos diferentes:
 
 - **Março de 2026 — as conversas com Martha Graeff.** 65.772 mensagens trocadas com a então noiva vazaram para a imprensa e revelaram conexões com autoridades dos Três Poderes, apelidos que viralizaram nas redes e detalhes do maior escândalo bancário da história do Brasil.
 - **Setembro de 2026 — o relatório da PF sobre Alexandre de Moraes.** Caiu o sigilo da IPJ-A nº 3298613/2026, em que a Polícia Federal reconstrói, a partir do iPhone de Vorcaro, seus contatos com o ministro do STF e outras 22 pessoas. Não é um export de WhatsApp: as mensagens estavam em imagens dentro do laudo e foram transcritas uma a uma — veja [`data/ipj-3298613/README.md`](data/ipj-3298613/README.md).
+- **Depois — imprensa, outros inquéritos e fontes anônimas.** Mais 27.440 mensagens: trechos publicados pela imprensa (O Globo, piauí, Veja, UOL, Poder360, Metrópoles e outros), duas representações da PF ao STF (Inq 5.026 e Pet 15.497), quatro grupos de WhatsApp e as conversas inteiras com Ana Matos, Flávio Carneiro, Fred Kachar e Lilian Tahan, de fonte anônima. O que não tem fonte verificável leva o selo "Não verificado"; cada mensagem mostra o selo da sua fonte.
 
 O MasterWhats transforma essas conversas em uma experiência de leitura no estilo WhatsApp Web: navegável, pesquisável e compartilhável. Cada contato tem um perfil que explica quem é a pessoa, o que o material revela e de onde vem a informação. Um novo vazamento entra como mais uma conversa.
 
@@ -129,7 +130,7 @@ As informações compiladas neste projeto são de domínio público, extraídas 
 
 ## English Summary
 
-**MasterWhats** is an interactive viewer for 93,827 WhatsApp messages recovered from the seized phones of Daniel Vorcaro (former owner of Banco Master, arrested by Brazil's Federal Police), across 82 conversations: the leaked exchanges with Martha Graeff and the Federal Police report on his contacts with Supreme Court Justice Alexandre de Moraes, unsealed in September 2026. Built with vanilla JS and Vite, it features smart search with accent support, calendar navigation, direct message link sharing, investigative profiles, and a fully responsive WhatsApp Web-like interface optimized for mobile.
+**MasterWhats** is an interactive viewer for 93,827 WhatsApp messages recovered from the seized phones of Daniel Vorcaro (former owner of Banco Master, arrested by Brazil's Federal Police), across 82 conversations: the leaked exchanges with Martha Graeff, the Federal Police report on his contacts with Supreme Court Justice Alexandre de Moraes (unsealed in September 2026), and 27,440 more messages from press reports, other Federal Police filings, four WhatsApp groups and full conversations from an anonymous source. Every message carries a seal saying where it comes from: verified, press, unverified or reconstructed. Built with vanilla JS and Vite, it features smart search with accent support, calendar navigation, direct message link sharing, investigative profiles, and a fully responsive WhatsApp Web-like interface optimized for mobile.
 
 The repo name "masterzap" references the original [MasterZap](https://www.reddit.com/r/brasil/s/xQeqrG27p8) project by Lucas Matheus (built on Replit with Grok), which inspired this reimagined version.
 
