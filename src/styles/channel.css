@@ -1,0 +1,541 @@
+/* ── Atualizações: Status and the channel (src/components/Channel.js) ─── */
+
+.updates-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  background: var(--WDS-surface-default);
+}
+
+.updates-title {
+  padding: 18px 20px 6px;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--WDS-content-default);
+}
+
+.updates-section {
+  padding: 16px 20px 6px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--WDS-content-default);
+}
+
+.updates-empty {
+  padding: 0 20px 8px;
+  font-size: 13px;
+  color: var(--WDS-content-deemphasized);
+}
+
+.updates-channel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.updates-channel.active,
+.updates-channel:hover {
+  background: var(--WDS-surface-highlight);
+}
+
+.updates-channel-avatar,
+.channel-header-avatar {
+  flex-shrink: 0;
+  width: 49px;
+  height: 49px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--WDS-surface-default);
+}
+
+.channel-header-avatar {
+  width: 40px;
+  height: 40px;
+}
+
+.updates-channel-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.updates-channel-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.updates-channel-name,
+.channel-header-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 17px;
+  color: var(--WDS-content-default);
+}
+
+.channel-header-name {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.updates-verified svg {
+  display: block;
+}
+
+.updates-channel-date {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--WDS-content-deemphasized);
+}
+
+.updates-channel-preview {
+  display: block;
+  overflow: hidden;
+  color: var(--WDS-content-deemphasized);
+  font-size: 14px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* ── The channel ─────────────────────────────────────────────────────── */
+
+.channel-view {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.channel-header-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.channel-header-sub {
+  font-size: 13px;
+  color: var(--WDS-content-deemphasized);
+}
+
+.channel-feed {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 12px 48px 24px 63px;
+}
+
+.channel-intro {
+  max-width: 420px;
+  margin: 8px auto 4px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--WDS-systems-bubble-surface-system);
+  color: var(--WDS-content-deemphasized);
+  font-size: 12.5px;
+  text-align: center;
+}
+
+.channel-post {
+  width: 352px;
+  max-width: 100%;
+  margin: 4px 0 10px;
+  padding: 4px;
+  border-radius: 8px;
+  background: var(--WDS-systems-bubble-surface-incoming);
+  box-shadow: 0 1px .5px rgba(11, 20, 26, .13);
+  color: var(--WDS-content-default);
+}
+
+.channel-post-map {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #aadaff;
+}
+
+.flight-map {
+  display: block;
+  width: 100%;
+  height: 172px;
+}
+
+.flight-map-water { fill: #aadaff; }
+.flight-map-land { fill: #f5f3ee; }
+.flight-map-borders { fill: none; stroke: #c9c3d6; stroke-width: .7; }
+.flight-map-route { fill: none; stroke: #1a73e8; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.flight-map-stop { fill: #fff; stroke: #1a73e8; stroke-width: 2.5; }
+.flight-map-pin path { fill: #ea4335; stroke: #b31412; }
+.flight-map-pin circle { fill: #7d1a12; }
+.flight-map-label { font-size: 15px; font-weight: 600; fill: #202124; stroke: #fff; stroke-width: 4px; paint-order: stroke; }
+.flight-viewer-map .flight-map-borders { stroke-width: 1; }
+.flight-viewer-map .flight-map-route { stroke-width: 4; }
+
+.flight-map-failed {
+  background: repeating-linear-gradient(45deg, #e9edef, #e9edef 8px, #f0f2f5 8px, #f0f2f5 16px);
+}
+
+.channel-post-text {
+  padding: 8px 6px 2px;
+  font-size: 14.2px;
+  line-height: 1.4;
+}
+
+.channel-post-text > div + div {
+  margin-top: 2px;
+}
+
+.channel-post-route {
+  font-weight: 600;
+}
+
+.channel-post-status {
+  color: #ea0038;
+  font-weight: 500;
+}
+
+.channel-post-note {
+  color: var(--WDS-content-deemphasized);
+  font-size: 13.5px;
+}
+
+.channel-link {
+  display: inline;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--MW-link);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .channel-link:hover { text-decoration: underline; }
+}
+
+.channel-post-meta {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px 3px;
+  font-size: 11px;
+  color: var(--WDS-content-deemphasized);
+}
+
+.channel-post-seal svg {
+  display: block;
+  width: 14px;
+  height: 14px;
+}
+
+/* ── A flight, full screen ───────────────────────────────────────────── */
+
+.flight-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  background: var(--WDS-surface-default);
+  color: var(--WDS-content-default);
+}
+
+.flight-viewer-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 59px;
+  padding: 6px 18px;
+  border-bottom: 1px solid var(--WDS-lines-divider);
+}
+
+.flight-viewer-close {
+  display: grid;
+  place-items: center;
+  padding: 6px;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: var(--WDS-content-deemphasized);
+  cursor: pointer;
+}
+
+.flight-viewer-titles {
+  min-width: 0;
+}
+
+.flight-viewer-title {
+  font-size: 16px;
+}
+
+.flight-viewer-sub {
+  color: var(--WDS-content-deemphasized);
+  font-size: 13px;
+}
+
+.flight-viewer-body {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.flight-viewer-map {
+  flex: 1;
+  height: 100%;
+  background: #aadaff;
+}
+
+.flight-viewer-info {
+  width: 360px;
+  overflow-y: auto;
+  padding: 16px 20px 24px;
+  border-left: 1px solid var(--WDS-lines-divider);
+  background: var(--WDS-surface-default);
+}
+
+.flight-viewer-grab,
+.flight-viewer-summary {
+  display: none;
+}
+
+.flight-viewer-heading {
+  margin: 18px 0 6px;
+  color: var(--WDS-content-action-emphasized, #008069);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.flight-viewer-heading:first-child {
+  margin-top: 4px;
+}
+
+.flight-viewer-stop {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 6px 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.flight-viewer-stop small,
+.flight-viewer-muted {
+  display: block;
+  color: var(--WDS-content-deemphasized);
+  font-size: 12.5px;
+}
+
+@media (hover: hover) {
+  .flight-viewer-stop:hover b { text-decoration: underline; }
+}
+
+.flight-viewer-dot {
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  margin-top: 6px;
+  border-radius: 50%;
+  background: #1a73e8;
+}
+
+.flight-viewer-dot.lands {
+  background: #ea4335;
+}
+
+.flight-viewer-person {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 0;
+  border: none;
+  border-bottom: 1px solid var(--WDS-lines-divider);
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
+button.flight-viewer-person {
+  cursor: pointer;
+}
+
+.flight-viewer-person-go {
+  color: var(--MW-link);
+  font-size: 13px;
+}
+
+.flight-viewer-note {
+  margin-top: 12px;
+  color: var(--WDS-content-deemphasized);
+  font-size: 13.5px;
+}
+
+.flight-viewer-seal {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #fff8c5;
+  color: var(--WDS-content-deemphasized);
+  font-size: 13px;
+}
+
+.flight-viewer-seal b {
+  color: var(--WDS-content-default);
+}
+
+.flight-viewer-seal svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
+.flight-viewer-btn {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+  border: 1px solid var(--WDS-lines-divider);
+  border-radius: 24px;
+  background: none;
+  color: var(--WDS-content-action-emphasized, #008069);
+  font: inherit;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.flight-viewer-btn.primary {
+  border-color: #008069;
+  background: #008069;
+  color: #fff;
+}
+
+/* On a phone: the map fills the screen, the details are a sheet. */
+@media (max-width: 700px) {
+  .channel-feed {
+    padding: 10px 10px 24px;
+  }
+
+  .channel-post {
+    width: min(100%, 340px);
+  }
+
+  .flight-viewer-head {
+    padding: 6px 10px;
+  }
+
+  .flight-viewer-map {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+  }
+
+  .flight-viewer-info {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    max-height: 72%;
+    padding: 6px 20px calc(20px + env(safe-area-inset-bottom));
+    border: none;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -2px 12px rgba(11, 20, 26, .18);
+  }
+
+  /* The finger drags the sheet here; the details below scroll. */
+  .flight-viewer-grab,
+  .flight-viewer-summary {
+    touch-action: none;
+  }
+
+  .flight-viewer-info:not(.open) {
+    overflow: hidden;
+  }
+
+  .flight-viewer-info:not(.open) .flight-viewer-details {
+    display: none;
+  }
+
+  .flight-viewer-grab {
+    display: block;
+    width: 48px;
+    height: 20px;
+    margin: 0 auto 4px;
+    padding: 8px 6px;
+    border: none;
+    background: none;
+    cursor: grab;
+  }
+
+  .flight-viewer-grab::before {
+    content: '';
+    display: block;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--WDS-lines-divider, #d1d7db);
+  }
+
+  .flight-viewer-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 100%;
+    padding: 0 0 4px;
+    border: none;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+  }
+
+  .flight-viewer-summary-route {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .flight-viewer-summary-sub {
+    color: var(--WDS-content-deemphasized);
+    font-size: 13px;
+  }
+
+  .flight-viewer-more {
+    align-self: center;
+    margin-top: 8px;
+    color: var(--WDS-content-action-emphasized, #008069);
+    font-weight: 500;
+  }
+
+  .flight-viewer-info.open .flight-viewer-more {
+    display: none;
+  }
+}
+
+/* Dark theme: the map keeps its colours (it is a map), the chrome follows. */
+:root[data-theme="dark"] .flight-viewer-seal {
+  background: rgba(255, 210, 121, .15);
+}

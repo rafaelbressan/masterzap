@@ -23,6 +23,7 @@ import {
 } from './lib/screenshot.js';
 import { showImagePreview } from './components/ImagePreview.js';
 import { renderCallsPanel } from './components/CallsPanel.js';
+import { renderUpdatesPanel, renderChannelView, openFlight } from './components/Channel.js';
 import { exportUrl, EXPORT_ALL_URL, downloadFile } from './lib/export.js';
 import { copyText } from './lib/utils.js';
 import { setSources } from './lib/provenance.js';
@@ -659,11 +660,12 @@ const AVATARS = {
 
   const navRail = renderNavRail(container, {
     onCalls: () => router.navigate('calls'),
+    onUpdates: () => router.navigate('atualizacoes'),
     avatarSrc: '/assets/avatar-dv.jpg',
     onSettings: openSettings,
     onChat: () => {
       // From the calls screen, this is the way back to the list.
-      if (router.getCurrentRoute().route === 'calls') { router.navigate('home'); return; }
+      if (['calls', 'atualizacoes', 'canal'].includes(router.getCurrentRoute().route)) { router.navigate('home'); return; }
       closeProfile();
       closeSettings();
       // The important messages (or the calls beside a chat) give the list back.
@@ -688,6 +690,7 @@ const AVATARS = {
     onAbout: openSettings,
     onExportAll: () => downloadFile(EXPORT_ALL_URL),
     onCalls: () => router.navigate('calls'),
+    onUpdates: () => router.navigate('atualizacoes'),
     onChats: () => router.navigate('home'),
     onSelect: (id) => {
       // Close profile/settings if open before navigating
@@ -754,6 +757,123 @@ const AVATARS = {
     navRail.setActive?.('calls');
   });
   router.on('importantes', (convId) => showImportant(convId));
+
+  // ── Atualizações: the MasterWhats channel ──────────
+  // One file, fetched the first time; the flight on screen is part of the
+  // URL (#/canal/masterwhats/<post>), so the back button closes it.
+  let canalPromise = null;
+  let activeChannel = null;
+  let activeFlight = null;
+  // Whether the flight on screen was opened from the channel (one step back
+  // closes it) or reached by a link (closing it replaces the address).
+  let flightFromChannel = false;
+  const loadCanal = () => (canalPromise ??= fetch(dataUrl('/data/canal.json'))
+    .then(r => { if (!r.ok) throw new Error(`canal: ${r.status}`); return r.json(); })
+    .catch((err) => { canalPromise = null; throw err; }));
+
+  /** The panel in the list's place, once the reader is still there. */
+  function showUpdatesPanel(canal, channelOpen) {
+    sidebar.showPanel?.(renderUpdatesPanel({
+      channel: canal.channel,
+      posts: canal.posts,
+      active: channelOpen,
+      onOpen: () => router.navigate('canal', canal.channel.id),
+    }), 'updates');
+    navRail.setActive?.('updates');
+  }
+
+  /** The channel's address without the flight, in place (no new history step). */
+  function dropFlightFromUrl() {
+    const { route, param, messageId } = router.getCurrentRoute();
+    if (route === 'canal' && messageId) history.replaceState(history.state, '', `#/canal/${param}`);
+  }
+
+  function closeFlight() {
+    const flight = activeFlight;
+    activeFlight = null;
+    flight?.close();
+  }
+
+  /** Leave the flight for a chat, the profile or the search. */
+  const channelActions = {
+    onContact: (id) => { closeFlight(); dropFlightFromUrl(); router.navigate('chat', id); },
+    onProfile: () => { closeFlight(); dropFlightFromUrl(); openProfile(); },
+    onSearch: (term) => {
+      closeFlight();
+      dropFlightFromUrl();
+      // The list comes back with the home route; the search goes in after it.
+      window.addEventListener('hashchange', () => requestAnimationFrame(() => sidebar.searchAll?.(term)), { once: true });
+      router.navigate('home');
+    },
+  };
+
+  const EMPTY_CANAL = { channel: { id: 'masterwhats', name: 'MasterWhats', description: '' }, posts: [], failed: true };
+
+  router.on('atualizacoes', async () => {
+    const seq = ++routeSeq;
+    closeFlight();
+    activeChannel?.destroy();
+    activeChannel = null;
+    showEmptyState();
+    const canal = await loadCanal().catch(() => EMPTY_CANAL);
+    if (seq !== routeSeq) return; // the reader has gone elsewhere
+    showUpdatesPanel(canal, false);
+  });
+
+  async function channelRoute(channelId, postId) {
+    const seq = ++routeSeq;
+    const canal = await loadCanal().catch(() => EMPTY_CANAL);
+    if (seq !== routeSeq) return;
+    showUpdatesPanel(canal, true);
+    const { channel, posts } = canal;
+    const view = mainArea.querySelector('.channel-view');
+    // Drawn again when an earlier load had failed and this one did not.
+    if (!view || (view.dataset.failed && !canal.failed)) {
+      closeAll();
+      setActiveConversation(sidebar, null);
+      activeChannel?.destroy();
+      activeChannel = renderChannelView(mainArea, {
+        channel,
+        posts,
+        failed: !!canal.failed,
+        onRetry: () => { mainArea.querySelector('.channel-view')?.remove(); channelRoute(channelId, null); },
+        onBack: () => router.navigate('atualizacoes'),
+        onOpenPost: (id) => { flightFromChannel = true; router.navigate('canal', channel.id, id); },
+        ...channelActions,
+      });
+    }
+    container.classList.add('chat-open');
+    const post = postId ? posts.find(p => p.id === postId) : null;
+    // A post with no place has no map to open: it is read in the channel.
+    if (!post || !post.legs?.length) { closeFlight(); flightFromChannel = false; return; }
+    if (activeFlight?.postId === post.id) return;
+    closeFlight();
+    const fromChannel = flightFromChannel;
+    flightFromChannel = false;
+    const handle = openFlight(post, {
+      // Closed by its X or Escape: one step back when the channel opened it,
+      // else the channel's address in place of the flight's.
+      onClose: () => {
+        if (activeFlight !== handle) return;
+        activeFlight = null;
+        if (fromChannel) history.back();
+        else dropFlightFromUrl();
+      },
+      ...channelActions,
+    });
+    handle.postId = post.id;
+    activeFlight = handle;
+  }
+  router.on('canal', channelRoute);
+
+  // Any other screen closes an open flight and the channel's map work.
+  window.addEventListener('hashchange', () => {
+    const { route } = router.getCurrentRoute();
+    if (route !== 'canal') {
+      closeFlight();
+      if (route !== 'atualizacoes') { activeChannel?.destroy(); activeChannel = null; }
+    }
+  });
 
   router.on('chat', async (id, messageId) => {
     const seq = ++routeSeq;

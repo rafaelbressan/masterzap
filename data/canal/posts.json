@@ -1,0 +1,1155 @@
+{
+ "channel": {
+  "id": "masterwhats",
+  "name": "MasterWhats",
+  "description": "Voos citados no material sobre Daniel Vorcaro, com o trajeto no mapa. Cada publicação traz o selo da sua fonte.",
+  "aircraft_notes": [
+   "PR-PSE — Gulfstream GV-SP, Viking; cerca de R$ 120 milhões em jun/2023. Bloqueio de venda; fora do Brasil desde ago/2025.",
+   "PP-NLR — Legacy 650, Fraction 024 / Prime Aviation. Também citado em registros de Flávio Bolsonaro.",
+   "PR-SAD e PT-PVH — Embraer 505 e Phenom 300, Prime. PP-BIO — Embraer 500, Prime.",
+   "PR-NGM — Phenom 300. PS-FST — Falcon 7X. PS-FSW — Falcon 2000, citado como de Fabiano Zettel."
+  ]
+ },
+ "posts": [
+  {
+   "id": "voo-2022-10-frota",
+   "kind": "voo",
+   "group": "frota",
+   "date": "2022-10",
+   "date_end": null,
+   "date_label": "Segundo turno de 2022",
+   "legs": [],
+   "mode": "none",
+   "prefix": null,
+   "aircraft": null,
+   "operator": null,
+   "passengers": [
+    "Nikolas Ferreira",
+    "Guilherme Batista"
+   ],
+   "note": "O material diz que Vorcaro escreveu que pagou.",
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Outros registros ligados à frota",
+    "section_note": "Passageiros citados em aeronaves relacionadas, sem Vorcaro indicado a bordo.",
+    "date": "Segundo turno de 2022",
+    "aircraft": "Jato ligado a Vorcaro · modelo não informado",
+    "route": "Nove estados e o Distrito Federal"
+   },
+   "route_label": "Nove estados e o Distrito Federal"
+  },
+  {
+   "id": "voo-2024-01-14-pp-nlr",
+   "kind": "voo",
+   "group": "flavio",
+   "date": "2024-01-14",
+   "date_end": null,
+   "date_label": "14 jan 2024",
+   "legs": [
+    {
+     "place": "Brasília",
+     "query": "Aeroporto Internacional de Brasília",
+     "lat": -15.871,
+     "lng": -47.918
+    },
+    {
+     "place": "Congonhas",
+     "query": "Aeroporto de Congonhas",
+     "lat": -23.626,
+     "lng": -46.656
+    }
+   ],
+   "mode": "route",
+   "prefix": "PP-NLR",
+   "aircraft": null,
+   "operator": null,
+   "passengers": [
+    "Flávio Bolsonaro",
+    "Fernanda",
+    "Filhas",
+    "Willer Tomaz e familiares"
+   ],
+   "note": "Segundo a PF, Flávio entrou pelo Panamá em outro avião e seguiu em voo comercial.",
+   "status": "Não realizado",
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Flávio Bolsonaro",
+    "section_note": "Registros envolvendo Flávio; não indicam Vorcaro como passageiro nesses trechos.",
+    "date": "14 jan 2024",
+    "aircraft": "PP-NLR",
+    "route": "Brasília → Congonhas"
+   }
+  },
+  {
+   "id": "voo-2024-05-16-vorcaro",
+   "kind": "voo",
+   "group": "vorcaro",
+   "date": "2024-05-16",
+   "date_end": "2024-05-18",
+   "date_label": "16 e 18 mai 2024",
+   "legs": [
+    {
+     "place": "Nova York",
+     "query": "Nova York",
+     "lat": 40.71,
+     "lng": -74.01,
+     "approx": true
+    }
+   ],
+   "mode": "places",
+   "prefix": null,
+   "aircraft": "Jato particular",
+   "operator": null,
+   "passengers": [
+    "Daniel Vorcaro",
+    "Ciro Nogueira"
+   ],
+   "note": "Imagens da PF. O Park Hyatt também foi reservado para Fábio Faria; a Piauí o incluiu na lista de um trecho a Nova York. Ele afirma que pagou.",
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Voos com Vorcaro indicado a bordo",
+    "section_note": "Trechos em que o material identifica Daniel Vorcaro como passageiro.",
+    "date": "16 e 18 mai 2024",
+    "aircraft": "Jato particular · prefixo não publicado",
+    "route": "Nova York · semana do Person of the Year / Lide"
+   }
+  },
+  {
+   "id": "voo-2024-06-01-pr-pse",
+   "kind": "voo",
+   "group": "frota",
+   "date": "2024-06-01",
+   "date_end": null,
+   "date_label": "1 jun 2024",
+   "legs": [
+    {
+     "place": "Arusha",
+     "query": "Arusha, Tanzânia",
+     "lat": -3.368,
+     "lng": 36.633,
+     "approx": true
+    }
+   ],
+   "mode": "places",
+   "prefix": "PR-PSE",
+   "aircraft": "Gulfstream GV-SP",
+   "operator": null,
+   "passengers": [
+    "Martha Graeff"
+   ],
+   "note": "O material relata que Martha foi até Vorcaro.",
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Outros registros ligados à frota",
+    "section_note": "Passageiros citados em aeronaves relacionadas, sem Vorcaro indicado a bordo.",
+    "date": "1 jun 2024",
+    "aircraft": "PR-PSE · Gulfstream GV-SP",
+    "route": "Encontro em Arusha, Tanzânia"
+   }
+  },
+  {
+   "id": "voo-2024-06-28-pp-nlr",
+   "kind": "voo",
+   "group": "frota",
+   "date": "2024-06-28",
+   "date_end": "2024-06-29",
+   "date_label": "28–29 jun 2024",
+   "legs": [
+    {
+     "place": "Cascais",
+     "query": "Aeródromo de Cascais",
+     "lat": 38.725,
+     "lng": -9.355,
+     "time": "20:44"
+    },
+    {
+     "place": "Cabo Verde",
+     "query": "Aeroporto Internacional Amílcar Cabral, Ilha do Sal",
+     "lat": 16.741,
+     "lng": -22.949,
+     "approx": true
+    },
+    {
+     "place": "Brasília",
+     "query": "Aeroporto Internacional de Brasília",
+     "lat": -15.871,
+     "lng": -47.918,
+     "time": "03:07"
+    }
+   ],
+   "mode": "route",
+   "prefix": "PP-NLR",
+   "aircraft": "Legacy 650",
+   "operator": null,
+   "passengers": [
+    "Modelos que voltavam de Lisboa"
+   ],
+   "note": "Fretamento citado no valor de US$ 232 mil. O material também menciona modelos voltando de Lisboa cerca de 10 dias depois.",
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Outros registros ligados à frota",
+    "section_note": "Passageiros citados em aeronaves relacionadas, sem Vorcaro indicado a bordo.",
+    "date": "28–29 jun 2024",
+    "aircraft": "Legacy 650 · PP-NLR",
+    "route": "Cascais, 20h44 → Cabo Verde → Brasília, 3h07"
+   }
+  },
+  {
+   "id": "voo-2024-08-20-pr-pse",
+   "kind": "voo",
+   "group": "vorcaro",
+   "date": "2024-08-20",
+   "date_end": null,
+   "date_label": "20 ago 2024",
+   "legs": [
+    {
+     "place": "Flórida",
+     "query": "Flórida, Estados Unidos",
+     "lat": 26.3,
+     "lng": -80.6,
+     "approx": true
+    },
+    {
+     "place": "Croácia",
+     "query": "Croácia",
+     "lat": 44.1,
+     "lng": 15.6,
+     "approx": true
+    }
+   ],
+   "mode": "route",
+   "prefix": "PR-PSE",
+   "aircraft": "Gulfstream GV-SP",
+   "operator": "Viking",
+   "passengers": [
+    "Daniel Vorcaro",
+    "Martha Graeff"
+   ],
+   "note": "Diálogos apontam a matrícula PR-PSE.",
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Voos com Vorcaro indicado a bordo",
+    "section_note": "Trechos em que o material identifica Daniel Vorcaro como passageiro.",
+    "date": "20 ago 2024",
+    "aircraft": "Gulfstream GV-SP · PR-PSE (Viking)",
+    "route": "Flórida → Croácia"
+   }
+  },
+  {
+   "id": "voo-2024-12-29-pr-pse",
+   "kind": "voo",
+   "group": "frota",
+   "date": "2024-12-29",
+   "date_end": null,
+   "date_label": "29 dez 2024",
+   "legs": [
+    {
+     "place": "São Paulo",
+     "query": "São Paulo",
+     "lat": -23.55,
+     "lng": -46.63,
+     "approx": true
+    }
+   ],
+   "mode": "places",
+   "prefix": "PR-PSE",
+   "aircraft": "Gulfstream GV-SP",
+   "operator": null,
+   "passengers": [
+    "Martha Graeff"
+   ],
+   "note": "O material diz que ela foi encontrá-lo.",
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Outros registros ligados à frota",
+    "section_note": "Passageiros citados em aeronaves relacionadas, sem Vorcaro indicado a bordo.",
+    "date": "29 dez 2024",
+    "aircraft": "PR-PSE · Gulfstream GV-SP",
+    "route": "Para São Paulo"
+   }
+  },
+  {
+   "id": "voo-2025-01-12-courchevel",
+   "kind": "voo",
+   "group": "frota",
+   "date": "2025-01-12",
+   "date_end": "2025-01-25",
+   "date_label": "12–25 jan 2025",
+   "legs": [
+    {
+     "place": "Guarulhos",
+     "query": "Aeroporto Internacional de Guarulhos",
+     "lat": -23.435,
+     "lng": -46.473
+    },
+    {
+     "place": "Paris",
+     "query": "Aeroporto Charles de Gaulle",
+     "lat": 49.009,
+     "lng": 2.548
+    },
+    {
+     "place": "Courchevel",
+     "query": "Altiporto de Courchevel",
+     "lat": 45.397,
+     "lng": 6.635
+    }
+   ],
+   "mode": "route",
+   "prefix": null,
+   "aircraft": null,
+   "operator": null,
+   "passengers": [
+    "Ciro Nogueira",
+    "Flávia Rosalen"
+   ],
+   "note": "Viagem distinta. Vorcaro e Martha chegaram dias depois. A PF trata o custeio como sendo de Vorcaro. O material ressalta que não se trata do mesmo voo.",
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Courchevel",
+    "date": "12–25 jan 2025",
+    "route": "Ciro Nogueira e Flávia Rosalen saíram de Guarulhos para Paris e depois seguiram à estação. Vorcaro e Martha chegaram dias depois."
+   }
+  },
+  {
+   "id": "voo-2025-01-19-pp-nlr",
+   "kind": "voo",
+   "group": "flavio",
+   "date": "2025-01-19",
+   "date_end": null,
+   "date_label": "19 jan 2025",
+   "legs": [
+    {
+     "place": "Fort Lauderdale",
+     "query": "Fort Lauderdale-Hollywood International Airport",
+     "lat": 26.072,
+     "lng": -80.153,
+     "time": "10:21"
+    },
+    {
+     "place": "Brasília",
+     "query": "Aeroporto Internacional de Brasília",
+     "lat": -15.871,
+     "lng": -47.918,
+     "time": "20:01"
+    }
+   ],
+   "mode": "route",
+   "prefix": "PP-NLR",
+   "aircraft": "Legacy 650",
+   "operator": null,
+   "passengers": [
+    "Flávio Bolsonaro",
+    "Fernanda",
+    "Duas filhas",
+    "Willer Tomaz"
+   ],
+   "note": "Voo realizado. Cotas citadas: Prime You (Vorcaro, desde o fim de 2024), Willer Tomaz e Laércio Cosentino. Vorcaro não estava a bordo.",
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Flávio Bolsonaro",
+    "section_note": "Registros envolvendo Flávio; não indicam Vorcaro como passageiro nesses trechos.",
+    "date": "19 jan 2025",
+    "aircraft": "Legacy 650 · PP-NLR",
+    "route": "Fort Lauderdale, 10h21 → Brasília, 20h01"
+   }
+  },
+  {
+   "id": "voo-2025-02-02-pr-pse",
+   "kind": "voo",
+   "group": "vorcaro",
+   "date": "2025-02-02",
+   "date_end": "2025-02-03",
+   "date_label": "2–3 fev 2025",
+   "legs": [
+    {
+     "place": "Brasília",
+     "query": "Aeroporto Internacional de Brasília",
+     "lat": -15.871,
+     "lng": -47.918
+    },
+    {
+     "place": "Trancoso",
+     "query": "Aeroporto de Trancoso",
+     "lat": -16.589,
+     "lng": -39.096
+    },
+    {
+     "place": "Guarulhos",
+     "query": "Aeroporto Internacional de Guarulhos",
+     "lat": -23.435,
+     "lng": -46.473
+    }
+   ],
+   "mode": "route",
+   "prefix": "PR-PSE",
+   "aircraft": "Gulfstream GV-SP",
+   "operator": "Viking",
+   "passengers": [
+    "Daniel Vorcaro"
+   ],
+   "note": "Registro de hangar; demais passageiros não publicados.",
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Voos com Vorcaro indicado a bordo",
+    "section_note": "Trechos em que o material identifica Daniel Vorcaro como passageiro.",
+    "date": "2–3 fev 2025",
+    "aircraft": "Gulfstream GV-SP · PR-PSE (Viking)",
+    "route": "Brasília → Trancoso · retorno em 3 fev: Trancoso → Guarulhos"
+   }
+  },
+  {
+   "id": "voo-2025-05-01-ps-fst",
+   "kind": "voo",
+   "group": "vorcaro",
+   "date": "2025-05-01",
+   "date_end": null,
+   "date_label": "1 mai 2025",
+   "legs": [
+    {
+     "place": "Guarulhos",
+     "query": "Aeroporto Internacional de Guarulhos",
+     "lat": -23.435,
+     "lng": -46.473
+    },
+    {
+     "place": "Flórida",
+     "query": "Flórida, Estados Unidos",
+     "lat": 26.3,
+     "lng": -80.6,
+     "time": "08:05",
+     "approx": true
+    }
+   ],
+   "mode": "route",
+   "prefix": "PS-FST",
+   "aircraft": "Falcon 7X",
+   "operator": null,
+   "passengers": [
+    "Daniel Vorcaro"
+   ],
+   "note": "Flávio Bolsonaro pousou 19 minutos antes em outra aeronave.",
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Voos com Vorcaro indicado a bordo",
+    "section_note": "Trechos em que o material identifica Daniel Vorcaro como passageiro.",
+    "date": "1 mai 2025",
+    "aircraft": "Falcon 7X · PS-FST",
+    "route": "Guarulhos → Flórida · pouso às 8h05"
+   }
+  },
+  {
+   "id": "voo-2025-05-01-ps-uqn",
+   "kind": "voo",
+   "group": "flavio",
+   "date": "2025-05-01",
+   "date_end": null,
+   "date_label": "1 mai 2025",
+   "legs": [
+    {
+     "place": "Brasília",
+     "query": "Aeroporto Internacional de Brasília",
+     "lat": -15.871,
+     "lng": -47.918,
+     "time": "00:26"
+    },
+    {
+     "place": "Flórida",
+     "query": "Flórida, Estados Unidos",
+     "lat": 26.3,
+     "lng": -80.6,
+     "time": "07:46",
+     "approx": true
+    }
+   ],
+   "mode": "route",
+   "prefix": "PS-UQN",
+   "aircraft": "Global 6000",
+   "operator": "União Química",
+   "passengers": [
+    "Flávio Bolsonaro",
+    "Fernanda",
+    "Willer Tomaz"
+   ],
+   "note": "Aeronave de outro proprietário. Mesmo destino do Falcon de Vorcaro, com 19 minutos de diferença.",
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Flávio Bolsonaro",
+    "section_note": "Registros envolvendo Flávio; não indicam Vorcaro como passageiro nesses trechos.",
+    "date": "1 mai 2025",
+    "aircraft": "Global 6000 · PS-UQN (União Química)",
+    "route": "Brasília, 0h26 → Flórida, 7h46"
+   }
+  },
+  {
+   "id": "voo-2025-05-12-pr-pse",
+   "kind": "voo",
+   "group": "frota",
+   "date": "2025-05-12",
+   "date_end": null,
+   "date_label": "12 mai 2025",
+   "legs": [
+    {
+     "place": "Flórida",
+     "query": "Flórida, Estados Unidos",
+     "lat": 26.3,
+     "lng": -80.6,
+     "approx": true
+    },
+    {
+     "place": "São Paulo",
+     "query": "São Paulo",
+     "lat": -23.55,
+     "lng": -46.63,
+     "approx": true
+    }
+   ],
+   "mode": "route",
+   "prefix": "PR-PSE",
+   "aircraft": "Gulfstream GV-SP",
+   "operator": null,
+   "passengers": [
+    "Martha Graeff"
+   ],
+   "note": null,
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Outros registros ligados à frota",
+    "section_note": "Passageiros citados em aeronaves relacionadas, sem Vorcaro indicado a bordo.",
+    "date": "12 mai 2025",
+    "aircraft": "PR-PSE · Gulfstream GV-SP",
+    "route": "Flórida → São Paulo"
+   }
+  },
+  {
+   "id": "voo-2025-05-16-pr-sad",
+   "kind": "voo",
+   "group": "moraes",
+   "date": "2025-05-16",
+   "date_end": null,
+   "date_label": "16 mai 2025",
+   "legs": [
+    {
+     "place": "Brasília",
+     "query": "Aeroporto Internacional de Brasília",
+     "lat": -15.871,
+     "lng": -47.918,
+     "time": "09:37"
+    },
+    {
+     "place": "Congonhas",
+     "query": "Aeroporto de Congonhas",
+     "lat": -23.626,
+     "lng": -46.656
+    }
+   ],
+   "mode": "route",
+   "prefix": "PR-SAD",
+   "aircraft": "Embraer 505",
+   "operator": "Prime",
+   "passengers": [
+    "Alexandre de Moraes",
+    "Viviane Barci"
+   ],
+   "note": null,
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Moraes e Viviane Barci",
+    "section_note": "Voos e cruzamentos de hangar citados no material. O gabinete nega que o ministro tenha voado em avião de Vorcaro; o escritório confirma o táxi aéreo e diz que Vorcaro não estava a bordo.",
+    "date": "16 mai 2025",
+    "aircraft": "Embraer 505 · PR-SAD (Prime)",
+    "route": "Brasília, 9h37 → Congonhas"
+   }
+  },
+  {
+   "id": "voo-2025-05-22-pr-sad",
+   "kind": "voo",
+   "group": "moraes",
+   "date": "2025-05-22",
+   "date_end": null,
+   "date_label": "22 mai 2025",
+   "legs": [
+    {
+     "place": "Brasília",
+     "query": "Aeroporto Internacional de Brasília",
+     "lat": -15.871,
+     "lng": -47.918,
+     "time": "19:33"
+    },
+    {
+     "place": "Catarina",
+     "query": "Aeroporto Executivo Catarina, São Roque",
+     "lat": -23.604,
+     "lng": -47.219
+    }
+   ],
+   "mode": "route",
+   "prefix": "PR-SAD",
+   "aircraft": null,
+   "operator": "Prime",
+   "passengers": [
+    "Alexandre de Moraes"
+   ],
+   "note": null,
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Moraes e Viviane Barci",
+    "section_note": "Voos e cruzamentos de hangar citados no material. O gabinete nega que o ministro tenha voado em avião de Vorcaro; o escritório confirma o táxi aéreo e diz que Vorcaro não estava a bordo.",
+    "date": "22 mai 2025",
+    "aircraft": "PR-SAD (Prime)",
+    "route": "Brasília, 19h33 → Catarina"
+   }
+  },
+  {
+   "id": "voo-2025-05-29-pt-pvh",
+   "kind": "voo",
+   "group": "moraes",
+   "date": "2025-05-29",
+   "date_end": null,
+   "date_label": "29 mai 2025",
+   "legs": [
+    {
+     "place": "Brasília",
+     "query": "Aeroporto Internacional de Brasília",
+     "lat": -15.871,
+     "lng": -47.918
+    },
+    {
+     "place": "São Paulo",
+     "query": "São Paulo",
+     "lat": -23.55,
+     "lng": -46.63,
+     "time": "19:30",
+     "approx": true
+    }
+   ],
+   "mode": "route",
+   "prefix": "PT-PVH",
+   "aircraft": "Phenom 300",
+   "operator": "Prime",
+   "passengers": [
+    "Alexandre de Moraes",
+    "Viviane Barci",
+    "Outras cinco pessoas"
+   ],
+   "note": "O material situa as outras cinco pessoas no hangar.",
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Moraes e Viviane Barci",
+    "section_note": "Voos e cruzamentos de hangar citados no material. O gabinete nega que o ministro tenha voado em avião de Vorcaro; o escritório confirma o táxi aéreo e diz que Vorcaro não estava a bordo.",
+    "date": "29 mai 2025",
+    "aircraft": "Phenom 300 · PT-PVH (Prime)",
+    "route": "Brasília → São Paulo · entrada no hangar às 19h30"
+   }
+  },
+  {
+   "id": "voo-2025-07-09-pp-nlr",
+   "kind": "voo",
+   "group": "moraes",
+   "date": "2025-07-09",
+   "date_end": null,
+   "date_label": "9 jul 2025",
+   "legs": [
+    {
+     "place": "Brasília",
+     "query": "Aeroporto Internacional de Brasília",
+     "lat": -15.871,
+     "lng": -47.918,
+     "time": "22:34"
+    },
+    {
+     "place": "Catarina",
+     "query": "Aeroporto Executivo Catarina, São Roque",
+     "lat": -23.604,
+     "lng": -47.219
+    }
+   ],
+   "mode": "route",
+   "prefix": "PP-NLR",
+   "aircraft": "Legacy 650",
+   "operator": "Prime",
+   "passengers": [
+    "Alexandre de Moraes identificado no hangar"
+   ],
+   "note": "Caiado saiu antes em avião do governo, com destino a Goiânia.",
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Moraes e Viviane Barci",
+    "section_note": "Voos e cruzamentos de hangar citados no material. O gabinete nega que o ministro tenha voado em avião de Vorcaro; o escritório confirma o táxi aéreo e diz que Vorcaro não estava a bordo.",
+    "date": "9 jul 2025",
+    "aircraft": "Legacy 650 · PP-NLR (Prime)",
+    "route": "Brasília, 22h34 → Catarina"
+   }
+  },
+  {
+   "id": "voo-2025-08-01-pr-sad",
+   "kind": "voo",
+   "group": "moraes",
+   "date": "2025-08-01",
+   "date_end": null,
+   "date_label": "1 ago 2025",
+   "legs": [
+    {
+     "place": "Brasília",
+     "query": "Aeroporto Internacional de Brasília",
+     "lat": -15.871,
+     "lng": -47.918,
+     "time": "12:40"
+    },
+    {
+     "place": "Congonhas",
+     "query": "Aeroporto de Congonhas",
+     "lat": -23.626,
+     "lng": -46.656
+    }
+   ],
+   "mode": "route",
+   "prefix": "PR-SAD",
+   "aircraft": "Embraer 505",
+   "operator": "Prime",
+   "passengers": [
+    "Alexandre de Moraes",
+    "Viviane Barci",
+    "Uma terceira pessoa"
+   ],
+   "note": null,
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Moraes e Viviane Barci",
+    "section_note": "Voos e cruzamentos de hangar citados no material. O gabinete nega que o ministro tenha voado em avião de Vorcaro; o escritório confirma o táxi aéreo e diz que Vorcaro não estava a bordo.",
+    "date": "1 ago 2025",
+    "aircraft": "Embraer 505 · PR-SAD (Prime)",
+    "route": "Brasília, 12h40 → Congonhas"
+   }
+  },
+  {
+   "id": "voo-2025-08-07-ps-fsw",
+   "kind": "voo",
+   "group": "moraes",
+   "date": "2025-08-07",
+   "date_end": null,
+   "date_label": "7 ago 2025",
+   "legs": [
+    {
+     "place": "Brasília",
+     "query": "Aeroporto Internacional de Brasília",
+     "lat": -15.871,
+     "lng": -47.918,
+     "time": "19:00"
+    },
+    {
+     "place": "São Paulo",
+     "query": "São Paulo",
+     "lat": -23.55,
+     "lng": -46.63,
+     "approx": true
+    }
+   ],
+   "mode": "route",
+   "prefix": "PS-FSW",
+   "aircraft": "Falcon 2000",
+   "operator": "FSW SPE",
+   "passengers": [
+    "Alexandre de Moraes",
+    "Viviane Barci"
+   ],
+   "note": "O material cita Fabiano Zettel como proprietário.",
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Moraes e Viviane Barci",
+    "section_note": "Voos e cruzamentos de hangar citados no material. O gabinete nega que o ministro tenha voado em avião de Vorcaro; o escritório confirma o táxi aéreo e diz que Vorcaro não estava a bordo.",
+    "date": "7 ago 2025",
+    "aircraft": "Falcon 2000 · PS-FSW (FSW SPE)",
+    "route": "Brasília, 19h → São Paulo"
+   }
+  },
+  {
+   "id": "voo-2025-08-20-pt-pvh",
+   "kind": "voo",
+   "group": "moraes",
+   "date": "2025-08-20",
+   "date_end": null,
+   "date_label": "20 ago 2025",
+   "legs": [
+    {
+     "place": "Brasília",
+     "query": "Aeroporto Internacional de Brasília",
+     "lat": -15.871,
+     "lng": -47.918,
+     "time": "19:30"
+    },
+    {
+     "place": "Congonhas",
+     "query": "Aeroporto de Congonhas",
+     "lat": -23.626,
+     "lng": -46.656
+    }
+   ],
+   "mode": "route",
+   "prefix": "PT-PVH",
+   "aircraft": "Phenom 300",
+   "operator": "Prime",
+   "passengers": [
+    "Alexandre de Moraes",
+    "Viviane Barci"
+   ],
+   "note": null,
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Moraes e Viviane Barci",
+    "section_note": "Voos e cruzamentos de hangar citados no material. O gabinete nega que o ministro tenha voado em avião de Vorcaro; o escritório confirma o táxi aéreo e diz que Vorcaro não estava a bordo.",
+    "date": "20 ago 2025",
+    "aircraft": "Phenom 300 · PT-PVH (Prime)",
+    "route": "Brasília, 19h30 → Congonhas"
+   }
+  },
+  {
+   "id": "voo-2025-08-22-pp-nlr",
+   "kind": "voo",
+   "group": "moraes",
+   "date": "2025-08-22",
+   "date_end": null,
+   "date_label": "22 ago 2025",
+   "legs": [
+    {
+     "place": "Catarina",
+     "query": "Aeroporto Executivo Catarina, São Roque",
+     "lat": -23.604,
+     "lng": -47.219,
+     "time": "13:00"
+    },
+    {
+     "place": "Santos Dumont",
+     "query": "Aeroporto Santos Dumont",
+     "lat": -22.91,
+     "lng": -43.163
+    }
+   ],
+   "mode": "route",
+   "prefix": "PP-NLR",
+   "aircraft": "Legacy 650",
+   "operator": "Prime",
+   "passengers": [
+    "Alexandre de Moraes",
+    "Viviane Barci"
+   ],
+   "note": "O material menciona vídeo do desembarque e mensagem de Vorcaro para atender Barci.",
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Moraes e Viviane Barci",
+    "section_note": "Voos e cruzamentos de hangar citados no material. O gabinete nega que o ministro tenha voado em avião de Vorcaro; o escritório confirma o táxi aéreo e diz que Vorcaro não estava a bordo.",
+    "date": "22 ago 2025",
+    "aircraft": "Legacy 650 · PP-NLR (Prime)",
+    "route": "Catarina, 13h → Santos Dumont"
+   }
+  },
+  {
+   "id": "voo-2025-08-28-pr-ngm",
+   "kind": "voo",
+   "group": "vorcaro",
+   "date": "2025-08-28",
+   "date_end": null,
+   "date_label": "28 ago 2025",
+   "legs": [
+    {
+     "place": "Brasília",
+     "query": "Aeroporto Internacional de Brasília",
+     "lat": -15.871,
+     "lng": -47.918,
+     "time": "15:36"
+    },
+    {
+     "place": "Congonhas",
+     "query": "Aeroporto de Congonhas",
+     "lat": -23.626,
+     "lng": -46.656,
+     "time": "16:57"
+    }
+   ],
+   "mode": "route",
+   "prefix": "PR-NGM",
+   "aircraft": "Phenom 300",
+   "operator": "Aviation Management Services / Voar",
+   "passengers": [
+    "Daniel Vorcaro",
+    "Ciro Nogueira",
+    "Isnaldo Bulhões",
+    "Rodrigo Gambale",
+    "Fábio Faria",
+    "Bruno Bianco"
+   ],
+   "note": null,
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Voos com Vorcaro indicado a bordo",
+    "section_note": "Trechos em que o material identifica Daniel Vorcaro como passageiro.",
+    "date": "28 ago 2025",
+    "aircraft": "Phenom 300 · PR-NGM (Aviation Management Services / Voar)",
+    "route": "Brasília, 15h36 → Congonhas, 16h57"
+   }
+  },
+  {
+   "id": "voo-2025-08-29-vorcaro",
+   "kind": "voo",
+   "group": "vorcaro",
+   "date": "2025-08-29",
+   "date_end": "2025-08-30",
+   "date_label": "29 ago 2025",
+   "legs": [
+    {
+     "place": "Gênova",
+     "query": "Aeroporto de Gênova",
+     "lat": 44.413,
+     "lng": 8.838
+    },
+    {
+     "place": "Orlando",
+     "query": "Orlando, Flórida",
+     "lat": 28.43,
+     "lng": -81.31,
+     "approx": true
+    },
+    {
+     "place": "São Paulo",
+     "query": "São Paulo",
+     "lat": -23.55,
+     "lng": -46.63,
+     "approx": true
+    }
+   ],
+   "mode": "route",
+   "prefix": null,
+   "aircraft": "Jato citado nos diálogos com Martha",
+   "operator": null,
+   "passengers": [
+    "Daniel Vorcaro"
+   ],
+   "note": "Acompanhante não publicado.",
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Voos com Vorcaro indicado a bordo",
+    "section_note": "Trechos em que o material identifica Daniel Vorcaro como passageiro.",
+    "date": "29 ago 2025",
+    "aircraft": "Jato citado nos diálogos com Martha",
+    "route": "Gênova → Orlando · no dia seguinte: Orlando → São Paulo"
+   }
+  },
+  {
+   "id": "voo-2025-10-16-pp-bio",
+   "kind": "voo",
+   "group": "moraes",
+   "date": "2025-10-16",
+   "date_end": null,
+   "date_label": "16 out 2025",
+   "legs": [
+    {
+     "place": "Brasília",
+     "query": "Aeroporto Internacional de Brasília",
+     "lat": -15.871,
+     "lng": -47.918,
+     "time": "19:26"
+    },
+    {
+     "place": "Catarina",
+     "query": "Aeroporto Executivo Catarina, São Roque",
+     "lat": -23.604,
+     "lng": -47.219
+    }
+   ],
+   "mode": "route",
+   "prefix": "PP-BIO",
+   "aircraft": "Embraer 500",
+   "operator": "Prime",
+   "passengers": [
+    "Alexandre de Moraes",
+    "Viviane Barci"
+   ],
+   "note": null,
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Moraes e Viviane Barci",
+    "section_note": "Voos e cruzamentos de hangar citados no material. O gabinete nega que o ministro tenha voado em avião de Vorcaro; o escritório confirma o táxi aéreo e diz que Vorcaro não estava a bordo.",
+    "date": "16 out 2025",
+    "aircraft": "Embraer 500 · PP-BIO (Prime)",
+    "route": "Brasília, 19h26 → Catarina"
+   }
+  },
+  {
+   "id": "voo-2025-11-20-cancelado",
+   "kind": "voo",
+   "group": "frota",
+   "date": "2025-11-20",
+   "date_end": "2025-11-23",
+   "date_label": "20–23 nov 2025",
+   "legs": [
+    {
+     "place": "Brasília",
+     "query": "Aeroporto Internacional de Brasília",
+     "lat": -15.871,
+     "lng": -47.918
+    },
+    {
+     "place": "São Paulo",
+     "query": "São Paulo",
+     "lat": -23.55,
+     "lng": -46.63,
+     "approx": true
+    },
+    {
+     "place": "Campos do Jordão",
+     "query": "Campos do Jordão",
+     "lat": -22.739,
+     "lng": -45.591,
+     "approx": true
+    }
+   ],
+   "mode": "route",
+   "prefix": "PP-NLR",
+   "aircraft": "Legacy 650 e helicóptero EC-155",
+   "operator": null,
+   "passengers": [
+    "8 pessoas"
+   ],
+   "note": "Pedido em 24 out; cancelado às 8h34 de 18 nov, após a prisão. Cadastro interno lista Vorcaro como cotista do PP-NLR e do EC-155.",
+   "status": "Cancelado",
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Trecho cancelado",
+    "date": "20–23 nov 2025",
+    "route": "PP-NLR (Brasília–São Paulo) e helicóptero EC-155 (para Campos do Jordão) · 8 pessoas."
+   }
+  },
+  {
+   "id": "voo-2026-03-pr-pse",
+   "kind": "voo",
+   "group": "frota",
+   "date": "2026-03",
+   "date_end": null,
+   "date_label": "Após mar 2026",
+   "legs": [
+    {
+     "place": "Miami",
+     "query": "Miami",
+     "lat": 25.79,
+     "lng": -80.29,
+     "approx": true
+    },
+    {
+     "place": "Nova York",
+     "query": "Nova York",
+     "lat": 40.71,
+     "lng": -74.01,
+     "approx": true
+    },
+    {
+     "place": "Paris",
+     "query": "Paris",
+     "lat": 48.86,
+     "lng": 2.35,
+     "approx": true
+    },
+    {
+     "place": "Mônaco",
+     "query": "Mônaco",
+     "lat": 43.73,
+     "lng": 7.42,
+     "approx": true
+    },
+    {
+     "place": "Dubai",
+     "query": "Dubai",
+     "lat": 25.25,
+     "lng": 55.36,
+     "approx": true
+    },
+    {
+     "place": "Anguilla",
+     "query": "Anguilla",
+     "lat": 18.22,
+     "lng": -63.06,
+     "approx": true
+    },
+    {
+     "place": "Filadélfia",
+     "query": "Filadélfia",
+     "lat": 39.95,
+     "lng": -75.17,
+     "approx": true
+    },
+    {
+     "place": "Washington",
+     "query": "Washington, D.C.",
+     "lat": 38.9,
+     "lng": -77.04,
+     "approx": true
+    }
+   ],
+   "mode": "places",
+   "prefix": "PR-PSE",
+   "aircraft": "Gulfstream GV-SP",
+   "operator": null,
+   "passengers": [
+    "Não publicados"
+   ],
+   "note": "Imprensa paraguaia citou fretamento com Horacio Cartes para os EUA durante a Copa.",
+   "status": null,
+   "source_id": "fork-voos",
+   "verification": "nao-verificado",
+   "fork": {
+    "section": "Outros registros ligados à frota",
+    "section_note": "Passageiros citados em aeronaves relacionadas, sem Vorcaro indicado a bordo.",
+    "date": "Após mar 2026",
+    "aircraft": "PR-PSE · Gulfstream GV-SP",
+    "route": "Miami, Nova York, Paris, Mônaco, Dubai, Anguilla, Filadélfia e Washington · sem pouso no Brasil"
+   }
+  }
+ ]
+}

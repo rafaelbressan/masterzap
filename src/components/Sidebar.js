@@ -88,7 +88,7 @@ export function buildConversationItem(conv, { nameHtml, previewHtml } = {}) {
  * @param {function} options.onSelect - called with conversation id
  * @param {Set<string>} [options.readConversations] - ids already opened
  */
-export function renderSidebar(container, { conversations, onSelect, onProfile, onImportant, onTheme, onAbout, onExportAll, onCalls, onChats, readConversations = new Set() }) {
+export function renderSidebar(container, { conversations, onSelect, onProfile, onImportant, onTheme, onAbout, onExportAll, onCalls, onChats, onUpdates, readConversations = new Set() }) {
   const el = document.createElement('aside');
   el.className = 'sidebar';
   el.setAttribute('role', 'navigation');
@@ -386,6 +386,17 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
     });
   }
 
+  /**
+   * Search every conversation for a term (the channel's "Ver as N mensagens"):
+   * on the "Todas" tab, so the count it promised is what it lists.
+   */
+  el.searchAll = (term) => {
+    tagButtons.find(b => b.dataset.filter === 'todas')?.click();
+    searchInput.value = term;
+    searchInput.dispatchEvent(new Event('input'));
+    searchInput.focus();
+  };
+
   /** The conversations a search covers: the favorites on that tab, else all. */
   el.searchScope = () => (activeFilter === 'favoritas'
     ? conversations.filter(c => FAVORITE_CONVERSATIONS.has(c.id))
@@ -407,6 +418,10 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
       <svg viewBox="0 0 32 32" width="24" height="24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.87666 26.2151L4.87341 26.2197L4.87321 26.2199C4.706 26.4546 4.68382 26.7629 4.81573 27.0191C4.9477 27.2753 5.21177 27.4363 5.49999 27.4363H5.50082H5.5017L5.50365 27.4363L5.50821 27.4363L5.52001 27.4361C5.52906 27.436 5.54047 27.4357 5.55417 27.4352C5.58157 27.4343 5.61815 27.4326 5.66334 27.4294C5.75371 27.423 5.87867 27.4108 6.03375 27.3875C6.34391 27.3409 6.77501 27.2498 7.29101 27.072C8.31884 26.7177 9.67288 26.0227 11.0709 24.6667C11.4506 24.6956 11.8354 24.7104 12.2244 24.7104C18.6653 24.7104 24.2185 20.5799 24.2185 15.1216C24.2185 9.66321 18.6653 5.53272 12.2244 5.53272C5.7835 5.53272 0.230316 9.66321 0.230316 15.1216C0.230316 18.2149 2.04624 20.9077 4.75611 22.6306C5.08489 22.8396 5.42735 23.0348 5.78209 23.2153C5.90866 23.2797 5.9714 23.3611 5.98185 23.5782C5.99459 23.843 5.90966 24.2111 5.7393 24.6369C5.57476 25.0481 5.35835 25.4455 5.17802 25.746C5.08884 25.8946 5.01071 26.0158 4.95561 26.0988C4.92811 26.1403 4.90648 26.172 4.89224 26.1926L4.88655 26.2009L4.87666 26.2151Z"/></svg>
       <span>Conversas</span>
     </button>
+    <button class="sidebar-bottom-tab" data-tab="updates">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.5a9.5 9.5 0 0 1 9.5 9.5M21.5 12a9.5 9.5 0 0 1-4.6 8.1M14.4 21.2A9.5 9.5 0 0 1 2.6 13.3M2.6 10.7A9.5 9.5 0 0 1 9.6 2.8"/><circle cx="12" cy="12" r="4.5" fill="currentColor" stroke="none"/></svg>
+      <span>Atualizações</span>
+    </button>
     <div class="sidebar-bottom-tab disabled">
       <svg viewBox="0 0 32 32" width="24" height="24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M16 6.96672C14.4004 6.96672 12.9667 8.43169 12.9667 10.4167C12.9667 12.4018 14.4004 13.8667 16 13.8667C17.5996 13.8667 19.0333 12.4018 19.0333 10.4167C19.0333 8.43169 17.5996 6.96672 16 6.96672ZM11.3667 10.4167C11.3667 7.70734 13.3654 5.36672 16 5.36672C18.6346 5.36672 20.6333 7.70734 20.6333 10.4167C20.6333 13.1261 18.6346 15.4667 16 15.4667C13.3654 15.4667 11.3667 13.1261 11.3667 10.4167ZM9.91579 21.1994C8.65548 22.3383 8.01768 23.7137 7.70973 24.6403L7.70593 24.6567L7.70738 24.659L7.709 24.6611C7.7181 24.6725 7.75003 24.7001 7.8159 24.7001H24.1841C24.25 24.7001 24.2819 24.6725 24.291 24.6611L24.2941 24.6567L24.2903 24.6403C23.9823 23.7137 23.3445 22.3383 22.0842 21.1994C20.8409 20.0757 18.9392 19.1334 16 19.1334C13.0609 19.1334 11.1592 20.0757 9.91579 21.1994ZM8.843 20.0123C10.3926 18.6119 12.6811 17.5334 16 17.5334C19.3189 17.5334 21.6074 18.6119 23.157 20.0123C24.6897 21.3974 25.4476 23.0493 25.8086 24.1357C26.1997 25.3124 25.2471 26.3001 24.1841 26.3001H7.8159C6.75296 26.3001 5.80034 25.3124 6.19138 24.1357C6.55243 23.0493 7.31034 21.3974 8.843 20.0123Z"/></svg>
       <span>Comunidades</span>
@@ -419,6 +434,7 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
   el.appendChild(bottomNav);
   bottomNav.querySelector('[data-tab="chats"]').addEventListener('click', () => onChats?.());
   bottomNav.querySelector('[data-tab="calls"]').addEventListener('click', () => onCalls?.());
+  bottomNav.querySelector('[data-tab="updates"]').addEventListener('click', () => onUpdates?.());
 
   /**
    * Put a screen in the list's place: the calls, or the important messages.

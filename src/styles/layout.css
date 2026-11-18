@@ -198,6 +198,22 @@
   font-size: 11px;
 }
 
+/* Four tabs, as WhatsApp on a phone: each name on one line. (A tab that is a
+   button would otherwise take the page's font from components.css.) */
+.sidebar-bottom-nav .sidebar-bottom-tab {
+  flex: 1;
+  min-width: 0;
+  padding: 4px 2px;
+  font-size: 12px;
+}
+
+.sidebar-bottom-nav .sidebar-bottom-tab span {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .sidebar-bottom-tab.active {
   color: var(--WDS-accent);
 }

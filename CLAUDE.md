@@ -27,6 +27,7 @@ npm run dev           # Start dev server
 - **Pre-render**: `scripts/prerender.mjs` runs after `vite build`; for each conversation writes `dist/chat/<id>/index.html` (built app page retitled, profile + first messages as plain HTML in `<article id="prerender">`, a one-line script sets the hash so the app opens that chat; main.js removes the article at boot). Also `dist/llms-full.txt` and `dist/sitemap.xml`. Shared helpers in `scripts/lib/corpus.mjs`
 - **Export**: `scripts/export.mjs` writes `public/export/` — one `.md` and `.json` per conversation, one of each with everything, and a zip. Reads the conversation list from `public/data/conversations.json`, messages from `data/`, profiles from `src/lib/profile-content.js`
 - **Lazy loading**: Only loads day-chunks as user scrolls, with LRU cache
+- **Channel ("Atualizações")**: the MasterWhats channel holds what is not anyone's message — for now the flights (`data/canal/posts.json`, see its README). `scripts/build_channel.mjs` (part of `split-data`) writes `public/data/canal.json`, counting with the app's own search how many messages cite each aircraft. `src/components/Channel.js` draws the panel, the posts (WhatsApp's location card) and a flight full screen (a sheet on a phone); `src/lib/flight-map.js` draws the map from `public/assets/maps/world-50m.json` (no map service) and opens a stop in the reader's maps app (Apple Maps, `geo:`, Google Maps), a pin, never directions. Routes: `#/atualizacoes`, `#/canal/<id>`, `#/canal/<id>/<post>`
 
 ## Directory Structure
 

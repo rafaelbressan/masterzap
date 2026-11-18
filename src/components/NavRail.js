@@ -18,7 +18,7 @@ const ICON_SETTINGS = `<svg viewBox="0 0 24 24" width="24" height="24" fill="cur
  * @param {string} [options.avatarSrc] - user avatar image URL
  * @returns {HTMLElement}
  */
-export function renderNavRail(container, { avatarSrc, onSettings, onChat, onCalls } = {}) {
+export function renderNavRail(container, { avatarSrc, onSettings, onChat, onCalls, onUpdates } = {}) {
   const rail = document.createElement('nav');
   rail.className = 'nav-rail';
   rail.setAttribute('aria-label', 'Navegação');
@@ -29,7 +29,7 @@ export function renderNavRail(container, { avatarSrc, onSettings, onChat, onCall
 
   const navItems = [
     { icon: ICON_CHAT, label: 'Conversas', active: true, enabled: true },
-    { icon: ICON_STATUS, label: 'Status', active: false, enabled: false },
+    { icon: ICON_STATUS, label: 'Atualizações', active: false, enabled: true, updates: true },
     { icon: ICON_CHANNELS, label: 'Comunidades', active: false, enabled: false },
     { icon: ICON_CALLS, label: 'Chamadas', active: false, enabled: true, calls: true },
   ];
@@ -44,6 +44,7 @@ export function renderNavRail(container, { avatarSrc, onSettings, onChat, onCall
     btn.innerHTML = item.icon; // Static SVG
     if (item.active && onChat) btn.addEventListener('click', onChat);
     if (item.calls && onCalls) btn.addEventListener('click', onCalls);
+    if (item.updates && onUpdates) btn.addEventListener('click', onUpdates);
     topSection.appendChild(btn);
   }
 
@@ -81,6 +82,7 @@ export function renderNavRail(container, { avatarSrc, onSettings, onChat, onCall
       const label = btn.getAttribute('aria-label');
       if (label === 'Conversas') btn.classList.toggle('active', which === 'chats');
       if (label === 'Chamadas') btn.classList.toggle('active', which === 'calls');
+      if (label === 'Atualizações') btn.classList.toggle('active', which === 'updates');
     }
   };
 
