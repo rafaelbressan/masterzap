@@ -45,6 +45,10 @@ export class HashRouter {
   navigate(route, param, messageId) {
     if (route === 'calls') {
       window.location.hash = '#/calls';
+    } else if (route === 'atualizacoes') {
+      window.location.hash = '#/atualizacoes';
+    } else if (route === 'canal' && param) {
+      window.location.hash = messageId ? `#/canal/${param}/${messageId}` : `#/canal/${param}`;
     } else if (route === 'importantes') {
       window.location.hash = param ? `#/importantes/${param}` : '#/importantes';
     } else if (route === 'home') {
@@ -72,6 +76,11 @@ export class HashRouter {
     const cleaned = hash.replace(/^#\/?/, '');
     if (!cleaned) return { route: 'home', param: null, messageId: null };
     if (cleaned === 'calls') return { route: 'calls', param: null, messageId: null };
+    if (cleaned === 'atualizacoes') return { route: 'atualizacoes', param: null, messageId: null };
+
+    // #/canal/:channel, or #/canal/:channel/:post for one post opened (a flight)
+    const channel = cleaned.match(/^canal\/([a-z0-9-]+)(?:\/([a-z0-9-]+))?\/?$/);
+    if (channel) return { route: 'canal', param: channel[1], messageId: channel[2] || null };
 
     // #/importantes, or #/importantes/:conversationId for one conversation's
     const important = cleaned.match(/^importantes(?:\/([a-z0-9-]+))?\/?$/);

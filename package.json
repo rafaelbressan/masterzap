@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "python3 scripts/split_data.py && node scripts/export.mjs && vite build && node scripts/prerender.mjs",
+    "build": "python3 scripts/split_data.py && node scripts/build_channel.mjs && node scripts/export.mjs && vite build && node scripts/prerender.mjs",
     "preview": "vite preview",
-    "split-data": "python3 scripts/split_data.py",
+    "split-data": "python3 scripts/split_data.py && node scripts/build_channel.mjs",
     "export": "node scripts/export.mjs",
     "prerender": "node scripts/prerender.mjs",
     "ids:pin": "node scripts/message-ids.mjs",
@@ -24,5 +24,9 @@
     "jszip": "^3.10.1",
     "vite": "^6.2.0",
     "vitest": "^3.0.0"
+  },
+  "dependencies": {
+    "d3-geo": "^3.1.1",
+    "topojson-client": "^3.1.0"
   }
 }
