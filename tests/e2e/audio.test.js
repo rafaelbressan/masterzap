@@ -188,7 +188,7 @@ test('a recording published by the press plays, its length shown before it does'
   await expect(row.locator('.chat-audio')).not.toHaveClass(/playing/);
 });
 
-test('while a note plays, its speed takes the photo\'s place; the waveform takes a tap; the bar keeps the speed', async ({ page }) => {
+test('while a note plays, its speed takes the photo\'s place; the waveform takes a tap', async ({ page }) => {
   await page.goto('/#/chat/flavio-bolsonaro/msg/4');
   const row = page.locator('.chat-msg-row[data-id="4"]');
   const audio = row.locator('.chat-audio');
@@ -207,12 +207,18 @@ test('while a note plays, its speed takes the photo\'s place; the waveform takes
   await expect.poll(async () => Number(await audio.locator('.chat-audio-waveform').getAttribute('aria-valuenow'))).toBeGreaterThan(50);
   await expect(audio.locator('.chat-audio-waveform')).toHaveAttribute('role', 'slider');
 
-  // On a phone, back to the list: the bar on top has the same speed.
+  // The message's menu arrow, over the corner, stays reachable while it plays.
+  await row.locator('.chat-msg-bubble').hover();
+  const arrow = await row.locator('.chat-msg-chevron').boundingBox();
+  const hit = await page.evaluate(([x, y]) => document.elementFromPoint(x, y)?.closest('.chat-msg-chevron') != null,
+    [arrow.x + arrow.width / 2, arrow.y + arrow.height / 2]);
+  expect(hit).toBe(true);
+
+  // On a phone, back to the list: the bar on top, as WhatsApp's, has no speed.
   if (page.viewportSize().width <= 600) {
     await page.locator('.chat-header-back').click();
-    await expect(page.locator('.voice-note-bar-speed')).toHaveText('1,5×');
-    await page.locator('.voice-note-bar-speed').click();
-    await expect(page.locator('.voice-note-bar-speed')).toHaveText('2×');
+    await expect(page.locator('.voice-note-bar')).toBeVisible();
+    await expect(page.locator('.voice-note-bar button')).toHaveCount(3);
   }
 });
 

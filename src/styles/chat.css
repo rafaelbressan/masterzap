@@ -887,9 +887,10 @@ button.chat-msg-quote:focus-visible {
   cursor: pointer;
 }
 
-/* Played part of the waveform. */
+/* Played part of the waveform: a stronger grey, as WhatsApp (darker on the
+   light theme, lighter on the dark one); the dot is the blue. */
 .chat-audio-bar.played {
-  background-color: var(--WDS-accent);
+  background-color: var(--WDS-content-deemphasized);
 }
 
 /* The waveform takes a tap or a horizontal drag (a vertical swipe still
@@ -915,11 +916,12 @@ button.chat-msg-quote:focus-visible {
   position: absolute;
   top: 50%;
   left: 0;
-  width: 13px;
-  height: 13px;
-  margin: -6.5px 0 0 -6.5px;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
   border-radius: 50%;
-  background: var(--WDS-content-deemphasized);
+  /* WhatsApp's dot is blue. */
+  background: var(--WDS-content-read);
   pointer-events: none;
 }
 
@@ -927,29 +929,30 @@ button.chat-msg-quote:focus-visible {
   display: none;
 }
 
-.chat-audio.loaded .chat-audio-thumb,
-.chat-audio.seeking .chat-audio-thumb {
-  background: var(--WDS-accent);
-}
-
 .chat-audio.seeking .chat-audio-thumb {
   transform: scale(1.25);
 }
 
 /* While it plays: the speed in the photo's place, as WhatsApp. */
+/* WhatsApp's pill: wider than the photo it replaces, a shade darker than
+   the bubble. The message's menu arrow stays over it (z-index 2). */
 .chat-audio-speed {
   flex-shrink: 0;
-  min-width: 40px;
-  height: 26px;
-  padding: 0 8px;
+  width: 56px;
+  height: 30px;
+  padding: 0;
   border: none;
-  border-radius: 13px;
-  background: rgba(0, 0, 0, .45);
-  color: #fff;
+  border-radius: 15px;
+  background: rgba(11, 20, 26, .08);
+  color: var(--WDS-content-default);
   font: inherit;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
+}
+
+:root[data-theme="dark"] .chat-audio-speed {
+  background: rgba(0, 0, 0, .25);
 }
 
 .chat-audio-speed[hidden],

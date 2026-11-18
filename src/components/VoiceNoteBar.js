@@ -8,7 +8,7 @@
  * Security note: every text is set with textContent; innerHTML only takes
  * static SVG.
  */
-import { currentVoiceNote, playVoiceNote, pauseVoiceNote, stopVoiceNote, cycleRate, rateLabel } from '../lib/voice-notes.js';
+import { currentVoiceNote, playVoiceNote, pauseVoiceNote, stopVoiceNote } from '../lib/voice-notes.js';
 import { defaultAvatarSvg } from '../lib/avatar.js';
 
 const ICON_PLAY = '<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M8 5.14v14l11-7-11-7z"/></svg>';
@@ -42,11 +42,6 @@ export function mountVoiceNoteBar(sidebar, { onOpen }) {
   name.className = 'voice-note-bar-name';
   who.append(photo, name);
 
-  // The speed, as in the bubble: the same one, changed from either.
-  const speed = document.createElement('button');
-  speed.type = 'button';
-  speed.className = 'voice-note-bar-speed';
-
   const close = document.createElement('button');
   close.type = 'button';
   close.className = 'voice-note-bar-close';
@@ -58,7 +53,9 @@ export function mountVoiceNoteBar(sidebar, { onOpen }) {
   const fill = document.createElement('div');
   progress.appendChild(fill);
 
-  bar.append(toggle, who, speed, close, progress);
+  // As WhatsApp's: pause, who, close and the line of progress; the speed
+  // and the dot are the bubble's.
+  bar.append(toggle, who, close, progress);
   sidebar.prepend(bar);
 
   let openConversation = null;
@@ -95,8 +92,6 @@ export function mountVoiceNoteBar(sidebar, { onOpen }) {
       mic.innerHTML = ICON_MIC; // Static SVG
       photo.appendChild(mic);
     }
-    speed.textContent = rateLabel();
-    speed.setAttribute('aria-label', `Velocidade ${rateLabel()}; tocar para mudar`);
     const done = note.audio.duration ? note.audio.currentTime / note.audio.duration : 0;
     fill.style.width = `${Math.round(done * 1000) / 10}%`;
   }
@@ -111,7 +106,6 @@ export function mountVoiceNoteBar(sidebar, { onOpen }) {
     if (note) onOpen?.(note.conversationId, note.messageId);
   });
   close.addEventListener('click', () => stopVoiceNote());
-  speed.addEventListener('click', () => cycleRate());
   window.addEventListener('voicenotechange', draw);
 
   return {
