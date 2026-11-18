@@ -788,7 +788,25 @@ body,
 }
 
 .voice-note-bar-progress > div {
+  position: relative;
   height: 100%;
   width: 0;
   background-color: var(--WDS-content-deemphasized);
+}
+
+/* WhatsApp ends the line with a small dot, a shade lighter. */
+.voice-note-bar-progress > div::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -2.5px;
+  width: 5px;
+  height: 5px;
+  margin-top: -2.5px;
+  border-radius: 50%;
+  background-color: #9ea8ae;
+}
+
+:root[data-theme="dark"] .voice-note-bar-progress > div::after {
+  background-color: #e9edef;
 }

@@ -1,5 +1,6 @@
 """python3 -m unittest discover -s tests/python (part of `npm test`)."""
 
+import json
 import sys
 import unittest
 from pathlib import Path
@@ -196,3 +197,29 @@ class Quotes(unittest.TestCase):
         self.assertTrue(validate_messages(self.conv(quoted="Otto", quoted_sender="DV", quoted_id=9), "c"))
         self.assertTrue(validate_messages(self.conv(quoted="Otto", quoted_sender="Ana", quoted_id=1), "c"))
         self.assertTrue(validate_messages(self.conv(quoted="Otto", quoted_sender="Ninguém"), "c"))
+
+
+class AudioFilesTest(unittest.TestCase):
+    """Every recording a message points to is a file of public/audio/ the
+    bubble can play (the extensions ChatView's playableSource accepts)."""
+
+    PLAYABLE = (".mp3", ".m4a", ".ogg", ".opus", ".wav", ".aac")
+
+    def test_audio_src_files_are_playable(self):
+        import glob
+        root = Path(__file__).resolve().parents[2]
+        found = {}
+        for path in glob.glob(str(root / "data" / "conversations" / "*.json")):
+            with open(path, encoding="utf-8") as fh:
+                conv = json.load(fh)
+            for msg in conv["messages"]:
+                src = msg.get("audio_src")
+                if not src:
+                    continue
+                found[(conv["metadata"]["id"] if "id" in conv.get("metadata", {}) else Path(path).stem, msg["id"])] = src
+                file = root / "public" / src.lstrip("/")
+                self.assertTrue(src.startswith("/audio/") and file.is_file(), src)
+                self.assertTrue(file.suffix.lower() in self.PLAYABLE, src)
+        # The recordings that came with the fork are among them.
+        self.assertEqual(found.get(("flavio-bolsonaro", 4)), "/audio/flavio-bolsonaro-2025-09-08.mp3")
+        self.assertEqual(found.get(("andre-valadao", 30)), found.get(("andre-valadao", 31)))

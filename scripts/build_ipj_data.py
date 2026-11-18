@@ -80,7 +80,8 @@ def make_message(mid, timestamp, sender, content, mtype, **extra):
     }
     for key in ("forwarded", "quoted", "quoted_sender", "source_page", "source_figure",
                 "view_once", "note_created_utc", "sent_utc", "duration",
-                "note", "source_id", "verification", "reactions"):
+                "note", "source_id", "verification", "reactions", "audio_src",
+                "transcribed_by"):
         if extra.get(key) is not None:
             msg[key] = extra[key]
     return normalise_message(msg)
@@ -186,6 +187,26 @@ CONTACT_DISPLAY_NAMES = {
 SKIP_CONVERSATIONS = {"martha-graeff"}
 
 
+AUDIO_ROOT = ROOT / "public"
+
+
+# What the bubble plays (src/components/ChatView.js, playableSource).
+AUDIO_TYPES = (".mp3", ".m4a", ".ogg", ".opus", ".wav", ".aac")
+
+
+def checked_audio(src, mid):
+    """A voice note's recording: a file of public/audio/ the bubble can play."""
+    if src is None:
+        return None
+    audio_dir = (AUDIO_ROOT / "audio").resolve()
+    path = (AUDIO_ROOT / str(src).lstrip("/")).resolve() if isinstance(src, str) else None
+    if (path is None or not src.startswith("/audio/") or path.parent != audio_dir
+            or not path.is_file() or path.suffix.lower() not in AUDIO_TYPES):
+        raise SystemExit(f"msg {mid}: audio_src {src!r} não é um áudio ({', '.join(AUDIO_TYPES)}) "
+                         "em public/audio/")
+    return src
+
+
 def row_message(mid, row, **extra):
     """One transcribed line (mensagens.jsonl) as a message."""
     return make_message(
@@ -198,6 +219,8 @@ def row_message(mid, row, **extra):
         # [{emoji, by}]: kept in the data and the export; the bubble does not
         # draw reactions yet.
         reactions=row.get("reactions"),
+        audio_src=checked_audio(row.get("audio_src"), mid),
+        transcribed_by=row.get("transcribed_by"),
         source_page=row.get("page"),
         source_figure=row.get("fig"),
         note=row.get("note"),

@@ -53,6 +53,8 @@ export function mountVoiceNoteBar(sidebar, { onOpen }) {
   const fill = document.createElement('div');
   progress.appendChild(fill);
 
+  // As WhatsApp's: pause, who, close and the line of progress; the speed
+  // and the dot are the bubble's.
   bar.append(toggle, who, close, progress);
   sidebar.prepend(bar);
 
@@ -83,7 +85,7 @@ export function mountVoiceNoteBar(sidebar, { onOpen }) {
         img.alt = '';
         photo.appendChild(img);
       } else {
-        photo.innerHTML = defaultAvatarSvg(note.name || '?', 36); // Static SVG built from the initial
+        photo.innerHTML = defaultAvatarSvg(note.seed || note.name || '?', 36); // generated, no user data
       }
       const mic = document.createElement('span');
       mic.className = 'voice-note-bar-mic';

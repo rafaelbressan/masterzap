@@ -56,8 +56,11 @@
       "is_edited": false,
       "attachment": "audio-nikolas-ferreira.mp3",
       "urls": [],
+      "duration": "01:20",
+      "note": "A gravação foi publicada pela rádio Itatiaia.",
       "source_id": "fork-nikolas-ferreira-print-1-audio-icl-noticias-03-09-2026-te",
-      "verification": "imprensa"
+      "verification": "imprensa",
+      "audio_src": "/audio/nikolas-ferreira-2025-03-30.mp3"
     },
     {
       "id": 4,
