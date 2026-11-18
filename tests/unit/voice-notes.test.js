@@ -28,3 +28,13 @@ describe('whose transcript a voice note shows', async () => {
     expect(transcriptCredit({}, { verification: 'nao-verificado', source_id: 'fork-x' })).toBe('transcrição');
   });
 });
+
+describe('the speed of a voice note', async () => {
+  const { cycleRate, rateLabel, playbackRate } = await import('../../src/lib/voice-notes.js');
+  it('goes 1×, 1,5×, 2× and back, as WhatsApp', () => {
+    expect(rateLabel(playbackRate())).toBe('1×');
+    expect(rateLabel(cycleRate())).toBe('1,5×');
+    expect(rateLabel(cycleRate())).toBe('2×');
+    expect(rateLabel(cycleRate())).toBe('1×');
+  });
+});

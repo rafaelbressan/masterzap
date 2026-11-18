@@ -187,3 +187,45 @@ test('a recording published by the press plays, its length shown before it does'
   await row.locator('.chat-audio-play').click();
   await expect(row.locator('.chat-audio')).not.toHaveClass(/playing/);
 });
+
+test('while a note plays, its speed takes the photo\'s place; the waveform takes a tap; the bar keeps the speed', async ({ page }) => {
+  await page.goto('/#/chat/flavio-bolsonaro/msg/4');
+  const row = page.locator('.chat-msg-row[data-id="4"]');
+  const audio = row.locator('.chat-audio');
+  await expect(audio.locator('.chat-audio-speed')).toBeHidden();
+  await row.locator('.chat-audio-play').click();
+  await expect(audio).toHaveClass(/playing/);
+  const speed = audio.locator('.chat-audio-speed');
+  await expect(speed).toHaveText('1×');
+  await expect(audio.locator('.chat-audio-avatar')).toBeHidden();
+  await speed.click();
+  await expect(speed).toHaveText('1,5×');
+
+  // A tap past the middle of the waveform goes there (the note is 1:34).
+  const wf = await audio.locator('.chat-audio-waveform').boundingBox();
+  await page.mouse.click(wf.x + wf.width * 0.6, wf.y + wf.height / 2);
+  await expect.poll(async () => Number(await audio.locator('.chat-audio-waveform').getAttribute('aria-valuenow'))).toBeGreaterThan(50);
+  await expect(audio.locator('.chat-audio-waveform')).toHaveAttribute('role', 'slider');
+
+  // On a phone, back to the list: the bar on top has the same speed.
+  if (page.viewportSize().width <= 600) {
+    await page.locator('.chat-header-back').click();
+    await expect(page.locator('.voice-note-bar-speed')).toHaveText('1,5×');
+    await page.locator('.voice-note-bar-speed').click();
+    await expect(page.locator('.voice-note-bar-speed')).toHaveText('2×');
+  }
+});
+
+test('a note not played yet goes where the waveform is tapped, paused', async ({ page }) => {
+  await page.goto('/#/chat/nikolas-ferreira/msg/3');
+  const audio = page.locator('.chat-msg-row[data-id="3"] .chat-audio');
+  const wf = await audio.locator('.chat-audio-waveform').boundingBox();
+  await page.mouse.click(wf.x + wf.width / 2, wf.y + wf.height / 2);
+  await expect.poll(async () => Number(await audio.locator('.chat-audio-waveform').getAttribute('aria-valuenow'))).toBeGreaterThan(30);
+  await expect(audio).not.toHaveClass(/playing/);
+  // The arrows step five seconds.
+  const before = Number(await audio.locator('.chat-audio-waveform').getAttribute('aria-valuenow'));
+  await audio.locator('.chat-audio-waveform').focus();
+  await page.keyboard.press('ArrowRight');
+  await expect.poll(async () => Number(await audio.locator('.chat-audio-waveform').getAttribute('aria-valuenow'))).toBe(before + 5);
+});

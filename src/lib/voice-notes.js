@@ -43,20 +43,68 @@ export function hasFailed(key) {
  */
 export function playVoiceNote(note) {
   if (failed.has(note.key)) return;
-  if (!current || current.key !== note.key) {
-    stopVoiceNote();
-    const audio = new Audio(note.src);
-    current = { ...note, audio };
-    listening = new AbortController();
-    const on = (type, fn) => audio.addEventListener(type, fn, { signal: listening.signal });
-    const key = note.key;
-    for (const type of ['play', 'pause', 'timeupdate']) on(type, () => announce(key));
-    // A streamed or VBR file can say Infinity or NaN: kept only when it is a length.
-    on('loadedmetadata', () => { if (Number.isFinite(audio.duration)) durations.set(key, audio.duration); announce(key); });
-    on('ended', () => stopVoiceNote());
-    on('error', () => { failed.add(key); stopVoiceNote(); });
-  }
+  load(note);
   current.audio.play().catch(() => {});
+}
+
+/** Make this note the loaded one (the one playing stops), without playing it. */
+function load(note) {
+  if (current?.key === note.key) return;
+  stopVoiceNote();
+  const audio = new Audio(note.src);
+  audio.defaultPlaybackRate = rate;
+  audio.playbackRate = rate;
+  current = { ...note, audio };
+  listening = new AbortController();
+  const on = (type, fn) => audio.addEventListener(type, fn, { signal: listening.signal });
+  const key = note.key;
+  for (const type of ['pause', 'timeupdate', 'seeked', 'ratechange']) on(type, () => announce(key));
+  // Some browsers set the rate back to 1 when the file loads: the reader's stays.
+  on('play', () => { audio.playbackRate = rate; announce(key); });
+  // A streamed or VBR file can say Infinity or NaN: kept only when it is a length.
+  on('loadedmetadata', () => { if (Number.isFinite(audio.duration)) durations.set(key, audio.duration); announce(key); });
+  on('ended', () => stopVoiceNote());
+  on('error', () => { failed.add(key); stopVoiceNote(); });
+}
+
+// ── Speed, as WhatsApp: 1×, 1,5×, 2×, kept for the next notes ──────────────
+
+const RATES = [1, 1.5, 2];
+let rate = 1;
+
+/** The speed notes play at. */
+export const playbackRate = () => rate;
+
+/** "1,5×" */
+export const rateLabel = (r = rate) => `${String(r).replace('.', ',')}×`;
+
+/** The next speed (after 2× comes 1× again), for the note playing and the next ones. */
+export function cycleRate() {
+  rate = RATES[(RATES.indexOf(rate) + 1) % RATES.length];
+  if (current) {
+    current.audio.defaultPlaybackRate = rate;
+    current.audio.playbackRate = rate;
+    announce(current.key);
+  }
+  return rate;
+}
+
+/**
+ * Go to a point of a note (0 its start, 1 its end), as a drag or a tap on the
+ * waveform does. A note not loaded yet is loaded there, paused, as WhatsApp
+ * moves a note's dot before it plays.
+ */
+export function seekVoiceNote(note, fraction) {
+  if (failed.has(note.key)) return;
+  load(note);
+  const { audio } = current;
+  const at = Math.min(Math.max(fraction, 0), 1);
+  const go = () => {
+    if (Number.isFinite(audio.duration)) audio.currentTime = at * audio.duration;
+    announce(note.key);
+  };
+  if (audio.readyState >= 1) go();
+  else audio.addEventListener('loadedmetadata', go, { once: true, signal: listening.signal });
 }
 
 export function pauseVoiceNote() {

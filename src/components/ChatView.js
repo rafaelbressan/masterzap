@@ -8,7 +8,7 @@
  *    then linkify() wraps plain-text URLs in <a> tags. This is safe
  *    because the input to linkify is already fully escaped.
  */
-import { currentVoiceNote, isCurrent, playVoiceNote, pauseVoiceNote, durationOf, hasFailed, clock, secondsOf } from '../lib/voice-notes.js';
+import { currentVoiceNote, isCurrent, playVoiceNote, pauseVoiceNote, durationOf, hasFailed, clock, secondsOf, seekVoiceNote, cycleRate, rateLabel } from '../lib/voice-notes.js';
 import { contactOf, isOutgoing as isOwnerMessage } from '../lib/participants.js';
 import { escapeHtml, formatTime, formatDateLong, linkify, NO_TIME_LABEL, showsForwarded } from '../lib/utils.js';
 import { ScrollLoader } from '../lib/scroll-loader.js';
@@ -198,7 +198,7 @@ function memberAvatar(name, size, className) {
 }
 
 /** A round avatar: the photograph when there is one, the coloured initial otherwise. */
-function avatarEl(src, name, size, className) {
+function avatarEl(src, name, size, className, seed = name) {
   const wrap = document.createElement('span');
   wrap.className = className;
   if (src) {
@@ -207,7 +207,8 @@ function avatarEl(src, name, size, className) {
     img.alt = name;
     wrap.appendChild(img);
   } else {
-    wrap.innerHTML = defaultAvatarSvg(name || '?', size);
+    // Seeded as the header's (the conversation's id), so the colour matches.
+    wrap.innerHTML = defaultAvatarSvg(seed || '?', size);
   }
   return wrap;
 }
@@ -245,18 +246,28 @@ function renderAudioMessage(msg, isOutgoing, conversation) {
     waveform.appendChild(bar);
     bars.push(bar);
   }
+  // The dot that says where the note is, and that the finger drags.
+  const thumb = document.createElement('span');
+  thumb.className = 'chat-audio-thumb';
+  waveform.appendChild(thumb);
   row.appendChild(waveform);
 
   // In a group, the member who recorded it.
   const who = isOutgoing
     ? avatarEl(media.selfAvatar, media.selfName, 40, 'chat-audio-avatar')
     : isGroup(conversation) ? memberAvatar(msg.sender, 40, 'chat-audio-avatar')
-      : avatarEl(media.contactAvatar, media.contactName, 40, 'chat-audio-avatar');
+      : avatarEl(media.contactAvatar, media.contactName, 40, 'chat-audio-avatar', conversation?.id);
   const mic = document.createElement('span');
   mic.className = 'chat-audio-mic';
   mic.innerHTML = ICON_MIC;
   who.appendChild(mic);
   row.appendChild(who);
+  // While it plays, the photo gives way to the speed, as WhatsApp does.
+  const speed = document.createElement('button');
+  speed.type = 'button';
+  speed.className = 'chat-audio-speed';
+  speed.hidden = true;
+  row.appendChild(speed);
   el.appendChild(row);
 
   const foot = document.createElement('div');
@@ -271,8 +282,34 @@ function renderAudioMessage(msg, isOutgoing, conversation) {
     // Its state lives in voice-notes.js: it may already be playing (the
     // reader left the chat and came back), and it goes on if they leave.
     const key = `${conversation?.id}/${msg.id}`;
+    const noteInfo = () => ({
+      key,
+      src,
+      conversationId: conversation?.id,
+      messageId: msg.id,
+      name: isOutgoing ? media.selfName : isGroup(conversation) ? msg.sender : media.contactName,
+      contactName: media.contactName,
+      avatar: isOutgoing ? media.selfAvatar
+        : isGroup(conversation) ? media.avatarFor(memberIdentity(msg.sender, media.conversations).conversationId)
+          : media.contactAvatar,
+      // The default photo's colour, the same as in the chat.
+      seed: isOutgoing ? media.selfName
+        : isGroup(conversation) ? memberIdentity(msg.sender, media.conversations).seed
+          : conversation?.id,
+    });
     play.setAttribute('aria-label', 'Reproduzir áudio');
+    // The waveform is a slider: a tap goes there, the dot drags, the arrow
+    // keys step five seconds.
+    waveform.setAttribute('role', 'slider');
+    waveform.setAttribute('tabindex', '0');
+    waveform.setAttribute('aria-label', 'Posição do áudio');
+    waveform.setAttribute('aria-valuemin', '0');
     let drawnOn = null; // the icon drawn, so it is only replaced on a change
+    let dragAt = null; // the point under the finger while it drags
+    const paint = (done) => {
+      bars.forEach((bar, i) => bar.classList.toggle('played', i / bars.length < done));
+      thumb.style.left = `${Math.round(done * 1000) / 10}%`;
+    };
     const show = () => {
       const note = isCurrent(key) ? currentVoiceNote() : null;
       const audio = note?.audio;
@@ -284,16 +321,31 @@ function renderAudioMessage(msg, isOutgoing, conversation) {
         play.innerHTML = on ? ICON_PAUSE : ICON_PLAY; // Static SVG
         play.setAttribute('aria-label', on ? 'Pausar áudio' : 'Reproduzir áudio');
         el.classList.toggle('playing', on);
+        who.hidden = on;
+        speed.hidden = !on;
       }
-      const done = audio?.duration ? audio.currentTime / audio.duration : 0;
-      bars.forEach((bar, i) => bar.classList.toggle('played', i / bars.length < done));
+      if (on) {
+        speed.textContent = rateLabel();
+        speed.setAttribute('aria-label', `Velocidade ${rateLabel()}; tocar para mudar`);
+      }
+      el.classList.toggle('loaded', !!note);
+      const length = audio && Number.isFinite(audio.duration) ? audio.duration : (durationOf(key) ?? given);
+      const done = dragAt ?? (audio?.duration ? audio.currentTime / audio.duration : 0);
+      paint(done);
+      if (length) {
+        waveform.setAttribute('aria-valuemax', String(Math.round(length)));
+        waveform.setAttribute('aria-valuenow', String(Math.round(done * length)));
+        waveform.setAttribute('aria-valuetext', `${clock(done * length)} de ${clock(length)}`);
+      }
       if (hasFailed(key)) {
         play.disabled = true;
         play.setAttribute('aria-label', 'Áudio não disponível');
         foot.textContent = 'Não foi possível tocar o áudio';
         return;
       }
-      const seconds = audio && audio.currentTime > 0 ? audio.currentTime : (durationOf(key) ?? given);
+      // While the finger drags, the time under it; while it plays, where it is.
+      const seconds = dragAt != null && length ? dragAt * length
+        : audio && audio.currentTime > 0 ? audio.currentTime : (durationOf(key) ?? given);
       foot.textContent = [clock(seconds), provenance].filter(Boolean).join(' · ');
     };
     show();
@@ -309,17 +361,54 @@ function renderAudioMessage(msg, isOutgoing, conversation) {
       e.stopPropagation();
       const note = currentVoiceNote();
       if (isCurrent(key) && !note.audio.paused) { pauseVoiceNote(); return; }
-      playVoiceNote({
-        key,
-        src,
-        conversationId: conversation?.id,
-        messageId: msg.id,
-        name: isOutgoing ? media.selfName : isGroup(conversation) ? msg.sender : media.contactName,
-        contactName: media.contactName,
-        avatar: isOutgoing ? media.selfAvatar
-          : isGroup(conversation) ? media.avatarFor(memberIdentity(msg.sender, media.conversations).conversationId)
-            : media.contactAvatar,
-      });
+      playVoiceNote(noteInfo());
+    });
+    speed.addEventListener('click', (e) => {
+      e.stopPropagation();
+      cycleRate();
+    });
+    // A tap or a drag on the waveform: the dot follows the finger and the
+    // note goes there when it lifts. A vertical swipe stays the page's scroll.
+    const fractionAt = (clientX) => {
+      const r = waveform.getBoundingClientRect();
+      return r.width ? Math.min(Math.max((clientX - r.left) / r.width, 0), 1) : 0;
+    };
+    waveform.addEventListener('pointerdown', (e) => {
+      if (e.button > 0 || hasFailed(key)) return;
+      e.stopPropagation();
+      e.preventDefault(); // no text selected along the drag
+      waveform.setPointerCapture?.(e.pointerId);
+      dragAt = fractionAt(e.clientX);
+      el.classList.add('seeking');
+      paint(dragAt);
+    });
+    waveform.addEventListener('pointermove', (e) => {
+      if (dragAt == null) return;
+      dragAt = fractionAt(e.clientX);
+      paint(dragAt);
+    });
+    waveform.addEventListener('pointerup', (e) => {
+      if (dragAt == null) return;
+      const at = fractionAt(e.clientX);
+      dragAt = null;
+      el.classList.remove('seeking');
+      seekVoiceNote(noteInfo(), at);
+    });
+    waveform.addEventListener('pointercancel', () => {
+      dragAt = null;
+      el.classList.remove('seeking');
+      show();
+    });
+    waveform.addEventListener('click', (e) => e.stopPropagation());
+    waveform.addEventListener('keydown', (e) => {
+      const audio = isCurrent(key) ? currentVoiceNote().audio : null;
+      const length = audio && Number.isFinite(audio.duration) ? audio.duration : (durationOf(key) ?? given);
+      if (!length) return;
+      const now = audio ? audio.currentTime : 0;
+      const to = { ArrowRight: now + 5, ArrowUp: now + 5, ArrowLeft: now - 5, ArrowDown: now - 5, Home: 0, End: length }[e.key];
+      if (to == null) return;
+      e.preventDefault();
+      seekVoiceNote(noteInfo(), to / length);
     });
   } else {
     play.disabled = true;
