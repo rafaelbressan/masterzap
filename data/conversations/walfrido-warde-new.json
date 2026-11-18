@@ -183,11 +183,16 @@
       "date": "2025-03-30",
       "time": null,
       "sender": "Walfrido Warde New",
-      "content": "A GLOBO BASICAMENTE TÁ QUERENDO QUEBRAR O TEU APOIO INTERNO DENTRO DO PT ENTENDEU. JÁ ENTENDERAM QUE SEU APOIO VEIO DO PRESIDENTE. ELES QUEREM TIRAR TEU APOIO",
+      "content": "A Globo basicamente tá querendo quebrar o teu apoio interno dentro do PT, entendeu? Já entenderam que seu apoio veio do presidente. Eles querem tirar teu apoio.",
       "type": "audio",
       "is_edited": false,
       "attachment": null,
-      "urls": []
+      "urls": [],
+      "duration": "00:15",
+      "note": "A gravação foi publicada pela Veja no X; o texto é a transcrição dela.",
+      "source_id": "audio-walfrido-warde-veja-x",
+      "verification": "imprensa",
+      "audio_src": "/audio/walfrido-warde-2025-03-30.mp3"
     },
     {
       "id": 6,

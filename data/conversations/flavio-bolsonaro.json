@@ -70,8 +70,10 @@
       "is_edited": false,
       "attachment": "audio-flavio-bolsonaro.mp3",
       "urls": [],
+      "duration": "01:34",
       "source_id": "fork-flavio-bolsonaro-metropoles-12-09-2026",
-      "verification": "imprensa"
+      "verification": "imprensa",
+      "audio_src": "/audio/flavio-bolsonaro-2025-09-08.mp3"
     },
     {
       "id": 5,

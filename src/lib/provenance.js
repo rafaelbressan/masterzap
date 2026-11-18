@@ -68,6 +68,21 @@ export function provenanceOf(msg, conversation) {
 }
 
 /**
+ * Who a voice note's transcript is from, as the bubble credits it: the one
+ * the data names (`transcribed_by`, "MasterWhats" for one made here), the
+ * forensic report's (police documents and the full forensic exports), the
+ * press's, a paraphrase; plain "transcrição" when nothing says whose.
+ */
+export function transcriptCredit(msg, conversation) {
+  if (msg?.transcribed_by) return `transcrição do ${msg.transcribed_by}`;
+  const { sourceId, verification } = provenanceOf(msg, conversation);
+  if (verification === 'verificado' || /^iped-/.test(sourceId || '')) return 'transcrição da perícia';
+  if (verification === 'imprensa') return 'transcrição da imprensa';
+  if (verification === 'reconstruido') return 'transcrição reconstruída';
+  return 'transcrição';
+}
+
+/**
  * Whether a bubble carries the seal glyph. The reference is the seal the
  * header shows (headerSeal): weak seals always, a message whose seal differs
  * from it, and — when the header shows the source's own seal — one from

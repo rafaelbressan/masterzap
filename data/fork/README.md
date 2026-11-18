@@ -105,3 +105,17 @@ o dono do celular) e `group` (quem criou, configurações); as mensagens nomeiam
 quem escreveu. O app desenha o grupo como o WhatsApp: nome e foto de quem
 escreve na primeira bolha de cada sequência, a lista de membros no cabeçalho e
 no "Info do grupo".
+
+## Áudios
+
+Quatro gravações do fork tocam nas mensagens de áudio a que pertencem
+(`audio_src`, arquivos em `public/audio/`, sem os metadados): Flávio Bolsonaro
+(msg 4, Metrópoles), Nikolas Ferreira (msg 3; os metadados do arquivo creditam
+a rádio Itatiaia), Walfrido Warde (msg 5; os metadados creditam a Veja, no X,
+e a mensagem passou a levar essa fonte e o selo de imprensa) e André Valadão
+(msgs 30 e 31, o mesmo arquivo: o fork tinha duas cópias idênticas). A duração
+vai em `duration`. O áudio da Lagoinha veio sem transcrição; a das msgs 30 e 31
+foi feita aqui (Whisper large-v3, revisada na escuta) e leva
+`transcribed_by: "MasterWhats"`, que a bolha mostra ("transcrição do
+MasterWhats"). Ficaram fora, por escopo, o áudio de Lula e Dilma e o de Silas
+Malafaia, que fala com Bolsonaro (anistia, a carta de Trump) e não com Vorcaro.
