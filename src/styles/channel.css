@@ -465,7 +465,12 @@ button.flight-viewer-person {
     border: none;
     border-radius: 16px 16px 0 0;
     box-shadow: 0 -2px 12px rgba(11, 20, 26, .18);
-    touch-action: pan-y;
+  }
+
+  /* The finger drags the sheet here; the details below scroll. */
+  .flight-viewer-grab,
+  .flight-viewer-summary {
+    touch-action: none;
   }
 
   .flight-viewer-info:not(.open) {

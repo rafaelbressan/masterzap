@@ -386,6 +386,17 @@ export function renderSidebar(container, { conversations, onSelect, onProfile, o
     });
   }
 
+  /**
+   * Search every conversation for a term (the channel's "Ver as N mensagens"):
+   * on the "Todas" tab, so the count it promised is what it lists.
+   */
+  el.searchAll = (term) => {
+    tagButtons.find(b => b.dataset.filter === 'todas')?.click();
+    searchInput.value = term;
+    searchInput.dispatchEvent(new Event('input'));
+    searchInput.focus();
+  };
+
   /** The conversations a search covers: the favorites on that tab, else all. */
   el.searchScope = () => (activeFilter === 'favoritas'
     ? conversations.filter(c => FAVORITE_CONVERSATIONS.has(c.id))

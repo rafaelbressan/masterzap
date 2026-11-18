@@ -12,9 +12,12 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { searchIndex } from '../src/lib/search.js';
 import { conversationOfPerson } from '../src/lib/groups.js';
+import { ownerName, DEFAULT_OWNER } from '../src/lib/participants.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const OWNER_NAMES = new Set(['Daniel Vorcaro', 'Vorcaro', 'DV']);
+// The phone's owner as the site names him (src/lib/participants.js): his
+// profile, not a chat. The channel is the site's, so the default owner.
+const OWNER_NAMES = new Set([ownerName({}), DEFAULT_OWNER]);
 
 const { channel, posts } = JSON.parse(readFileSync(join(ROOT, 'data/canal/posts.json'), 'utf8'));
 const { conversations } = JSON.parse(readFileSync(join(ROOT, 'public/data/conversations.json'), 'utf8'));

@@ -8,6 +8,7 @@ const FIRST_OPEN = { timeout: 15000 };
 
 /** On a phone the details are in a sheet: open it. */
 async function details(page) {
+  await expect(page.locator('.flight-viewer-info')).toBeVisible();
   const summary = page.locator('.flight-viewer-summary');
   if (await summary.isVisible()) await summary.click();
   return page.locator('.flight-viewer');
@@ -18,6 +19,7 @@ test('the channel lists the flights, each map opening the flight', async ({ page
   await expect(page.locator('.channel-header-name')).toContainText('MasterWhats', FIRST_OPEN);
   const post = page.locator('.channel-post[data-id="voo-2025-08-28-pr-ngm"]');
   await expect(post).toContainText('Brasília 15h36 → Congonhas 16h57');
+  await post.scrollIntoViewIfNeeded(); // a small map is drawn near the screen
   // The map is drawn by the site: a route and a pin, no map service.
   await expect(post.locator('.flight-map-route')).toHaveCount(1);
   await expect(post.locator('.flight-map-pin')).toHaveCount(1);
@@ -74,4 +76,59 @@ test('on a phone: the tab, the channel, and the details in a sheet', async ({ pa
   await expect(page.locator('.flight-viewer')).toHaveCount(0);
   await page.locator('.channel-back').click();
   await expect(page).toHaveURL(/#\/atualizacoes$/);
+});
+
+test('a flight closed from the channel is not reopened by Back; after the profile it opens again', async ({ page }) => {
+  await page.goto('/#/canal/masterwhats');
+  const map = page.locator('.channel-post[data-id="voo-2025-08-28-pr-ngm"] .channel-post-map');
+  await map.click(FIRST_OPEN);
+  await expect(page.locator('.flight-viewer')).toBeVisible();
+  await page.locator('.flight-viewer-close').click();
+  await expect(page).toHaveURL(/#\/canal\/masterwhats$/);
+  await page.goBack();
+  // Back leaves the channel's flight behind, it does not bring it back.
+  await expect(page.locator('.flight-viewer')).toHaveCount(0);
+
+  await page.goto('/#/canal/masterwhats');
+  await map.click(FIRST_OPEN);
+  await details(page);
+  await page.locator('.flight-viewer-person', { hasText: 'Daniel Vorcaro' }).click();
+  await expect(page).toHaveURL(/#\/canal\/masterwhats$/);
+  // Back in the channel, the same flight opens again.
+  await page.goto('/#/atualizacoes');
+  await page.locator('.updates-channel').click();
+  await map.click();
+  await expect(page.locator('.flight-viewer')).toBeVisible();
+});
+
+test('the count of messages holds with the favorites tab on', async ({ page }) => {
+  await page.goto('/');
+  await page.locator('.sidebar-tag[data-filter="favoritas"]').click(FIRST_OPEN);
+  await page.goto('/#/canal/masterwhats/voo-2024-06-28-pp-nlr');
+  await expect(page.locator('.flight-viewer')).toBeVisible(FIRST_OPEN);
+  await (await details(page)).getByRole('button', { name: 'Ver as 3 mensagens que citam o PP-NLR' }).click();
+  await expect(page.locator('.search-result-item')).toHaveCount(3);
+  await expect(page.locator('.sidebar-tag.active')).toHaveText('Todas');
+});
+
+test('on a phone, the sheet follows the finger', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#/canal/masterwhats/voo-2024-06-28-pp-nlr');
+  const sheet = page.locator('.flight-viewer-info');
+  await expect(sheet).toBeVisible(FIRST_OPEN);
+  const box = await page.locator('.flight-viewer-summary').boundingBox();
+  const x = box.x + box.width / 2;
+  const y = box.y + 10;
+  // A drag up opens it, a drag down closes it.
+  await page.mouse.move(x, y);
+  await page.mouse.down();
+  await page.mouse.move(x, y - 120, { steps: 6 });
+  await page.mouse.up();
+  await expect(sheet).toHaveClass(/open/);
+  const grab = await page.locator('.flight-viewer-grab').boundingBox();
+  await page.mouse.move(grab.x + grab.width / 2, grab.y + 5);
+  await page.mouse.down();
+  await page.mouse.move(grab.x + grab.width / 2, grab.y + 160, { steps: 6 });
+  await page.mouse.up();
+  await expect(sheet).not.toHaveClass(/open/);
 });

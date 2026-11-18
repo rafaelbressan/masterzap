@@ -5,33 +5,40 @@
  * Nothing is asked of a map service: the reader's browser fetches only this
  * site's file, once, when the channel is first opened.
  *
- * The heavy parts (d3-geo, topojson-client, the 740 KB outline) load on
- * first use; the rest of the app never pays for them.
+ * The heavy parts (d3-geo, topojson-client, the outline) load on first use;
+ * the rest of the app never pays for them. The small maps of the posts use
+ * the coarse outline (110m, 105 KB); a flight opened full screen, the fine
+ * one (50m, 740 KB).
  *
  * Security note: the SVG is built from numbers and from place names the
  * channel's data gives, which go in through escapeXml.
  */
 
-let worldPromise = null;
+const worlds = new Map(); // detail → Promise
 
-/** The outline of the world and the projection tools, loaded once. */
-export function loadWorld() {
-  worldPromise ??= Promise.all([
-    import('d3-geo'),
-    import('topojson-client'),
-    fetch('/assets/maps/world-50m.json').then(r => {
-      if (!r.ok) throw new Error(`mapa: ${r.status}`);
-      return r.json();
-    }),
-  ]).then(([geo, topo, atlas]) => ({
-    geo,
-    land: topo.feature(atlas, atlas.objects.land),
-    borders: topo.mesh(atlas, atlas.objects.countries, (a, b) => a !== b),
-  })).catch((err) => {
-    worldPromise = null; // a later open may try again
-    throw err;
-  });
-  return worldPromise;
+/**
+ * The outline of the world and the projection tools, loaded once per detail.
+ * @param {'110m'|'50m'} detail
+ */
+export function loadWorld(detail = '50m') {
+  if (!worlds.has(detail)) {
+    worlds.set(detail, Promise.all([
+      import('d3-geo'),
+      import('topojson-client'),
+      fetch(`/assets/maps/world-${detail}.json`).then(r => {
+        if (!r.ok) throw new Error(`mapa: ${r.status}`);
+        return r.json();
+      }),
+    ]).then(([geo, topo, atlas]) => ({
+      geo,
+      land: topo.feature(atlas, atlas.objects.land),
+      borders: topo.mesh(atlas, atlas.objects.countries, (a, b) => a !== b),
+    })).catch((err) => {
+      worlds.delete(detail); // a later open may try again
+      throw err;
+    }));
+  }
+  return worlds.get(detail);
 }
 
 const escapeXml = (s) => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -48,6 +55,7 @@ export const stopLabel = (leg) => (leg.time ? `${leg.place} · ${leg.time.replac
  */
 export function drawFlight(svg, world, flight, { width, height, large = false, bottomInset = 0 }) {
   const { geo, land, borders } = world;
+  if (!flight.legs?.length) return; // nowhere to frame
   const points = flight.legs.map(l => [l.lng, l.lat]);
   // Frame the stops with room around them; a short hop still shows its region.
   const lngs = points.map(p => p[0]);

@@ -71,3 +71,12 @@ describe('the channel\'s data', () => {
     for (const post of posts) expect(post.fork?.route, post.id).toBeTruthy();
   });
 });
+
+describe('the map', () => {
+  it('draws nothing for a post with no place', async () => {
+    const { drawFlight } = await import('../../src/lib/flight-map.js');
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    drawFlight(svg, { geo: {}, land: null, borders: null }, { legs: [], mode: 'none' }, { width: 100, height: 100 });
+    expect(svg.innerHTML).toBe('');
+  });
+});

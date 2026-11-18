@@ -115,7 +115,7 @@ export function renderUpdatesPanel({ channel, posts, active = false, onOpen }) {
  * The channel's posts, oldest first as a chat reads, in the chat's place.
  * @returns {{ element: HTMLElement, destroy: () => void }}
  */
-export function renderChannelView(mainArea, { channel, posts, onBack, onOpenPost, onContact, onProfile, onSearch }) {
+export function renderChannelView(mainArea, { channel, posts, failed = false, onRetry, onBack, onOpenPost, onContact, onProfile, onSearch }) {
   while (mainArea.firstChild) mainArea.removeChild(mainArea.firstChild);
   const view = el('div', 'channel-view');
 
@@ -141,6 +141,15 @@ export function renderChannelView(mainArea, { channel, posts, onBack, onOpenPost
   const intro = el('div', 'channel-intro');
   intro.append(el('p', '', channel.description));
   feed.append(intro);
+  if (failed) {
+    // Said, not an empty channel: the posts could not be loaded.
+    view.dataset.failed = 'true';
+    intro.replaceChildren(el('p', '', 'Não foi possível carregar o canal.'));
+    const retry = el('button', 'channel-link', 'Tentar de novo');
+    retry.type = 'button';
+    retry.addEventListener('click', () => onRetry?.());
+    intro.append(retry);
+  }
 
   const maps = [];
   let lastDay = null;
@@ -161,18 +170,22 @@ export function renderChannelView(mainArea, { channel, posts, onBack, onOpenPost
   feed.scrollTop = feed.scrollHeight;
   requestAnimationFrame(() => { feed.scrollTop = feed.scrollHeight; });
 
-  // The maps draw once the world has loaded; the posts read without them.
+  // Each small map is drawn when it comes near the screen, over the coarse
+  // outline; the posts read without them.
   let alive = true;
-  loadWorld().then((world) => {
-    if (!alive) return;
-    for (const { map, post } of maps) {
-      drawFlight(map, world, post, { width: 344, height: 172 });
-    }
-  }).catch(() => {
-    for (const { map } of maps) map.classList.add('flight-map-failed');
-  });
+  const posts$ = new Map(maps.map(({ map, post }) => [map, post]));
+  const near = new IntersectionObserver((entries) => {
+    const due = entries.filter(e => e.isIntersecting).map(e => e.target);
+    if (!due.length) return;
+    due.forEach(map => near.unobserve(map));
+    loadWorld('110m').then((world) => {
+      if (!alive) return;
+      for (const map of due) drawFlight(map, world, posts$.get(map), { width: 344, height: 172 });
+    }).catch(() => due.forEach(map => map.classList.add('flight-map-failed')));
+  }, { root: feed, rootMargin: '400px 0px' });
+  for (const { map } of maps) near.observe(map);
 
-  return { element: view, destroy: () => { alive = false; } };
+  return { element: view, destroy: () => { alive = false; near.disconnect(); } };
 }
 
 function renderPost(post, { onOpenPost, onContact, onProfile, onSearch }) {
@@ -273,29 +286,47 @@ export function openFlight(post, { onClose, onContact, onProfile, onSearch }) {
     const inset = phone() ? sheet.getBoundingClientRect().height : 0;
     drawFlight(map, world, post, { width: r.width, height: r.height, large: true, bottomInset: inset });
   };
-  loadWorld().then((w) => { world = w; draw(); }).catch(() => map.classList.add('flight-map-failed'));
-  const resize = new ResizeObserver(draw);
-  resize.observe(map);
-  resize.observe(sheet);
+  loadWorld('50m').then((w) => { world = w; draw(); }).catch(() => map.classList.add('flight-map-failed'));
+  // Once per frame however many changes come (a turn, the sheet moving).
+  let pending = 0;
+  const redraw = () => { if (!pending) pending = requestAnimationFrame(() => { pending = 0; draw(); }); };
+  const resize = new ResizeObserver(redraw);
+  resize.observe(body);
+  sheet.addEventListener('transitionend', redraw);
 
   // The sheet: a tap opens or closes it, a drag up or down too.
+  // The map is fitted again above the sheet's new height.
   const setOpen = (open) => {
     sheet.classList.toggle('open', open);
     grab.setAttribute('aria-label', open ? 'Recolher detalhes' : 'Ver detalhes');
+    redraw();
   };
-  grab.addEventListener('click', () => setOpen(!sheet.classList.contains('open')));
-  summary.addEventListener('click', () => setOpen(true));
+  // The handle and the summary take the finger (touch-action: none in the
+  // CSS, so the browser does not take the swipe for a scroll); the details
+  // scroll as a list.
   let dragStart = null;
-  sheet.addEventListener('pointerdown', (e) => {
-    if (!phone() || e.target.closest('.flight-viewer-details')) return;
-    dragStart = e.clientY;
-  });
-  sheet.addEventListener('pointerup', (e) => {
-    if (dragStart == null) return;
-    const dy = e.clientY - dragStart;
-    dragStart = null;
-    if (Math.abs(dy) > 30) setOpen(dy < 0);
-  });
+  let dragged = false;
+  for (const handle of [grab, summary]) {
+    handle.addEventListener('pointerdown', (e) => {
+      if (!phone()) return;
+      dragStart = e.clientY;
+      dragged = false;
+      handle.setPointerCapture?.(e.pointerId);
+    });
+    handle.addEventListener('pointermove', (e) => {
+      if (dragStart != null && Math.abs(e.clientY - dragStart) > 8) dragged = true;
+    });
+    handle.addEventListener('pointerup', (e) => {
+      if (dragStart == null) return;
+      const dy = e.clientY - dragStart;
+      dragStart = null;
+      if (Math.abs(dy) > 30) setOpen(dy < 0);
+    });
+    handle.addEventListener('pointercancel', () => { dragStart = null; });
+  }
+  // A tap (not the end of a drag) opens or closes it.
+  grab.addEventListener('click', () => { if (!dragged) setOpen(!sheet.classList.contains('open')); dragged = false; });
+  summary.addEventListener('click', () => { if (!dragged) setOpen(true); dragged = false; });
 
   const onKey = (e) => { if (e.key === 'Escape') shut(); };
   document.addEventListener('keydown', onKey);
@@ -304,6 +335,7 @@ export function openFlight(post, { onClose, onContact, onProfile, onSearch }) {
     if (closed) return;
     closed = true;
     resize.disconnect();
+    cancelAnimationFrame(pending);
     document.removeEventListener('keydown', onKey);
     overlay.remove();
     onClose?.();
