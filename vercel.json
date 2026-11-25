@@ -23,10 +23,6 @@
     {
       "source": "/site.webmanifest",
       "destination": "/site.webmanifest"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
     }
   ],
   "headers": [
@@ -111,6 +107,15 @@
     },
     {
       "source": "/llms.txt",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
+    },
+    {
+      "source": "/llms-full.txt",
       "headers": [
         {
           "key": "Cache-Control",
