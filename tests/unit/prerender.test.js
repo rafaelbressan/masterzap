@@ -220,6 +220,14 @@ describe('the home page', () => {
 });
 
 describe('llms.txt', () => {
+  it('lists every conversation, linked, with what it is', () => {
+    const t = readFileSync(join(DIST, 'llms.txt'), 'utf-8');
+    expect(t).toContain(`## Conversas (${conversations.length})`);
+    for (const conv of conversations) {
+      expect(t, conv.id).toMatch(new RegExp(`^- \\[[^\\]]+\\]\\(${SITE.replace(/\./g, '\\.')}/chat/${conv.id}\\): \\S`, 'm'));
+    }
+  });
+
   it('quotes the real size of the big files', () => {
     const t = readFileSync(join(DIST, 'llms.txt'), 'utf-8');
     const real = (statSync(join(DIST, 'export/masterwhats.md')).size / 1e6).toFixed(1);
@@ -269,5 +277,29 @@ describe('sitemap.xml', () => {
       expect(locs, conv.id).toContain(`${SITE}/export/masterwhats-${conv.id}.md`);
     }
     expect(locs.some(l => l.includes('#'))).toBe(false);
+  });
+
+  it('claims no change date it does not know', () => {
+    expect(readFileSync(join(DIST, 'sitemap.xml'), 'utf-8')).not.toContain('<lastmod>');
+  });
+});
+
+describe('search result descriptions', () => {
+  it('say who the person is or what the conversation is, never only where the messages came from', () => {
+    for (const conv of conversations) {
+      const description = page(conv.id).match(/<meta name="description" content="([^"]*)">/)[1];
+      expect(description, conv.id).not.toMatch(/^(Origem:|No celular de )|exportação forense|adicionada a partir/);
+      expect(description.length, conv.id).toBeGreaterThan(50);
+    }
+  });
+});
+
+describe('404.html', () => {
+  it('is the app, kept out of the index, with no canonical claiming the home page', () => {
+    const html = readFileSync(join(DIST, '404.html'), 'utf-8');
+    expect(html).toContain('<meta name="robots" content="noindex">');
+    expect(html).not.toContain('rel="canonical"');
+    expect(html).not.toContain('application/ld+json');
+    expect(html).toMatch(/<script type="module"[^>]+src="\/assets\//);
   });
 });

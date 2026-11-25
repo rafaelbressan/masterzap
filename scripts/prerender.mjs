@@ -18,6 +18,7 @@
  *                                     highlights, people — with a pointer to
  *                                     each conversation's Markdown
  *   dist/sitemap.xml                  all of the above
+ *   dist/404.html                     the app, unindexed, for a path with no page
  *
  * The router keeps its hash routes; nothing in the app changes. A crawler that
  * runs no JavaScript reads the article. A browser runs the app, which removes
@@ -132,10 +133,23 @@ function appPage({ title, description, path, jsonLd, chat, hash, article, extraH
 
 // ── conversation pages ─────────────────────────────────────────────────────
 
-/** A description a search result can show, from the profile when there is one. */
+/**
+ * Profile paragraphs that say where the messages came from or how the contact
+ * was saved, not who the person is or what was said: the page shows them, but
+ * a search result made of "Origem: print de fonte anônima (arquivo …jpg)"
+ * tells a reader nothing.
+ */
+const PROVENANCE_NOTE = /^(Origem:|No celular de )|exportação forense|transcrição de outro projeto|adicionada a partir/;
+
+/** A description a search result can show: who the person is, from the profile, or what the conversation is. */
 function describe(entry, profile, who) {
-  const first = profile?.sections?.[0]?.paragraphs?.[0]?.text;
-  const fallback = `Conversa entre ${ownerName(entry)} e ${who}: ${entry.total_messages} mensagens, ${periodOf(entry.date_range)}, no MasterWhats.`;
+  const first = (profile?.sections || [])
+    .flatMap(s => s.paragraphs || [])
+    .map(p => p.text)
+    .find(text => text && !PROVENANCE_NOTE.test(text.trim()));
+  const count = `${entry.total_messages} ${entry.total_messages === 1 ? 'mensagem' : 'mensagens'}`;
+  const lead = entry.is_group ? `Grupo de WhatsApp "${who}", com ${ownerName(entry)}` : `Conversa entre ${ownerName(entry)} e ${who}`;
+  const fallback = `${lead}: ${count}, ${periodOf(entry.date_range)}. Selo: ${sealSummary(entry)}.`;
   if (!first) return fallback;
   const text = linksToText(first).replace(/\s+/g, ' ').trim();
   if (text.length <= 155) return text;
@@ -488,8 +502,10 @@ function llmsFull(built, people) {
 // ── sitemap ────────────────────────────────────────────────────────────────
 
 function sitemap(built, people) {
+  // No <lastmod>: the build has no date a page changed on, and the build's own
+  // date on every URL, every build, teaches Google to ignore the field.
   const url = (loc, priority, changefreq = 'weekly') =>
-    `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
+    `  <url>\n    <loc>${loc}</loc>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
   const rows = [url(`${SITE}/`, '1.0')];
   for (const { entry, months } of built) {
     const headline = entry.id === 'alexandre-de-moraes' || entry.id === 'martha-graeff';
@@ -503,6 +519,34 @@ function sitemap(built, people) {
   rows.push(url(`${SITE}/export/masterwhats.md`, '0.6', 'monthly'));
   for (const { entry } of built) rows.push(url(`${SITE}/export/masterwhats-${entry.id}.md`, '0.5', 'monthly'));
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${rows.join('\n')}\n</urlset>\n`;
+}
+
+// ── llms.txt: the conversations ────────────────────────────────────────────
+
+/** One line per conversation, llms.txt style, for %CONVERSATIONS% in public/llms.txt. */
+function llmsConversations(built) {
+  return [`## Conversas (${built.length})`, ...built.map(({ entry, who, profile }) =>
+    `- [${pairTitle(entry, who)}](${SITE}/chat/${entry.id}): ${describe(entry, profile, who)}`)].join('\n');
+}
+
+// ── 404 ────────────────────────────────────────────────────────────────────
+
+/**
+ * dist/404.html, which Vercel serves with a 404 for any path with no file: the
+ * app itself (its routes are hashes, so it opens on the home screen), but not
+ * a second copy of the home page for a search engine.
+ */
+function notFoundPage() {
+  let html = template;
+  const swap = (re, replacement) => {
+    if (!re.test(html)) throw new Error(`template lost ${re}`);
+    html = html.replace(re, replacement);
+  };
+  swap(/<title>[^<]*<\/title>/, '<title>Página não encontrada — MasterWhats</title>');
+  swap(/<meta name="robots" content="[^"]*">/, '<meta name="robots" content="noindex">');
+  swap(/\s*<link rel="canonical" href="[^"]*">/, '');
+  html = html.replace(/\s*<script type="application\/ld\+json">[\s\S]*?<\/script>/g, '');
+  return html;
 }
 
 // ── run ────────────────────────────────────────────────────────────────────
@@ -549,7 +593,12 @@ writeFileSync(join(DIST, 'quem', 'index.html'), peopleIndex(people));
 const mb = (name) => `${(statSync(join(DIST, 'export', name)).size / 1e6).toFixed(1)} MB`;
 const SIZES = { 'masterwhats.md': mb('masterwhats.md'), 'masterwhats.json': mb('masterwhats.json'), 'masterwhats-export.zip': mb('masterwhats-export.zip') };
 const stampSizes = (text) => text.replace(/(masterwhats(?:-export)?\.(?:md|json|zip)) \([\d.,]+ MB\)/g, (m, name) => `${name} (${SIZES[name] || m.slice(name.length + 2, -1)})`);
-writeFileSync(join(DIST, 'llms.txt'), stampSizes(readFileSync(join(DIST, 'llms.txt'), 'utf-8')));
+// %CONVERSATIONS% after a build; the list itself when prerender runs again on the same dist.
+const llms = readFileSync(join(DIST, 'llms.txt'), 'utf-8');
+const listed = /%CONVERSATIONS%|^## Conversas \(\d+\)\n(?:- .*\n?)*/m;
+if (!listed.test(llms)) throw new Error('public/llms.txt lost %CONVERSATIONS%');
+writeFileSync(join(DIST, 'llms.txt'), stampSizes(llms.replace(listed, () => `${llmsConversations(built)}\n`)));
 writeFileSync(join(DIST, 'llms-full.txt'), stampSizes(llmsFull(built, people)));
 writeFileSync(join(DIST, 'sitemap.xml'), sitemap(built, people));
+writeFileSync(join(DIST, '404.html'), notFoundPage());
 console.log(`\nDone! ${built.length} conversations, ${people.length} people, llms-full.txt, sitemap.xml → ${DIST}`);

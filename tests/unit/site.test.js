@@ -12,9 +12,9 @@ const ROOT = join(import.meta.dirname, '../..');
 const DIST = join(ROOT, 'dist');
 
 describe('siteUrlFrom', () => {
-  it('prefers SITE_URL, then Vercel\'s production domain, then the default', () => {
+  it('takes SITE_URL, else the default — never the *.vercel.app address Vercel hands the build', () => {
     expect(siteUrlFrom({ SITE_URL: 'https://exemplo.org/', VERCEL_PROJECT_PRODUCTION_URL: 'x.vercel.app' })).toBe('https://exemplo.org');
-    expect(siteUrlFrom({ VERCEL_PROJECT_PRODUCTION_URL: 'x.vercel.app' })).toBe('https://x.vercel.app');
+    expect(siteUrlFrom({ VERCEL_PROJECT_PRODUCTION_URL: 'x.vercel.app' })).toBe(DEFAULT_SITE_URL);
     expect(siteUrlFrom({})).toBe(DEFAULT_SITE_URL);
   });
 

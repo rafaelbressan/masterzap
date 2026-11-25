@@ -3,8 +3,7 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { siteUrlFrom, SITE_URL_PLACEHOLDER, authorPlaceholders } from './src/config/site.js';
 
-// The site's address (src/config/site.js): SITE_URL, else Vercel's production
-// domain, else the default.
+// The site's address (src/config/site.js): SITE_URL, else the default.
 const SITE_URL = siteUrlFrom(process.env);
 // Versions every /data/ URL (src/lib/data-url.js): the commit on Vercel, the
 // build time anywhere else. /data/ is cached for a year, so a link to it
